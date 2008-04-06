@@ -40,7 +40,7 @@ Rails::Initializer.run do |config|
   # no regular words or you'll be exposed to dictionary attacks.
   config.action_controller.session = {
     :session_key => '_artistcommon_session',
-    :secret      => 'feae31fc51deb2afa7393ad088bf600ed9eda140af0b45072124b3cfa01ec91954eef45490e5389cf0fe812b3690f119ab0f4da31068f8233fed54c28a8d8e04'
+    :secret      => 'feae31fc51deb2a12345678908bf600ed9eda140af0b45072124b3cfa01ec91954eef45490e5389cf0fe812b3690f119ab0f4da31068f8233fed54c28a8d8e04'
   }
 
   # Use the database for sessions instead of the cookie-based default,
@@ -54,8 +54,8 @@ Rails::Initializer.run do |config|
   # config.active_record.schema_format = :sql
 
   # Activate observers that should always be running
-  # config.active_record.observers = :cacher, :garbage_collector
+  config.active_record.observers = :user_observer
 
   # Make Active Record use UTC-base instead of local time
-  # config.active_record.default_timezone = :utc
+  config.active_record.default_timezone = :utc
 end
