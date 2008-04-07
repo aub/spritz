@@ -61,11 +61,11 @@ describe Admin::UsersController do
   end
   
   it 'activates user' do
-    User.authenticate('unactivated', 'test').should be_nil
+    User.authenticate_for(sites(:default), 'unactivated', 'test').should be_nil
     get :activate, :activation_code => users(:unactivated).activation_code
     response.should redirect_to('/')
     flash[:notice].should_not be_nil
-    User.authenticate('unactivated', 'test').should == users(:unactivated)
+    User.authenticate_for(sites(:default), 'unactivated', 'test').should == users(:unactivated)
   end
   
   it 'does not activate user with blank key' do

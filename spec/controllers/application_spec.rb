@@ -7,6 +7,11 @@ describe Admin::SessionsController do
   describe "admin? helper" do
     define_models :application_controller
     
+    before(:each) do
+      activate_site(sites(:default))
+      get :new
+    end
+    
     it "should return true if the logged in user is an admin" do
       login_as(:admin)
       controller.should be_admin
@@ -29,7 +34,7 @@ describe Admin::SessionsController do
       get :new
       response.should redirect_to(new_admin_site_path)
     end
-
+  
     it "should allow the request to continue for a good site" do
       Site.should_receive(:for).with(request.host, request.subdomains).and_return(mock_model(Site))
       get :new

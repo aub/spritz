@@ -23,5 +23,11 @@ ModelStubbing.define_models do
       :salt => '7e3041ebc2fc05a40c60028e2c4901a81035d3cd', :crypted_password => '00742970dc9e6319f8019fd54864d3ea740f04b1',
       :state => 'pending', :created_at => Time.now.utc - 1.year, :activation_code => 'acode',
       :remember_token_expires_at => 2.weeks.from_now.utc
+  end
+  
+  model Membership do
+    stub :admin_on_default, :user => all_stubs(:admin_user), :site => all_stubs(:site)
+    stub :nonadmin_on_default, :user => all_stubs(:nonadmin_user), :site => all_stubs(:site)
+    stub :unactivated_on_default, :user => all_stubs(:unactivated_user), :site => all_stubs(:site)
   end  
 end

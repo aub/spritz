@@ -1,5 +1,8 @@
 require 'digest/sha1'
 class User < ActiveRecord::Base
+  @@membership_options = {:select => 'distinct users.*', :order => 'users.login',
+    :joins => 'left outer join memberships on users.id = memberships.user_id'}
+  
   # Virtual attribute for the unencrypted password
   attr_accessor :password
 
@@ -12,6 +15,9 @@ class User < ActiveRecord::Base
   validates_length_of       :email,    :within => 3..100
   validates_uniqueness_of   :login, :email, :case_sensitive => false
   before_save :encrypt_password
+
+  has_many :memberships, :dependent => :destroy
+  has_many :sites, :through => :memberships
   
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
@@ -46,10 +52,29 @@ class User < ActiveRecord::Base
     transitions :from => :suspended, :to => :passive
   end
 
-  # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
-  def self.authenticate(login, password)
-    u = find_in_state :first, :active, :conditions => {:login => login} # need to get the salt
-    u && u.authenticated?(password) ? u : nil
+  # Authenticates a user by their site, login name and unencrypted password.  Returns the user or nil.
+  def self.authenticate_for(site, login, password)
+    user = find_in_state :first, :active, @@membership_options.merge(
+      :conditions => ['users.login = ? and (memberships.site_id = ? or users.admin = ?)', login, site.id, true])
+    user && user.authenticated?(password) ? user : nil
+  end
+
+  # Added as a helper to make sure we only find users who are members of the given site.
+  def self.find_by_site(site, id)
+    find(:first, @@membership_options.merge(
+      :conditions => ['users.id = ? and (memberships.site_id = ? or users.admin = ?)', id, site.id, true]))
+  end
+
+  # And the pluralized version of above.
+  def self.find_all_by_site(site, options = {})
+    find(:all, @@membership_options.merge(options.reverse_merge(
+      :conditions => ['memberships.site_id = ? or users.admin = ?', site.id, true]))).uniq
+  end
+  
+  # Overriden to make sure the user is a member of the given site.
+  def self.find_by_remember_token(site, token)
+    find(:first, @@membership_options.merge(
+      :conditions => ['remember_token = ? and remember_token_expires_at > ? and (memberships.site_id = ? or users.admin = ?)', token, Time.now.utc, site.id, true]))
   end
 
   # Encrypts some data with the salt.

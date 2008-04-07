@@ -11,7 +11,7 @@ describe Admin::SessionsController do
   it 'logins and redirects' do
     post :create, :login => 'admin', :password => 'test'
     session[:user_id].should_not be_nil
-    response.should be_redirect
+    response.should redirect_to(overview_path)
   end
   
   it 'fails login and does not redirect' do

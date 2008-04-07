@@ -1,0 +1,33 @@
+!!! XML
+!!!
+%html{ html_attrs }
+  %head
+    %meta{ 'http-equiv' => "Content-type", :content => "text/html; charset=utf-8" }
+    %title Getting somewhere
+
+    = stylesheet_link_tag 'application'
+    = javascript_include_tag :defaults
+
+    = yield :head
+
+  %body
+    #header
+      %ul#sec-nav
+        %li= link_to 'Logout', admin_session_path, :method => :delete
+
+      #nav
+
+    #container
+      #content
+        #main
+          #flashes
+            #flash-errors{ :style => "display: none;" }= flash[:error]
+            #flash-notice{ :style => "display: none;" }= flash[:notice]
+          = yield :action_nav
+          #main-content= yield
+          #shadow
+
+        #sbar
+          = yield :sidebar
+
+      #footer

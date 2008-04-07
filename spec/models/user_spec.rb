@@ -5,7 +5,11 @@ require File.dirname(__FILE__) + '/../spec_helper'
 include AuthenticatedTestHelper
 
 describe User do
-  define_models :users
+  define_models :users do
+    model Site do
+      stub :other, :subdomain => 'oth'
+    end
+  end
   
   describe 'being created' do
     define_models :users
@@ -63,18 +67,43 @@ describe User do
 
   it 'resets password' do
     users(:admin).update_attributes(:password => 'new password', :password_confirmation => 'new password')
-    User.authenticate('admin', 'new password').should == users(:admin)
+    User.authenticate_for(sites(:default), 'admin', 'new password').should == users(:admin)
   end
 
   it 'does not rehash password' do
     users(:admin).update_attributes(:login => 'admin2')
-    User.authenticate('admin2', 'test').should == users(:admin)
+    User.authenticate_for(sites(:default), 'admin2', 'test').should == users(:admin)
   end
 
-  it 'authenticates user' do
-    User.authenticate('admin', 'test').should == users(:admin)
+  describe "authentication" do
+    define_models :users do
+      model Site do
+        stub :fake
+      end
+    end
+    
+    it "should authenticates users by site" do
+      User.authenticate_for(sites(:default), 'admin', 'test').should == users(:admin)
+    end
+    
+    it "should not authenticate for a non-member site" do
+      User.authenticate_for(sites(:fake), 'nonadmin', 'test').should be_nil
+    end
+    
+    it "should authenticate admin for all sites" do
+      User.authenticate_for(sites(:fake), 'admin', 'test').should == users(:admin)
+    end
+    
+    it "should fail authentication with the wrong login/password" do
+      User.authenticate_for(sites(:fake), 'admin', 'oops').should be_nil
+    end
+    
+    it "should not authenticate suspended users" do
+      users(:admin).suspend!
+      User.authenticate_for(sites(:default), 'admin', 'test').should be_nil
+    end
   end
-
+  
   it 'sets remember token' do
     users(:admin).remember_me
     users(:admin).remember_token.should_not be_nil
@@ -127,11 +156,6 @@ describe User do
     users(:admin).should be_suspended
   end
 
-  it 'does not authenticate suspended user' do
-    users(:admin).suspend!
-    User.authenticate('admin', 'test').should_not == users(:admin)
-  end
-
   it 'deletes user' do
     users(:admin).deleted_at.should be_nil
     users(:admin).delete!
@@ -162,6 +186,62 @@ describe User do
       User.update_all :activation_code => 'foo-bar', :activated_at => nil
       @user.reload.unsuspend!
       @user.should be_pending
+    end
+  end
+
+  describe "relationship to memberships" do
+    define_models :users do
+      model Membership do
+        stub :admin_on_other, :site => all_stubs(:other_site), :user => all_stubs(:admin_user)
+      end
+    end
+    
+    it "should have many memberships" do
+      users(:admin).memberships.sort_by(&:site_id).should == [memberships(:admin_on_default), memberships(:admin_on_other)].sort_by(&:site_id)
+    end
+    
+    it "should have sites through memberships" do
+      users(:admin).sites.sort_by(&:id).should == [sites(:default), sites(:other)].sort_by(&:id)
+    end
+    
+    it "should destroy memberships when being destroyed" do
+      lambda { users(:admin).destroy }.should change(Membership, :count).by(-2)
+    end
+  end
+
+  describe "overriden find methods" do
+    define_models :users
+    
+    it "should find a user by site" do
+      User.find_by_site(sites(:default), users(:nonadmin).id).should == users(:nonadmin)
+    end
+    
+    it "should fail to find by site for a mismatch" do
+      User.find_by_site(sites(:other), users(:nonadmin).id).should be_nil
+    end
+    
+    it "should find the admin user for all sites" do
+      User.find_by_site(sites(:other), users(:admin).id).should == users(:admin)
+    end
+
+    it "should find all users by site" do
+      User.find_all_by_site(sites(:default)).sort_by(&:id).should == User.find(:all).sort_by(&:id)
+    end
+    
+    it "should fail to find all by site for a mismatch" do
+      User.find_all_by_site(sites(:other)).should == [users(:admin)]
+    end
+    
+    it "should find a user by remember token" do
+      User.find_by_remember_token(sites(:default), users(:nonadmin).remember_token).should == users(:nonadmin)
+    end
+    
+    it "should fail to find by remember_token for a mismatch" do
+      User.find_by_remember_token(sites(:other), users(:nonadmin).remember_token).should be_nil
+    end
+    
+    it "should find the admin user for all sites by remember token" do
+      User.find_by_remember_token(sites(:other), users(:admin).remember_token).should == users(:admin)
     end
   end
 

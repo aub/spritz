@@ -1,5 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
 
+  map.overview 'admin', :controller => 'admin/overview', :action => 'show'
+
   map.namespace(:admin) do |admin|
   	admin.resources :users, :member => { :suspend   => :put,
                                          :unsuspend => :put,
