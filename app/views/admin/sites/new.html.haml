@@ -1,0 +1,19 @@
+%h1 New site
+
+= error_messages_for :site
+
+- form_for @site, :url => admin_sites_path do |f|
+  %p
+    %b Domain
+    %br
+    = f.text_field :domain
+
+  %p
+    %b Subdomain
+    %br
+    = f.text_field :subdomain
+
+  %p
+    = f.submit "Create"
+
+= link_to 'Back', admin_sites_path

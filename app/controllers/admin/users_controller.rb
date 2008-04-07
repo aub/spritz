@@ -1,11 +1,11 @@
-class Admin::UsersController < ApplicationController  
+class Admin::UsersController < Admin::AdminController  
 
   # Protect these actions behind an admin login
-  # before_filter :admin_required, :only => [:suspend, :unsuspend, :destroy, :purge]
+  before_filter :admin_required, :only => [:suspend, :unsuspend, :destroy, :purge]
   before_filter :find_user, :only => [:suspend, :unsuspend, :destroy, :purge]
-  
 
-  # render new.rhtml
+  skip_before_filter :login_required, :only => [:new, :create, :activate]
+
   def new
   end
 
@@ -37,27 +37,27 @@ class Admin::UsersController < ApplicationController
 
   def suspend
     @user.suspend! 
-    redirect_to users_path
+    redirect_to admin_users_path
   end
 
   def unsuspend
     @user.unsuspend! 
-    redirect_to users_path
+    redirect_to admin_users_path
   end
 
   def destroy
     @user.delete!
-    redirect_to users_path
+    redirect_to admin_users_path
   end
 
   def purge
     @user.destroy
-    redirect_to users_path
+    redirect_to admin_users_path
   end
 
-protected
+  protected
+
   def find_user
     @user = User.find(params[:id])
   end
-
 end

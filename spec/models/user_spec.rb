@@ -5,9 +5,11 @@ require File.dirname(__FILE__) + '/../spec_helper'
 include AuthenticatedTestHelper
 
 describe User do
-  fixtures :users
-
+  define_models :users
+  
   describe 'being created' do
+    define_models :users
+    
     before do
       @user = nil
       @creating_user = lambda do
@@ -60,56 +62,56 @@ describe User do
   end
 
   it 'resets password' do
-    users(:quentin).update_attributes(:password => 'new password', :password_confirmation => 'new password')
-    User.authenticate('quentin', 'new password').should == users(:quentin)
+    users(:admin).update_attributes(:password => 'new password', :password_confirmation => 'new password')
+    User.authenticate('admin', 'new password').should == users(:admin)
   end
 
   it 'does not rehash password' do
-    users(:quentin).update_attributes(:login => 'quentin2')
-    User.authenticate('quentin2', 'test').should == users(:quentin)
+    users(:admin).update_attributes(:login => 'admin2')
+    User.authenticate('admin2', 'test').should == users(:admin)
   end
 
   it 'authenticates user' do
-    User.authenticate('quentin', 'test').should == users(:quentin)
+    User.authenticate('admin', 'test').should == users(:admin)
   end
 
   it 'sets remember token' do
-    users(:quentin).remember_me
-    users(:quentin).remember_token.should_not be_nil
-    users(:quentin).remember_token_expires_at.should_not be_nil
+    users(:admin).remember_me
+    users(:admin).remember_token.should_not be_nil
+    users(:admin).remember_token_expires_at.should_not be_nil
   end
 
   it 'unsets remember token' do
-    users(:quentin).remember_me
-    users(:quentin).remember_token.should_not be_nil
-    users(:quentin).forget_me
-    users(:quentin).remember_token.should be_nil
+    users(:admin).remember_me
+    users(:admin).remember_token.should_not be_nil
+    users(:admin).forget_me
+    users(:admin).remember_token.should be_nil
   end
 
   it 'remembers me for one week' do
     before = 1.week.from_now.utc
-    users(:quentin).remember_me_for 1.week
+    users(:admin).remember_me_for 1.week
     after = 1.week.from_now.utc
-    users(:quentin).remember_token.should_not be_nil
-    users(:quentin).remember_token_expires_at.should_not be_nil
-    users(:quentin).remember_token_expires_at.between?(before, after).should be_true
+    users(:admin).remember_token.should_not be_nil
+    users(:admin).remember_token_expires_at.should_not be_nil
+    users(:admin).remember_token_expires_at.between?(before, after).should be_true
   end
 
   it 'remembers me until one week' do
     time = 1.week.from_now.utc
-    users(:quentin).remember_me_until time
-    users(:quentin).remember_token.should_not be_nil
-    users(:quentin).remember_token_expires_at.should_not be_nil
-    users(:quentin).remember_token_expires_at.should == time
+    users(:admin).remember_me_until time
+    users(:admin).remember_token.should_not be_nil
+    users(:admin).remember_token_expires_at.should_not be_nil
+    users(:admin).remember_token_expires_at.should == time
   end
 
   it 'remembers me default two weeks' do
     before = 2.weeks.from_now.utc
-    users(:quentin).remember_me
+    users(:admin).remember_me
     after = 2.weeks.from_now.utc
-    users(:quentin).remember_token.should_not be_nil
-    users(:quentin).remember_token_expires_at.should_not be_nil
-    users(:quentin).remember_token_expires_at.between?(before, after).should be_true
+    users(:admin).remember_token.should_not be_nil
+    users(:admin).remember_token_expires_at.should_not be_nil
+    users(:admin).remember_token_expires_at.between?(before, after).should be_true
   end
 
   it 'registers passive user' do
@@ -121,27 +123,27 @@ describe User do
   end
 
   it 'suspends user' do
-    users(:quentin).suspend!
-    users(:quentin).should be_suspended
+    users(:admin).suspend!
+    users(:admin).should be_suspended
   end
 
   it 'does not authenticate suspended user' do
-    users(:quentin).suspend!
-    User.authenticate('quentin', 'test').should_not == users(:quentin)
+    users(:admin).suspend!
+    User.authenticate('admin', 'test').should_not == users(:admin)
   end
 
   it 'deletes user' do
-    users(:quentin).deleted_at.should be_nil
-    users(:quentin).delete!
-    users(:quentin).deleted_at.should_not be_nil
-    users(:quentin).should be_deleted
+    users(:admin).deleted_at.should be_nil
+    users(:admin).delete!
+    users(:admin).deleted_at.should_not be_nil
+    users(:admin).should be_deleted
   end
 
   describe "being unsuspended" do
-    fixtures :users
+    define_models :users
 
     before do
-      @user = users(:quentin)
+      @user = users(:admin)
       @user.suspend!
     end
     

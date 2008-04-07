@@ -6,6 +6,10 @@ require 'spec'
 require 'spec/rails'
 require 'ruby-debug'
 require 'model_stubbing'
+require File.join(File.dirname(__FILE__), 'model_stubs')
+require File.join(File.dirname(__FILE__), 'custom_matchers')
+
+include AuthenticatedTestHelper
 
 Spec::Runner.configure do |config|
   # If you're not using ActiveRecord you should remove these
@@ -14,6 +18,73 @@ Spec::Runner.configure do |config|
   config.use_transactional_fixtures = true
   config.use_instantiated_fixtures  = false
   config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
+end
+
+# Stub out the site's for method with some value in order to make
+# requests use that site.
+def activate_site(site)
+  if site.nil?
+    Site.stub!(:for).and_return(nil)
+  elsif site.is_a?(Symbol)
+    Site.stub!(:for).and_return(sites(site))
+  else
+    Site.stub!(:for).and_return(site)
+  end
+end
+
+# For a given set of actions, test that a site is or is not required.
+def test_site_requirement(required, actions)
+  login_as(:admin)
+  activate_site(nil)
+  condition = required ? 
+    lambda { response.should redirect_to(new_admin_site_path) } :
+    lambda { response.should_not redirect_to(new_admin_site_path) }
+  test_action_requirements(actions, condition)
+end
+
+# For a given set of actions, test that a user is or is not required or whether they
+# are required to be an admin.
+def test_login_requirement(required, admin_required, actions)
+  activate_site(:default)
+  if required && admin_required
+    login_as(:nonadmin)
+    test_action_requirements(actions, lambda { response.should redirect_to(new_admin_session_path) })
+  else
+    login_as(nil)
+    condition = required ?
+      lambda { response.should redirect_to(new_admin_session_path) } :
+      lambda { response.should_not redirect_to(new_admin_session_path) }
+    test_action_requirements(actions, condition)
+  end
+end
+
+# Helper method for testing all sorts of conditions for sets of actions. See examples
+# of usage above.
+def test_action_requirements(actions, condition)
+  actions.should_not be_nil
+  
+  # if it's a hash, the expected format is { :action => :method, etc... }
+  if actions.is_a?(Hash)
+    actions.keys.each do |key|
+      self.send(actions[key], key)
+      condition.call
+    end 
+  elsif actions.is_a?(Array) # otherwise a list of actions, with get assumed.
+    actions.each do |action|
+      if action.is_a?(Symbol)
+        get action
+        condition.call
+      elsif action.is_a?(Proc)
+        action.call
+        condition.call
+      end
+    end
+  elsif actions.is_a?(Proc) # If it's a proc, just call it.
+    actions.call
+    condition.call
+  else # Otherwise, just fail
+    false.should be_true # lame-o
+  end
 end
 
 Debugger.start

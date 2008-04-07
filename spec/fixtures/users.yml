@@ -1,19 +1,33 @@
-quentin:
-  id: 1
-  login: quentin
-  email: quentin@example.com
-  salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
-  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
-  created_at: <%= 5.days.ago.to_s :db %>
-  activation_code: 8f24789ae988411ccf33ab0c30fe9106fab32e9b 
-  activated_at: <%= 5.days.ago.to_s :db %> 
-  state: active
-aaron:
-  id: 2
-  login: aaron
-  email: aaron@example.com
-  salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
-  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
-  created_at: <%= 1.days.ago.to_s :db %>
-  activation_code: 8f24789ae988411ccf33ab0c30fe9106fab32e9a 
-  state: pending
+# admin:
+#   login: admin
+#   email: admin@example.com
+#   remember_token: admintoken
+#   admin: true
+#   salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
+#   crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1
+#   state: active
+#   created_at: Time.now.utc - 3.days
+#   activated_at: 3.months.ago.utc
+#   remember_token_expires_at: 2.weeks.from_now.utc
+# nonadmin:
+#   login: nonadmin
+#   email: nonadmin@example.com
+#   remember_token: nonadmintoken
+#   admin: false
+#   salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
+#   crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1
+#   state: active
+#   created_at: Time.now.utc - 1.year
+#   activated_at: 3.days.ago.utc
+#   remember_token_expires_at: 2.weeks.from_now.utc
+# unactivated:
+#   login: unactivated
+#   email: unactivated@example.com
+#   remember_token: unactivatedtoken
+#   admin: false
+#   salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
+#   crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1
+#   state: pending
+#   created_at: Time.now.utc - 3.months
+#   activation_code: acode
+#   remember_token_expires_at: 2.weeks.from_now.utc
