@@ -56,4 +56,42 @@ describe Site do
       sites(:default).user_by_remember_token(users(:nonadmin).remember_token).should == users(:nonadmin)
     end
   end
+  
+  describe "settings management" do
+    define_models :site
+    
+    it "should be a settings manager" do
+      Site.setting(:test, :integer, 2)
+      sites(:default).test.should == 2
+    end
+    
+    it "should have a default value for the settings (empty hash)" do
+      sites(:default).settings.should == {}
+    end
+    
+    it "should save and reload the settings" do
+      Site.setting(:test, :integer, 2)
+      sites(:default).test = 12
+      sites(:default).reload.test.should == 12      
+    end
+  end
+  
+  describe "applied settings" do
+    define_models :site
+    
+    it "should have a setting for the theme" do
+      sites(:default).theme.should == 'default'
+      sites(:default).theme = 'booya'
+      sites(:default).reload.theme.should == 'booya'
+    end
+  end
+  
+  describe "theme management" do
+    define_models :site
+    
+    it "should provide a method for accessing the theme" do
+      sites(:default).theme = 'booya'
+      sites(:default).current_theme.should eql(Theme.find('booya'))
+    end
+  end
 end

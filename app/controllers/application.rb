@@ -27,4 +27,14 @@ class ApplicationController < ActionController::Base
       redirect_to new_admin_site_path(:host => MAIN_HOST, :port => request.port)
     end
   end
+  
+  # Helper methods for error conditions
+  
+  rescue_from ActiveRecord::RecordNotFound,        :with => :render_not_found
+  rescue_from ActionController::UnknownController, :with => :render_not_found
+  rescue_from ActionController::UnknownAction,     :with => :render_not_found
+
+  def render_not_found
+    render :file => File.join(RAILS_ROOT, 'public/404.html'), :status => :not_found
+  end  
 end

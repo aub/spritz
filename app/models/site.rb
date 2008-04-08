@@ -1,7 +1,19 @@
 class Site < ActiveRecord::Base
 
+  include SettingsManager
+
   has_many :memberships, :dependent => :destroy
   has_many :members, :through => :memberships, :source => :user
+  
+  serialize :settings, Hash
+
+  setting :theme, :string, 'default'
+
+  # Initialize the settings to something.
+  def initialize(*args)
+    super
+    self.settings ||= {}
+  end
   
   # A method for finding a site given a domain or subdomains from a request.
   # Will be called with every request in order to display the correct data.
@@ -22,5 +34,9 @@ class Site < ActiveRecord::Base
   
   def user_by_remember_token(token)
     User.find_by_remember_token(self, token)
+  end
+  
+  def current_theme
+    @current_theme ||= Theme.find(theme)
   end
 end
