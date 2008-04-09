@@ -19,13 +19,13 @@ Rails::Initializer.run do |config|
   # Skip frameworks you're not going to use (only works if using vendor/rails).
   config.frameworks -= [ :active_resource ]
 
+  # Add additional load paths for your own custom dirs
+  config.load_paths += %W( #{RAILS_ROOT}/app/sweepers #{RAILS_ROOT}/app/observers )
+
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
   # :all can be used as a placeholder for all plugins not explicitly named
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
-
-  # Add additional load paths for your own custom dirs
-  # config.load_paths += %W( #{RAILS_ROOT}/extras )
 
   # Force all environments to use the same logger level
   # (by default production uses :info, the others :debug)
