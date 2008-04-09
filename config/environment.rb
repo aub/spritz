@@ -20,7 +20,7 @@ Rails::Initializer.run do |config|
   config.frameworks -= [ :active_resource ]
 
   # Add additional load paths for your own custom dirs
-  config.load_paths += %W( #{RAILS_ROOT}/app/sweepers #{RAILS_ROOT}/app/observers )
+  config.load_paths += %W( #{RAILS_ROOT}/app/sweepers #{RAILS_ROOT}/app/observers #{RAILS_ROOT}/app/drops )
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
@@ -59,5 +59,12 @@ end
 
 # Gem dependencies
 gem 'will_paginate', '>=2.1.0'
+gem 'liquid', '>=1.7.0'
 
 require 'will_paginate'
+require 'liquid'
+require 'extras/liquid_view'
+
+ActionView::Base::register_template_handler :liquid, LiquidView
+
+
