@@ -5,6 +5,8 @@ class Site < ActiveRecord::Base
   has_many :memberships, :dependent => :destroy
   has_many :members, :through => :memberships, :source => :user
   
+  has_many :cache_items, :dependent => :destroy
+  
   serialize :settings, Hash
 
   setting :theme, :string, 'default'
@@ -20,6 +22,13 @@ class Site < ActiveRecord::Base
   def self.for(domain, subdomains)
     condition = subdomains.blank? ? ['domain = ?', domain] : ['domain = ? OR subdomain = ?', domain, subdomains.first]
     find(:first, :conditions => condition)
+  end
+
+  # A query method for the root of the action cache directory to use for this site. Preface the
+  # directory with the site's subdomain so that the caches for different sites will be in different
+  # directories. Also, put the test caches in a different folder.
+  def action_cache_path
+    subdomain
   end
   
   # A collection of methods to help with finding users for this site
@@ -38,5 +47,9 @@ class Site < ActiveRecord::Base
   
   def current_theme
     @current_theme ||= Theme.find(theme)
+  end
+  
+  def to_liquid
+    SiteDrop.new(self)
   end
 end

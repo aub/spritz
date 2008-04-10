@@ -94,4 +94,37 @@ describe Site do
       sites(:default).current_theme.should eql(Theme.find('booya'))
     end
   end
+  
+  describe "liquid conversion" do
+    define_models :site
+    
+    it "should be convertible to liquid" do
+      sites(:default).to_liquid.should be_a_kind_of(BaseDrop)
+    end
+  end
+  
+  describe "action cache directory" do
+    define_models :site
+    
+    it "should be the site's subdomain" do
+      sites(:default).action_cache_path.should == sites(:default).subdomain
+    end
+  end
+  
+  describe "relationship to caches" do
+    define_models :site do
+      model CacheItem do
+        stub :one, :site => all_stubs(:site), :path => 'a/b/c'
+        stub :two, :site => all_stubs(:site), :path => 'a/b/c/d'
+      end
+    end
+    
+    it "should contain caches" do
+      sites(:default).cache_items.size.should == 2
+    end
+    
+    it "should destroy them when destroyed" do
+      lambda { sites(:default).destroy }.should change(CacheItem, :count).by(-2)
+    end
+  end
 end

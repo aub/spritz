@@ -1,30 +1,58 @@
-# class RequireSite
+require 'uri'
+
+module CachingExampleHelper
+  ActionController::Base.public_class_method :page_cache_path
+  ActionController::Base.perform_caching = true
+
+  def action(&request)
+    ActionController::Base.perform_caching = true
+    cache_dir = ActionController::Base.fragment_cache_store.cache_path
+    FileUtils.rm_rf(cache_dir)
+
+    request.call
+  end
+
+  module ResponseHelper
+    def cached?
+      cache_path = ActionController::Base.fragment_cache_store.cache_path
+      path = (request.path.empty? || request.path == "/") ? "/index" : URI.unescape(path.chomp('/'))
+      site = Site.for(request.domain, request.subdomains)
+      cache_file = File.join(cache_path, site.subdomain, path + '.cache')
+
+      File.exists? cache_file
+    end
+  end
+
+  ActionController::TestResponse.send(:include, ResponseHelper)
+end
+
+# 
+# class CacheAction
 #   
-#   def initialize(redirect_path)
-#     
+#   def initialize(location)
+#     @location = location
 #   end
 # 
 #   def matches?(target)
-#     activate_site nil
+#     FileUtils.rm(@location) if File.exist?(@location)
 #     response = target.call
-#     debugger
-#     return response.redirect? && response.redirect_url == new_admin_site_path
+#     File.exist?(@location)
 #   end
 # 
 #   def failure_message
-#     "expected a site to be required"
+#     "expected a file to have been cached at #{@location}"
 #   end
 # 
 #   def negative_failure_message
-#     "expected no site to be required"
+#     "expected no file to be cached at #{@location}"
 #   end
 # 
 #   def description
-#     "require site"
+#     "cache a file"
 #   end
 # 
 # end
 # 
-# def require_site
-#   RequireSite.new
+# def cache_action(location)
+#   CacheAction.new(location)
 # end

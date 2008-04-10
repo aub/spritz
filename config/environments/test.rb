@@ -9,9 +9,13 @@ config.cache_classes = true
 # Log error messages when you accidentally call methods on nil.
 config.whiny_nils = true
 
-# Show full error reports and disable caching
+# Show full error reports
 config.action_controller.consider_all_requests_local = true
-config.action_controller.perform_caching             = false
+
+# Cache settings
+config.action_controller.perform_caching             = true
+config.action_controller.page_cache_directory        = File.join(RAILS_ROOT, 'tmp/test/caches')
+ActionController::Base.fragment_cache_store          = :file_store, File.join(RAILS_ROOT, 'tmp/test/caches')
 
 # Disable request forgery protection in test environment
 config.action_controller.allow_forgery_protection    = false

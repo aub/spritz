@@ -1,5 +1,3 @@
-# This file is copied to ~/spec when you run 'ruby script/generate rspec'
-# from the project root directory.
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'spec'
@@ -10,6 +8,9 @@ require File.join(File.dirname(__FILE__), 'model_stubs')
 require File.join(File.dirname(__FILE__), 'custom_matchers')
 
 include AuthenticatedTestHelper
+
+ActionController::Base.perform_caching = (@enable_caching_for_these_tests == true)
+@enable_caching_for_these_tests = false
 
 Spec::Runner.configure do |config|
   # If you're not using ActiveRecord you should remove these
@@ -87,4 +88,11 @@ def test_action_requirements(actions, condition)
   end
 end
 
+# Helper for mocking liquid contexts
+# mocks a Liquid::Context
+def mock_context(assigns = {}, registers = {})
+  returning Liquid::Context.new(assigns, registers) do |context|
+    assigns.keys.each { |k| context[k].context = context }
+  end
+end
 Debugger.start

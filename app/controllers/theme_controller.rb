@@ -1,4 +1,4 @@
-class ThemeController < ContentController
+class ThemeController < ApplicationController
   session :off
   
   def stylesheets

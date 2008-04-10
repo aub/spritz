@@ -1,7 +1,12 @@
 class ApplicationController < ActionController::Base
   include AuthenticatedSystem
+  include CachingMethods
+
+  attr_reader :site
+  attr_reader :action_cache_directory
 
   before_filter :site_required
+  before_filter :setup_cache_paths
   
   helper :all # include all helpers, all the time
 
@@ -21,11 +26,18 @@ class ApplicationController < ActionController::Base
     redirect_to new_admin_session_path unless admin?
   end
   
+  # Make sure that there is a valid site for the given request, or bounce it
+  # to the site creation page.
   def site_required
     @site = Site.for(request.host, request.subdomains)
     unless @site
       redirect_to new_admin_site_path(:host => MAIN_HOST, :port => request.port)
     end
+  end
+
+  # Setup the cache directories for the given request based on the active site.
+  def setup_cache_paths
+    @action_cache_path = @site.action_cache_path unless @site.nil?
   end
   
   # Helper methods for error conditions

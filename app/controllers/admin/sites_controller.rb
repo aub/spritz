@@ -1,4 +1,6 @@
 class Admin::SitesController < Admin::AdminController
+
+  cache_sweeper :site_sweeper, :only => [:create, :update, :destroy]
   
   before_filter :admin_required, :except => [:new, :create]
   

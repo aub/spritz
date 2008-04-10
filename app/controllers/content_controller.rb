@@ -1,5 +1,5 @@
 class ContentController < ApplicationController
-  
+    
   before_filter :add_theme_directory_to_view_path
   
   layout :theme_layout

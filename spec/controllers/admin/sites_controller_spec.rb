@@ -5,7 +5,7 @@ describe Admin::SitesController do
   define_models :sites_controller
   
   before(:each) do
-    @active_site = mock_model(Site)
+    @active_site = mock_model(Site, :action_cache_path => 'tmp/cache/mock')
     activate_site(@active_site)
     login_as(:admin)
   end
@@ -14,8 +14,6 @@ describe Admin::SitesController do
     define_models :sites_controller
 
     before(:each) do
-      @site = mock_model(Site)
-      Site.stub!(:find).and_return([@site])
     end
   
     def do_get
@@ -39,7 +37,7 @@ describe Admin::SitesController do
   
     it "should assign the found sites for the view" do
       do_get
-      assigns[:sites].should == [@site]
+      assigns[:sites].should == Site.find(:all)
     end
   end
 

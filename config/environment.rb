@@ -59,12 +59,7 @@ end
 
 # Gem dependencies
 gem 'will_paginate', '>=2.1.0'
-gem 'liquid', '>=1.7.0'
 
 require 'will_paginate'
-require 'liquid'
-require 'extras/liquid_view'
-
-ActionView::Base::register_template_handler :liquid, LiquidView
 
 

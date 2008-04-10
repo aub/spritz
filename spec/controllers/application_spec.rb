@@ -36,9 +36,40 @@ describe Admin::SessionsController do
     end
   
     it "should allow the request to continue for a good site" do
-      Site.should_receive(:for).with(request.host, request.subdomains).and_return(mock_model(Site))
+      Site.should_receive(:for).with(request.host, request.subdomains).and_return(mock_model(Site, :action_cache_path => 'junk'))
       get :new
       response.should be_success
-    end    
+    end
+    
+    it "should have a readable attribute for the site" do
+      site = mock_model(Site, :action_cache_path => 'junk')
+      Site.stub!(:for).and_return(site)
+      get :new
+      controller.site.should == site
+    end
+  end
+  
+  describe "caching support" do
+    define_models :application_controller
+    
+    before(:each) do
+      activate_site :default
+    end
+    
+    it "should have a method or holding the referenced objects for the current action" do
+      controller.send(:cached_references).should be_a_kind_of(Array)
+    end
+    
+    it "should clear the cached references before each action" do
+      controller.send(:cached_references) << 'a'
+      controller.send(:cached_references).size.should == 1
+      get :new
+      controller.send(:cached_references).size.should == 0
+    end
+    
+    it "should set up the root action cache directory" do
+      get :new
+      controller.action_cache_path.should == sites(:default).action_cache_path
+    end
   end
 end

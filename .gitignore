@@ -2,3 +2,5 @@ log
 db/*.sqlite3
 coverage
 coverage.data
+tmp/cache
+tmp/test
