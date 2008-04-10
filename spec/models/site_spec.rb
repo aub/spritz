@@ -107,7 +107,7 @@ describe Site do
     define_models :site
     
     it "should be the site's subdomain" do
-      sites(:default).action_cache_path.should == sites(:default).subdomain
+      sites(:default).action_cache_root.should == sites(:default).subdomain
     end
   end
   

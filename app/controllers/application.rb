@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   include CachingMethods
 
   attr_reader :site
-  attr_reader :action_cache_directory
+  attr_reader :action_cache_root
 
   before_filter :site_required
   before_filter :setup_cache_paths
@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
 
   # Setup the cache directories for the given request based on the active site.
   def setup_cache_paths
-    @action_cache_path = @site.action_cache_path unless @site.nil?
+    @action_cache_root ||= @site.action_cache_root unless @site.nil?
   end
   
   # Helper methods for error conditions

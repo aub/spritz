@@ -7,6 +7,13 @@ require 'model_stubbing'
 require File.join(File.dirname(__FILE__), 'model_stubs')
 require File.join(File.dirname(__FILE__), 'custom_matchers')
 
+# YUCK, YUCK, YUCK! Because the action_cache macro used for caching in these
+# controllers is defined at load time and will do nothing if perform_caching is
+# false, we have to require them here while it is definitely still true. Later,
+# if somebody turns it off, it will stop the actual caching, but the filters will
+# still be set up.
+require 'home_controller'
+
 include AuthenticatedTestHelper
 
 ActionController::Base.perform_caching = (@enable_caching_for_these_tests == true)

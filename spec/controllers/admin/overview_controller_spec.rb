@@ -5,7 +5,7 @@ describe Admin::OverviewController do
   define_models :overview_controller
   
   before(:each) do
-    @active_site = mock_model(Site, :action_cache_path => 'tmp/cache/mock')
+    @active_site = mock_model(Site, :action_cache_root => 'tmp/cache/mock')
     activate_site(@active_site)
     login_as(:admin)
   end

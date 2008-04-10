@@ -36,13 +36,13 @@ describe Admin::SessionsController do
     end
   
     it "should allow the request to continue for a good site" do
-      Site.should_receive(:for).with(request.host, request.subdomains).and_return(mock_model(Site, :action_cache_path => 'junk'))
+      Site.should_receive(:for).with(request.host, request.subdomains).and_return(mock_model(Site, :action_cache_root => 'junk'))
       get :new
       response.should be_success
     end
     
     it "should have a readable attribute for the site" do
-      site = mock_model(Site, :action_cache_path => 'junk')
+      site = mock_model(Site, :action_cache_root => 'junk')
       Site.stub!(:for).and_return(site)
       get :new
       controller.site.should == site
@@ -69,7 +69,7 @@ describe Admin::SessionsController do
     
     it "should set up the root action cache directory" do
       get :new
-      controller.action_cache_path.should == sites(:default).action_cache_path
+      controller.action_cache_root.should == sites(:default).action_cache_root
     end
   end
 end

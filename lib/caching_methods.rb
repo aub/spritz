@@ -40,6 +40,6 @@ module CachingMethods
   end
   
   def create_action_cache_path
-    File.join(action_cache_path, request.path)
+    File.join(action_cache_root, request.path)
   end
 end
