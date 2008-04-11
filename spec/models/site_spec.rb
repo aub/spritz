@@ -84,8 +84,14 @@ describe Site do
       sites(:default).theme = 'booya'
       sites(:default).reload.theme.should == 'booya'
     end
+    
+    it "should have a setting for the title" do
+      sites(:default).title.should == ''
+      sites(:default).title = 'booya'
+      sites(:default).reload.title.should == 'booya'
+    end
   end
-  
+    
   describe "theme management" do
     define_models :site
     

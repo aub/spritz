@@ -15,6 +15,7 @@ ActionController::Routing::Routes.draw do |map|
   	admin.resources :users, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :activate => :get }
     admin.resource :session
     admin.resources :sites
+    admin.resource :settings
   end
   
   # A route to handle activation of users.

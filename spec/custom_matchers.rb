@@ -4,14 +4,16 @@ module CachingExampleHelper
   ActionController::Base.public_class_method :page_cache_path
   ActionController::Base.perform_caching = true
 
+  # For testing caching, remove the entire cache directory and then execute
+  # the request. Now you can use cached? below to make sure the file was
+  # created.
   def action(&request)
     ActionController::Base.perform_caching = true
     cache_dir = ActionController::Base.fragment_cache_store.cache_path
     FileUtils.rm_rf(cache_dir)
-
     request.call
   end
-
+  
   module ResponseHelper
     def cached?
       cache_path = ActionController::Base.fragment_cache_store.cache_path
@@ -26,33 +28,34 @@ module CachingExampleHelper
   ActionController::TestResponse.send(:include, ResponseHelper)
 end
 
-# 
-# class CacheAction
-#   
-#   def initialize(location)
-#     @location = location
-#   end
-# 
-#   def matches?(target)
-#     FileUtils.rm(@location) if File.exist?(@location)
-#     response = target.call
-#     File.exist?(@location)
-#   end
-# 
-#   def failure_message
-#     "expected a file to have been cached at #{@location}"
-#   end
-# 
-#   def negative_failure_message
-#     "expected no file to be cached at #{@location}"
-#   end
-# 
-#   def description
-#     "cache a file"
-#   end
-# 
-# end
-# 
-# def cache_action(location)
-#   CacheAction.new(location)
-# end
+
+class Expire
+  
+  def initialize(cache_items)
+    @cache_items = cache_items
+  end
+
+  def matches?(target)
+    response = target.call
+    
+    all_items = CacheItem.find(:all)
+    (@cache_items.find { |ci| all_items.include?(ci) } == nil)
+  end
+
+  def failure_message
+    "expected all cache items to be expired"
+  end
+
+  def negative_failure_message
+    "expected no cache items to be expired"
+  end
+
+  def description
+    "expire cache items"
+  end
+
+end
+
+def expire(cache_items)
+  Expire.new(cache_items)
+end

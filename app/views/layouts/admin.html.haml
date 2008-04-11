@@ -20,11 +20,11 @@
         #head
           %h1= @site.domain
         %ul#top-controls
-          %li= link_to 'Dashboard', overview_path
-          %li= link_to 'Sections', overview_path, :class => 'current'
-          %li= link_to 'Assets', overview_path
-          %li= link_to 'Design', overview_path
-          %li= link_to 'Settings', overview_path
+          %li= link_to 'Dashboard', overview_path, :class => check_active_section('overview')
+          %li= link_to 'Sections', overview_path, :class => check_active_section('sections')
+          %li= link_to 'Assets', overview_path, :class => check_active_section('assets')
+          %li= link_to 'Design', overview_path, :class => check_active_section('design')
+          %li= link_to 'Settings', edit_admin_settings_path, :class => check_active_section('settings')
         %ul#sub-controls
           %li= link_to 'Home', overview_path
           %li= link_to 'Links', overview_path, :class => 'current'
@@ -32,7 +32,6 @@
           %li= link_to 'Portfolio', overview_path
         #body
     #footer
-  
   
     #header
       %ul#sec-nav

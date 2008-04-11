@@ -22,4 +22,8 @@ describe "/layouts/admin.html.haml" do
   it "should contain a link for the dashboard" do
     response.should have_tag("a[href=?]", overview_path)
   end
+  
+  it "should have a link to the settings page" do
+    response.should have_tag("a[href=?]", edit_admin_settings_path)
+  end
 end

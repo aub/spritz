@@ -10,6 +10,7 @@ class Site < ActiveRecord::Base
   serialize :settings, Hash
 
   setting :theme, :string, 'default'
+  setting :title, :string, ''
 
   # Initialize the settings to something.
   def initialize(*args)
