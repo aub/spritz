@@ -1,8 +1,8 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe Admin::OverviewController do
+describe Admin::DashboardController do
   
-  define_models :overview_controller
+  define_models :dashboard_controller
   
   before(:each) do
     @active_site = mock_model(Site, :action_cache_root => 'tmp/cache/mock')
@@ -10,8 +10,8 @@ describe Admin::OverviewController do
     login_as(:admin)
   end
 
-  describe "handling GET /admin/overview" do
-    define_models :overview_controller
+  describe "handling GET /admin/dashboard" do
+    define_models :dashboard_controller
   
     def do_get
       get :show
@@ -29,7 +29,7 @@ describe Admin::OverviewController do
   end
   
   describe "admin, login, and site requirements" do
-    define_models :overview_controller
+    define_models :dashboard_controller
     
     it "should require a site" do
       test_site_requirement(true, lambda { get :show })

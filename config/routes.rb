@@ -9,7 +9,7 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   # Routes for the admin interface.
-  map.overview 'admin', :controller => 'admin/overview', :action => 'show'
+  map.dashboard 'admin', :controller => 'admin/dashboard', :action => 'show'
 
   map.namespace(:admin) do |admin|
   	admin.resources :users, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :activate => :get }
