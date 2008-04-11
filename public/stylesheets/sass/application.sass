@@ -1,2 +1,174 @@
-#something
-  :color #fff
+// !cute_orange = rgb(223,141,74)
+// !dark_orange = #af8439
+// !banner_grey = #464646
+// !form_text_color = #464646
+
+!cute_orange = rgb(223,141,74)
+!dark_orange = #af8439
+!dark_grey = #383838
+!pale_grey = #d9d9d9
+!umber = #6b6350
+!black_grey = #171717
+!light_grey = #8c8282
+
+!background_color = #fff
+!highlight_color = #8c8282
+
+body
+  :background-color = !background_color
+  :color = !dark_grey
+  :line-height normal
+  :border-top
+    :style solid
+    :width 30px
+    :color = !dark_grey
+  :font
+    :family "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif
+    :size 12px
+    :size-adjust none
+    :stretch normal
+    :style normal
+    :variant normal
+    :weight normal
+
+*
+  :margin 0pt
+  :padding 0pt
+
+#login-form
+  :margin 10px auto
+  :width 360px
+  
+  form
+    :-moz-border-radius-bottomleft 5px
+    :-moz-border-radius-bottomright 5px
+    :-moz-border-radius-topleft 5px
+    :-moz-border-radius-topright 5px
+    :font-weight normal
+    :margin-left 8px
+    :padding 16px 16px 40px 16px
+    :background-color = !cute_orange
+  
+    p
+      :margin-bottom 24px
+    input
+      :color = !dark_grey
+  
+  .remember-me
+    :float left
+    :font-weight normal
+    :margin-bottom 0pt
+  .submit
+    :float right
+    :margin-bottom 15px
+    
+    input
+      :-moz-border-radius-bottomleft 3px
+      :-moz-border-radius-bottomright 3px
+      :-moz-border-radius-topleft 3px
+      :-moz-border-radius-topright 3px
+      :border 1px solid
+      :cursor default
+      :font-family "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif
+      :font-size 13px
+      :margin-top -6px
+      :padding 3px 5px
+      :text-decoration none
+      
+    input:hover
+      :color = !dark_orange
+
+h1 a
+  :background transparent url(../images/spritz-logo-medium.png) no-repeat scroll 50%
+  :display block
+  :height 100px
+  :overflow hidden
+  :padding-bottom 15px
+  :text-indent -9999px
+  :width 360px
+    
+.large
+  :font-size 25px
+
+#wrapper
+  :min-height 100%
+  :position relative
+  
+#content
+  :padding-bottom 50px
+  
+#head
+  :background-color = !cute_orange
+  :min-height 70px
+  :background rgb(223,141,74) url(../images/spritz-icon-60.png) no-repeat scroll 10px
+  :padding-bottom 8px
+  
+  h1
+    :padding 0 0 0 80px
+    :font-size 250%
+    :padding-top 20px
+    
+#banner
+  a
+    :color #bbb
+  
+  #right-banner
+    :position absolute
+    :right 15px
+    :top 8px
+
+#top-controls
+  :background-color = !cute_orange
+  :border-bottom-color #C6D9E9
+  :border-bottom-style solid
+  :border-bottom-width 1px
+  :padding-left 11px
+  
+  li
+
+    a
+      :font-size 16px
+      :line-height 30px
+      :padding 5px 7px
+      :text-decoration none
+      :text-align center
+      :white-space nowrap
+      :color = !dark_grey
+
+    a.current
+      :background-color = !background_color
+      :border 1px solid
+      :border-color = !highlight_color !highlight_color !background_color
+      :border-bottom-width 2px
+      :color = !cute_orange
+      :-moz-border-radius-topleft 4px
+      :-moz-border-radius-topright 4px
+
+#top-controls, #top-controls a, #sub-controls, #sub-controls li
+  :list-style
+    :image none
+    :position outside
+    :type none
+    :margin 0
+    :padding 0
+
+#top-controls li, #sub-controls li
+  :display inline
+
+#top-controls li a, #sub-controls li a
+  :padding 5px 7px
+  :text-decoration none
+  :text-align center
+  :white-space nowrap
+  :color = !dark_grey
+
+#sub-controls
+  :padding 8px 0 3px
+  
+  li
+    :font-size 14px
+    :padding 0 0 8px 6px
+    :line-height 200%
+    
+    a.current
+      :color = !cute_orange

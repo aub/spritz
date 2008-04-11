@@ -11,9 +11,32 @@
     = yield :head
 
   %body
+    #banner
+      #right-banner
+        = link_to 'Logout', admin_session_path, :method => :delete
+      #left-banner  
+    #wrapper
+      #content
+        #head
+          %h1= @site.domain
+        %ul#top-controls
+          %li= link_to 'Dashboard', overview_path
+          %li= link_to 'Sections', overview_path, :class => 'current'
+          %li= link_to 'Assets', overview_path
+          %li= link_to 'Design', overview_path
+          %li= link_to 'Settings', overview_path
+        %ul#sub-controls
+          %li= link_to 'Home', overview_path
+          %li= link_to 'Links', overview_path, :class => 'current'
+          %li= link_to 'News', overview_path
+          %li= link_to 'Portfolio', overview_path
+        #body
+    #footer
+  
+  
     #header
       %ul#sec-nav
-        %li= link_to 'Logout', admin_session_path, :method => :delete
+        %li
 
       #nav
 

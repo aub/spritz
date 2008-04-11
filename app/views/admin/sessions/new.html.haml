@@ -1,16 +1,19 @@
-- form_tag admin_session_path do
-  %p
-    %label{ :for => "login" } Login
-    %br
-    = text_field_tag 'login'
+#login-form
+  %h1
+    = link_to @site.domain, 'http://www.aubreyholland.com', :title => 'Powered by Spritz'
+  - form_tag admin_session_path do
+    %p
+      %label{ :for => "login" } Login
+      %br
+      = text_field_tag :login, params[:login], :class => 'large'
 
-  %p
-    %label{ :for => "password" } Password
-    %br
-    = password_field_tag 'password'
+    %p
+      %label{ :for => "password" } Password
+      %br
+      = password_field_tag :password, nil, :class => 'large'
 
-  %p
-    %label{ :for => "remember_me" } Remember me:
-    = check_box_tag 'remember_me'
+    %p.remember-me
+      %label{ :for => "remember_me" } Remember me:
+      = check_box_tag 'remember_me'
 
-  %p= submit_tag 'Log in'
+    %p.submit= submit_tag 'Log in'

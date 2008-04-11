@@ -1,0 +1,14 @@
+!!! XML
+!!!
+%html{ html_attrs }
+  %head
+    %meta{ 'http-equiv' => "Content-type", :content => "text/html; charset=utf-8" }
+    = stylesheet_link_tag 'application'
+    %title Log in DAMMIT!
+  %body
+    #banner
+      #right-banner
+        = link_to 'Visit your site', home_path
+      #left-banner  
+  
+    = yield

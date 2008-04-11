@@ -3,6 +3,8 @@ class Admin::SessionsController < Admin::AdminController
   
   skip_before_filter :login_required
   
+  layout 'simple'
+  
   # render new.rhtml
   def new
   end
