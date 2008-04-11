@@ -1,3 +1,3 @@
 class SiteDrop < BaseDrop
-  liquid_attributes << :domain
+  liquid_attributes << :title
 end
