@@ -67,6 +67,9 @@ h1 a {
 .large {
   font-size: 25px; }
 
+.medium {
+  font-site: 20px; }
+
 #wrapper {
   min-height: 100%;
   position: relative; }
@@ -139,3 +142,17 @@ h1 a {
     line-height: 200%; }
     #sub-controls li a.current {
       color: rgb(223,141,74); }
+
+#body {
+  padding: 20px 20px 0px 20px; }
+
+form .group dl {
+  -moz-border-radius-bottomleft: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  font-weight: normal;
+  margin-left: 8px;
+  background-color: #d9d9d9;
+  margin: 0pt;
+  padding: 20px; }

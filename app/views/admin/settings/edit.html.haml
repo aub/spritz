@@ -1,1 +1,7 @@
-Please edit me
+- form_for :site, :url => admin_settings_path, :html => { :method => :put } do |f|
+  .group
+    %h2 Basic settings
+    %dl
+      %dt= f.label_for :title
+      %dd= f.text_field :title, :class => 'large'
+  %p.submit= submit_tag 'Save settings'

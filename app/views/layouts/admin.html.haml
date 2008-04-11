@@ -18,7 +18,7 @@
     #wrapper
       #content
         #head
-          %h1= @site.domain
+          %h1= @site.title
         %ul#top-controls
           %li= link_to 'Dashboard', dashboard_path, :class => check_active_section('dashboard')
           %li= link_to 'Sections', dashboard_path, :class => check_active_section('sections')
@@ -31,25 +31,5 @@
           %li= link_to 'News', dashboard_path
           %li= link_to 'Portfolio', dashboard_path
         #body
+          = yield
     #footer
-  
-    #header
-      %ul#sec-nav
-        %li
-
-      #nav
-
-    #container
-      #content
-        #main
-          #flashes
-            #flash-errors{ :style => "display: none;" }= flash[:error]
-            #flash-notice{ :style => "display: none;" }= flash[:notice]
-          = yield :action_nav
-          #main-content= yield
-          #shadow
-
-        #sbar
-          = yield :sidebar
-
-      #footer
