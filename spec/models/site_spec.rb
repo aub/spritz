@@ -61,12 +61,12 @@ describe Site do
     define_models :site
     
     it "should be a settings manager" do
-      Site.setting(:test, :integer, 2)
-      sites(:default).test.should == 2
+      Site.setting(:testy, :integer, 2)
+      sites(:default).testy.should == 2
     end
     
     it "should have a default value for the settings (empty hash)" do
-      sites(:default).settings.should == {}
+      Site.new.settings.should == {}
     end
     
     it "should save and reload the settings" do
@@ -80,13 +80,13 @@ describe Site do
     define_models :site
     
     it "should have a setting for the theme" do
-      sites(:default).theme.should == 'default'
+      Site.new.theme.should == 'default'
       sites(:default).theme = 'booya'
       sites(:default).reload.theme.should == 'booya'
     end
     
     it "should have a setting for the title" do
-      sites(:default).title.should == ''
+      Site.new.title.should == ''
       sites(:default).title = 'booya'
       sites(:default).reload.title.should == 'booya'
     end
@@ -137,21 +137,26 @@ describe Site do
   describe "relationship to sections" do
     define_models :site do
       model Section do
-        stub :one, :site => all_stubs(:site), :position => 3
-        stub :two, :site => all_stubs(:site), :position => 1
+        stub :one, :site => all_stubs(:site), :position => 3, :active => true
+        stub :two, :site => all_stubs(:site), :position => 1, :active => true
+        stub :tre, :site => all_stubs(:site), :position => 2, :active => false
       end
     end
     
     it "should contain sections" do
-      sites(:default).sections.sort_by(&:id).should == [sections(:one), sections(:two)].sort_by(&:id)
+      sites(:default).sections.sort_by(&:id).should == [sections(:one), sections(:two), sections(:tre)].sort_by(&:id)
     end
     
     it "should sort the sections by position" do
-      sites(:default).sections.should == [sections(:one), sections(:two)].sort_by(&:position)
+      sites(:default).sections.should == [sections(:one), sections(:two), sections(:tre)].sort_by(&:position)
     end
     
     it "should destroy them when destroyed" do
-      lambda { sites(:default).destroy }.should change(Section, :count).by(-2)
+      lambda { sites(:default).destroy }.should change(Section, :count).by(-3)
+    end
+    
+    it "should have a helper for getting the active sections" do
+      sites(:default).sections.active.should == [sections(:one), sections(:two)].sort_by(&:position)
     end
   end
 end

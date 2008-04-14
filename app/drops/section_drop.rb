@@ -1,0 +1,2 @@
+class SectionDrop < BaseDrop
+end

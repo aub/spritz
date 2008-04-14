@@ -16,4 +16,10 @@ class BaseDrop < Liquid::Drop
   def before_method(method)
     @cached[method] ||= source.send(method) if @cached.has_key?(method)
   end
+  
+  # Drops should be equal to another drop if the sources are the same or if the object is
+  # the source.
+  def ==(comparison_object)
+    self.source == (comparison_object.is_a?(self.class) ? comparison_object.source : comparison_object)
+  end
 end

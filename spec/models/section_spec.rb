@@ -17,4 +17,12 @@ describe Section do
       sections(:one).site.should == sites(:default)
     end
   end  
+  
+  describe "liquid conversion" do
+    define_models :section
+    
+    it "should be possible" do
+      sections(:one).to_liquid.should be_a_kind_of(BaseDrop)
+    end
+  end
 end
