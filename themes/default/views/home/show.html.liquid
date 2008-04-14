@@ -1,1 +1,6 @@
 {{ site.title }}
+<ul>
+  {% for section in site.sections %}
+    <li>{{ section.name }}</li>
+  {% endfor %}
+</ul>
