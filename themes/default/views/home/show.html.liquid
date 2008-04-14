@@ -1,6 +1,9 @@
 {{ site.title }}
 <ul>
   {% for section in site.sections %}
-    <li>{{ section.name }}</li>
+    <li>
+      {{ section.name }}
+      {{ section | link_to_section }}
+    </li>
   {% endfor %}
 </ul>

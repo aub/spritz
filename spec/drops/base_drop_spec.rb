@@ -21,6 +21,17 @@ describe BaseDrop do
     BaseDrop.new(@site).should == @site
   end
 
+  describe "url method" do
+    it "should create a url for sources that support it" do
+      @site.stub!(:to_url).and_return(%w(a b))
+      @drop.url.should == '/a/b'
+    end
+    
+    it "should return nil for the url when the source doesn't support it" do
+      BaseDrop.new(mock_model(Site)).url.should  be_nil
+    end
+  end
+
   describe "attributes" do    
     before(:each) do
       @drop = BaseDrop.new(@site)

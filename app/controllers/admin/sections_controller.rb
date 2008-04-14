@@ -1,5 +1,5 @@
 class Admin::SectionsController < Admin::AdminController
-  
+
   def index
     @available_section_types = Spritz::Plugin.section_types
     @sections = @site.sections

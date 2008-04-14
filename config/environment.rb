@@ -10,8 +10,11 @@ RAILS_GEM_VERSION = '2.0.2' unless defined? RAILS_GEM_VERSION
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
+# This is required for engines to work
 require File.join(File.dirname(__FILE__), '../vendor/plugins/engines/boot')
 
+# This has to be done before the plugins are loaded because it extends the Engines
+# system to allow them to hook into the kernel.
 require File.join(File.dirname(__FILE__), '../lib/plugin')
 
 Rails::Initializer.run do |config|

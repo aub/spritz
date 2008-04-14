@@ -1,0 +1,12 @@
+- form_for :link, :url => admin_link_section_link_path(@section, @link), :html => { :method => :put } do |f|
+  %p
+    %label{ :for => "url" } Url
+    %br
+    = f.text_field :url
+
+  %p
+    %label{ :for => "title" } Title
+    %br
+    = f.text_field :title
+
+  %p= submit_tag 'Sign up'

@@ -20,8 +20,8 @@ describe "/admin/sections/index.html.haml" do
   end
 
   it "should have links for editing the existing sections" do
-    response.should have_tag('a[href=?]', edit_admin_user_path(@section1))
-    response.should have_tag('a[href=?]', edit_admin_site_path(@section2))
+    response.should have_tag('a[href=?]', admin_user_path(@section1))
+    response.should have_tag('a[href=?]', admin_site_path(@section2))
   end
   
 end

@@ -1,5 +1,5 @@
 class Admin::LinkSectionsController < Admin::AdminController
-  def edit
+  def show
     @section = @site.sections.find(params[:id])
   end
 end

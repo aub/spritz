@@ -1,0 +1,12 @@
+%h1= @section.nil?
+%h1= params[:id]
+
+%ul
+  - @section.links.each do |link|
+    %li
+      = link.url
+      = link.title
+      = link_to 'Edit Link', edit_admin_link_section_link_path(@section, link)
+      = link_to 'Delete', admin_link_section_link_path(@section, link), :method => :delete
+  
+%h2= link_to 'New Link', new_admin_link_section_link_path(@section)
