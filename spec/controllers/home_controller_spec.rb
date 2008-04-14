@@ -2,6 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe HomeController do
   define_models :home_controller
+  disable_caching_for_this_spec
   
   before(:each) do
     activate_site(:default)

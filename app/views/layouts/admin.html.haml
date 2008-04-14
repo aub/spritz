@@ -21,7 +21,7 @@
           %h1= @site.title
         %ul#top-controls
           %li= link_to 'Dashboard', dashboard_path, :class => check_active_section('dashboard')
-          %li= link_to 'Sections', dashboard_path, :class => check_active_section('sections')
+          %li= link_to 'Sections', admin_sections_path, :class => check_active_section('sections')
           %li= link_to 'Assets', dashboard_path, :class => check_active_section('assets')
           %li= link_to 'Design', dashboard_path, :class => check_active_section('design')
           %li= link_to 'Settings', edit_admin_settings_path, :class => check_active_section('settings')

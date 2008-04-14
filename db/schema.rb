@@ -9,13 +9,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 5) do
+ActiveRecord::Schema.define(:version => 7) do
 
   create_table "cache_items", :force => true do |t|
     t.integer  "site_id"
     t.text     "references"
     t.string   "type"
     t.string   "path"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "links", :force => true do |t|
+    t.integer  "section_id"
+    t.string   "url"
+    t.string   "title"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -27,9 +35,15 @@ ActiveRecord::Schema.define(:version => 5) do
     t.datetime "updated_at"
   end
 
-  create_table "plugin_schema_info", :id => false, :force => true do |t|
-    t.string  "plugin_name"
-    t.integer "version"
+  create_table "sections", :force => true do |t|
+    t.integer  "site_id"
+    t.boolean  "active"
+    t.integer  "position",   :default => 1
+    t.text     "options"
+    t.string   "type"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "sites", :force => true do |t|

@@ -1,0 +1,8 @@
+%h1 Available sections
+%ul
+  - @available_section_types.each do |type|
+    %li= link_to type.name, admin_sections_path(:name => type.name), :method => :post
+%h1 Existing sections
+%ul
+  - @sections.each do |section|
+    %li= link_to "Booya-#{section.name}", :controller => section.admin_controller, :action => 'edit', :id => section.id

@@ -126,11 +126,32 @@ describe Site do
     end
     
     it "should contain caches" do
-      sites(:default).cache_items.size.should == 2
+      sites(:default).cache_items.sort_by(&:id).should == [cache_items(:one), cache_items(:two)].sort_by(&:id)
     end
     
     it "should destroy them when destroyed" do
       lambda { sites(:default).destroy }.should change(CacheItem, :count).by(-2)
+    end
+  end
+  
+  describe "relationship to sections" do
+    define_models :site do
+      model Section do
+        stub :one, :site => all_stubs(:site), :position => 3
+        stub :two, :site => all_stubs(:site), :position => 1
+      end
+    end
+    
+    it "should contain sections" do
+      sites(:default).sections.sort_by(&:id).should == [sections(:one), sections(:two)].sort_by(&:id)
+    end
+    
+    it "should sort the sections by position" do
+      sites(:default).sections.should == [sections(:one), sections(:two)].sort_by(&:position)
+    end
+    
+    it "should destroy them when destroyed" do
+      lambda { sites(:default).destroy }.should change(Section, :count).by(-2)
     end
   end
 end

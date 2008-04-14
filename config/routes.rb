@@ -16,6 +16,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resource :session
     admin.resources :sites
     admin.resource :settings
+    admin.resources :sections
   end
   
   # A route to handle activation of users.
@@ -23,5 +24,7 @@ ActionController::Routing::Routes.draw do |map|
   
   # And the routes for the generated content of the various pages.
   map.home '', :controller => 'home', :action => 'show'
+  
+  Engines.plugins.each { |plugin| map.from_plugin(plugin.name) }
   
 end

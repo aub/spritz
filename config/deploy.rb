@@ -22,6 +22,7 @@ role :db,  "67.207.136.137", :primary => true
 ### Dependencies to be checked
 depend :remote, :gem, "haml", ">= 1.8.2"
 depend :remote, :gem, "will_paginate", ">= 2.1.0"
+depend :remote, :gem, "rails", ">= 2.0.2"
 
 ### Custom tasks
 

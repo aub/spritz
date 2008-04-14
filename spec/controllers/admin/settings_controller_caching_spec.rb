@@ -1,8 +1,6 @@
-require File.dirname(__FILE__) + '/../../spec_helper_caching'
+require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe Admin::SettingsController do
-  include CachingExampleHelper
-  
   define_models :settings_controller do
     model Site do
       stub :other, :subdomain => 'hacky'
