@@ -6,7 +6,7 @@ class Admin::SectionsController < Admin::AdminController
   end
   
   def create
-    section_type = Spritz::Plugin.section_types.find { |st| st.name == params[:name] }
+    section_type = Spritz::Plugin.section_types.find { |st| st.section_name == params[:name] }
     if section_type
       section = section_type.create()
       @site.sections << section

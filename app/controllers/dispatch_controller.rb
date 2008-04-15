@@ -13,7 +13,9 @@ class DispatchController < ContentController
     # check for any bad urls like /foo//bar
     render_not_found and return if params[:path].any? &:blank?
     
-    @section = @site.sections.find { |section| section.name == params[:path][0] }
+    # Important that this uses detect instead of find because it will call the activerecord
+    # find method otherwise.
+    @section = @site.sections.detect { |section| section.name == params[:path][0] }
     result = @section.handle_request(request) if @section && @section.respond_to?(:handle_request)
     if result
       result[1].each { |key,value| instance_variable_set("@#{key.to_s}", value) }

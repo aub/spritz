@@ -9,7 +9,7 @@ module Spritz
     # of the object that will represent this section. In addition, the class should implement
     # the following methods:
     #
-    # name -             So the app can get the name to present in the UI.
+    # section_name -     So the app can get the name to present in the UI.
     #
     # admin_controller - The controller that will handle calls for this section. It should be
     #                    implemented in the app/controllers directory of your plugin, following the 
@@ -40,7 +40,7 @@ module Spritz
     # class LinkSection < Section
     #   @@name = 'Links'
     #   @@admin_controller = 'admin/link_sections'
-    #   cattr_accessor :name, :admin_controller
+    #   cattr_reader :name, :admin_controller
     # end
     #
     # and in init.rb...

@@ -1,7 +1,7 @@
 class LinkSection < Section
-  @@name = 'Links'
+  @@section_name = 'Links'
   @@admin_controller = 'admin/link_sections'
-  cattr_accessor :name, :admin_controller
+  cattr_reader :section_name, :admin_controller
   
   has_many :links, :foreign_key => 'section_id'
 
