@@ -6,8 +6,8 @@ describe DispatchController do
   before(:each) do
     activate_site sites(:default)
     
-    @section1 = mock_model(Hash, :handle_request => nil)
-    @section2 = mock_model(Hash, :handle_request => nil)
+    @section1 = mock_model(Hash, :handle_request => nil, :name => 'Section1')
+    @section2 = mock_model(Hash, :handle_request => nil, :name => 'Section2')
     sites(:default).stub!(:sections).and_return([@section1, @section2])
     
     @valid_data = [:junk, {:a => 'aa', :b => 'bb', :c => 'cc' }]
@@ -16,21 +16,23 @@ describe DispatchController do
   describe "handling GET dispatch" do
     define_models :dispatch_controller
         
-    it "should call handle request on each of the section types" do
+    def do_get(section_name='Section2')
+      get :dispatch, :path => [section_name, 'one', 'two']
+    end
+        
+    it "should call handle request on the section type whose name matches" do
       @section1.should_receive(:handle_request).and_return(nil)
-      @section2.should_receive(:handle_request).and_return(nil)
-      get :dispatch
+      do_get('Section1')
     end
     
-    it "should stop processing if one of the sections returns non-nil" do
-      @section1.stub!(:handle_request).and_return(@valid_data)
+    it "should not call handle request on sections whose names do not match" do
       @section2.should_not_receive(:handle_request)
-      get :dispatch
+      do_get('Section1')
     end
     
     it "should assign instance variables from the data in the response" do
       @section2.stub!(:handle_request).and_return(@valid_data)
-      get :dispatch
+      do_get
       assigns[:a].should == 'aa'
       assigns[:b].should == 'bb'
       assigns[:c].should == 'cc'
@@ -38,12 +40,24 @@ describe DispatchController do
     
     it "should render the template from the response" do
       @section2.stub!(:handle_request).and_return(@valid_data)
-      get :dispatch
+      do_get
       response.should render_template(@valid_data[0])
     end
     
+    it "should be successful when data is returned" do
+      @section2.stub!(:handle_request).and_return(@valid_data)
+      do_get
+      response.should be_success      
+    end
+    
     it "should render 404 if there is no match" do
-      get :dispatch
+      do_get
+      response.should be_missing
+    end
+    
+    it "should render 404 for bad paths" do
+      @section2.stub!(:handle_request).and_return(@valid_data)
+      get :dispatch, :path => [@section2.name, '', 'two']
       response.should be_missing
     end
   end
@@ -52,11 +66,11 @@ describe DispatchController do
     define_models :dispatch_controller
     
     it "should require a site" do
-      test_site_requirement(true, lambda { get :dispatch })
+      test_site_requirement(true, lambda { get :dispatch, :path => ['a'] })
     end
         
     it "should not require login" do
-      test_login_requirement(false, false, lambda { get :dispatch })
+      test_login_requirement(false, false, lambda { get :dispatch, :path => ['a'] })
     end
   end
   

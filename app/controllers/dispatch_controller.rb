@@ -10,14 +10,15 @@
 class DispatchController < ContentController
 
   def dispatch
-    @site.sections.each do |section|
-      result = section.handle_request(request) if section.respond_to?(:handle_request)
-      if result
-        result[1].each { |key,value| instance_variable_set("@#{key.to_s}", value) }
-        render :template => result[0].to_s
-        return
-      end
+    # check for any bad urls like /foo//bar
+    render_not_found and return if params[:path].any? &:blank?
+    
+    @section = @site.sections.find { |section| section.name == params[:path][0] }
+    result = @section.handle_request(request) if @section && @section.respond_to?(:handle_request)
+    if result
+      result[1].each { |key,value| instance_variable_set("@#{key.to_s}", value) }
+      render :template => result[0].to_s
     end
-    render_not_found
+    render_not_found if result.nil?
   end
 end
