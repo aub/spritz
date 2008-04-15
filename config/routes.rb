@@ -26,5 +26,7 @@ ActionController::Routing::Routes.draw do |map|
   map.home '', :controller => 'home', :action => 'show'
   
   Engines.plugins.each { |plugin| map.from_plugin(plugin.name) }
+
+  map.dispatch '*path', :controller => 'dispatch', :action => 'dispatch'
   
 end

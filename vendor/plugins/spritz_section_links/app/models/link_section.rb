@@ -8,4 +8,8 @@ class LinkSection < Section
   def to_url
     ['link_sections', self.id]
   end
+  
+  def handle_request(request)
+    [:links, { :links => self.links }]
+  end
 end

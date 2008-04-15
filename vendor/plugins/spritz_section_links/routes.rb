@@ -3,7 +3,3 @@ map.namespace(:admin) do |admin|
     sections.resources :links
   end
 end
-
-map.resources :link_sections do |sections|
-  sections.resources :links
-end

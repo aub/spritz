@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe Admin::SitesController do
+describe Admin::ThemeController do
   describe "route generation" do
 
     it "should map { :controller => 'theme', :action => 'stylesheets', :filename => 'f', :ext => 'css' } to /stylesheets/theme/f.css" do

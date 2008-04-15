@@ -1,3 +1,0 @@
-class LinksController < ContentController
-  
-end

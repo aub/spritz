@@ -26,6 +26,15 @@ module Spritz
     #                    new sites should be initialized with an instance of this section then the plugin
     #                    can create it automatically. Not implementing it is the same as doing nothing.
     #
+    # handle_request -   This method will be called by the dispatcher in order to render data from
+    #                    the section. If it is implemented, it should take a request as its parameter
+    #                    and return either: a) nil if it doesn't handle the request, or b) an array
+    #                    with two items if it does handle the request. The returned array should have
+    #                    the name of the template to be rendered as its first entry and a hash of variables
+    #                    to assign as the second (i.e. { :links => [link1, link2]}). If a non-null value
+    #                    is returned, request processing will be halted and the given template will be
+    #                    rendered with the given variables assigned.
+    #
     # Example:
     #
     # class LinkSection < Section
