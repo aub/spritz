@@ -5,3 +5,6 @@
       %dt= f.label_for :title
       %dd= f.text_field :title, :class => 'large'
   %p.submit= submit_tag 'Save settings'
+
+%p
+  = "There are #{@site.cache_items.size} cached items..."

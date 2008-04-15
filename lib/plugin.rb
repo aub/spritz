@@ -1,7 +1,8 @@
 module Spritz
   module Plugin
     @@section_types = []
-    mattr_reader :section_types
+    
+    extend self
     
     # Add a section type to the list of available types. This method can be called in
     # the init.rb file of an individual plugin, and while it is not limited to one per
@@ -48,9 +49,14 @@ module Spritz
     # add_section_type(LinkSection)
     #
     def add_section_type(section_type)
-      @@section_types << section_type
+      @@section_types << section_type.to_s
+    end
+
+    # The section types are stored as strings because in development mode the types in the list would
+    # be orphaned when the system was reloaded between requests. This simply finds the classes for
+    # the types and returns them.
+    def section_types
+      @@section_types.collect { |type| Object.const_get(Inflector.classify(type)) }
     end
   end
 end
-
-Engines::Plugin.send :include, Spritz::Plugin

@@ -1,4 +1,5 @@
 class ContentController < ApplicationController
+  session :off
     
   before_filter :add_theme_directory_to_view_path
   

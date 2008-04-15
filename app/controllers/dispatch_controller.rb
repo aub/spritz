@@ -9,6 +9,8 @@
 # them if it is implemented, and then return 404 if none of them handle it.
 class DispatchController < ContentController
 
+  caches_action_with_references :dispatch
+
   def dispatch
     # check for any bad urls like /foo//bar
     render_not_found and return if params[:path].any? &:blank?

@@ -1,8 +1,8 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 class LinkSection < Section
-  cattr_accessor :name, :section_class
-  @@name = 'Links'
+  cattr_accessor :section_name, :section_class
+  @@section_name = 'Links'
 end
 
 describe Admin::SectionsController do
@@ -58,7 +58,7 @@ describe Admin::SectionsController do
     end
     
     def do_post
-      post :create, :name => LinkSection.name
+      post :create, :name => LinkSection.section_name
     end
     
     it "should create a new instance of the section class" do

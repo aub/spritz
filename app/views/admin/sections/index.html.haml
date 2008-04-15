@@ -5,4 +5,5 @@
 %h1 Existing sections
 %ul
   - @sections.each do |section|
-    %li= link_to "Booya-#{section.name}", :controller => section.admin_controller, :action => 'show', :id => section.id
+    %li= section.name
+    / %li= link_to "Booya-#{section.name}", :controller => section.admin_controller, :action => 'show', :id => section.id

@@ -9,4 +9,4 @@ end
 # move it so that it gets required before plugins are loaded in automatically.
 require 'section'
 
-add_section_type(LinkSection)
+Spritz::Plugin.add_section_type(LinkSection)

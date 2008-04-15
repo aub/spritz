@@ -1,5 +1,7 @@
 class Admin::SectionsController < Admin::AdminController
 
+  cache_sweeper :section_sweeper, :only => [:create]
+
   def index
     @available_section_types = Spritz::Plugin.section_types
     @sections = @site.sections
@@ -7,9 +9,9 @@ class Admin::SectionsController < Admin::AdminController
   
   def create
     section_type = Spritz::Plugin.section_types.find { |st| st.section_name == params[:name] }
-    if section_type
-      section = section_type.create()
-      @site.sections << section
+    @section = section_type.new(:site_id => @site.id, :name => "Balloon#{Time.now}") unless section_type.nil?
+    
+    if (@section && @section.save)
       flash[:notice] = "Successfully created a new section"
       redirect_to admin_sections_path
     else
