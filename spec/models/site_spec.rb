@@ -159,4 +159,21 @@ describe Site do
       sites(:default).sections.active.should == [sections(:one), sections(:two)].sort_by(&:position)
     end
   end
+  
+  describe "relationship to assets" do
+    define_models :site do
+      model Asset do
+        stub :one, :site => all_stubs(:site), :filename => 'junko'
+        stub :two, :site => all_stubs(:site), :filename => 'bunko'
+      end
+    end
+    
+    it "should have a collection of assets" do
+      sites(:default).assets.sort_by(&:id).should == [assets(:one), assets(:two)].sort_by(&:id)
+    end
+    
+    it "should destroy its assets when keeling over" do
+      lambda { sites(:default).destroy }.should change(Asset, :count).by(-2)
+    end
+  end
 end

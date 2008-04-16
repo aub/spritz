@@ -22,13 +22,7 @@ describe "/admin/assets/new.html.haml" do
     render "/admin/assets/new.html.haml"
     
     response.should have_tag("form[action=?][method=post]", admin_assets_path) do
-      with_tag("input#asset_content_type[name=?]", "asset[content_type]")
-      with_tag("input#asset_filename[name=?]", "asset[filename]")
-      with_tag("input#asset_size[name=?]", "asset[size]")
-      with_tag("input#asset_thumbnail[name=?]", "asset[thumbnail]")
-      with_tag("input#asset_width[name=?]", "asset[width]")
-      with_tag("input#asset_height[name=?]", "asset[height]")
-      with_tag("input#asset_thumbnails_count[name=?]", "asset[thumbnails_count]")
+      with_tag("input#asset_uploaded_data[type=file][name=?]", "asset[uploaded_data]")
     end
   end
 end

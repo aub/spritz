@@ -6,6 +6,8 @@ class Site < ActiveRecord::Base
   has_many :members, :through => :memberships, :source => :user
   
   has_many :cache_items, :dependent => :destroy
+
+  has_many :assets, :dependent => :destroy
   
   has_many :sections, :dependent => :destroy, :order => 'position' do
     def active

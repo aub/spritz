@@ -2,5 +2,7 @@ log
 db/*.sqlite3
 coverage
 coverage.data
+public/assets
+tmp/attachment_fu
 tmp/cache
 tmp/test

@@ -10,7 +10,12 @@ class Asset < ActiveRecord::Base
   validates_as_attachment
   validates_presence_of :site_id
   # validate :rename_unique_filename
-  # before_validation_on_create :set_site_from_parent
+  before_validation_on_create :set_site_from_parent
   
+  protected
+  
+  def set_site_from_parent
+    self.site_id = parent.site_id if parent_id
+  end
   
 end
