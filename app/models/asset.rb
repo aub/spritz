@@ -18,4 +18,7 @@ class Asset < ActiveRecord::Base
     self.site_id = parent.site_id if parent_id
   end
   
+  # def full_filename(thumbnail=nil)
+  #   File.join(RAILS_ROOT, ASSET_PATH_ROOT, %w(a b c), thumbnail_name_for(thumbnail))    
+  # end
 end

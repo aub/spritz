@@ -23,4 +23,10 @@ ActionController::Base.fragment_cache_store          = :file_store, File.join(RA
 # Don't care if the mailer can't send
 config.action_mailer.raise_delivery_errors = false
 
+# This is the address where the query will get redirected to when hitting a location
+# where there is no valid site.
 MAIN_HOST = 'localhost:3000'
+
+# This is the root of the directory under which the asset files will be stored for file-system
+# storage.
+ASSET_PATH_ROOT = 'public/assets'

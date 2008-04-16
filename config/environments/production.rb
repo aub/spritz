@@ -18,7 +18,13 @@ config.action_view.cache_template_loading            = true
 # Disable delivery errors, bad email addresses will be ignored
 # config.action_mailer.raise_delivery_errors = false
 
+# This is the address where the query will get redirected to when hitting a location
+# where there is no valid site.
 MAIN_HOST = 'www.artistcommon.com'
+
+# This is the root of the directory under which the asset files will be stored for file-system
+# storage.
+ASSET_PATH_ROOT = 'public/assets'
 
 # Setting the domain so that cookies will work properly with subdomains.
 ActionController::Base.session_options[:session_domain] = '.artistcommon.com'

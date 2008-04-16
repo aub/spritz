@@ -25,4 +25,10 @@ config.action_controller.allow_forgery_protection    = false
 # ActionMailer::Base.deliveries array.
 config.action_mailer.delivery_method = :test
 
+# This is the address where the query will get redirected to when hitting a location
+# where there is no valid site.
 MAIN_HOST = 'test.host'
+
+# This is the root of the directory under which the asset files will be stored for file-system
+# storage.
+ASSET_PATH_ROOT = 'tmp/test/assets'
