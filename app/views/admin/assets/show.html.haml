@@ -1,0 +1,48 @@
+%p
+  %b Content type:
+  = h @asset.content_type
+
+
+%p
+  %b Filename:
+  = h @asset.filename
+
+
+%p
+  %b Size:
+  = h @asset.size
+
+
+%p
+  %b Parent:
+  = h @asset.parent_id
+
+
+%p
+  %b Thumbnail:
+  = h @asset.thumbnail
+
+
+%p
+  %b Width:
+  = h @asset.width
+
+
+%p
+  %b Height:
+  = h @asset.height
+
+
+%p
+  %b Site:
+  = h @asset.site_id
+
+
+%p
+  %b Thumbnails count:
+  = h @asset.thumbnails_count
+
+
+
+=  link_to 'Edit', edit_admin_asset_path(@asset)
+=  link_to 'Back', admin_assets_path

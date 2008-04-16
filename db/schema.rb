@@ -9,7 +9,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 7) do
+ActiveRecord::Schema.define(:version => 8) do
+
+  create_table "assets", :force => true do |t|
+    t.string   "content_type"
+    t.string   "filename"
+    t.integer  "size"
+    t.integer  "parent_id"
+    t.string   "thumbnail"
+    t.integer  "width"
+    t.integer  "height"
+    t.integer  "site_id"
+    t.integer  "thumbnails_count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "cache_items", :force => true do |t|
     t.integer  "site_id"

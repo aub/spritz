@@ -1,0 +1,54 @@
+%h1 New asset
+
+= error_messages_for :asset
+
+- form_for @asset, :url => admin_assets_path do |f|
+  %p
+    %b Content type
+    %br
+    = f.text_field :content_type
+
+  %p
+    %b Filename
+    %br
+    = f.text_field :filename
+
+  %p
+    %b Size
+    %br
+    = f.text_field :size
+
+  %p
+    %b Parent
+    %br
+    = f.text_field :parent_id
+
+  %p
+    %b Thumbnail
+    %br
+    = f.text_field :thumbnail
+
+  %p
+    %b Width
+    %br
+    = f.text_field :width
+
+  %p
+    %b Height
+    %br
+    = f.text_field :height
+
+  %p
+    %b Site
+    %br
+    = f.text_field :site_id
+
+  %p
+    %b Thumbnails count
+    %br
+    = f.text_field :thumbnails_count
+
+  %p
+    = f.submit "Create"
+
+= link_to 'Back', admin_assets_path

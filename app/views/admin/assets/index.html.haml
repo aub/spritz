@@ -1,0 +1,34 @@
+%h1 Listing assets
+
+%table
+  %tr
+    %th Content type
+    %th Filename
+    %th Size
+    %th Parent
+    %th Thumbnail
+    %th Width
+    %th Height
+    %th Site
+    %th Thumbnails count
+  %tr
+
+  - for asset in @assets
+    %tr
+      %td= h asset.content_type
+      %td= h asset.filename
+      %td= h asset.size
+      %td= h asset.parent_id
+      %td= h asset.thumbnail
+      %td= h asset.width
+      %td= h asset.height
+      %td= h asset.site_id
+      %td= h asset.thumbnails_count
+      %td= link_to 'Show', admin_asset_path(asset)
+      %td= link_to 'Edit', edit_admin_asset_path(asset)
+      %td= link_to 'Destroy', admin_asset_path(asset), :confirm => 'Are you sure?', :method => :delete
+    %tr
+
+%br
+
+= link_to 'New asset', new_admin_asset_path

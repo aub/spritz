@@ -12,11 +12,12 @@ ActionController::Routing::Routes.draw do |map|
   map.dashboard 'admin', :controller => 'admin/dashboard', :action => 'show'
 
   map.namespace(:admin) do |admin|
+    admin.resources :assets
   	admin.resources :users, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :activate => :get }
-    admin.resource :session
-    admin.resources :sites
-    admin.resource :settings
     admin.resources :sections
+    admin.resource :session
+    admin.resource :settings
+    admin.resources :sites
   end
   
   # A route to handle activation of users.
