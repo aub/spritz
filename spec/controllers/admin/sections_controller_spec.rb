@@ -62,7 +62,8 @@ describe Admin::SectionsController do
     end
     
     it "should create a new instance of the section class" do
-      LinkSection.should_receive(:create).and_return(LinkSection.new)
+      mock_section = mock_model(LinkSection, :save => true)
+      LinkSection.should_receive(:new).and_return(mock_section)
       do_post
     end
     

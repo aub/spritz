@@ -58,5 +58,17 @@ module Spritz
     def section_types
       @@section_types.collect { |type| Object.const_get(Inflector.classify(type)) }
     end
+    
+    # This is really only to be used for testing, but it will empty the list of section types.
+    def clear_section_types
+      @@section_types.clear
+    end
+    
+    # This method will clear the cached list of section types. In development mode, we cannot cache the
+    # classes because they will be orphaned when the environment is reloaded. But, remaking the list
+    # of section types from their classes with each request is not nice. This will clear the cache so
+    # that the classes will be recalculated after the reload. See spritz_init.rb for its usage.
+    def clear_section_type_cache
+    end
   end
 end

@@ -2,6 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe DispatchController do
   define_models :dispatch_controller
+  disable_caching_for_this_spec # Caching is tested in a separate spec.
 
   before(:each) do
     activate_site sites(:default)

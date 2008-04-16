@@ -6,4 +6,4 @@
 %ul
   - @sections.each do |section|
     %li= section.name
-    / %li= link_to "Booya-#{section.name}", :controller => section.admin_controller, :action => 'show', :id => section.id
+    %li= link_to section.name, :controller => section.admin_controller, :action => 'show', :id => section.id
