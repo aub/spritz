@@ -330,4 +330,31 @@ describe Admin::AssetsController do
       response.should redirect_to(admin_assets_url)
     end
   end
+  
+  describe "admin, login, and site requirements" do
+    define_models :assets_controller
+    
+    it "should require a site" do
+      test_site_requirement(true, [
+        lambda { get :index },
+        lambda { get :show, :id => 1 },
+        lambda { get :edit, :id => 1 },
+        lambda { get :new },
+        lambda { put :update, :id => 1 },
+        lambda { post :create },
+        lambda { delete :destroy, :id => 1 }])
+    end
+        
+    it "should require login" do
+      test_login_requirement(true, false, [
+        lambda { get :index },
+        lambda { get :show, :id => 1 },
+        lambda { get :edit, :id => 1 },
+        lambda { get :new },
+        lambda { put :update, :id => 1 },
+        lambda { post :create },
+        lambda { delete :destroy, :id => 1 }])
+    end
+  end
+  
 end

@@ -65,6 +65,7 @@ describe Admin::UsersController do
     get :activate, :activation_code => users(:unactivated).activation_code
     response.should redirect_to('/')
     flash[:notice].should_not be_nil
+    users(:unactivated).reload
     User.authenticate_for(sites(:default), 'unactivated', 'test').should == users(:unactivated)
   end
   

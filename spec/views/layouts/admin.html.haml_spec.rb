@@ -4,7 +4,6 @@ describe "/layouts/admin.html.haml" do
 
   define_models
 
-
   before(:each) do
     assigns[:site] = sites(:default)
     login_as :admin
