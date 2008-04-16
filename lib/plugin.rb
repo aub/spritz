@@ -1,6 +1,7 @@
 module Spritz
   module Plugin
     @@section_types = []
+    @@section_type_cache = nil
     
     extend self
     
@@ -56,12 +57,13 @@ module Spritz
     # be orphaned when the system was reloaded between requests. This simply finds the classes for
     # the types and returns them.
     def section_types
-      @@section_types.collect { |type| Object.const_get(Inflector.classify(type)) }
+      @@section_type_cache ||= @@section_types.collect { |type| Object.const_get(Inflector.classify(type)) }
     end
     
     # This is really only to be used for testing, but it will empty the list of section types.
     def clear_section_types
       @@section_types.clear
+      @@section_type_cache = nil
     end
     
     # This method will clear the cached list of section types. In development mode, we cannot cache the
@@ -69,6 +71,17 @@ module Spritz
     # of section types from their classes with each request is not nice. This will clear the cache so
     # that the classes will be recalculated after the reload. See spritz_init.rb for its usage.
     def clear_section_type_cache
+      @@section_type_cache = nil
     end
+  end
+end
+
+module Engines
+  class Plugin < Rails::Plugin
+    protected
+      # override engine default list for Mephisto plugins
+      def default_code_paths
+        %w(app/controllers app/helpers app/models app/drops components lib)
+      end
   end
 end

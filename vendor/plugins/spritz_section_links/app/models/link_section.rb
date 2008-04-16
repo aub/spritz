@@ -12,4 +12,8 @@ class LinkSection < Section
   def handle_request(request)
     [:links, { :links => self.links }]
   end
+  
+  def to_liquid
+    LinkSectionDrop.new self
+  end
 end

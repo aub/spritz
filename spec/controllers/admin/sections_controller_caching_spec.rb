@@ -34,8 +34,8 @@ describe Admin::SectionsController do
       lambda { do_put }.should expire([@a, @c])
     end
     
-    # it "should not expire other pages" do
-    #   lambda { do_put }.should_not expire([@b, @d])
-    # end
+    it "should not expire other pages" do
+      lambda { do_put }.should_not expire([@b, @d])
+    end
   end  
 end
