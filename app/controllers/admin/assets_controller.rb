@@ -1,6 +1,6 @@
 class Admin::AssetsController < Admin::AdminController
 
-  before_filter :find_asset, :only => [:show, :edit, :update, :destroy]
+  before_filter :find_asset, :only => [:edit, :update, :destroy]
 
   # GET /admin/assets
   # GET /admin/assets.xml
@@ -9,15 +9,6 @@ class Admin::AssetsController < Admin::AdminController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @assets }
-    end
-  end
-
-  # GET /admin/assets/1
-  # GET /admin/assets/1.xml
-  def show
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @asset }
     end
   end
 
@@ -42,7 +33,7 @@ class Admin::AssetsController < Admin::AdminController
     respond_to do |format|
       if @asset.save
         flash[:notice] = 'Asset was successfully created.'
-        format.html { redirect_to admin_asset_path(@asset) }
+        format.html { redirect_to admin_assets_path }
         format.xml  { render :xml => @asset, :status => :created, :location => @asset }
       else
         format.html { render :action => "new" }

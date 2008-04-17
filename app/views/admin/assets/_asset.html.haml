@@ -1,0 +1,6 @@
+%tr
+  %td
+  %td= link_to asset_image_tag(asset, :thumb), edit_admin_asset_path(asset)
+  %td Fields
+  %td= link_to 'Destroy', admin_asset_path(asset), :confirm => 'Are you sure?', :method => :delete
+%tr

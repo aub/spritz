@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 8) do
+ActiveRecord::Schema.define(:version => 9) do
 
   create_table "assets", :force => true do |t|
     t.string   "content_type"
@@ -49,9 +49,17 @@ ActiveRecord::Schema.define(:version => 8) do
     t.datetime "updated_at"
   end
 
+  create_table "portfolio_pages", :force => true do |t|
+    t.integer  "section_id"
+    t.string   "name"
+    t.string   "junk"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "sections", :force => true do |t|
     t.integer  "site_id"
-    t.boolean  "active"
+    t.boolean  "active",     :default => true
     t.integer  "position",   :default => 1
     t.text     "options"
     t.string   "type"

@@ -55,48 +55,6 @@ describe Admin::AssetsController do
     end
   end
 
-  describe "handling GET /admin/assets/1" do
-    define_models :assets_controller
-    
-    def do_get
-      get :show, :id => assets(:one).id
-    end
-
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-  
-    it "should render show template" do
-      do_get
-      response.should render_template('show')
-    end
-    
-    it "should assign the found asset for the view" do
-      do_get
-      assigns[:asset].should == assets(:one)
-    end
-  end
-
-  describe "handling GET /admin/assets/1.xml" do
-    define_models :assets_controller
-    
-    def do_get
-      @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :show, :id => assets(:one).id
-    end
-
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-  
-    it "should render the found asset as xml" do
-      do_get
-      response.body.should == assets(:one).to_xml
-    end
-  end
-
   describe "handling GET /admin/assets/new" do
     define_models :assets_controller
     
