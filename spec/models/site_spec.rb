@@ -163,13 +163,18 @@ describe Site do
   describe "relationship to assets" do
     define_models :site do
       model Asset do
-        stub :one, :site => all_stubs(:site), :filename => 'junko'
-        stub :two, :site => all_stubs(:site), :filename => 'bunko'
+        stub :one, :site => all_stubs(:site), :thumbnail => nil, :parent_id => nil, :filename => 'back', :thumbnails_count => 1
+        stub :two, :site => all_stubs(:site), :thumbnail => nil, :parent_id => nil, :filename => 'wack'
+        stub :tre, :site => all_stubs(:site), :thumbnail => 'display', :parent_id => all_stubs(:one_asset).object_id, :filename => 'smack'
       end
     end
     
     it "should have a collection of assets" do
       sites(:default).assets.sort_by(&:id).should == [assets(:one), assets(:two)].sort_by(&:id)
+    end
+    
+    it "should not include assets that are thumbnails" do
+      sites(:default).assets.include?(assets(:tre)).should be_false
     end
     
     it "should destroy its assets when keeling over" do
