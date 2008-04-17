@@ -8,8 +8,8 @@ class Admin::SectionsController < Admin::AdminController
   end
   
   def create
-    section_type = Spritz::Plugin.section_types.find { |st| st.section_name == params[:name] }
-    @section = section_type.new(:site_id => @site.id, :name => "Balloon#{Time.now}") unless section_type.nil?
+    section_type = Spritz::Plugin.section_types.find { |st| st.section_name == params.delete(:name) }
+    @section = section_type.new(:site_id => @site.id, :title => "#{section_type}-#{@site.sections.size + 1}") unless section_type.nil?
     
     if (@section && @section.save)
       flash[:notice] = "Successfully created a new section"

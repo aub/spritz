@@ -5,7 +5,8 @@ class AddSections < ActiveRecord::Migration
       t.boolean :active, :default => true
       t.integer :position, :default => 1
       t.text :options
-      t.string :type, :name
+      t.string :type
+      t.string :title
       t.timestamps
     end
   end

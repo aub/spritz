@@ -7,8 +7,8 @@ describe DispatchController do
   before(:each) do
     activate_site sites(:default)
     
-    @section1 = mock_model(Hash, :handle_request => nil, :name => 'Section1')
-    @section2 = mock_model(Hash, :handle_request => nil, :name => 'Section2')
+    @section1 = mock_model(Hash, :handle_request => nil, :title => 'Section1')
+    @section2 = mock_model(Hash, :handle_request => nil, :title => 'Section2')
     sites(:default).stub!(:sections).and_return([@section1, @section2])
     
     @valid_data = [:junk, {:a => 'aa', :b => 'bb', :c => 'cc' }]
@@ -58,7 +58,7 @@ describe DispatchController do
     
     it "should render 404 for bad paths" do
       @section2.stub!(:handle_request).and_return(@valid_data)
-      get :dispatch, :path => [@section2.name, '', 'two']
+      get :dispatch, :path => [@section2.title, '', 'two']
       response.should be_missing
     end
   end

@@ -75,6 +75,11 @@ describe Admin::SectionsController do
       do_post
       response.should redirect_to(admin_sections_path)
     end
+    
+    it "should create a reasonable name for the new section" do
+      do_post
+      assigns[:section].title.should match(/-#{sites(:default).sections.size}$/)
+    end
   end
   
   describe "admin, login, and site requirements" do

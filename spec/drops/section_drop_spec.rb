@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe Section do
   define_models :site_drop do
     model Section do
-      stub :one, :site => all_stubs(:site), :position => 3, :active => true, :name => 'name-o'
+      stub :one, :site => all_stubs(:site), :position => 3, :active => true, :title => 'name-o'
     end
   end
   
@@ -11,7 +11,7 @@ describe Section do
     @drop = SectionDrop.new(sections(:one))
   end
     
-  it "should provide access to the name" do
-    @drop.before_method('name').should == sections(:one).name
+  it "should provide access to the title" do
+    @drop.before_method('title').should == sections(:one).title
   end
 end

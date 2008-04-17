@@ -6,7 +6,7 @@ end
 describe Section do
   define_models :section do
     model Section do
-      stub :one, :site => all_stubs(:site), :name => 'Hooya'
+      stub :one, :site => all_stubs(:site), :title => 'Hooya'
     end
   end
   
@@ -21,20 +21,20 @@ describe Section do
       @section.should_not be_valid
     end
     
-    it "should require a name" do
-      @section.should have(1).error_on(:name)
+    it "should require a title" do
+      @section.should have(1).error_on(:title)
     end
     
-    it "should require a unique name" do
+    it "should require a unique title" do
       @section.site_id = sections(:one).site_id
-      @section.name = sections(:one).name
-      @section.should have(1).error_on(:name)
+      @section.title = sections(:one).title
+      @section.should have(1).error_on(:title)
     end
     
-    it "should allow the same name in different sites" do
-      @section.name = sections(:one).name
+    it "should allow the same title in different sites" do
+      @section.title = sections(:one).title
       @section.site_id = sections(:one).site_id + 1
-      @section.should have(0).errors_on(:name)
+      @section.should have(0).errors_on(:title)
     end
     
     it "should require a site" do

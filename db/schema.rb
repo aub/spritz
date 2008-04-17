@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(:version => 9) do
     t.integer  "position",   :default => 1
     t.text     "options"
     t.string   "type"
-    t.string   "name"
+    t.string   "title"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

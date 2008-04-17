@@ -147,7 +147,7 @@ h1 a
       :-moz-border-radius-topleft 4px
       :-moz-border-radius-topright 4px
 
-#top-controls, #top-controls a, #sub-controls, #sub-controls li
+#top-controls, #top-controls a, #sub-controls, #sub-controls li, #available-sections li, #active-sections li, .cleanlist
   :list-style
     :image none
     :position outside
@@ -189,3 +189,26 @@ form .group dl
   :background-color = !pale_grey
   :margin 0pt
   :padding 20px
+
+
+#available-sections
+  :float left
+  :width 300px
+  
+#active-sections
+  :float left
+  :width 500px
+  :margin-left 75px
+  
+.box, #active-sections, #available-sections
+  :border 1px solid
+  :border-color = !light_grey
+  
+#available-sections h2, #active-sections h2, .boxheader
+  :background = !pale_grey
+  :padding 5px
+  
+#available-sections li, #active-sections li, .boxcontent
+  :padding 10px
+  :border-top 1px solid
+  :border-top-color = !light_grey

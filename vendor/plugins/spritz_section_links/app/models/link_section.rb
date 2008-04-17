@@ -6,7 +6,7 @@ class LinkSection < Section
   has_many :links, :foreign_key => 'section_id'
 
   def to_url
-    [self.name]
+    [self.title]
   end
   
   def handle_request(request)

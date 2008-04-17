@@ -1,3 +1,3 @@
 class SectionDrop < BaseDrop
-  liquid_attributes << :name
+  liquid_attributes << :title
 end

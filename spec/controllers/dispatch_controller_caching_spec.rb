@@ -6,7 +6,7 @@ describe DispatchController do
   before(:each) do
     activate_site sites(:default)
     
-    @section1 = mock_model(Hash, :name => 'Section1')
+    @section1 = mock_model(Section, :title => 'Section1')
     @section1.stub!(:handle_request).and_return([:junk, {:a => 'aa' }])
     sites(:default).stub!(:sections).and_return([@section1])
     
@@ -14,7 +14,7 @@ describe DispatchController do
   end
   
   def do_get
-    @path = [@section1.name, 'link', '1']
+    @path = [@section1.title, 'link', '1']
     get :dispatch, :path => @path
     response.should be_success
   end

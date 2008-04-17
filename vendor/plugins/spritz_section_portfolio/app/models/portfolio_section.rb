@@ -6,7 +6,7 @@ class PortfolioSection < Section
   has_many :portfolio_pages, :foreign_key => 'section_id'
 
   def to_url
-    [self.name]
+    [self.title]
   end
   
   def handle_request(request)

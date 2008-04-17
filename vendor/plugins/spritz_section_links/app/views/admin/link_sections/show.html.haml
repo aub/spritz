@@ -1,12 +1,14 @@
-%h1= @section.nil?
-%h1= params[:id]
+- content_for :head do
+  = stylesheet_link_tag "links", :plugin => "spritz_section_links"
 
-%ul
-  - @section.links.each do |link|
-    %li
-      = link.url
-      = link.title
-      = link_to 'Edit Link', edit_admin_link_section_link_path(@section, link)
-      = link_to 'Delete', admin_link_section_link_path(@section, link), :method => :delete
+.box
+  %h2.boxheader Links
+  %ul.cleanlist
+    - @section.links.each do |link|
+      %li.boxcontent
+        = link.url
+        = link.title
+        = link_to 'Edit', edit_admin_link_section_link_path(@section, link)
+        = link_to 'Delete', admin_link_section_link_path(@section, link), :method => :delete
   
-%h2= link_to 'New Link', new_admin_link_section_link_path(@section)
+= link_to 'New Link', new_admin_link_section_link_path(@section)
