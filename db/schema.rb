@@ -50,9 +50,13 @@ ActiveRecord::Schema.define(:version => 9) do
   end
 
   create_table "portfolio_pages", :force => true do |t|
+    t.integer  "parent_id"
     t.integer  "section_id"
+    t.integer  "lft"
+    t.integer  "rgt"
     t.string   "name"
-    t.string   "junk"
+    t.string   "path"
+    t.text     "body"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

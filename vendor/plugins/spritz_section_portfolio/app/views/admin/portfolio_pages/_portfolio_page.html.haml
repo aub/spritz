@@ -1,0 +1,8 @@
+.box
+  %h2.boxheader Subpages
+  %ul.cleanlist
+    - @portfolio_page.children.each do |child|
+      %li.boxcontent
+        = child.name
+  
+= link_to 'New Child', new_admin_portfolio_section_portfolio_page_path(@section)

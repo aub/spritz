@@ -1,9 +1,13 @@
 class CreatePortfolioPages < ActiveRecord::Migration
   def self.up
     create_table :portfolio_pages, :force => true do |t|
-      t.references :section
-      t.string :name
-      t.string :junk
+      t.integer  :parent_id
+      t.integer  :section_id
+      t.integer  :lft
+      t.integer  :rgt
+      t.string   :name
+      t.string   :path
+      t.text     :body
       t.timestamps
     end
   end
