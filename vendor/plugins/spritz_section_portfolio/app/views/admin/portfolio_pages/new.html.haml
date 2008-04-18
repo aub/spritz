@@ -1,0 +1,4 @@
+= error_messages_for :portfolio_page
+
+- form_for :portfolio_page, :url => create_admin_portfolio_section_portfolio_page_path(@section, @parent) do |f|
+  = render :partial => 'form', :locals => { :f => f }

@@ -1,0 +1,11 @@
+%dl
+  %dt= f.label_for :name
+  %dd= f.text_field :name, :class => 'big'
+  %dt= f.label_for :body
+  %dd
+    ~ f.text_area :body, :class => 'big', :rows => '8'
+    
+%p
+  = submit_tag 'Save Page'
+  or
+  = link_to "Cancel", admin_portfolio_section_portfolio_pages_path(@section)

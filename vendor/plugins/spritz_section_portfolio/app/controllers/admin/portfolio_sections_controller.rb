@@ -1,7 +1,9 @@
 class Admin::PortfolioSectionsController < Admin::AdminController
+
+  before_filter :find_section, :only => [:show, :destroy]
+
   def show
-    @section = @site.sections.find(params[:id])
-    @portfolio_page = @section.portfolio
+    redirect_to :controller => 'admin/portfolio_pages', :action => 'edit', :id => @section.portfolio.id, :portfolio_section_id => @section.id
   end
   
   # DELETE /admin/sites/1
@@ -15,5 +17,11 @@ class Admin::PortfolioSectionsController < Admin::AdminController
       format.html { redirect_to(admin_sections_path) }
       format.xml  { head :ok }
     end
+  end
+  
+  protected
+  
+  def find_section
+    @section = @site.sections.find(params[:id])
   end
 end

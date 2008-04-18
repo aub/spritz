@@ -4,5 +4,6 @@
     - @portfolio_page.children.each do |child|
       %li.boxcontent
         = child.name
+        = link_to 'Edit', edit_admin_portfolio_section_portfolio_page_path(@section, child)
   
-= link_to 'New Child', new_admin_portfolio_section_portfolio_page_path(@section)
+= link_to 'New Child', new_admin_portfolio_section_portfolio_page_path(@section, @portfolio_page)
