@@ -88,11 +88,19 @@ h1 a {
     padding-top: 20px; }
 
 #banner a {
-  color: #bbb; }
+  color: #bbbbbb; }
 #banner #right-banner {
   position: absolute;
   right: 15px;
   top: 8px; }
+#banner #flash-area {
+  position: absolute;
+  left: 0px;
+  top: 8px;
+  width: 100%;
+  font-weight: normal;
+  text-align: center;
+  color: #bbbbbb; }
 
 #top-controls {
   background-color: rgb(223,141,74);
@@ -117,31 +125,22 @@ h1 a {
     -moz-border-radius-topleft: 4px;
     -moz-border-radius-topright: 4px; }
 
-#top-controls, #top-controls a, #sub-controls, #sub-controls li, #available-sections li, #active-sections li, .cleanlist {
+#top-controls, #top-controls a, #available-sections li, #active-sections li, .cleanlist {
   list-style-image: none;
   list-style-position: outside;
   list-style-type: none;
   list-style-margin: 0;
   list-style-padding: 0; }
 
-#top-controls li, #sub-controls li {
+#top-controls li {
   display: inline; }
 
-#top-controls li a, #sub-controls li a {
+#top-controls li a {
   padding: 5px 7px;
   text-decoration: none;
   text-align: center;
   white-space: nowrap;
   color: #383838; }
-
-#sub-controls {
-  padding: 8px 0 3px; }
-  #sub-controls li {
-    font-size: 14px;
-    padding: 0 0 8px 6px;
-    line-height: 200%; }
-    #sub-controls li a.current {
-      color: rgb(223,141,74); }
 
 #body {
   padding: 20px 20px 0px 20px; }

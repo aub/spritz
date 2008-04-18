@@ -12,3 +12,4 @@
     - @sections.each do |section|
       %li
         = link_to section.title, :controller => section.admin_controller, :action => 'show', :id => section.id
+        = link_to 'Delete', { :controller => section.admin_controller, :action => 'destroy', :id => section.id }, :method => :delete

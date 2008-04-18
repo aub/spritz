@@ -6,15 +6,18 @@
     %title Getting somewhere
 
     = stylesheet_link_tag 'application'
-    = javascript_include_tag :defaults
+    = javascript_include_tag 'prototype', 'effects', 'dragdrop', 'lowpro', 'application'
 
     = yield :head
 
   %body
     #banner
+      #left-banner
+      #flash-area
+        #flash-errors{ :style => "display: none;" }= flash[:error]
+        #flash-notice{ :style => "display: none;" }= flash[:notice]
       #right-banner
         = link_to 'Logout', admin_session_path, :method => :delete
-      #left-banner  
     #wrapper
       #content
         #head
@@ -25,11 +28,6 @@
           %li= link_to 'Assets', admin_assets_path, :class => check_active_section('assets')
           %li= link_to 'Design', dashboard_path, :class => check_active_section('design')
           %li= link_to 'Settings', edit_admin_settings_path, :class => check_active_section('settings')
-        %ul#sub-controls
-          %li= link_to 'Home', dashboard_path
-          %li= link_to 'Links', dashboard_path, :class => 'current'
-          %li= link_to 'News', dashboard_path
-          %li= link_to 'Portfolio', dashboard_path
         #body
           = yield
     #footer
