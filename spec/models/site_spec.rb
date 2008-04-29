@@ -133,33 +133,7 @@ describe Site do
       lambda { sites(:default).destroy }.should change(CacheItem, :count).by(-2)
     end
   end
-  
-  describe "relationship to sections" do
-    define_models :site do
-      model Section do
-        stub :one, :site => all_stubs(:site), :position => 3, :active => true
-        stub :two, :site => all_stubs(:site), :position => 1, :active => true
-        stub :tre, :site => all_stubs(:site), :position => 2, :active => false
-      end
-    end
     
-    it "should contain sections" do
-      sites(:default).sections.sort_by(&:id).should == [sections(:one), sections(:two), sections(:tre)].sort_by(&:id)
-    end
-    
-    it "should sort the sections by position" do
-      sites(:default).sections.should == [sections(:one), sections(:two), sections(:tre)].sort_by(&:position)
-    end
-    
-    it "should destroy them when destroyed" do
-      lambda { sites(:default).destroy }.should change(Section, :count).by(-3)
-    end
-    
-    it "should have a helper for getting the active sections" do
-      sites(:default).sections.active.should == [sections(:one), sections(:two)].sort_by(&:position)
-    end
-  end
-  
   describe "relationship to assets" do
     define_models :site do
       model Asset do

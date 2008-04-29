@@ -1,0 +1,18 @@
+%h1 Listing links
+
+%table
+  %tr
+    %th Url
+    %th Title
+
+  - for link in @links
+    %tr
+      %td=h link.url
+      %td=h link.title
+      %td= link_to 'Show', admin_link_path(link)
+      %td= link_to 'Edit', edit_admin_link_path(link)
+      %td= link_to 'Destroy', admin_link_path(link), :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New link', new_admin_link_path

@@ -1,0 +1,20 @@
+%h1 Editing link
+
+= error_messages_for :link
+
+- form_for :link, :url => admin_link_path(@link) do |f|
+  %p
+    %b Url
+    %br
+    = f.text_field :url
+
+  %p
+    %b Title
+    %br
+    = f.text_field :title
+
+  %p
+    = f.submit "Update"
+
+= link_to 'Show', admin_link_path(@link)
+= link_to 'Back', admin_links_path

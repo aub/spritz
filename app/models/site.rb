@@ -9,12 +9,6 @@ class Site < ActiveRecord::Base
 
   has_many :assets, :dependent => :destroy, :conditions => 'parent_id is NULL'
   
-  has_many :sections, :dependent => :destroy, :order => 'position' do
-    def active
-      find_all_by_active(true)
-    end
-  end
-  
   serialize :settings, Hash
 
   setting :theme, :string, 'default'

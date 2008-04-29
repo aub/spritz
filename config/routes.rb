@@ -13,11 +13,12 @@ ActionController::Routing::Routes.draw do |map|
 
   map.namespace(:admin) do |admin|
     admin.resources :assets
-  	admin.resources :users, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :activate => :get }
+    admin.resources :links
     admin.resources :sections
     admin.resource :session
     admin.resource :settings
     admin.resources :sites
+    admin.resources :users, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :activate => :get }
   end
 
   # Routes for the display interface
