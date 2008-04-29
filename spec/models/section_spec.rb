@@ -57,4 +57,12 @@ describe Section do
       sections(:one).to_liquid.should be_a_kind_of(BaseDrop)
     end
   end
+  
+  describe "url generation" do
+    define_models :section
+    
+    it "should provide a default to_url implementation" do
+      sections(:one).to_url.should == ['Hooya']
+    end
+  end
 end

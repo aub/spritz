@@ -1,0 +1,6 @@
+<h1>OMG, A PAGE! -->{{ page.name }}<--</h1>
+<ul>
+  {% for child in page.children %}
+    <li>-->{{ child | link_to_page }}<--</li>
+  {% endfor %}
+</ul>

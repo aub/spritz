@@ -9,4 +9,8 @@ class PortfolioPage < ActiveRecord::Base
   def to_liquid
     PortfolioPageDrop.new self
   end
+  
+  def to_url
+    ['portfolio_sections', section.id, 'portfolio_pages', self.id]
+  end
 end

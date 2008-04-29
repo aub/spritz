@@ -9,4 +9,6 @@ end
 # move it so that it gets required before plugins are loaded in automatically.
 require 'section'
 
+require 'url_filters'
+
 Spritz::Plugin.add_section_type(PortfolioSection)

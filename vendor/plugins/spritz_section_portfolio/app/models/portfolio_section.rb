@@ -8,10 +8,6 @@ class PortfolioSection < Section
   # This is the root of the portfolio page tree
   has_one :portfolio, :class_name => 'PortfolioPage', :conditions => 'parent_id is null', :foreign_key => 'section_id'
   has_many :portfolio_pages, :foreign_key => 'section_id', :dependent => :destroy
-
-  def to_url
-    [self.title]
-  end
   
   def handle_request(request)
     [:portfolio, { :portfolio_pages => self.portfolio_pages }]
@@ -19,6 +15,10 @@ class PortfolioSection < Section
   
   def to_liquid
     PortfolioSectionDrop.new self
+  end
+
+  def to_url
+    ['portfolio_sections', self.id]
   end
   
   protected

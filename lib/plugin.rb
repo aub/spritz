@@ -28,6 +28,10 @@ module Spritz
     #                    new sites should be initialized with an instance of this section then the plugin
     #                    can create it automatically. Not implementing it is the same as doing nothing.
     #
+    # to_url -           Return an array representing the path to the section. This should correspond to
+    #                    routes that are setup in the plugin's routes.rb file for handling the request
+    #                    at the URL provided by this method. See example below.
+    #
     # handle_request -   This method will be called by the dispatcher in order to render data from
     #                    the section. If it is implemented, it should take a request as its parameter
     #                    and return either: a) nil if it doesn't handle the request, or b) an array
@@ -43,6 +47,10 @@ module Spritz
     #   @@name = 'Links'
     #   @@admin_controller = 'admin/link_sections'
     #   cattr_reader :name, :admin_controller
+    #
+    #   def to_url
+    #     ['links', self.id]
+    #   end
     # end
     #
     # and in init.rb...
