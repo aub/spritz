@@ -40,6 +40,23 @@ describe Site do
       sites(:default).members.sort_by(&:id).should == Membership.find_all_by_site_id(sites(:default).id).collect(&:user).uniq.sort_by(&:id)
     end
   end
+
+  describe "relationship to links" do
+    define_models :site do
+      model Link do
+        stub :google, :site => all_stubs(:site)
+        stub :yahoo, :site => all_stubs(:site)
+      end
+    end
+    
+    it "should have a collection of links" do
+      sites(:default).links.sort_by(&:id).should == Link.find_all_by_site_id(sites(:default).id).sort_by(&:id)
+    end
+    
+    it "should destroy the links when destroyed" do
+      lambda { sites(:default).destroy }.should change(Link, :count).by(-2)
+    end
+  end
   
   describe "relationship to users" do
     define_models :site

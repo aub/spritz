@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(:version => 8) do
   end
 
   create_table "links", :force => true do |t|
+    t.integer  "site_id"
     t.string   "url"
     t.string   "title"
     t.datetime "created_at"
