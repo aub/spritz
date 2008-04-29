@@ -19,15 +19,11 @@ ActionController::Routing::Routes.draw do |map|
     admin.resource :settings
     admin.resources :sites
   end
+
+  # Routes for the display interface
+  map.home '', :controller => 'home', :action => 'show'
   
   # A route to handle activation of users.
   map.activate 'activate/:activation_code', :controller => 'admin/users', :action => 'activate'
-  
-  # And the routes for the generated content of the various pages.
-  map.home '', :controller => 'home', :action => 'show'
-  
-  Engines.plugins.each { |plugin| map.from_plugin(plugin.name) }
 
-  map.dispatch '*path', :controller => 'dispatch', :action => 'dispatch'
-  
 end
