@@ -10,6 +10,6 @@ describe UrlFilters do
   end
   
   it "should description" do
-    link_to_section(sections(:one).to_liquid).should == '<a href="/heya">heya</a>'
+    link_to_section(sections(:one).to_liquid).should == '<a href="">heya</a>'
   end
 end
