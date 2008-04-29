@@ -23,6 +23,8 @@ ActionController::Routing::Routes.draw do |map|
 
   # Routes for the display interface
   map.home '', :controller => 'home', :action => 'show'
+
+  map.resources :links
   
   # A route to handle activation of users.
   map.activate 'activate/:activation_code', :controller => 'admin/users', :action => 'activate'
