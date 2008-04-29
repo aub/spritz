@@ -41,7 +41,7 @@ class Admin::LinksController < Admin::AdminController
     respond_to do |format|
       if @link.save
         flash[:notice] = 'Link was successfully created.'
-        format.html { redirect_to admin_link_url(@link) }
+        format.html { redirect_to admin_links_url }
         format.xml  { render :xml => @link, :status => :created, :location => @link }
       else
         format.html { render :action => "new" }
@@ -57,7 +57,7 @@ class Admin::LinksController < Admin::AdminController
     respond_to do |format|
       if @link.update_attributes(params[:link])
         flash[:notice] = 'Link was successfully updated.'
-        format.html { redirect_to admin_link_url(@link) }
+        format.html { redirect_to admin_links_url }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

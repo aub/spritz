@@ -1,19 +1,3 @@
-%h1 New link
-
-= error_messages_for :link
-
 - form_for :link, :url => admin_links_path do |f|
-  %p
-    %b Url
-    %br
-    = f.text_field :url
-
-  %p
-    %b Title
-    %br
-    = f.text_field :title
-
-  %p
-    = f.submit "Create"
-
-= link_to 'Back', admin_links_path
+  = render :partial => 'form', :locals => { :f => f }
+  %p= submit_tag 'Create Link'

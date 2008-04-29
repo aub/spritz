@@ -172,9 +172,9 @@ describe Admin::LinksController do
         lambda { do_post }.should change(Link, :count).by(1)
       end
   
-      it "should redirect to the new link" do
+      it "should redirect to the links list" do
         do_post
-        response.should redirect_to(admin_link_url(assigns[:link].id))
+        response.should redirect_to(admin_links_url)
       end
       
     end
@@ -200,9 +200,9 @@ describe Admin::LinksController do
         assigns(:link).should == links(:one)
       end
 
-      it "should redirect to the link" do
+      it "should redirect to the links list" do
         do_put
-        response.should redirect_to(admin_link_url(links(:one).id))
+        response.should redirect_to(admin_links_url)
       end
     end
   end
