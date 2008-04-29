@@ -2,8 +2,7 @@ class Admin::LinksController < Admin::AdminController
   # GET /links
   # GET /links.xml
   def index
-    @links = Link.find(:all)
-
+    @links = @site.links
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @links }
@@ -13,8 +12,7 @@ class Admin::LinksController < Admin::AdminController
   # GET /links/1
   # GET /links/1.xml
   def show
-    @link = Link.find(params[:id])
-
+    @link = @site.links.find(params[:id])
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @link }
@@ -24,8 +22,7 @@ class Admin::LinksController < Admin::AdminController
   # GET /links/new
   # GET /links/new.xml
   def new
-    @link = Link.new
-
+    @link = @site.links.build
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @link }
@@ -34,14 +31,13 @@ class Admin::LinksController < Admin::AdminController
 
   # GET /links/1/edit
   def edit
-    @link = Link.find(params[:id])
+    @link = @site.links.find(params[:id])
   end
 
   # POST /links
   # POST /links.xml
   def create
-    @link = Link.new(params[:link])
-
+    @link = @site.links.create(params[:link])
     respond_to do |format|
       if @link.save
         flash[:notice] = 'Link was successfully created.'
@@ -57,8 +53,7 @@ class Admin::LinksController < Admin::AdminController
   # PUT /links/1
   # PUT /links/1.xml
   def update
-    @link = Link.find(params[:id])
-
+    @link = @site.links.find(params[:id])
     respond_to do |format|
       if @link.update_attributes(params[:link])
         flash[:notice] = 'Link was successfully updated.'
@@ -74,9 +69,8 @@ class Admin::LinksController < Admin::AdminController
   # DELETE /links/1
   # DELETE /links/1.xml
   def destroy
-    @link = Link.find(params[:id])
+    @link = @site.links.find(params[:id])
     @link.destroy
-
     respond_to do |format|
       format.html { redirect_to admin_links_url }
       format.xml  { head :ok }
