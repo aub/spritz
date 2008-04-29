@@ -1,6 +1,6 @@
-<h1>LINKS.LIQUID!! -->{{ section.title }}<--</h1>
+<h1>LINKS.LIQUID!! -->{{ site.title }}<--</h1>
 <ul>
-  {% for link in section.links %}
+  {% for link in site.links %}
     <li><a href="{{ link.url }}">{{ link.title }}</a></li>
   {% endfor %}
 </ul>
