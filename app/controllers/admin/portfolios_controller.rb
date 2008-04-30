@@ -2,7 +2,7 @@ class Admin::PortfoliosController < Admin::AdminController
   # GET /admin/portfolios
   # GET /admin/portfolios.xml
   def index
-    @portfolios = Portfolio.find(:all)
+    @portfolios = @site.portfolios
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @portfolios }
@@ -12,8 +12,7 @@ class Admin::PortfoliosController < Admin::AdminController
   # GET /admin/portfolios/1
   # GET /admin/portfolios/1.xml
   def show
-    @portfolio = Portfolio.find(params[:id])
-
+    @portfolio = @site.portfolios.find(params[:id])
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @portfolio }
@@ -23,8 +22,7 @@ class Admin::PortfoliosController < Admin::AdminController
   # GET /admin/portfolios/new
   # GET /admin/portfolios/new.xml
   def new
-    @portfolio = Portfolio.new
-
+    @portfolio = @site.portfolios.build
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @portfolio }
@@ -33,18 +31,17 @@ class Admin::PortfoliosController < Admin::AdminController
 
   # GET /admin/portfolios/1/edit
   def edit
-    @portfolio = Portfolio.find(params[:id])
+    @portfolio = @site.portfolios.find(params[:id])
   end
 
   # POST /admin/portfolios
   # POST /admin/portfolios.xml
   def create
-    @portfolio = Portfolio.new(params[:portfolio])
-
+    @portfolio = @site.portfolios.build(params[:portfolio])
     respond_to do |format|
       if @portfolio.save
         flash[:notice] = 'Portfolio was successfully created.'
-        format.html { redirect_to admin_portfolio_url(@portfolio) }
+        format.html { redirect_to admin_portfolios_path }
         format.xml  { render :xml => @portfolio, :status => :created, :location => @portfolio }
       else
         format.html { render :action => "new" }
@@ -56,12 +53,11 @@ class Admin::PortfoliosController < Admin::AdminController
   # PUT /admin/portfolios/1
   # PUT /admin/portfolios/1.xml
   def update
-    @portfolio = Portfolio.find(params[:id])
-
+    @portfolio = @site.portfolios.find(params[:id])
     respond_to do |format|
       if @portfolio.update_attributes(params[:portfolio])
         flash[:notice] = 'Portfolio was successfully updated.'
-        format.html { redirect_to admin_portfolio_url(@portfolio) }
+        format.html { redirect_to admin_portfolios_path }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -73,11 +69,10 @@ class Admin::PortfoliosController < Admin::AdminController
   # DELETE /admin/portfolios/1
   # DELETE /admin/portfolios/1.xml
   def destroy
-    @portfolio = Portfolio.find(params[:id])
+    @portfolio = @site.portfolios.find(params[:id])
     @portfolio.destroy
-
     respond_to do |format|
-      format.html { redirect_to admin_portfolios_url }
+      format.html { redirect_to admin_portfolios_path }
       format.xml  { head :ok }
     end
   end

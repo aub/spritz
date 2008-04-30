@@ -17,6 +17,6 @@ describe SiteDrop do
   end
   
   it "should provide access to the links" do
-    @drop.links.should == [links(:one), links(:two)].collect(&:to_liquid)
+    @drop.links.should == sites(:default).links.collect(&:to_liquid)
   end
 end

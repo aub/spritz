@@ -56,7 +56,7 @@ describe Admin::LinksController do
 
     it "should render the found links as xml" do
       do_get
-      response.body.should == [links(:one), links(:two)].to_xml
+      response.body.should == sites(:default).links.to_xml
     end
   end
 

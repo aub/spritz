@@ -3,7 +3,7 @@ class CreatePortfolios < ActiveRecord::Migration
     create_table :portfolios, :force => true do |t|
       t.references :site
       t.integer :parent_id, :lft, :rgt
-      t.string :name
+      t.string :title
       t.text :body
       t.timestamps
     end
