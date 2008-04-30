@@ -15,6 +15,10 @@ describe AssignedAsset do
     end
   end
 
+  it "should be convertible to liquid" do
+    assigned_assets(:one).to_liquid.should be_an_instance_of(AssignedAssetDrop)
+  end
+
   describe "validations" do
     define_models :assigned_asset
     

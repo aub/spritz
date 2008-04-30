@@ -1,1 +1,5 @@
 <h1>IT'S A PORTFOLIO -->{{ portfolio.title }}<--</h1>
+
+{% for asset in portfolio.assets %}
+  <img src="{{ asset.thumbnail_path }}"/>
+{% endfor %}

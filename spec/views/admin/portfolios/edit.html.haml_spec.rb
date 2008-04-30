@@ -7,7 +7,12 @@ describe "/admin/portfolios/edit.html.haml" do
     @portfolio = mock_model(Portfolio)
     @portfolio.stub!(:title).and_return("MyString")
     @portfolio.stub!(:body).and_return("MyText")
+    @portfolio.stub!(:assigned_assets).and_return([])
     assigns[:portfolio] = @portfolio
+    
+    @site = mock_model(Site)
+    @site.stub!(:assets).and_return([])
+    assigns[:site] = @site
   end
 
   it "should render edit form" do

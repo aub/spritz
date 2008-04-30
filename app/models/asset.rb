@@ -11,7 +11,7 @@ class Asset < ActiveRecord::Base
   validates_presence_of :site_id
   validate :rename_unique_filename
   before_validation_on_create :set_site_from_parent
-  
+    
   protected
   
   # When a thumbnail is created, it needs to be given the site id from the image that contains it.

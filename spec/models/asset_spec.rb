@@ -6,7 +6,7 @@ describe Asset do
       stub :one, :site => all_stubs(:site)
     end
   end
-  
+    
   describe "validations" do
     
     before(:each) do
