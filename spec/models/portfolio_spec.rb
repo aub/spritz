@@ -52,4 +52,15 @@ describe Portfolio do
   it "should be convertible to liquid" do
     portfolios(:one).to_liquid.should be_an_instance_of(PortfolioDrop)
   end
+  
+  describe "as nested set" do
+    define_models :portfolio
+    
+    it "should allow addition of children" do
+      a = Portfolio.create(:title => 'hey')
+      b = Portfolio.create(:title => 'bye')
+      b.move_to_child_of(a)
+      a.children.should == [b]
+    end
+  end
 end
