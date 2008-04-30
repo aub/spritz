@@ -10,6 +10,10 @@ describe Admin::LinksController do
     it "should map { :controller => 'admin/links', :action => 'new' } to /links/new" do
       route_for(:controller => "admin/links", :action => "new").should == "/admin/links/new"
     end
+
+    it "should map { :controller => 'admin/links', :action => 'create' } to /links" do
+      route_for(:controller => "admin/links", :action => "create").should == "/admin/links"
+    end
   
     it "should map { :controller => 'admin/links', :action => 'show', :id => 1 } to /links/1" do
       route_for(:controller => "admin/links", :action => "show", :id => 1).should == "/admin/links/1"

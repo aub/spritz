@@ -10,6 +10,10 @@ describe Admin::PortfoliosController do
     it "should map { :controller => 'admin/portfolios', :action => 'new' } to /admin/portfolios/new" do
       route_for(:controller => "admin/portfolios", :action => "new").should == "/admin/portfolios/new"
     end
+
+    it "should map { :controller => 'admin/portfolios', :action => 'create' } to /admin/portfolios" do
+      route_for(:controller => "admin/portfolios", :action => "create").should == "/admin/portfolios"
+    end
   
     it "should map { :controller => 'admin/portfolios', :action => 'show', :id => 1 } to /admin/portfolios/1" do
       route_for(:controller => "admin/portfolios", :action => "show", :id => 1).should == "/admin/portfolios/1"

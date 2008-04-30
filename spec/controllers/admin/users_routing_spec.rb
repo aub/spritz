@@ -10,6 +10,10 @@ describe Admin::UsersController do
     it "should map { :controller => 'admin/users', :action => 'new' } to /admin/users/new" do
       route_for(:controller => "admin/users", :action => "new").should == "/admin/users/new"
     end
+
+    it "should map { :controller => 'admin/users', :action => 'create' } to /admin/users" do
+      route_for(:controller => "admin/users", :action => "create").should == "/admin/users"
+    end
   
     it "should map { :controller => 'admin/users', :action => 'show', :id => 1 } to /admin/users/1" do
       route_for(:controller => "admin/users", :action => "show", :id => 1).should == "/admin/users/1"

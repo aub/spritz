@@ -14,7 +14,9 @@ ActionController::Routing::Routes.draw do |map|
   map.namespace(:admin) do |admin|
     admin.resources :assets
     admin.resources :links
-    admin.resources :portfolios
+    admin.resources :portfolios do |portfolios|
+      portfolios.resources :assigned_assets
+    end
     admin.resources :sections
     admin.resource :session
     admin.resource :settings

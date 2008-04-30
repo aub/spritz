@@ -233,7 +233,7 @@ describe Admin::LinksController do
         lambda { delete :destroy, :id => links(:one).id }])
     end
     
-    it "should require admin login" do
+    it "should require normal login" do
       test_login_requirement(true, false, [
         lambda { get :index },
         lambda { get :edit, :id => links(:one).id },

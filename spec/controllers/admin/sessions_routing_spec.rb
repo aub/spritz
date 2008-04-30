@@ -9,7 +9,11 @@ describe Admin::SessionsController do
   
     it "should map { :controller => 'admin/sessions', :action => 'new' } to /admin/session/new" do
       route_for(:controller => "admin/sessions", :action => "new").should == "/admin/session/new"
-    end  
+    end
+    
+    it "should map { :controller => 'admin/sessions', :action => 'create' } to /admin/session" do
+      route_for(:controller => "admin/sessions", :action => "create").should == "/admin/session"
+    end
   end
 
   describe "route recognition" do
