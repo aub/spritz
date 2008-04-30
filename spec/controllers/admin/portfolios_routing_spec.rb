@@ -62,4 +62,14 @@ describe Admin::PortfoliosController do
       params_from(:delete, "/admin/portfolios/1").should == {:controller => "admin/portfolios", :action => "destroy", :id => "1"}
     end
   end
+  
+  describe "custom routes" do
+    it "should map { :controller => 'admin/portfolios', :action => 'add_child', :id => 1} to /admin/portfolios/1/add_child" do
+      route_for(:controller => "admin/portfolios", :action => "add_child", :id => 1).should == "/admin/portfolios/1/add_child"
+    end
+
+    it "should generate params { :controller => 'admin/portfolios', action => 'add_child', id => '1' } from GET /admin/portfolios/1/add_child" do
+      params_from(:get, "/admin/portfolios/1/add_child").should == {:controller => "admin/portfolios", :action => "add_child", :id => "1"}
+    end
+  end
 end

@@ -7,5 +7,23 @@ describe Admin::PortfoliosHelper do
     included_modules = self.metaclass.send :included_modules
     included_modules.should include(Admin::PortfoliosHelper)
   end
+
+  describe "link_to_new_portfolio method" do
+    define_models :portfolios_helper do
+      model Portfolio do
+        stub :one
+      end
+    end
+    
+    it "should link to the add child path if there is a portfolio" do
+      @portfolio = portfolios(:one)
+      link_to_new_portfolio.should == "<a href=\"/admin/portfolios/#{@portfolio.id}/add_child\">Add Subpage</a>"
+    end
+    
+    it "should link to the normal new path if there is not" do
+      @portfolio = nil
+      link_to_new_portfolio.should == "<a href=\"/admin/portfolios/new\">New Portfolio</a>"
+    end
+  end
   
 end

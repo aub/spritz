@@ -11,7 +11,18 @@ class Site < ActiveRecord::Base
 
   has_many :links, :dependent => :destroy
 
-  has_many :portfolios, :dependent => :destroy, :conditions => 'parent_id is NULL'
+  has_many :portfolios, :dependent => :destroy, :conditions => 'parent_id is NULL' do
+    def create_with_parent_id(params, parent_id)
+      returning proxy_owner.portfolios.create(params) do |portfolio|
+        if portfolio.valid?
+          parent = Portfolio.find_by_id_and_site_id(parent_id, proxy_owner.id)
+          unless parent.nil?
+            portfolio.move_to_child_of(parent)
+          end
+        end
+      end
+    end
+  end
 
   serialize :settings, Hash
 

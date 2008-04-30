@@ -4,7 +4,7 @@ describe Admin::AssignedAssetsController do
   
   define_models :assigned_assets_controller do
     model Portfolio do
-      stub :one, :site => all_stubs(:site)
+      stub :one, :site => all_stubs(:site), :lft => 1, :rgt => 2
     end
     model Asset do
       stub :one, :site => all_stubs(:site)

@@ -2,6 +2,7 @@
 
 - form_for @portfolio, :url => admin_portfolios_path do |f|
   = render :partial => 'form', :locals => { :f => f }
+  = hidden_field_tag('parent_id', @parent_id) if @parent_id
   %p= f.submit 'Create Portfolio'
 
 = link_to 'Back', admin_portfolios_path

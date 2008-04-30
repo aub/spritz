@@ -1,6 +1,12 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Site do
+  define_models :site do
+    model Site do
+      stub :other, :subdomain => 'hold', :domain => 'none'
+    end
+  end
+  
   before(:each) do
     @site = Site.new
   end
@@ -61,9 +67,10 @@ describe Site do
   describe "relationship to portfolios" do
     define_models :site do
       model Portfolio do
-        stub :uno, :site => all_stubs(:site), :parent_id => nil
+        stub :uno, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 2
         stub :due, :site => all_stubs(:site), :parent_id => nil
         stub :tre, :site => all_stubs(:site), :parent_id => all_stubs(:uno_portfolio).object_id
+        stub :quatro, :site => all_stubs(:other_site), :parent_id => nil, :lft => 1, :rgt => 2
       end
     end
     
@@ -77,6 +84,32 @@ describe Site do
     
     it "should destroy the portfolios when destroyed" do
       lambda { sites(:default).destroy }.should change(Portfolio, :count).by(-2)
+    end
+    
+    describe "creation of child portfolios with a parent" do
+      define_models :site    
+
+      before(:each) do
+        @params = { :title => 'drawings' }
+      end
+
+      it "should create a root-level portfolio if no parent is given" do
+        portfolio = sites(:default).portfolios.create_with_parent_id(@params, nil)
+        portfolio.should_not be_nil
+        portfolio.parent.should be_nil
+      end
+
+      it "should append the child to the parent if it is given" do
+        portfolio = sites(:default).portfolios.create_with_parent_id(@params, portfolios(:uno).id)
+        portfolio.should_not be_nil
+        portfolio.parent.should == portfolios(:uno)
+      end
+      
+      it "should not append the child if the requested parent is in a different site" do
+        portfolio = sites(:default).portfolios.create_with_parent_id(@params, portfolios(:quatro).id)
+        portfolio.should_not be_nil
+        portfolio.parent.should be_nil
+      end
     end
   end
 
@@ -194,5 +227,5 @@ describe Site do
     it "should destroy its assets when keeling over" do
       lambda { sites(:default).destroy }.should change(Asset, :count).by(-2)
     end
-  end
+  end  
 end

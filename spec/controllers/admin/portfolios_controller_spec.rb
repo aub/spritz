@@ -7,9 +7,9 @@ describe Admin::PortfoliosController do
       stub :other
     end
     model Portfolio do
-      stub :one, :site => all_stubs(:site), :parent_id => nil
-      stub :two, :site => all_stubs(:site), :parent_id => nil
-      stub :tre, :site => all_stubs(:other_site), :parent_id => nil
+      stub :one, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 2
+      stub :two, :site => all_stubs(:site), :parent_id => nil, :lft => 3, :rgt => 4
+      stub :tre, :site => all_stubs(:other_site), :parent_id => nil, :lft => 1, :rgt => 2
     end
   end
   
@@ -131,6 +131,45 @@ describe Admin::PortfoliosController do
     end
   end
 
+  describe "handling GET /admin/portfolios/1/add_child" do
+    define_models :portfolios_controller
+    
+    def do_get
+      get :add_child, :id => portfolios(:one).id
+    end
+
+    it "should be successful" do
+      do_get
+      response.should be_success
+    end
+  
+    it "should render new template" do
+      do_get
+      response.should render_template('new')
+    end
+  
+    it "should create an new portfolio" do
+      do_get
+      assigns[:portfolio].should be_new_record
+    end
+  
+    it "should assign the new portfolio for the view" do
+      do_get
+      assigns[:portfolio].should be_an_instance_of(Portfolio)
+    end
+    
+    it "should assign the site id to the new portfolio" do
+      do_get
+      assigns[:portfolio].site_id.should == sites(:default).id
+    end
+    
+    it "should assign the parent_id for the view" do
+      do_get
+      assigns[:parent_id].should == portfolios(:one).id.to_s
+    end
+  end
+
+
   describe "handling GET /admin/portfolios/1/edit" do
     define_models :portfolios_controller
     
@@ -189,6 +228,24 @@ describe Admin::PortfoliosController do
       it "should re-render 'new'" do
         do_post
         response.should render_template('new')
+      end
+    end
+    
+    describe "with parent_id given" do
+      define_models :portfolios_controller
+      
+      def do_post
+        post :create, :portfolio => { :title => 'a_title' }, :parent_id => portfolios(:one).id
+      end
+      
+      it "should make the new portfolio a child of the given parent" do
+        do_post
+        assigns[:portfolio].parent.should == portfolios(:one)
+      end
+      
+      it "should redirect to the parent portfolio's edit page" do
+        do_post
+        response.should redirect_to(edit_admin_portfolio_path(portfolios(:one)))
       end
     end
   end

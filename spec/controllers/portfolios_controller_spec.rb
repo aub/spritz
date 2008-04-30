@@ -1,10 +1,10 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe PortfoliosController do
-  define_models :portfolios_controller do
+  define_models :display_portfolios_controller do
     model Portfolio do
-      stub :one, :site => all_stubs(:site)
-      stub :two, :site => all_stubs(:site)
+      stub :one, :site => all_stubs(:site), :lft => 1, :rgt => 2
+      stub :two, :site => all_stubs(:site), :lft => 1, :rgt => 2
     end
   end
   
@@ -13,7 +13,7 @@ describe PortfoliosController do
   end
 
   describe "handling GET /portfolios/1" do
-    define_models :portfolios_controller
+    define_models :display_portfolios_controller
     
     def do_get
       get :show, :id => portfolios(:one)
@@ -36,7 +36,7 @@ describe PortfoliosController do
   end
     
   describe "site, login, and admin requirements" do
-    define_models :links_controller
+    define_models :display_portfolio_controller
     
     it "should require a site" do
       test_site_requirement(true, [

@@ -29,6 +29,15 @@ class Admin::PortfoliosController < Admin::AdminController
     end
   end
 
+  def add_child
+    @portfolio = @site.portfolios.build
+    @parent_id = params[:id]
+    respond_to do |format|
+      format.html { render :action => 'new' }
+      format.xml  { render :xml => @portfolio }
+    end
+  end
+  
   # GET /admin/portfolios/1/edit
   def edit
     @portfolio = @site.portfolios.find(params[:id])
@@ -37,13 +46,20 @@ class Admin::PortfoliosController < Admin::AdminController
   # POST /admin/portfolios
   # POST /admin/portfolios.xml
   def create
-    @portfolio = @site.portfolios.build(params[:portfolio])
+    @portfolio = @site.portfolios.create_with_parent_id(params[:portfolio], params[:parent_id])
     respond_to do |format|
-      if @portfolio.save
+      if @portfolio.valid?
         flash[:notice] = 'Portfolio was successfully created.'
-        format.html { redirect_to admin_portfolios_path }
+        format.html do 
+          if params[:parent_id]
+            redirect_to edit_admin_portfolio_path(params[:parent_id])
+          else
+            redirect_to admin_portfolios_path
+          end
+        end
         format.xml  { render :xml => @portfolio, :status => :created, :location => @portfolio }
       else
+        @parent_id = params[:parent_id]
         format.html { render :action => "new" }
         format.xml  { render :xml => @portfolio.errors, :status => :unprocessable_entity }
       end
