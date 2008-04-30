@@ -10,7 +10,7 @@ describe "/admin/portfolios/new.html.haml" do
     @portfolio.stub!(:parent_id).and_return("1")
     @portfolio.stub!(:lft).and_return("1")
     @portfolio.stub!(:rgt).and_return("1")
-    @portfolio.stub!(:name).and_return("MyString")
+    @portfolio.stub!(:title).and_return("MyString")
     @portfolio.stub!(:body).and_return("MyText")
     assigns[:portfolio] = @portfolio
   end
@@ -19,9 +19,7 @@ describe "/admin/portfolios/new.html.haml" do
     render "/admin/portfolios/new.html.haml"
     
     response.should have_tag("form[action=?][method=post]", admin_portfolios_path) do
-      with_tag("input#portfolio_lft[name=?]", "portfolio[lft]")
-      with_tag("input#portfolio_rgt[name=?]", "portfolio[rgt]")
-      with_tag("input#portfolio_name[name=?]", "portfolio[name]")
+      with_tag("input#portfolio_title[name=?]", "portfolio[title]")
       with_tag("textarea#portfolio_body[name=?]", "portfolio[body]")
     end
   end

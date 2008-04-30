@@ -14,7 +14,7 @@ class Admin::PortfoliosController < Admin::AdminController
   def show
     @portfolio = @site.portfolios.find(params[:id])
     respond_to do |format|
-      format.html # show.html.erb
+      format.html { render_not_found }
       format.xml  { render :xml => @portfolio }
     end
   end

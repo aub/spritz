@@ -67,19 +67,9 @@ describe Admin::LinksController do
       get :show, :id => links(:one).id
     end
 
-    it "should be successful" do
+    it "should be missing" do
       do_get
-      response.should be_success
-    end
-  
-    it "should render show template" do
-      do_get
-      response.should render_template('show')
-    end
-    
-    it "should assign the found link for the view" do
-      do_get
-      assigns[:link].should == links(:one)
+      response.should be_missing
     end
   end
 
@@ -99,6 +89,12 @@ describe Admin::LinksController do
     it "should render the found link as xml" do
       do_get
       response.body.should == links(:one).to_xml
+    end
+    
+    it "should render not found for links not in the site" do
+      @request.env["HTTP_ACCEPT"] = "application/xml"
+      get :show, :id => links(:tre).id
+      response.should be_missing
     end
   end
 

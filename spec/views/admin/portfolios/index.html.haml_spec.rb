@@ -9,14 +9,14 @@ describe "/admin/portfolios/index.html.haml" do
     portfolio_98.should_receive(:parent_id).and_return("1")
     portfolio_98.should_receive(:lft).and_return("1")
     portfolio_98.should_receive(:rgt).and_return("1")
-    portfolio_98.should_receive(:name).and_return("MyString")
+    portfolio_98.should_receive(:title).and_return("MyString")
     portfolio_98.should_receive(:body).and_return("MyText")
     portfolio_99 = mock_model(Portfolio)
     portfolio_99.should_receive(:site_id).and_return("1")
     portfolio_99.should_receive(:parent_id).and_return("1")
     portfolio_99.should_receive(:lft).and_return("1")
     portfolio_99.should_receive(:rgt).and_return("1")
-    portfolio_99.should_receive(:name).and_return("MyString")
+    portfolio_99.should_receive(:title).and_return("MyString")
     portfolio_99.should_receive(:body).and_return("MyText")
 
     assigns[:portfolios] = [portfolio_98, portfolio_99]

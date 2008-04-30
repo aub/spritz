@@ -1,34 +1,5 @@
-%h1 Editing portfolio
-
 = error_messages_for :portfolio
 
 - form_for @portfolio, :url => admin_portfolio_path(@portfolio) do |f|
-  %p
-    %b Site
-    = f.text_field :site_id
-
-  %p
-    %b Parent
-    = f.text_field :parent_id
-
-  %p
-    %b Lft
-    = f.text_field :lft
-  
-  %p
-    %b Rgt
-    = f.text_field :rgt
-
-  %p
-    %b Name
-    = f.text_field :name
-  
-  %p
-    %b Body
-    = f.text_area :body
-  
-  %p
-    = f.submit "Update"
-
-= link_to 'Show', admin_portfolio_path(@portfolio)
-= link_to 'Back', admin_portfolios_path
+  = render :partial => 'form', :locals => { :f => f }
+  %p= f.submit 'Update Portfolio'

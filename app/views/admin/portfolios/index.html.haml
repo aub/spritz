@@ -6,7 +6,7 @@
     %th Parent
     %th Lft
     %th Rgt
-    %th Name
+    %th Title
     %th Body
 
   - for portfolio in @portfolios
@@ -15,7 +15,7 @@
       %td= h portfolio.parent_id
       %td= h portfolio.lft
       %td= h portfolio.rgt
-      %td= h portfolio.name
+      %td= h portfolio.title
       %td= h portfolio.body
       %td= link_to 'Show', admin_portfolio_path(portfolio)
       %td= link_to 'Edit', edit_admin_portfolio_path(portfolio)

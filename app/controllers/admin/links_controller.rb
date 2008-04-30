@@ -14,7 +14,7 @@ class Admin::LinksController < Admin::AdminController
   def show
     @link = @site.links.find(params[:id])
     respond_to do |format|
-      format.html # show.html.erb
+      format.html { render_not_found }
       format.xml  { render :xml => @link }
     end
   end
