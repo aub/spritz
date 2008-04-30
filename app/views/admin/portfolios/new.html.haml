@@ -1,0 +1,39 @@
+%h1 New portfolio
+
+= error_messages_for :portfolio
+
+- form_for @portfolio, :url => admin_portfolios_path do |f|
+  %p
+    %b Site
+    = f.text_field :site_id
+  
+
+  %p
+    %b Parent
+    = f.text_field :parent_id
+  
+
+  %p
+    %b Lft
+    = f.text_field :lft
+  
+
+  %p
+    %b Rgt
+    = f.text_field :rgt
+  
+
+  %p
+    %b Name
+    = f.text_field :name
+  
+
+  %p
+    %b Body
+    = f.text_area :body
+  
+
+  %p
+    = f.submit "Create"
+
+= link_to 'Back', admin_portfolios_path

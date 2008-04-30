@@ -1,0 +1,33 @@
+%p
+  %b Site:
+  = h @portfolio.site_id
+
+
+%p
+  %b Parent:
+  = h @portfolio.parent_id
+
+
+%p
+  %b Lft:
+  = h @portfolio.lft
+
+
+%p
+  %b Rgt:
+  = h @portfolio.rgt
+
+
+%p
+  %b Name:
+  = h @portfolio.name
+
+
+%p
+  %b Body:
+  = h @portfolio.body
+
+
+
+= link_to 'Edit', edit_admin_portfolio_path(@portfolio) |
+= link_to 'Back', admin_portfolios_path

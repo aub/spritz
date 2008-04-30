@@ -223,4 +223,28 @@ describe Admin::LinksController do
       response.should redirect_to(admin_links_url)
     end
   end
+  
+  describe "site, login, and admin requirements" do
+    define_models :links_controller
+    
+    it "should require a site" do
+      test_site_requirement(true, [
+        lambda { get :index },
+        lambda { get :edit, :id => links(:one).id },
+        lambda { put :update, :id => links(:one).id, :link => {} },
+        lambda { get :new },
+        lambda { post :create, :link => {} },
+        lambda { delete :destroy, :id => links(:one).id }])
+    end
+    
+    it "should require admin login" do
+      test_login_requirement(true, false, [
+        lambda { get :index },
+        lambda { get :edit, :id => links(:one).id },
+        lambda { put :update, :id => links(:one).id, :link => {} },
+        lambda { get :new },
+        lambda { post :create, :link => {} },
+        lambda { delete :destroy, :id => links(:one).id }])
+    end
+  end  
 end

@@ -1,0 +1,24 @@
+%h1 Listing portfolios
+
+%table
+  %tr
+    %th Site
+    %th Parent
+    %th Lft
+    %th Rgt
+    %th Name
+    %th Body
+
+  - for portfolio in @portfolios
+    %tr
+      %td= h portfolio.site_id
+      %td= h portfolio.parent_id
+      %td= h portfolio.lft
+      %td= h portfolio.rgt
+      %td= h portfolio.name
+      %td= h portfolio.body
+      %td= link_to 'Show', admin_portfolio_path(portfolio)
+      %td= link_to 'Edit', edit_admin_portfolio_path(portfolio)
+      %td= link_to 'Destroy', admin_portfolio_path(portfolio), :confirm => 'Are you sure?', :method => :delete
+
+= link_to 'New portfolio', new_admin_portfolio_path
