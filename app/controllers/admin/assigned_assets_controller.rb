@@ -5,15 +5,15 @@ class Admin::AssignedAssetsController < Admin::AdminController
   # POST /portfolios/1/assigned_assets
   # POST /portfolios/1/assigned_assets.xml
   def create
-    @assigned_asset = @portfolio.assigned_assets.create(params[:assigned_asset])
+    @assigned_asset = @portfolio.assigned_assets.create(:asset_id => params[:asset_id])
     respond_to do |format|
       if @assigned_asset.save
         flash[:notice] = 'Assigned asset was successfully created.'
-        format.html { redirect_to admin_portfolio_path(@portfolio) }
+        format.html { redirect_to edit_admin_portfolio_path(@portfolio) }
         format.xml  { render :xml => @assigned_asset, :status => :created, :location => @assigned_asset }
       else
         flash[:error] = "Failed to create the assigned asset"
-        format.html { redirect_to admin_portfolio_path(@portfolio) }
+        format.html { redirect_to edit_admin_portfolio_path(@portfolio) }
         format.xml  { render :xml => @assigned_asset.errors, :status => :unprocessable_entity }
       end
     end
@@ -25,7 +25,7 @@ class Admin::AssignedAssetsController < Admin::AdminController
     @assigned_asset = @portfolio.assigned_assets.find(params[:id])
     @assigned_asset.destroy
     respond_to do |format|
-      format.html { redirect_to admin_portfolio_path(@portfolio) }
+      format.html { redirect_to edit_admin_portfolio_path(@portfolio) }
       format.xml  { head :ok }
     end
   end

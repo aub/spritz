@@ -1,0 +1,23 @@
+%h2
+  PORTFOLIO IMAGES
+  = @portfolio.id
+  CRAP
+  
+%ul
+  - @portfolio.assigned_assets.each do |assigned_asset|
+    %li
+      - form_tag admin_portfolio_assigned_asset_path(@portfolio, assigned_asset), :method => :delete do
+        = hidden_field_tag 'assigned_asset_id', assigned_asset.id
+        = image_submit_tag assigned_asset.asset.public_filename(:thumb)
+    
+%h1 
+  SITE IMAGES
+  = @site.id
+  CRAP
+
+%ul
+  - @site.assets.each do |asset|
+    %li
+      - form_tag admin_portfolio_assigned_assets_path(@portfolio) do
+        = hidden_field_tag 'asset_id', asset.id
+        = image_submit_tag asset.public_filename(:thumb)

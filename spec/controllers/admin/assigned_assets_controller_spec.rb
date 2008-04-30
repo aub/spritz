@@ -27,7 +27,7 @@ describe Admin::AssignedAssetsController do
       define_models :assigned_assets_controller
     
       def do_post
-        post :create, :portfolio_id => portfolios(:one).id, :assigned_asset => { :asset_id => assets(:two).id }
+        post :create, :portfolio_id => portfolios(:one).id, :asset_id => assets(:two).id
       end
 
       it "should create a new assigned_asset" do
@@ -40,7 +40,7 @@ describe Admin::AssignedAssetsController do
   
       it "should redirect to the portfolio" do
         do_post
-        response.should redirect_to(admin_portfolio_path(portfolios(:one)))
+        response.should redirect_to(edit_admin_portfolio_path(portfolios(:one)))
       end 
     end
     
@@ -48,12 +48,12 @@ describe Admin::AssignedAssetsController do
       define_models :assigned_assets_controller
 
       def do_post
-        post :create, :portfolio_id => portfolios(:one).id, :assigned_asset => {}
+        post :create, :portfolio_id => portfolios(:one).id, :asset_id => nil
       end
       
       it "should redirect to the portfolio path" do
         do_post
-        response.should redirect_to(admin_portfolio_path(portfolios(:one)))
+        response.should redirect_to(edit_admin_portfolio_path(portfolios(:one)))
       end
       
       it "should not create a new assigned asset" do
@@ -79,7 +79,7 @@ describe Admin::AssignedAssetsController do
   
     it "should redirect to the portfolio" do
       do_delete
-      response.should redirect_to(admin_portfolio_path(portfolios(:one)))
+      response.should redirect_to(edit_admin_portfolio_path(portfolios(:one)))
     end
   end
   
@@ -88,13 +88,13 @@ describe Admin::AssignedAssetsController do
     
     it "should require a site" do
       test_site_requirement(true, [
-        lambda { post :create, :portfolio_id => portfolios(:one).id, :assigned_asset => {} },
+        lambda { post :create, :portfolio_id => portfolios(:one).id, :asset_id => assets(:two).id },
         lambda { delete :destroy, :portfolio_id => portfolios(:one).id, :id => assigned_assets(:one).id }])
     end
     
     it "should require regular login" do
       test_login_requirement(true, false, [
-        lambda { post :create, :portfolio_id => portfolios(:one).id, :assigned_asset => {} },
+        lambda { post :create, :portfolio_id => portfolios(:one).id, :asset_id => assets(:two).id },
         lambda { delete :destroy, :portfolio_id => portfolios(:one).id, :id => assigned_assets(:one).id }])
     end
   end  
