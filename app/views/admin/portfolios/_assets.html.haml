@@ -1,7 +1,4 @@
-%h2
-  PORTFOLIO IMAGES
-  = @portfolio.id
-  CRAP
+%h2 PORTFOLIO IMAGES
   
 %ul
   - @portfolio.assigned_assets.each do |assigned_asset|
@@ -10,10 +7,7 @@
         = hidden_field_tag 'assigned_asset_id', assigned_asset.id
         = image_submit_tag assigned_asset.asset.public_filename(:thumb)
     
-%h1 
-  SITE IMAGES
-  = @site.id
-  CRAP
+%h1 SITE IMAGES
 
 %ul
   - @site.assets.each do |asset|
