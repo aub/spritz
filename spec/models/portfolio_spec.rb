@@ -27,4 +27,8 @@ describe Portfolio do
   it "should belong to a site" do
     portfolios(:one).site.should == sites(:default)
   end
+  
+  it "should be convertible to liquid" do
+    portfolios(:one).to_liquid.should be_an_instance_of(PortfolioDrop)
+  end
 end

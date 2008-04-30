@@ -3,5 +3,9 @@ class SiteDrop < BaseDrop
   
   def links
     @links ||= source.links.collect(&:to_liquid)
-  end  
+  end
+  
+  def portfolios
+    @portfolios ||= source.portfolios.collect(&:to_liquid)
+  end
 end
