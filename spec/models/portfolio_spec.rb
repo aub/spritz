@@ -6,6 +6,14 @@ describe Portfolio do
     model Portfolio do
       stub :one, :site => all_stubs(:site)
     end
+    model Asset do
+      stub :one, :site => all_stubs(:site)
+      stub :two, :site => all_stubs(:site)
+    end
+    model AssignedAsset do
+      stub :one, :asset => all_stubs(:one_asset), :portfolio => all_stubs(:one_portfolio)
+      stub :two, :asset => all_stubs(:two_asset), :portfolio => all_stubs(:one_portfolio)
+    end
   end
   
   describe "validations" do
@@ -22,10 +30,23 @@ describe Portfolio do
       @portfolio.title = '012345678901234567890123456789012345678901234567890'
       @portfolio.should have(1).error_on(:title)
     end
+    
+    it "should be valid" do
+      @portfolio.title = '01234567890123456789012345678901234567890123456789'
+      @portfolio.should be_valid
+    end
   end
   
   it "should belong to a site" do
     portfolios(:one).site.should == sites(:default)
+  end
+  
+  it "should have a collection of assigned assets" do
+    portfolios(:one).assigned_assets.sort_by(&:id).should == [assigned_assets(:one), assigned_assets(:two)].sort_by(&:id)
+  end
+
+  it "should have a collection of assets through the assigned assets" do
+    portfolios(:one).assets.sort_by(&:id).should == [assets(:one), assets(:two)].sort_by(&:id)
   end
   
   it "should be convertible to liquid" do
