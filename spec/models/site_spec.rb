@@ -57,6 +57,29 @@ describe Site do
       lambda { sites(:default).destroy }.should change(Link, :count).by(-2)
     end
   end
+
+  describe "relationship to portfolios" do
+    define_models :site do
+      model Portfolio do
+        stub :uno, :site => all_stubs(:site), :parent_id => nil
+        stub :due, :site => all_stubs(:site), :parent_id => nil
+        stub :tre, :site => all_stubs(:site), :parent_id => all_stubs(:uno_portfolio).object_id
+      end
+    end
+    
+    it "should have a collection of portfolios" do
+      sites(:default).portfolios.sort_by(&:id).should == [portfolios(:uno), portfolios(:due)].sort_by(&:id)
+    end
+    
+    it "should not include portfolios whose parent_id is nil" do
+      sites(:default).portfolios.include?(portfolios(:tre)).should be_false
+    end
+    
+    it "should destroy the portfolios when destroyed" do
+      lambda { sites(:default).destroy }.should change(Portfolio, :count).by(-2)
+    end
+  end
+
   
   describe "relationship to users" do
     define_models :site

@@ -11,6 +11,8 @@ class Site < ActiveRecord::Base
 
   has_many :links, :dependent => :destroy
 
+  has_many :portfolios, :dependent => :destroy, :conditions => 'parent_id is NULL'
+
   serialize :settings, Hash
 
   setting :theme, :string, 'default'
