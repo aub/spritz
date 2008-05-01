@@ -55,12 +55,19 @@ describe Portfolio do
   
   describe "as nested set" do
     define_models :portfolio
+
+    before(:each) do
+      @a = Portfolio.create(:title => 'hey')
+      @b = Portfolio.create(:title => 'bye')
+      @b.move_to_child_of(@a)      
+    end
     
     it "should allow addition of children" do
-      a = Portfolio.create(:title => 'hey')
-      b = Portfolio.create(:title => 'bye')
-      b.move_to_child_of(a)
-      a.children.should == [b]
+      @a.children.should == [@b]
+    end
+    
+    it "should destroy the children when the parent is destroyed" do
+      lambda { @a.destroy }.should change(Portfolio, :count).by(-2)
     end
   end
 end

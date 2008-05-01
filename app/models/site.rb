@@ -11,7 +11,7 @@ class Site < ActiveRecord::Base
 
   has_many :links, :dependent => :destroy
 
-  has_many :portfolios, :dependent => :destroy, :conditions => 'parent_id is NULL' do
+  has_many :portfolios, :dependent => :destroy do
     def create_with_parent_id(params, parent_id)
       returning proxy_owner.portfolios.create(params) do |portfolio|
         if portfolio.valid?
@@ -21,6 +21,10 @@ class Site < ActiveRecord::Base
           end
         end
       end
+    end
+    
+    def find_roots
+      find :all, :conditions => 'parent_id is NULL'
     end
   end
 

@@ -1,0 +1,7 @@
+.box
+  %h2.boxheader Subpages
+  %ul.cleanlist
+    - portfolio.children.each do |child|
+      %li.boxcontent
+        = child.title
+        = link_to 'Edit', edit_admin_portfolio_path(child)

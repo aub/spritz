@@ -7,7 +7,7 @@ include AuthenticatedTestHelper
 describe User do
   define_models :users do
     model Site do
-      stub :other, :subdomain => 'oth'
+      stub :other, :subdomain => 'oth', :domain => 'www.other.com'
     end
   end
   

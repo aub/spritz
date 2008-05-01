@@ -67,23 +67,27 @@ describe Site do
   describe "relationship to portfolios" do
     define_models :site do
       model Portfolio do
-        stub :uno, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 2
+        stub :uno, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 4
         stub :due, :site => all_stubs(:site), :parent_id => nil
-        stub :tre, :site => all_stubs(:site), :parent_id => all_stubs(:uno_portfolio).object_id
+        stub :tre, :site => all_stubs(:site), :parent_id => all_stubs(:uno_portfolio).object_id, :lft => 2, :rgt => 3
         stub :quatro, :site => all_stubs(:other_site), :parent_id => nil, :lft => 1, :rgt => 2
       end
     end
     
     it "should have a collection of portfolios" do
-      sites(:default).portfolios.sort_by(&:id).should == [portfolios(:uno), portfolios(:due)].sort_by(&:id)
+      sites(:default).portfolios.sort_by(&:id).should == [portfolios(:uno), portfolios(:due), portfolios(:tre)].sort_by(&:id)
     end
     
-    it "should not include portfolios whose parent_id is nil" do
-      sites(:default).portfolios.include?(portfolios(:tre)).should be_false
+    it "should include portfolios that are not at the top level" do
+      sites(:default).portfolios.include?(portfolios(:tre)).should be_true
     end
     
-    it "should destroy the portfolios when destroyed" do
-      lambda { sites(:default).destroy }.should change(Portfolio, :count).by(-2)
+    it "should destroy the portfolios recursively when destroyed" do
+      lambda { sites(:default).destroy }.should change(Portfolio, :count).by(-3)
+    end
+
+    it "should provide a method for only accessing the top-level portfolios" do
+      sites(:default).portfolios.find_roots.sort_by(&:id).should == [portfolios(:uno), portfolios(:due)].sort_by(&:id)
     end
     
     describe "creation of child portfolios with a parent" do

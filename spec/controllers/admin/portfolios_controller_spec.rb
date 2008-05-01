@@ -309,6 +309,11 @@ describe Admin::PortfoliosController do
     it "should not delete portfolios that are not part of the site" do
       lambda { delete :destroy, :id => portfolios(:tre).id }.should_not change(Portfolio, :count)
     end
+    
+    it "should return not found for portfolios not in the site" do
+      delete :destroy, :id => portfolios(:tre).id
+      response.should be_missing
+    end
   end
   
   describe "site, login, and admin requirements" do

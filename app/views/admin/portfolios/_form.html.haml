@@ -1,7 +1,11 @@
-%p
-  %label{ :for => "title" } Title
-  = f.text_field :title
+%dl
+  %dt= f.label_for :title
+  %dd= f.text_field :title, :class => 'big'
+  %dt= f.label_for :body
+  %dd
+    ~ f.text_area :body, :class => 'big', :rows => '8'
 
 %p
-  %label{ :for => "body" } Body
-  = f.text_area :body
+  = f.submit 'Save Page'
+  or
+  = link_to "Cancel", admin_portfolios_path

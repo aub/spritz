@@ -2,8 +2,10 @@
 
 - form_for @portfolio, :url => admin_portfolio_path(@portfolio) do |f|
   = render :partial => 'form', :locals => { :f => f }
-  %p= f.submit 'Update Portfolio'
+
+= render :partial => 'portfolio', :locals => { :portfolio => @portfolio }
+
+= link_to_new_portfolio
 
 = render :partial => 'assets'
 
-= link_to_new_portfolio
