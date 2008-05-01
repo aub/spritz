@@ -11,7 +11,7 @@ describe Admin::PortfoliosHelper do
   describe "link_to_new_portfolio method" do
     define_models :portfolios_helper do
       model Portfolio do
-        stub :one
+        stub :one, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 2
       end
     end
     

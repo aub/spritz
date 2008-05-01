@@ -6,6 +6,7 @@ ModelStubbing.define_models do
   
   model Site do
     stub :domain => 'www.test.com', :subdomain => 'testo', :settings => {:title=>"hacko!"}
+    stub :other, :domain => 'www.other.com', :subdomain => 'oth', :settings => {:title=>"other-o!"}
   end
   
   model User do
@@ -27,6 +28,7 @@ ModelStubbing.define_models do
   
   model Membership do
     stub :admin_on_default, :user => all_stubs(:admin_user), :site => all_stubs(:site)
+    stub :admin_on_other, :user => all_stubs(:admin_user), :site => all_stubs(:other_site)
     stub :nonadmin_on_default, :user => all_stubs(:nonadmin_user), :site => all_stubs(:site)
     stub :unactivated_on_default, :user => all_stubs(:unactivated_user), :site => all_stubs(:site)
   end  

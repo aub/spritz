@@ -7,8 +7,8 @@ describe Admin::AssignedAssetsController do
       stub :one, :site => all_stubs(:site), :lft => 1, :rgt => 2
     end
     model Asset do
-      stub :one, :site => all_stubs(:site)
-      stub :two, :site => all_stubs(:site)
+      stub :one, :site => all_stubs(:site), :filename => 'fake1'
+      stub :two, :site => all_stubs(:site), :filename => 'fake2'
     end
     model AssignedAsset do
       stub :one, :portfolio => all_stubs(:one_portfolio), :asset => all_stubs(:one_asset)

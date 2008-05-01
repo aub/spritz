@@ -7,8 +7,8 @@ describe SiteDrop do
       stub :two, :site => all_stubs(:site)
     end
     model Portfolio do
-      stub :one, :site => all_stubs(:site), :parent_id => nil
-      stub :two, :site => all_stubs(:site), :parent_id => all_stubs(:one_site).object_id
+      stub :one, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 4
+      stub :two, :site => all_stubs(:site), :parent_id => 1, :lft => 2, :rgt => 3
     end
   end
   

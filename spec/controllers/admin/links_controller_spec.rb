@@ -3,9 +3,6 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe Admin::LinksController do
   
   define_models :links_controller do
-    model Site do
-      stub :other
-    end
     model Link do
       stub :one, :site => all_stubs(:site)
       stub :two, :site => all_stubs(:site)

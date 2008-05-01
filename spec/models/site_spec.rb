@@ -1,11 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Site do
-  define_models :site do
-    model Site do
-      stub :other, :subdomain => 'hold', :domain => 'none'
-    end
-  end
+  define_models :site
   
   before(:each) do
     @site = Site.new
@@ -67,11 +63,15 @@ describe Site do
   describe "relationship to portfolios" do
     define_models :site do
       model Portfolio do
-        stub :uno, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 4
-        stub :due, :site => all_stubs(:site), :parent_id => nil
-        stub :tre, :site => all_stubs(:site), :parent_id => all_stubs(:uno_portfolio).object_id, :lft => 2, :rgt => 3
-        stub :quatro, :site => all_stubs(:other_site), :parent_id => nil, :lft => 1, :rgt => 2
+        stub :uno, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 2
+        stub :due, :site => all_stubs(:site), :parent_id => nil, :lft => 3, :rgt => 4
+        stub :tre, :site => all_stubs(:site), :parent_id => nil, :lft => 5, :rgt => 6
+        stub :quatro, :site => all_stubs(:other_site), :parent_id => nil, :lft => 7, :rgt => 8
       end
+    end
+    
+    before(:each) do
+      portfolios(:tre).move_to_child_of(portfolios(:uno))
     end
     
     it "should have a collection of portfolios" do
@@ -87,7 +87,7 @@ describe Site do
     end
 
     it "should provide a method for only accessing the top-level portfolios" do
-      sites(:default).portfolios.find_roots.sort_by(&:id).should == [portfolios(:uno), portfolios(:due)].sort_by(&:id)
+      sites(:default).root_portfolios.sort_by(&:id).should == [portfolios(:uno), portfolios(:due)].sort_by(&:id)
     end
     
     describe "creation of child portfolios with a parent" do
@@ -216,8 +216,12 @@ describe Site do
       model Asset do
         stub :one, :site => all_stubs(:site), :thumbnail => nil, :parent_id => nil, :filename => 'back', :thumbnails_count => 1
         stub :two, :site => all_stubs(:site), :thumbnail => nil, :parent_id => nil, :filename => 'wack'
-        stub :tre, :site => all_stubs(:site), :thumbnail => 'display', :parent_id => all_stubs(:one_asset).object_id, :filename => 'smack'
+        stub :tre, :site => all_stubs(:site), :thumbnail => 'display', :parent_id => nil, :filename => 'smack'
       end
+    end
+    
+    before(:each) do
+      assets(:tre).update_attribute(:parent_id, assets(:one).id)
     end
     
     it "should have a collection of assets" do

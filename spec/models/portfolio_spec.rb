@@ -4,11 +4,11 @@ describe Portfolio do
   
   define_models :portfolio do
     model Portfolio do
-      stub :one, :site => all_stubs(:site)
+      stub :one, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 4
     end
     model Asset do
-      stub :one, :site => all_stubs(:site)
-      stub :two, :site => all_stubs(:site)
+      stub :one, :site => all_stubs(:site), :filename => 'fake1'
+      stub :two, :site => all_stubs(:site), :filename => 'fake2'
     end
     model AssignedAsset do
       stub :one, :asset => all_stubs(:one_asset), :portfolio => all_stubs(:one_portfolio)

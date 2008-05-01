@@ -3,9 +3,6 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe Admin::PortfoliosController do
   
   define_models :portfolios_controller do
-    model Site do
-      stub :other
-    end
     model Portfolio do
       stub :one, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 2
       stub :two, :site => all_stubs(:site), :parent_id => nil, :lft => 3, :rgt => 4

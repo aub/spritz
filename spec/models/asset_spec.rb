@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe Asset do
   define_models :asset do
     model Asset do
-      stub :one, :site => all_stubs(:site)
+      stub :one, :site => all_stubs(:site), :filename => 'fake1'
     end
   end
     

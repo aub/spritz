@@ -7,7 +7,7 @@ class Admin::PortfoliosController < Admin::AdminController
   def index
     # This find helper will get the portfolios that are at the root of
     # the tree (i.e. they have no parent).
-    @portfolios = @site.portfolios.find_roots
+    @portfolios = @site.root_portfolios
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @portfolios }

@@ -5,11 +5,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 include AuthenticatedTestHelper
 
 describe User do
-  define_models :users do
-    model Site do
-      stub :other, :subdomain => 'oth', :domain => 'www.other.com'
-    end
-  end
+  define_models :users
   
   describe 'being created' do
     define_models :users
@@ -76,26 +72,22 @@ describe User do
   end
 
   describe "authentication" do
-    define_models :users do
-      model Site do
-        stub :fake
-      end
-    end
+    define_models :users
     
     it "should authenticates users by site" do
       User.authenticate_for(sites(:default), 'admin', 'test').should == users(:admin)
     end
     
     it "should not authenticate for a non-member site" do
-      User.authenticate_for(sites(:fake), 'nonadmin', 'test').should be_nil
+      User.authenticate_for(sites(:other), 'nonadmin', 'test').should be_nil
     end
     
     it "should authenticate admin for all sites" do
-      User.authenticate_for(sites(:fake), 'admin', 'test').should == users(:admin)
+      User.authenticate_for(sites(:other), 'admin', 'test').should == users(:admin)
     end
     
     it "should fail authentication with the wrong login/password" do
-      User.authenticate_for(sites(:fake), 'admin', 'oops').should be_nil
+      User.authenticate_for(sites(:other), 'admin', 'oops').should be_nil
     end
     
     it "should not authenticate suspended users" do
@@ -190,11 +182,7 @@ describe User do
   end
 
   describe "relationship to memberships" do
-    define_models :users do
-      model Membership do
-        stub :admin_on_other, :site => all_stubs(:other_site), :user => all_stubs(:admin_user)
-      end
-    end
+    define_models :users
     
     it "should have many memberships" do
       users(:admin).memberships.sort_by(&:site_id).should == [memberships(:admin_on_default), memberships(:admin_on_other)].sort_by(&:site_id)

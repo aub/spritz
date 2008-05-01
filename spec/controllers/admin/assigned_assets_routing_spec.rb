@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe Admin::LinksController do
+describe Admin::AssignedAssetsController do
   describe "route generation" do
 
     it "should map { :controller => 'admin/assigned_assets', :action => 'create', :portfolio_id => '1'} to /portfolios/1/assigned_assets" do

@@ -1,11 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe Admin::SitesController do
-  define_models :sites_controller do
-    model Site do
-      stub :other, :subdomain => 'hacky'
-    end
-  end
+  define_models :sites_controller
   
   before(:each) do
     activate_site :default

@@ -11,7 +11,7 @@ class Site < ActiveRecord::Base
 
   has_many :links, :dependent => :destroy
 
-  has_many :portfolios, :dependent => :destroy do
+  has_many :portfolios do
     def create_with_parent_id(params, parent_id)
       returning proxy_owner.portfolios.create(params) do |portfolio|
         if portfolio.valid?
@@ -22,11 +22,12 @@ class Site < ActiveRecord::Base
         end
       end
     end
-    
-    def find_roots
-      find :all, :conditions => 'parent_id is NULL'
-    end
   end
+
+  # This is necessary both because it's nice to get access to only the root level portfolios
+  # and because and because we only want to destroy the top ones when the site is being destroyed,
+  # since the plugin will handle deletion of the children.
+  has_many :root_portfolios, :class_name => 'Portfolio', :conditions => 'parent_id is NULL', :dependent => :destroy
 
   serialize :settings, Hash
 

@@ -22,17 +22,16 @@ describe Membership do
   end
   
   define_models :membership do
-    model Site do
-      stub :cupcake, :domain => 'cupcake.com'
-    end
-    
     model User do
-      stub :deleted, :login => "aaron",  :admin => false, :deleted_at => current_time - 5.minutes, :state => 'deleted'
+      stub :deleted, :login => 'deleted', :email => 'deleted@example.com', :remember_token => 'deletedtoken', :admin => false,
+        :salt => '7e3041ebc2fc05a40c60028e2c4901a81035d3cd', :crypted_password => '00742970dc9e6319f8019fd54864d3ea740f04b1',
+        :state => 'deleted', :created_at => Time.now.utc - 3.days, :activated_at => 3.months.ago.utc, 
+        :remember_token_expires_at => 2.weeks.from_now.utc
     end
     
     model Membership do
       stub :admin_on_default,   :site => all_stubs(:site),         :user => all_stubs(:admin_user)
-      stub :admin_on_cupcake,   :site => all_stubs(:cupcake_site), :user => all_stubs(:admin_user)
+      stub :admin_on_other,   :site => all_stubs(:other_site), :user => all_stubs(:admin_user)
       stub :deleted_on_default, :site => all_stubs(:site),         :user => all_stubs(:deleted_user)
     end
   end
