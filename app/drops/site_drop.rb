@@ -6,6 +6,7 @@ class SiteDrop < BaseDrop
   end
   
   def portfolios
-    @portfolios ||= source.portfolios.collect(&:to_liquid)
+    # This method should return only the root-level portfolios.
+    @portfolios ||= source.portfolios.find_roots.collect(&:to_liquid)
   end
 end

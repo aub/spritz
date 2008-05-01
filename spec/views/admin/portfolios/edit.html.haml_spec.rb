@@ -8,6 +8,7 @@ describe "/admin/portfolios/edit.html.haml" do
     @portfolio.stub!(:title).and_return("MyString")
     @portfolio.stub!(:body).and_return("MyText")
     @portfolio.stub!(:assigned_assets).and_return([])
+    @portfolio.stub!(:children).and_return([])
     assigns[:portfolio] = @portfolio
     
     @site = mock_model(Site)
