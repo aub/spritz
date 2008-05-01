@@ -30,8 +30,6 @@ describe Membership do
     end
     
     model Membership do
-      stub :admin_on_default,   :site => all_stubs(:site),         :user => all_stubs(:admin_user)
-      stub :admin_on_other,   :site => all_stubs(:other_site), :user => all_stubs(:admin_user)
       stub :deleted_on_default, :site => all_stubs(:site),         :user => all_stubs(:deleted_user)
     end
   end

@@ -1,6 +1,8 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-class FakeClass
+class FakeClass < ActiveRecord::Base
+  set_table_name 'sites'
+  
   include SettingsManager
   def settings
     @settings ||= {}
@@ -34,13 +36,6 @@ describe SettingsManager do
       f = FakeClass.new
       f.test = false
       f.settings.should == { :test => false }
-    end
-    
-    it "should save the object after setting an attribute" do
-      FakeClass.setting(:test, :integer, 2)
-      f = FakeClass.new
-      f.should_receive(:save!).and_return(true)
-      f.test = 12      
     end
     
     it "should canonicalize boolean values before saving" do

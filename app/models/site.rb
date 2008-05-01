@@ -34,12 +34,6 @@ class Site < ActiveRecord::Base
   setting :theme, :string, 'default'
   setting :title, :string, ''
 
-  # Initialize the settings to something.
-  def initialize(*args)
-    super
-    self.settings ||= {}
-  end
-  
   # A method for finding a site given a domain or subdomains from a request.
   # Will be called with every request in order to display the correct data.
   def self.for(domain, subdomains)

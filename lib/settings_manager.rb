@@ -14,32 +14,28 @@ module SettingsManager
       fields[name] = Field.new(name, type, default)
       add_setting_accessor(fields[name])
     end
-    
+        
     private
-    
+
     def add_setting_accessor(field)
-      add_setting_reader(field)
-      add_setting_writer(field)
-    end
-    
-    def add_setting_reader(field)
-      self.send(:define_method, "#{field.name}") do
-        raw_value = settings[field.name]
-        raw_value.nil? ? field.default : raw_value
-      end
-      if field.ruby_type == :boolean
-        self.send(:define_method, "#{field.name}?") do
-          raw_value = settings[field.name]
-          raw_value.nil? ? field.default : raw_value
+      class_eval <<-END, __FILE__, __LINE__
+        def #{field.name}
+          write_attribute(:settings, {}) if read_attribute(:settings).nil?
+          settings[#{field.name.inspect}].blank? ? #{field.default.inspect} : settings[#{field.name.inspect}]
         end
-      end
-    end
-    
-    def add_setting_writer(field)
-      self.send(:define_method, "#{field.name}=") do |newvalue|
-        retval = settings[field.name] = canonicalize(field.name, newvalue)
-        self.save! unless new_record?
-        retval
+        
+        def #{field.name}=(value)
+          write_attribute(:settings, {}) if read_attribute(:settings).nil?
+          settings[#{field.name.inspect}] = canonicalize(#{field.name.inspect}, value)
+        end
+      END
+      if field.ruby_type == :boolean
+        class_eval <<-END, __FILE__, __LINE__
+            def #{field.name}?
+              write_attribute(:settings, {}) if read_attribute(:settings).nil?
+              settings[#{field.name.inspect}].blank? ? #{field.default.inspect} : settings[#{field.name.inspect}]
+            end
+          END
       end
     end
   end

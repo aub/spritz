@@ -142,13 +142,10 @@ describe Site do
       sites(:default).testy.should == 2
     end
     
-    it "should have a default value for the settings (empty hash)" do
-      Site.new.settings.should == {}
-    end
-    
     it "should save and reload the settings" do
       Site.setting(:test, :integer, 2)
       sites(:default).test = 12
+      sites(:default).save
       sites(:default).reload.test.should == 12      
     end
   end
@@ -159,12 +156,14 @@ describe Site do
     it "should have a setting for the theme" do
       Site.new.theme.should == 'default'
       sites(:default).theme = 'booya'
+      sites(:default).save
       sites(:default).reload.theme.should == 'booya'
     end
     
     it "should have a setting for the title" do
       Site.new.title.should == ''
       sites(:default).title = 'booya'
+      sites(:default).save
       sites(:default).reload.title.should == 'booya'
     end
   end
