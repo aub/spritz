@@ -11,6 +11,7 @@ class Asset < ActiveRecord::Base
   # kinds of assets.
   acts_as_asset
   
+  attr_accessible :uploaded_data
     
   validates_as_attachment
   validates_presence_of :site_id
