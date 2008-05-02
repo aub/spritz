@@ -12,11 +12,14 @@ describe Admin::LinksController do
   
   before(:each) do
     activate_site(:default)
-    login_as(:admin)
   end
   
   describe "handling GET /links" do
     define_models :links_controller
+
+    before(:each) do
+      login_as(:admin)
+    end
 
     def do_get
       get :index
@@ -40,6 +43,10 @@ describe Admin::LinksController do
 
   describe "handling GET /links.xml" do
     define_models :links_controller
+
+    before(:each) do
+      authorize_as(:admin)
+    end
   
     def do_get
       @request.env["HTTP_ACCEPT"] = "application/xml"
@@ -59,6 +66,10 @@ describe Admin::LinksController do
 
   describe "handling GET /links/1" do
     define_models :links_controller
+
+    before(:each) do
+      login_as(:admin)
+    end
     
     def do_get
       get :show, :id => links(:one).id
@@ -72,6 +83,10 @@ describe Admin::LinksController do
 
   describe "handling GET /links/1.xml" do
     define_models :links_controller
+    
+    before(:each) do
+      authorize_as(:admin)
+    end
     
     def do_get
       @request.env["HTTP_ACCEPT"] = "application/xml"
@@ -97,6 +112,10 @@ describe Admin::LinksController do
 
   describe "handling GET /links/new" do
     define_models :links_controller
+
+    before(:each) do
+      login_as(:admin)
+    end
     
     def do_get
       get :new
@@ -130,6 +149,10 @@ describe Admin::LinksController do
 
   describe "handling GET /links/1/edit" do
     define_models :links_controller
+
+    before(:each) do
+      login_as(:admin)
+    end
     
     def do_get
       get :edit, :id => links(:one).id
@@ -153,12 +176,16 @@ describe Admin::LinksController do
 
   describe "handling POST /links" do
     define_models :links_controller
+
+    before(:each) do
+      login_as(:admin)
+    end
     
     describe "with successful save" do
       define_models :links_controller
     
       def do_post
-        post :create, :link => {}
+        post :create, :link => { :url => 'hack' }
       end
 
       it "should create a new link" do
@@ -169,12 +196,28 @@ describe Admin::LinksController do
         do_post
         response.should redirect_to(admin_links_url)
       end
-      
+
+      describe "with failed save" do
+        define_models :links_controller
+
+        def do_post
+          post :create, :link => {}
+        end
+
+        it "should re-render 'new'" do
+          do_post
+          response.should render_template('new')
+        end
+      end
     end
   end
 
   describe "handling PUT /links/1" do
     define_models :links_controller
+
+    before(:each) do
+      login_as(:admin)
+    end
 
     describe "with successful update" do
       define_models :links_controller
@@ -198,10 +241,27 @@ describe Admin::LinksController do
         response.should redirect_to(admin_links_url)
       end
     end
+    
+    describe "with failed update" do
+      define_models :links_controller
+      
+      def do_put
+        put :update, :id => links(:one).id, :link => { :url => 'ab' }
+      end
+
+      it "should re-render 'edit'" do
+        do_put
+        response.should render_template('edit')
+      end
+    end
   end
 
   describe "handling DELETE /links/1" do
     define_models :links_controller
+
+    before(:each) do
+      login_as(:admin)
+    end
       
     def do_delete
       delete :destroy, :id => links(:one).id
