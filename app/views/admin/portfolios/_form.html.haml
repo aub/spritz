@@ -1,9 +1,9 @@
 %dl
   %dt= f.label_for :title
-  %dd= f.text_field :title, :class => 'big'
+  %dd= f.text_field :title, :class => 'large'
   %dt= f.label_for :body
   %dd
-    ~ f.text_area :body, :class => 'big', :rows => '8'
+    ~ f.text_area :body, :class => 'large', :rows => '8'
 
 %p
   = f.submit 'Save Page'

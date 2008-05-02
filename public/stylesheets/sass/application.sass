@@ -41,10 +41,6 @@ body
   :width 360px
   
   form
-    :-moz-border-radius-bottomleft 5px
-    :-moz-border-radius-bottomright 5px
-    :-moz-border-radius-topleft 5px
-    :-moz-border-radius-topright 5px
     :font-weight normal
     :margin-left 8px
     :padding 16px 16px 40px 16px
@@ -64,10 +60,6 @@ body
     :margin-bottom 15px
     
     input
-      :-moz-border-radius-bottomleft 3px
-      :-moz-border-radius-bottomright 3px
-      :-moz-border-radius-topleft 3px
-      :-moz-border-radius-topright 3px
       :border 1px solid
       :cursor default
       :font-family "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif
@@ -179,16 +171,17 @@ h1 a
   :padding 20px 20px 0px 20px
   
 form .group dl
-  :-moz-border-radius-bottomleft 5px
-  :-moz-border-radius-bottomright 5px
-  :-moz-border-radius-topleft 5px
-  :-moz-border-radius-topright 5px
   :font-weight normal
   :margin-left 8px
   :background-color = !pale_grey
   :margin 0pt
   :padding 20px
 
+form .group dl, #login-form form, #login-form .submit input
+  :-moz-border-radius-bottomleft 5px
+  :-moz-border-radius-bottomright 5px
+  :-moz-border-radius-topleft 5px
+  :-moz-border-radius-topright 5px
 
 #available-sections
   :float left
