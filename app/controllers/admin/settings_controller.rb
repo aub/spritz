@@ -11,7 +11,7 @@ class Admin::SettingsController < Admin::AdminController
   def update
     respond_to do |format|
       if @site.update_attributes(params[:site])
-        flash[:notice] = 'Site was successfully updated.'
+        flash[:notice] = 'Settings were successfully updated.'
         format.html { redirect_to(edit_admin_settings_path) }
         format.xml  { head :ok }
       else
