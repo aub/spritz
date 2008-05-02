@@ -1,6 +1,4 @@
-%tr
-  %td
-  %td= link_to asset_image_tag(asset, :thumb), edit_admin_asset_path(asset)
-  %td Fields
-  %td= link_to 'Destroy', admin_asset_path(asset), :confirm => 'Are you sure?', :method => :delete
-%tr
+%ul.asset-controls.clear
+  %li= link_to 'e', edit_admin_asset_path(asset), :title => 'Edit'
+  %li= link_to 'd', admin_asset_path(asset), :title => 'Delete', :confirm => 'Are you sure?', :method => :delete
+= asset_image_tag(asset, :thumb)

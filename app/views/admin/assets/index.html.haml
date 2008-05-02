@@ -1,16 +1,8 @@
-%h1 Listing assets
-
-%table
-  %thead
-    %tr
-      %th 
-      %th Image
-      %th Fields
-      %th Destroy
-    %tr
-  %tbody
-  = render :partial => 'asset', :collection => @assets
-
-%br
-
-= link_to 'New asset', new_admin_asset_path
+.box
+  .boxheader
+    %span.header Assets
+    = link_to 'Add New', new_admin_asset_path
+  .asset-list.boxcontent
+    - @assets.each do |asset|
+      %span
+        = render :partial => 'asset', :object => asset

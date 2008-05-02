@@ -98,6 +98,9 @@ h1 a
 .small
   :font-size 75%
 
+.clear
+  :display block
+
 .header
   :font-size 135%
   :font-weight bold
@@ -165,7 +168,7 @@ h1 a
       :-moz-border-radius-topleft 4px
       :-moz-border-radius-topright 4px
 
-#top-controls, #top-controls a, #available-sections li, #active-sections li, .cleanlist
+#top-controls, #top-controls a, #available-sections li, #active-sections li, .cleanlist, .asset-controls
   :list-style
     :image none
     :position outside
@@ -264,3 +267,23 @@ form .group dl, #login-form form, #login-form .submit input
     :display inline
   div
     :display inline
+
+.asset-list
+  :height 230px
+
+  span
+    :padding-left 7px
+    :padding-bottom 10px
+    :float left
+  
+.asset-controls
+  :margin 0pt 0pt 5px
+  :text-align center
+  :width 70px
+  
+  li
+    :display inline
+    :position relative
+
+    a
+      :font-size 75%
