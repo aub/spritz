@@ -19,6 +19,7 @@ var Flash = {
     if (message.toString().match(/<li/)) message = "<ul>" + message + '</ul>'
     $('flash-' + flashType).innerHTML = message;
     new Effect.Appear('flash-' + flashType, {duration: 0.3});
+    console.log('fade' + flashType[0].toUpperCase() + flashType.slice(1, flashType.length))
     setTimeout(Flash['fade' + flashType[0].toUpperCase() + flashType.slice(1, flashType.length)].bind(this), 5000)
   },
   
@@ -37,7 +38,7 @@ var Flash = {
   },
   
   // Responsible for fading error messages in the DOM
-  fadeError: function() {
+  fadeErrors: function() {
     new Effect.Fade('flash-errors', {duration: 0.3});
   }
 }

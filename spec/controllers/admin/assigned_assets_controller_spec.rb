@@ -17,11 +17,46 @@ describe Admin::AssignedAssetsController do
   
   before(:each) do
     activate_site(:default)
-    login_as(:admin)
   end
+  
+  describe "handling GET /portfolios/1/assigned_assets/new" do
+    define_models :assigned_assets_controller
+
+    before(:each) do
+      login_as(:admin)
+    end
+    
+    def do_get
+      get :new, :portfolio_id => portfolios(:one).id
+    end
+
+    it "should be successful" do
+      do_get
+      response.should be_success
+    end
+  
+    it "should render new template" do
+      do_get
+      response.should render_template('new')
+    end
+  
+    it "should not save the new assigned_asset" do
+      do_get
+      assigns[:assigned_asset].should be_new_record
+    end
+  
+    it "should assign the new assigned asset for the view" do
+      do_get
+      assigns[:assigned_asset].should be_an_instance_of(AssignedAsset)
+    end
+  end  
   
   describe "handling POST /portfolios/1/assigned_assets" do
     define_models :assigned_assets_controller
+    
+    before(:each) do
+      login_as(:admin)
+    end
     
     describe "with successful save" do
       define_models :assigned_assets_controller
@@ -65,6 +100,10 @@ describe Admin::AssignedAssetsController do
   describe "handling DELETE /portfolios/1/assigned_assets/1" do
     define_models :assigned_assets_controller
       
+    before(:each) do
+      login_as(:admin)
+    end
+
     def do_delete
       delete :destroy, :portfolio_id => portfolios(:one).id, :id => assigned_assets(:one).id
     end
@@ -88,12 +127,14 @@ describe Admin::AssignedAssetsController do
     
     it "should require a site" do
       test_site_requirement(true, [
+        lambda { get :new, :portfolio_id => portfolios(:one).id },
         lambda { post :create, :portfolio_id => portfolios(:one).id, :asset_id => assets(:two).id },
         lambda { delete :destroy, :portfolio_id => portfolios(:one).id, :id => assigned_assets(:one).id }])
     end
     
     it "should require regular login" do
       test_login_requirement(true, false, [
+        lambda { get :new, :portfolio_id => portfolios(:one).id },
         lambda { post :create, :portfolio_id => portfolios(:one).id, :asset_id => assets(:two).id },
         lambda { delete :destroy, :portfolio_id => portfolios(:one).id, :id => assigned_assets(:one).id }])
     end

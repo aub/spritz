@@ -1,9 +1,12 @@
-%p
-  %label{ :for => "url" } Url
-  %br
-  = f.text_field :url
+.group
+  %dl
+    %dt= f.label_for :url
+    %dd= f.text_field :url, :class => 'large'
+    %dt= f.label_for :title
+    %dd
+      ~ f.text_field :title, :class => 'large'
+    %dt
+      = f.submit 'Save Link'
+      or
+      = link_to "Cancel", admin_links_path
 
-%p
-  %label{ :for => "title" } Title
-  %br
-  = f.text_field :title

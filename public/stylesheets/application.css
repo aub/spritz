@@ -6,7 +6,7 @@ body {
   border-top-width: 30px;
   border-top-color: #383838;
   font-family: "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   font-size-adjust: none;
   font-stretch: normal;
   font-style: normal;
@@ -46,7 +46,7 @@ a:link, a:visited {
       border: 1px solid;
       cursor: default;
       font-family: "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif;
-      font-size: 13px;
+      font-size: 120%;
       margin-top: -6px;
       padding: 3px 5px;
       text-decoration: none; }
@@ -63,13 +63,16 @@ h1 a {
   width: 360px; }
 
 .large {
-  font-size: 23px; }
+  font-size: 175%; }
 
 .medium {
-  font-size: 20px; }
+  font-size: 150%; }
+
+.small {
+  font-size: 85%; }
 
 .header {
-  font-size: 18px;
+  font-size: 135%;
   font-weight: bold; }
 
 #wrapper {
@@ -111,7 +114,7 @@ h1 a {
   border-bottom-width: 1px;
   padding-left: 11px; }
   #top-controls li a {
-    font-size: 16px;
+    font-size: 125%;
     line-height: 30px;
     padding: 5px 7px;
     text-decoration: none;
@@ -156,7 +159,7 @@ form .group dl {
     font-family: "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif;
     margin: 0pt 0pt 20px 0pt; }
   form .group dl textarea {
-    font-size: 13px;
+    font-size: 125%;
     width: 100%; }
 
 form .group dl, #login-form form, #login-form .submit input {
@@ -180,7 +183,7 @@ form .group dl, #login-form form, #login-form .submit input {
   margin-bottom: 20px; }
 
 .boxheader {
-  background: #d9d9d9;
+  background: #b9b9b9;
   padding: 5px; }
 
 .boxcontent {
@@ -206,4 +209,8 @@ form .group dl, #login-form form, #login-form .submit input {
   position: relative;
   background-color: #d9d9d9;
   margin: 0pt 0pt 0pt 63%;
-  padding: 10px; }
+  padding: 10px 10px 10px 0px; }
+
+#portfolio-ancestors {
+  font-size: 85%;
+  padding-bottom: 15px; }

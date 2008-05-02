@@ -1,24 +1,10 @@
-%h1 Listing portfolios
-
-%table
-  %tr
-    %th Site
-    %th Parent
-    %th Lft
-    %th Rgt
-    %th Title
-    %th Body
-
-  - for portfolio in @portfolios
-    %tr
-      %td= h portfolio.site_id
-      %td= h portfolio.parent_id
-      %td= h portfolio.lft
-      %td= h portfolio.rgt
-      %td= h portfolio.title
-      %td= h portfolio.body
-      %td= link_to 'Show', admin_portfolio_path(portfolio)
-      %td= link_to 'Edit', edit_admin_portfolio_path(portfolio)
-      %td= link_to 'Destroy', admin_portfolio_path(portfolio), :confirm => 'Are you sure?', :method => :delete
-
-= link_to_new_portfolio
+.box
+  .boxheader
+    %span.header Portfolios
+    = link_to_new_portfolio
+  %ul.cleanlist
+    - @portfolios.each do |portfolio|
+      %li.boxcontent
+        = portfolio.title
+        = link_to 'edit', edit_admin_portfolio_path(portfolio)
+        = link_to 'delete', admin_portfolio_path(portfolio), :confirm => 'Are you sure?', :method => :delete

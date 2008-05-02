@@ -1,6 +1,16 @@
 class Admin::AssignedAssetsController < Admin::AdminController
   
   before_filter :find_portfolio
+
+  # GET /portfolios/1/assigned_assets/new
+  # GET /portfolios/1/assigned_assets/new.xml
+  def new
+    @assigned_asset = @portfolio.assigned_assets.build
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @link }
+    end
+  end
   
   # POST /portfolios/1/assigned_assets
   # POST /portfolios/1/assigned_assets.xml
@@ -8,11 +18,11 @@ class Admin::AssignedAssetsController < Admin::AdminController
     @assigned_asset = @portfolio.assigned_assets.create(:asset_id => params[:asset_id])
     respond_to do |format|
       if @assigned_asset.save
-        flash[:notice] = 'Assigned asset was successfully created.'
+        flash[:notice] = 'Successfully added the image.'
         format.html { redirect_to edit_admin_portfolio_path(@portfolio) }
         format.xml  { render :xml => @assigned_asset, :status => :created, :location => @assigned_asset }
       else
-        flash[:error] = "Failed to create the assigned asset"
+        flash[:error] = "Failed to add the image."
         format.html { redirect_to edit_admin_portfolio_path(@portfolio) }
         format.xml  { render :xml => @assigned_asset.errors, :status => :unprocessable_entity }
       end

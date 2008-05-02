@@ -96,9 +96,12 @@ class Admin::PortfoliosController < Admin::AdminController
   # DELETE /admin/portfolios/1
   # DELETE /admin/portfolios/1.xml
   def destroy
+    parent = @portfolio.parent
     @portfolio.destroy
     respond_to do |format|
-      format.html { redirect_to admin_portfolios_path }
+      format.html do
+        redirect_to(parent.nil? ? admin_portfolios_path : edit_admin_portfolio_path(parent))
+      end
       format.xml  { head :ok }
     end
   end

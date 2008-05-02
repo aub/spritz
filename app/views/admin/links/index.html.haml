@@ -1,11 +1,11 @@
 .box
-  %h2.boxheader Links
+  .boxheader
+    %span.header Links
+    = link_to 'Add New', new_admin_link_path
   %ul.cleanlist
     - @links.each do |link|
       %li.boxcontent
-        = link.url
         = link.title
-        = link_to 'Edit', edit_admin_link_path(link)
-        = link_to 'Delete', admin_link_path(link), :method => :delete
+        = link_to 'edit', edit_admin_link_path(link)
+        = link_to 'delete', admin_link_path(link), :method => :delete
 
-= link_to 'New Link', new_admin_link_path

@@ -1,0 +1,6 @@
+%ul
+  - @site.assets.each do |asset|
+    %li
+      - form_tag admin_portfolio_assigned_assets_path(@portfolio) do
+        = hidden_field_tag 'asset_id', asset.id
+        = image_submit_tag asset.public_filename(:thumb)

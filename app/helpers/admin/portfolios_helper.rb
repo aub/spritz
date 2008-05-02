@@ -4,7 +4,17 @@ module Admin::PortfoliosHelper
     if (@portfolio)
       link_to "Add New", add_child_admin_portfolio_path(@portfolio)
     else
-      link_to "New Portfolio", new_admin_portfolio_path
+      link_to "Add New", new_admin_portfolio_path
     end
+  end
+  
+  def ancestor_breadcrumbs(portfolio)
+    result = ''
+    portfolio.ancestors.each do |ancestor|
+      result << '> '
+      result << link_to(ancestor.title, edit_admin_portfolio_path(ancestor))
+      result << ' '
+    end
+    result
   end
 end

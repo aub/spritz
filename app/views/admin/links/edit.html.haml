@@ -1,3 +1,2 @@
-- form_for :link, :url => admin_link_path(@link) do |f|
+- form_for :link, :url => admin_link_path(@link), :html => { :method => :put } do |f|
   = render :partial => 'form', :locals => { :f => f }
-  %p= f.submit 'Update Link'

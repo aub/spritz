@@ -3,8 +3,11 @@
     %span.header Subpages
     = link_to_new_portfolio
   %ul.cleanlist
-    - portfolio.children.each do |child|
+    - if portfolio.children.empty?
       %li.boxcontent
-        = child.title
-        = link_to 'edit', edit_admin_portfolio_path(child)
-        = link_to 'delete', admin_portfolio_path(portfolio), :confirm => 'Are you sure?', :method => :delete
+    - else
+      - portfolio.children.each do |child|
+        %li.boxcontent
+          = child.title
+          = link_to 'edit', edit_admin_portfolio_path(child)
+          = link_to 'delete', admin_portfolio_path(child), :confirm => 'Are you sure?', :method => :delete

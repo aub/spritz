@@ -248,7 +248,7 @@ module Technoweenie # :nodoc:
           thumb.content_type = content_type
           thumb.filename = thumbnail_name_for(file_name_suffix)
           thumb.temp_path = temp_file
-          thumbnail_resize_options = size
+          thumb.thumbnail_resize_options = size
           callback_with_args :before_thumbnail_saved, thumb
           thumb.save!
         end

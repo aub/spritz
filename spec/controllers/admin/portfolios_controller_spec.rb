@@ -7,6 +7,7 @@ describe Admin::PortfoliosController do
       stub :one, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 2
       stub :two, :site => all_stubs(:site), :parent_id => nil, :lft => 3, :rgt => 4
       stub :tre, :site => all_stubs(:other_site), :parent_id => nil, :lft => 1, :rgt => 2
+      stub :quatro, :site => all_stubs(:site), :parent_id => nil, :lft => 5, :rgt => 6
     end
   end
   
@@ -298,9 +299,15 @@ describe Admin::PortfoliosController do
       lambda { do_delete }.should change(Portfolio, :count).by(-1)
     end
   
-    it "should redirect to the portfolios list" do
+    it "should redirect to the portfolios list when the portfolio has no parent" do
       do_delete
       response.should redirect_to(admin_portfolios_url)
+    end
+    
+    it "should redirect to the edit page for the parent if it exists" do
+      portfolios(:quatro).move_to_child_of(portfolios(:one))
+      delete :destroy, :id => portfolios(:quatro).id
+      response.should redirect_to(edit_admin_portfolio_path(portfolios(:one)))
     end
     
     it "should not delete portfolios that are not part of the site" do
