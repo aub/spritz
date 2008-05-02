@@ -5,6 +5,14 @@ describe Asset do
     model Asset do
       stub :one, :site => all_stubs(:site), :filename => 'fake1'
     end
+    model Portfolio do
+      stub :one, :site => all_stubs(:site)
+      stub :two, :site => all_stubs(:site)
+    end
+    model AssignedAsset do
+      stub :one, :portfolio => all_stubs(:one_portfolio), :asset => all_stubs(:one_asset)
+      stub :two, :portfolio => all_stubs(:two_portfolio), :asset => all_stubs(:one_asset)
+    end
   end
     
   describe "validations" do
@@ -47,6 +55,18 @@ describe Asset do
     
     it "should create thumbnails" do
       assets(:one).thumbnails.size.should == 3
+    end
+  end
+
+  describe "relationship to assigned assets" do
+    define_models :asset
+    
+    it "should have a collection of assigned assets" do
+      assets(:one).assigned_assets.sort_by(&:id).should == [assigned_assets(:one), assigned_assets(:two)].sort_by(&:id)
+    end
+    
+    it "should destroy the assigned assets when it is destroyed" do
+      lambda { assets(:one).destroy }.should change(AssignedAsset, :count).by(-2)
     end
   end
   

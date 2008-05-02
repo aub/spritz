@@ -11,6 +11,8 @@ class Asset < ActiveRecord::Base
   # kinds of assets.
   acts_as_asset
   
+  has_many :assigned_assets, :dependent => :destroy
+  
   attr_accessible :uploaded_data
     
   validates_as_attachment
