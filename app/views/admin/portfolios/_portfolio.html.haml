@@ -1,9 +1,10 @@
 .box
   .boxheader
-    %h2 Subpages
+    %span.header Subpages
     = link_to_new_portfolio
   %ul.cleanlist
     - portfolio.children.each do |child|
       %li.boxcontent
         = child.title
-        = link_to 'Edit', edit_admin_portfolio_path(child)
+        = link_to 'edit', edit_admin_portfolio_path(child)
+        = link_to 'delete', admin_portfolio_path(portfolio), :confirm => 'Are you sure?', :method => :delete

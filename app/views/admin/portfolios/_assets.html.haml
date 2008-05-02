@@ -1,13 +1,11 @@
-%h1 PORTFOLIO IMAGES
-  
-%ul
-  - @portfolio.assigned_assets.each do |assigned_asset|
-    %li
-      - form_tag admin_portfolio_assigned_asset_path(@portfolio, assigned_asset), :method => :delete do
-        = hidden_field_tag 'assigned_asset_id', assigned_asset.id
-        = image_submit_tag assigned_asset.asset.public_filename(:thumb)
-    
-%h1 SITE IMAGES
+.box
+  .boxheader
+    %span.header Images in this Portfolio
+    = link_to 'Add', new_admin_portfolio_assigned_asset_path(@portfolio)
+  %ul.cleanlist
+    %li.boxcontent
+      - @portfolio.assigned_assets.each do |assigned_asset|
+        = image_tag assigned_asset.asset.public_filename(:thumb)
 
 %ul
   - @site.assets.each do |asset|

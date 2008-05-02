@@ -3,7 +3,7 @@
 - form_for @portfolio, :url => admin_portfolio_path(@portfolio) do |f|
   = render :partial => 'form', :locals => { :f => f }
 
-= render :partial => 'portfolio', :locals => { :portfolio => @portfolio }
-
-= render :partial => 'assets'
+- content_for :sidebar do
+  = render :partial => 'portfolio', :locals => { :portfolio => @portfolio }
+  = render :partial => 'assets'
 

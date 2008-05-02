@@ -17,7 +17,7 @@ describe Admin::PortfoliosHelper do
     
     it "should link to the add child path if there is a portfolio" do
       @portfolio = portfolios(:one)
-      link_to_new_portfolio.should == "<a href=\"/admin/portfolios/#{@portfolio.id}/add_child\">Add Subpage</a>"
+      link_to_new_portfolio.should == "<a href=\"/admin/portfolios/#{@portfolio.id}/add_child\">Add New</a>"
     end
     
     it "should link to the normal new path if there is not" do

@@ -7,12 +7,14 @@
 !dark_orange = #af8439
 !dark_grey = #383838
 !pale_grey = #d9d9d9
+!paler_grey = #b9b9b9
 !umber = #6b6350
 !black_grey = #171717
 !light_grey = #8c8282
 !banner_font_color = #bbb
 
-!background_color = #fff
+!content_background_color = #fff
+!background_color = !pale_grey
 !highlight_color = #8c8282
 
 body
@@ -35,6 +37,13 @@ body
 *
   :margin 0pt
   :padding 0pt
+
+a
+  &:link, &:visited
+    :outline none
+    :color #920
+    :border-bottom 1px dotted #888
+    :text-decoration none
 
 #login-form
   :margin 10px auto
@@ -84,7 +93,11 @@ h1 a
   :font-size 23px
 
 .medium
-  :font-site 20px
+  :font-size 20px
+
+.header
+  :font-size 18px
+  :font-weight bold
 
 #wrapper
   :min-height 100%
@@ -141,9 +154,9 @@ h1 a
       :color = !dark_grey
 
     a.current
-      :background-color = !background_color
+      :background-color = !content_background_color
       :border 1px solid
-      :border-color = !highlight_color !highlight_color !background_color
+      :border-color = !highlight_color !highlight_color !content_background_color
       :border-bottom-width 2px
       :color = !cute_orange
       :-moz-border-radius-topleft 4px
@@ -166,16 +179,25 @@ h1 a
   :text-align center
   :white-space nowrap
   :color = !dark_grey
-
-#body
-  :padding 20px 20px 0px 20px
   
-form .group dl
-  :font-weight normal
-  :margin-left 8px
-  :background-color = !pale_grey
-  :margin 0pt
-  :padding 20px
+form .group 
+  dl
+    :font-weight normal
+    :margin-left 8px
+    :background-color = !pale_grey
+    :margin 0pt
+    :padding 20px
+
+    dt
+      :font-weight bold
+
+    input, textarea
+      :font-family "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif
+      :margin 0pt 0pt 20px 0pt
+      
+    textarea
+      :font-size 13px
+      :width 100%
 
 form .group dl, #login-form form, #login-form .submit input
   :-moz-border-radius-bottomleft 5px
@@ -192,15 +214,37 @@ form .group dl, #login-form form, #login-form .submit input
   :width 500px
   :margin-left 75px
   
-.box, #active-sections, #available-sections
+.box
   :border 1px solid
   :border-color = !light_grey
+  :margin-bottom 20px
   
-#available-sections h2, #active-sections h2, .boxheader
+.boxheader
   :background = !pale_grey
   :padding 5px
   
-#available-sections li, #active-sections li, .boxcontent
+.boxcontent
   :padding 10px
   :border-top 1px solid
   :border-top-color = !light_grey
+  
+#main
+  :position relative
+  :float left
+  :width 62%
+  :background-color #fff
+  :min-height 300px
+  :border-right 3px solid
+  :border-right-color = !paler_grey
+  :border-bottom 3px solid
+  :border-bottom-color = !paler_grey
+
+#main-content
+  :padding 20px 20px 20px 20px  
+  
+#sidebar
+  :position relative
+  :background-color = !pale_grey
+  :margin 0pt 0pt 0pt 63%
+  :padding 10px
+  
