@@ -2,13 +2,27 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Site do
   define_models :site
-  
-  before(:each) do
-    @site = Site.new
-  end
 
-  it "should be valid" do
-    @site.should be_valid
+  describe "validations" do
+    before(:each) do
+      @site = Site.new
+    end
+
+    it "should require a title" do
+      @site.should_not be_valid
+      @site.should have(1).error_on(:title)
+    end
+
+    it "should require a theme" do
+      @site.should_not be_valid
+      @site.should have(1).error_on(:theme)
+    end
+    
+    it "should be valid" do
+      @site.title = 'test title'
+      @site.theme = 'default'
+      @site.should be_valid
+    end
   end
 
   describe "accessing the site for a domain and subdomain" do
@@ -134,40 +148,6 @@ describe Site do
     end
   end
   
-  describe "settings management" do
-    define_models :site
-    
-    it "should be a settings manager" do
-      Site.setting(:testy, :integer, 2)
-      sites(:default).testy.should == 2
-    end
-    
-    it "should save and reload the settings" do
-      Site.setting(:test, :integer, 2)
-      sites(:default).test = 12
-      sites(:default).save
-      sites(:default).reload.test.should == 12      
-    end
-  end
-  
-  describe "applied settings" do
-    define_models :site
-    
-    it "should have a setting for the theme" do
-      Site.new.theme.should == 'default'
-      sites(:default).theme = 'booya'
-      sites(:default).save
-      sites(:default).reload.theme.should == 'booya'
-    end
-    
-    it "should have a setting for the title" do
-      Site.new.title.should == ''
-      sites(:default).title = 'booya'
-      sites(:default).save
-      sites(:default).reload.title.should == 'booya'
-    end
-  end
-    
   describe "theme management" do
     define_models :site
     

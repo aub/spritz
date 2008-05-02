@@ -5,8 +5,8 @@ ModelStubbing.define_models do
   time 2007, 6, 15
   
   model Site do
-    stub :domain => 'www.test.com', :subdomain => 'testo', :settings => {:title=>"hacko!"}
-    stub :other, :domain => 'www.other.com', :subdomain => 'oth', :settings => {:title=>"other-o!"}
+    stub :domain => 'www.test.com', :subdomain => 'testo', :theme => 'default', :title => 'Hack Site'
+    stub :other, :domain => 'www.other.com', :subdomain => 'oth', :theme => 'nicer', :title => 'Something Else'
   end
   
   model User do

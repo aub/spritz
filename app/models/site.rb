@@ -1,6 +1,7 @@
 class Site < ActiveRecord::Base
 
-  include SettingsManager
+  validates_presence_of :title
+  validates_presence_of :theme
 
   has_many :memberships, :dependent => :destroy
   has_many :members, :through => :memberships, :source => :user
@@ -28,11 +29,6 @@ class Site < ActiveRecord::Base
   # and because and because we only want to destroy the top ones when the site is being destroyed,
   # since the plugin will handle deletion of the children.
   has_many :root_portfolios, :class_name => 'Portfolio', :conditions => 'parent_id is NULL', :dependent => :destroy
-
-  serialize :settings, Hash
-
-  setting :theme, :string, 'default'
-  setting :title, :string, ''
 
   # A method for finding a site given a domain or subdomains from a request.
   # Will be called with every request in order to display the correct data.

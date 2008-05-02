@@ -52,6 +52,19 @@ describe Admin::SettingsController do
       do_put
       sites(:default).reload.title.should == 'a-title'
     end
+    
+    describe "with failed save" do
+      define_models :settings_controller
+      
+      def do_put
+        put :update, :site => { :title => nil, :theme => nil }
+      end
+      
+      it "should render the edit action" do
+        do_put
+        response.should render_template(:edit)
+      end
+    end
   end
   
   describe "site, login, and admin requirements" do

@@ -1,5 +1,5 @@
 log
-db/*.sqlite3
+db/*.sqlite3*
 coverage
 coverage.data
 public/assets
