@@ -215,3 +215,11 @@ form .group dl, #login-form form, #login-form .submit input {
 #portfolio-ancestors {
   font-size: 85%;
   padding-bottom: 15px; }
+
+.image-list input {
+  margin-left: 7px;
+  margin-top: 5px; }
+.image-list form {
+  display: inline; }
+.image-list div {
+  display: inline; }
