@@ -31,11 +31,11 @@ module SettingsManager
       END
       if field.ruby_type == :boolean
         class_eval <<-END, __FILE__, __LINE__
-            def #{field.name}?
-              write_attribute(:settings, {}) if read_attribute(:settings).nil?
-              settings[#{field.name.inspect}].blank? ? #{field.default.inspect} : settings[#{field.name.inspect}]
-            end
-          END
+          def #{field.name}?
+            write_attribute(:settings, {}) if read_attribute(:settings).nil?
+            settings[#{field.name.inspect}].blank? ? #{field.default.inspect} : settings[#{field.name.inspect}]
+          end
+        END
       end
     end
   end
@@ -50,7 +50,7 @@ module SettingsManager
     def initialize(name_arg, type_arg, default_arg)
       self.name = name_arg
       self.ruby_type = type_arg
-      self.default = default_arg
+      self.default = canonicalize(default_arg)
     end
     
     def canonicalize(value)

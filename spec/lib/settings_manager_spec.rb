@@ -11,6 +11,13 @@ class FakeClass < ActiveRecord::Base
   def save! ; true ; end
 end
 
+class YamlTestClass
+  def initialize
+    @value1 = 2
+    @value2 = 3
+  end
+end
+
 describe SettingsManager do
   
   describe "adding settings" do
@@ -43,6 +50,25 @@ describe SettingsManager do
       f = FakeClass.new
       f.test = 'f'
       f.settings.should == { :test => false }
+    end
+    
+    it "should assume that anything that doesn't look like false is true" do
+      FakeClass.setting(:test, :boolean, false)
+      f = FakeClass.new
+      f.test = 2
+      f.settings.should == { :test => true }
+    end
+    
+    it "should support yaml-type settings" do
+      FakeClass.setting(:test, :yaml, YamlTestClass.new)
+      f = FakeClass.new
+      f.test.should == YamlTestClass.new.to_yaml
+    end
+    
+    it "should just return the value for other types" do
+      FakeClass.setting(:test, :something_random, 25)
+      f = FakeClass.new
+      f.test.should == 25
     end
     
     it "should provide an attribute reader for the setting" do
