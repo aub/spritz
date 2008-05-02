@@ -10,6 +10,8 @@ class Portfolio < ActiveRecord::Base
   has_many :assigned_assets
   has_many :assets, :through => :assigned_assets
   
+  attr_accessible :title, :body
+  
   def to_liquid
     PortfolioDrop.new self
   end

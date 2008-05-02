@@ -2,6 +2,8 @@ require 'digest/sha1'
 class User < ActiveRecord::Base
   @@membership_options = {:select => 'distinct users.*', :order => 'users.login',
     :joins => 'left outer join memberships on users.id = memberships.user_id'}
+
+  attr_accessible :login, :email, :password, :password_confirmation
   
   # Virtual attribute for the unencrypted password
   attr_accessor :password

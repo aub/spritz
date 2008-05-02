@@ -48,10 +48,11 @@ module SymetrieCom
             scope_condition_method = "def scope_condition() \"#{acts_as_nested_set_options[:scope]}\" end"
           end
           
+          # NOTE: I'M REMOVING THIS BECAUSE I'M GOING TO DO IT MYSELF WITH ATTR_ACCESSIBLE.
           # no bulk assignment
-          attr_protected  acts_as_nested_set_options[:left_column].intern,
-                          acts_as_nested_set_options[:right_column].intern,
-                          acts_as_nested_set_options[:parent_column].intern
+          # attr_protected  acts_as_nested_set_options[:left_column].intern,
+          #                 acts_as_nested_set_options[:right_column].intern,
+          #                 acts_as_nested_set_options[:parent_column].intern
           # no assignment to structure fields
           module_eval <<-"end_eval", __FILE__, __LINE__
             def #{acts_as_nested_set_options[:left_column]}=(x)

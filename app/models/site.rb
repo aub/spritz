@@ -3,6 +3,8 @@ class Site < ActiveRecord::Base
   validates_presence_of :title
   validates_presence_of :theme
 
+  attr_accessible :subdomain, :domain, :theme, :title
+  
   has_many :memberships, :dependent => :destroy
   has_many :members, :through => :memberships, :source => :user
   
