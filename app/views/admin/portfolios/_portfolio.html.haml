@@ -1,5 +1,7 @@
 .box
-  %h2.boxheader Subpages
+  .boxheader
+    %h2 Subpages
+    = link_to_new_portfolio
   %ul.cleanlist
     - portfolio.children.each do |child|
       %li.boxcontent
