@@ -74,10 +74,56 @@ describe Admin::UsersController do
     flash[:notice].should be_nil
   end
   
+  describe "handling suspend, unsuspend, destroy, and purge" do
+    define_models :users_controller
+
+    it "should suspend a user" do
+      put :suspend, :id => users(:nonadmin).id
+      users(:nonadmin).reload.state.should == 'suspended'
+    end
+
+    it "should redirect to admin_users_path on suspend" do
+      put :suspend, :id => users(:nonadmin).id
+      response.should redirect_to(admin_users_path)
+    end
+    
+    it "should unsuspend a user" do
+      users(:nonadmin).suspend!
+      put :unsuspend, :id => users(:nonadmin).id
+      users(:nonadmin).reload.state.should == 'active'
+    end
+    
+    it "should redirect to admin_users_path on unsuspend" do
+      put :unsuspend, :id => users(:nonadmin).id
+      response.should redirect_to(admin_users_path)
+    end
+    
+    it "should destroy a user" do
+      delete :destroy, :id => users(:nonadmin).id
+      users(:nonadmin).reload.state.should == 'deleted'      
+    end
+    
+    it "should only change the state on delete, not actually remove the user" do
+      lambda { delete :destroy, :id => users(:nonadmin).id }.should_not change(User, :count)
+    end
+
+    it "should redirect to admin_users_path on destroy" do
+      delete :destroy, :id => users(:nonadmin).id
+      response.should redirect_to(admin_users_path)
+    end
+
+    it "should purge a user by actually deleting it" do
+      lambda { delete :purge, :id => users(:nonadmin).id }.should change(User, :count).by(-1)
+    end
+
+    it "should redirect to admin_users_path on purge" do
+      delete :purge, :id => users(:nonadmin).id
+      response.should redirect_to(admin_users_path)
+    end
+  end
+  
   describe "site, login, and admin requirements" do
     define_models :users_controller
-    
-    # new, create, activate, suspend, unsuspend, destroy, purge
     
     it "should require a site" do
       test_site_requirement(true, [
