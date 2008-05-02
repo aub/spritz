@@ -19,16 +19,6 @@ describe "/admin/assets/edit.html.haml" do
 
   it "should render edit form" do
     render "/admin/assets/edit.html.haml"
-    
-    response.should have_tag("form[action=#{admin_asset_path(@asset)}][method=post]") do
-      with_tag('input#asset_content_type[name=?]', "asset[content_type]")
-      with_tag('input#asset_filename[name=?]', "asset[filename]")
-      with_tag('input#asset_size[name=?]', "asset[size]")
-      with_tag('input#asset_thumbnail[name=?]', "asset[thumbnail]")
-      with_tag('input#asset_width[name=?]', "asset[width]")
-      with_tag('input#asset_height[name=?]', "asset[height]")
-      with_tag('input#asset_thumbnails_count[name=?]', "asset[thumbnails_count]")
-    end
   end
 end
 
