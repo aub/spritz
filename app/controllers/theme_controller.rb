@@ -1,3 +1,6 @@
+# The theme controller handles access to the resources that are used in the current
+# theme. For images, stylesheets, and javascript, it will find the correct file based
+# on the request, set the appropriate headers, and return the data for the requested file.
 class ThemeController < ApplicationController
   session :off
   
@@ -46,8 +49,8 @@ class ThemeController < ApplicationController
       'image/jpeg'
     when /^png$/
       'image/png'
-    when /^swf$/
-      'application/x-shockwave-flash'
+    # when /^swf$/
+    #   'application/x-shockwave-flash'
     else
       'application/binary'
     end
