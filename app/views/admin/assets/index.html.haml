@@ -1,6 +1,6 @@
 .box
   .boxheader
-    %span.header Assets
+    %span.header= assets_name
     = link_to 'Add New', new_admin_asset_path
   .asset-list.boxcontent
     - @assets.each do |asset|
