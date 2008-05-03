@@ -11,7 +11,7 @@ describe Admin::AssignedAssetsController do
       stub :two, :site => all_stubs(:site), :filename => 'fake2'
     end
     model AssignedAsset do
-      stub :one, :portfolio => all_stubs(:one_portfolio), :asset => all_stubs(:one_asset)
+      stub :one, :portfolio => all_stubs(:one_portfolio), :asset => all_stubs(:one_asset), :marker => 'display'
     end
   end
   
@@ -62,7 +62,7 @@ describe Admin::AssignedAssetsController do
       define_models :assigned_assets_controller
     
       def do_post
-        post :create, :portfolio_id => portfolios(:one).id, :asset_id => assets(:two).id
+        post :create, :portfolio_id => portfolios(:one).id, :assigned_asset => { :asset_id => assets(:two).id }
       end
 
       it "should create a new assigned_asset" do

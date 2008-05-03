@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 12) do
+ActiveRecord::Schema.define(:version => 13) do
 
   create_table "assets", :force => true do |t|
     t.string   "content_type"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(:version => 12) do
     t.integer  "asset_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "marker"
   end
 
   create_table "cache_items", :force => true do |t|
@@ -54,6 +55,11 @@ ActiveRecord::Schema.define(:version => 12) do
     t.integer  "site_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "plugin_schema_info", :id => false, :force => true do |t|
+    t.string  "plugin_name"
+    t.integer "version"
   end
 
   create_table "portfolios", :force => true do |t|

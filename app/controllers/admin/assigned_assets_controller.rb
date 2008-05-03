@@ -15,7 +15,7 @@ class Admin::AssignedAssetsController < Admin::AdminController
   # POST /portfolios/1/assigned_assets
   # POST /portfolios/1/assigned_assets.xml
   def create
-    @assigned_asset = @portfolio.assigned_assets.create(:asset_id => params[:asset_id])
+    @assigned_asset = @portfolio.assigned_assets.create(params[:assigned_asset])
     respond_to do |format|
       if @assigned_asset.save
         flash[:notice] = 'Successfully added the image.'
