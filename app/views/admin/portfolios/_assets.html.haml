@@ -5,6 +5,6 @@
   %ul.cleanlist.image-list
     %li.boxcontent
       - @portfolio.assigned_assets.each do |assigned_asset|
-        - form_tag admin_portfolio_assigned_asset_path(@portfolio, assigned_asset), :method => :delete do
-          = hidden_field_tag 'assigned_asset_id', assigned_asset.id
-          = image_submit_tag assigned_asset.asset.public_filename(:thumb)
+        = link_to image_tag(assigned_asset.asset.public_filename(:thumb)), |
+          admin_portfolio_assigned_asset_path(@portfolio, assigned_asset), |
+          :title => 'Delete', :confirm => 'Are you sure?', :method => :delete |
