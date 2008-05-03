@@ -1,5 +1,7 @@
 class Admin::AssetsController < Admin::AdminController
 
+  include Admin::AdminHelper
+
   before_filter :find_asset, :only => [:edit, :update, :destroy]
 
   # GET /admin/assets
@@ -32,7 +34,7 @@ class Admin::AssetsController < Admin::AdminController
     @asset = @site.assets.build(params[:asset])
     respond_to do |format|
       if @asset.save
-        flash[:notice] = 'Asset was successfully created.'
+        flash[:notice] = 'The ' + asset_name.downcase + ' was successfully created.'
         format.html { redirect_to admin_assets_path }
         format.xml  { render :xml => @asset, :status => :created, :location => @asset }
       else
