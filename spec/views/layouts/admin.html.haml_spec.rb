@@ -25,6 +25,10 @@ describe "/layouts/admin.html.haml" do
   it "should have a link for the links page" do
     response.should have_tag("a[href=?]", admin_links_path)
   end
+
+  it "should have a link for the news items page" do
+    response.should have_tag("a[href=?]", admin_news_items_path)
+  end
   
   it "should have a link for the portfolios page" do
     response.should have_tag("a[href=?]", admin_portfolios_path)

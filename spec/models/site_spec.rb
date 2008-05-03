@@ -74,6 +74,23 @@ describe Site do
     end
   end
 
+  describe "relationship to news items" do
+    define_models :site do
+      model NewsItem do
+        stub :show, :site => all_stubs(:site)
+        stub :publication, :site => all_stubs(:site)
+      end
+    end
+    
+    it "should have a collection of news items" do
+      sites(:default).news_items.sort_by(&:id).should == [news_items(:show), news_items(:publication)].sort_by(&:id)
+    end
+    
+    it "should destroy the news items when destroyed" do
+      lambda { sites(:default).destroy }.should change(NewsItem, :count).by(-2)
+    end
+  end
+
   describe "relationship to portfolios" do
     define_models :site do
       model Portfolio do

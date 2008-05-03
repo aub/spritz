@@ -1,0 +1,11 @@
+.box
+  .boxheader
+    %span.header News Items
+    = link_to 'Add New', new_admin_news_item_path
+  %ul.cleanlist
+    - @news_items.each do |news_item|
+      %li.boxcontent
+        = news_item.title
+        = link_to 'edit', edit_admin_news_item_path(news_item)
+        = link_to 'delete', admin_news_item_path(news_item), :method => :delete
+

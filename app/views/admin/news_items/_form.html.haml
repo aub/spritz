@@ -1,0 +1,12 @@
+.group
+  %dl
+    %dt= f.label_for :title
+    %dd= f.text_field :title, :class => 'large'
+    %dt= f.label_for :text
+    %dd
+      ~ f.text_area :text, :class => 'large', :rows => '8'
+    %dt
+      = f.submit 'Save'
+      or
+      = link_to "Cancel", admin_news_items_path
+

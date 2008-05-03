@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 13) do
+ActiveRecord::Schema.define(:version => 14) do
 
   create_table "assets", :force => true do |t|
     t.string   "content_type"
@@ -53,6 +53,14 @@ ActiveRecord::Schema.define(:version => 13) do
   create_table "memberships", :force => true do |t|
     t.integer  "user_id"
     t.integer  "site_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "news_items", :force => true do |t|
+    t.integer  "site_id"
+    t.string   "title"
+    t.text     "text"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

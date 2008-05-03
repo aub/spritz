@@ -14,6 +14,8 @@ class Site < ActiveRecord::Base
 
   has_many :links, :dependent => :destroy
 
+  has_many :news_items, :dependent => :destroy
+
   has_many :portfolios do
     def create_with_parent_id(params, parent_id)
       returning proxy_owner.portfolios.create(params) do |portfolio|
