@@ -18,7 +18,7 @@ describe ContactController do
     it "should render the contact template" do
       get :new
       response.should render_template('contact')
-    end
+    end    
   end
   
   describe "handling POST /contact" do
@@ -35,9 +35,14 @@ describe ContactController do
         lambda { do_post }.should change(Contact, :count).by(1)
       end
   
-      it "should redirect to the home page" do
+      it "should re-render the new contact page" do
         do_post
-        response.should redirect_to(home_path)
+        response.should render_template('new')
+      end
+      
+      it "should provide a message for the template" do
+        do_post
+        assigns[:message].should_not be_empty
       end
 
       describe "with failed save" do

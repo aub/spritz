@@ -1,1 +1,16 @@
-<h1>CONTACT ME, PLEASE!!</h1>
+{% contactform %}
+  <dl>
+    <dt><label for="name">Name</label></dt>
+    <dd>{{ form.name }}</dd>
+    
+    <dt><label for="email">Email</label></dt>
+    <dd>{{ form.email }}</dd>
+    
+    <dt><label for="phone">Phone</label></dt>
+    <dd>{{ form.phone }}</dd>
+    
+    <dt><label for="message">Message</label></dt>
+    <dd>{{ form.message }}</dd>
+    
+    <p>{{ form.submit }}</p>
+{% endcontactform %}

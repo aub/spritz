@@ -41,4 +41,8 @@ describe Contact do
       contacts(:one).site.should == sites(:default)
     end
   end
+  
+  it "should be convertible to liquid" do
+    contacts(:one).to_liquid.should be_an_instance_of(ContactDrop)
+  end
 end

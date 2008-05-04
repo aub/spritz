@@ -128,3 +128,15 @@ a:hover {
 .breadcrumbs {
 	font-size: 80%;
 }
+
+#contact-form dd {
+	margin-bottom: 10px;
+}
+
+#contact-form input {
+	font-size: 120%;
+}
+
+#contact-form textarea {
+	font-size: 120%;
+}
