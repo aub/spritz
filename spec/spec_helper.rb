@@ -106,9 +106,10 @@ def disable_caching_for_this_spec
   )
 end
 
-def render_liquid(content)
+def render_liquid(content, site=nil, params=nil)
   @template = Liquid::Template.parse(content)
-	@template.render
+  params ||= {}
+	@template.render(params.merge({ 'site' => (site.nil? ? sites(:default) : sites(site)) }))
 end
 
 Debugger.start

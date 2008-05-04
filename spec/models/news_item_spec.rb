@@ -35,4 +35,8 @@ describe NewsItem do
       news_items(:one).site.should == sites(:default)
     end
   end
+  
+  it "should be convertible to liquid" do
+    NewsItem.new.to_liquid.should be_an_instance_of(NewsItemDrop)
+  end
 end

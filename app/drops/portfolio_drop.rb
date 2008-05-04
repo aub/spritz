@@ -4,4 +4,12 @@ class PortfolioDrop < BaseDrop
   def assets
     @assets ||= source.assigned_assets.collect(&:to_liquid)
   end
+  
+  def title_asset
+    assets.first
+  end
+  
+  def url
+    "/portfolios/#{source.to_param}"
+  end
 end

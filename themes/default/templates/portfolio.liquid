@@ -1,5 +1,12 @@
-<h1>IT'S A PORTFOLIO -->{{ portfolio.title }}<--</h1>
-
-{% for asset in portfolio.assets %}
-  <img src="{{ asset.thumbnail_path }}"/>
-{% endfor %}
+<div class="portfolio">
+  <div class="portfolio-wrapper">
+    <h2>{{ portfolio.title }}</h2>
+    <img class="portfolio-image" src="{{portfolio.title_asset.display_path}}" />
+    <p class="portfolio-text">{{ portfolio.body }}</p>
+  </div>
+  <div class="portfolio-images">
+    {% for asset in portfolio.assets %}
+      <img src="{{ asset.thumbnail_path }}"/>
+    {% endfor %}
+  </div>
+</div>

@@ -25,13 +25,13 @@ describe Admin::PortfoliosHelper do
   describe "ancestor_breadcrumbs method" do
     define_models :portfolios_helper
     
-    it "should return an empty string with no ancestors" do
-      ancestor_breadcrumbs(portfolios(:one)).should == ''
+    it "should return only the portfolio with no ancestors" do
+      ancestor_breadcrumbs(portfolios(:one)).should == '> ' + link_to('Portfolios', admin_portfolios_path) + ' ' + '> ' + link_to(portfolios(:one).title, edit_admin_portfolio_path(portfolios(:one))) + ' '
     end
     
     it "should return a list of ancestors if there are some" do
       portfolios(:two).move_to_child_of(portfolios(:one))
-      ancestor_breadcrumbs(portfolios(:two)).should == '> ' + link_to(portfolios(:one).title, edit_admin_portfolio_path(portfolios(:one))) + ' '
+      ancestor_breadcrumbs(portfolios(:two)).should == '> ' + link_to('Portfolios', admin_portfolios_path) + ' ' +  '> ' + link_to(portfolios(:one).title, edit_admin_portfolio_path(portfolios(:one))) + ' ' + '> ' + link_to(portfolios(:two).title, edit_admin_portfolio_path(portfolios(:two))) + ' '
     end
   end
 end

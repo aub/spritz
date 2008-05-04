@@ -30,4 +30,12 @@ describe PortfolioDrop do
   it "should provide access to the assets" do
     @drop.assets.should == portfolios(:one).assigned_assets.collect(&:to_liquid)
   end
+  
+  it "should have a method for getting the url of the portfolio" do
+    @drop.url.should == "/portfolios/#{portfolios(:one).to_param}"
+  end
+  
+  it "should have a method for getting the title asset" do
+    @drop.title_asset.should == portfolios(:one).assigned_assets.first.to_liquid
+  end
 end

@@ -10,6 +10,9 @@ describe SiteDrop do
       stub :one, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 4
       stub :two, :site => all_stubs(:site), :parent_id => 1, :lft => 2, :rgt => 3
     end
+    model NewsItem do
+      stub :one, :site => all_stubs(:site)
+    end
   end
   
   before(:each) do
@@ -26,5 +29,9 @@ describe SiteDrop do
   
   it "should provide access to the portfolios" do
     @drop.portfolios.should == [portfolios(:one)].collect(&:to_liquid)
+  end
+  
+  it "should provide access to the news items" do
+    @drop.news_items.should == [news_items(:one)].collect(&:to_liquid)
   end
 end

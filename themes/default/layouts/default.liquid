@@ -7,6 +7,21 @@
     {{ 'styles' | stylesheet: 'all' }}
   </head>
   <body>
-    {{ content_for_layout }}
+    <div id="wrapper">
+      <div id="header">
+        <h1>{{ site.title }}</h1>
+      </div>
+      <div id="sidebar">
+        <ul>
+          {% sectionlist as section %} <li><a href="{{section.url}}">{{ section.title }}</a></li> {% endsectionlist %}
+        </ul>
+      </div>
+      <div id="content">
+        {{ content_for_layout }}
+      </div>
+    </div>
+    <div id="footer">
+      Brought to you by Spritz
+    </div>
   </body>
 </html>

@@ -9,8 +9,8 @@ module Admin::PortfoliosHelper
   end
   
   def ancestor_breadcrumbs(portfolio)
-    result = ''
-    portfolio.ancestors.each do |ancestor|
+    result = '> ' + link_to('Portfolios', admin_portfolios_path) + ' '
+    portfolio.self_and_ancestors.each do |ancestor|
       result << '> '
       result << link_to(ancestor.title, edit_admin_portfolio_path(ancestor))
       result << ' '
