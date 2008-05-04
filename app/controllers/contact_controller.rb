@@ -10,7 +10,7 @@ class ContactController < ContentController
     @contact = @site.contacts.create(params[:contact])
     respond_to do |format|
       @message = 'Thank you for the message.' if @contact.save        
-      format.html { render :action => 'new' }
+      format.html { render :template => 'contact' }
     end
   end
 end

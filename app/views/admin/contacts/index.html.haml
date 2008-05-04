@@ -6,6 +6,8 @@
       %li.boxcontent
         = contact.name
         = distance_of_time_in_words_to_now(contact.created_at)
+        ago
         = link_to 'view', admin_contact_path(contact)
         = link_to 'delete', admin_contact_path(contact), :method => :delete, :confirm => 'Are you sure?'
-
+    - if @contacts.empty?
+      %li.boxcontent None

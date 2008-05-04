@@ -138,5 +138,11 @@ a:hover {
 }
 
 #contact-form textarea {
+	font: 120% "Lucida Grande", Lucida, Verdana, sans-serif;
+}
+
+#contact-errors, #contact-flash {
 	font-size: 120%;
+	font-weight: bold;
+	margin-bottom: 20px;
 }
