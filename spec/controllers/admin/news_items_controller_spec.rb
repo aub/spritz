@@ -59,7 +59,7 @@ describe Admin::NewsItemsController do
 
     it "should render the found admin_news_items as xml" do
       do_get
-      response.body.should == [news_items(:one), news_items(:two)].to_xml
+      response.body.should == sites(:default).news_items.to_xml
     end
   end
 

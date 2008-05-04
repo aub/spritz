@@ -22,11 +22,4 @@ class BaseDrop < Liquid::Drop
   def ==(comparison_object)
     self.source == (comparison_object.is_a?(self.class) ? comparison_object.source : comparison_object)
   end
-  
-  # Create a url for the source if it supports the to_url method.
-  def url
-    if self.source && self.source.respond_to?(:to_url)
-      '/' + self.source.to_url * '/'
-    end
-  end
 end

@@ -1,0 +1,8 @@
+<div class="portfolio">
+  <img src="{{ item.display_path }}" />
+  <div class="portfolio-images">
+    {% for asset in item.portfolio.assets %}
+      <a href="{{ asset.url }}"><img src="{{ asset.thumbnail_path }}"/></a>
+    {% endfor %}
+  </div>
+</div>

@@ -1,10 +1,24 @@
 class AssignedAssetDrop < BaseDrop
   
   def display_path
-    @display_path ||= source.asset.public_filename(:display)
+    @display_path ||= asset.public_filename(:display)
   end
   
   def thumbnail_path
-    @thumbnail_path ||= source.asset.public_filename(:thumb)
+    @thumbnail_path ||= asset.public_filename(:thumb)
+  end
+  
+  def url
+    "/portfolios/#{source.portfolio.to_param}/items/#{source.to_param}"
+  end
+  
+  def portfolio
+    @portfolio ||= source.portfolio.to_liquid
+  end
+  
+  protected
+  
+  def asset
+    source.asset
   end
 end

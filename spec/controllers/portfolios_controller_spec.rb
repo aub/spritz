@@ -36,16 +36,16 @@ describe PortfoliosController do
   end
     
   describe "site, login, and admin requirements" do
-    define_models :display_portfolio_controller
+    define_models :display_portfolios_controller
     
     it "should require a site" do
       test_site_requirement(true, [
-        lambda { get :index }])
+        lambda { get :show, :id => portfolios(:one) }])
     end
         
     it "should not require login" do
       test_login_requirement(false, false, [
-        lambda { get :index }])
+        lambda { get :show, :id => portfolios(:one) }])
     end
   end
 end

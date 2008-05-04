@@ -29,7 +29,9 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :links
   map.resources :news_items
-  map.resources :portfolios
+  map.resources :portfolios do |portfolios|
+    portfolios.resources :items
+  end
   
   # A route to handle activation of users.
   map.activate 'activate/:activation_code', :controller => 'admin/users', :action => 'activate'

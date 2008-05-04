@@ -6,7 +6,7 @@
   </div>
   <div class="portfolio-images">
     {% for asset in portfolio.assets %}
-      <img src="{{ asset.thumbnail_path }}"/>
+      <a href="{{ asset.url }}"><img src="{{ asset.thumbnail_path }}"/></a>
     {% endfor %}
   </div>
 </div>

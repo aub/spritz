@@ -9,7 +9,7 @@ describe "/admin/portfolios/edit.html.haml" do
     @portfolio.stub!(:body).and_return("MyText")
     @portfolio.stub!(:assigned_assets).and_return([])
     @portfolio.stub!(:children).and_return([])
-    @portfolio.stub!(:ancestors).and_return([])
+    @portfolio.stub!(:self_and_ancestors).and_return([])
     assigns[:portfolio] = @portfolio
     
     @site = mock_model(Site)
