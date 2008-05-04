@@ -106,4 +106,9 @@ def disable_caching_for_this_spec
   )
 end
 
+def render_liquid(content)
+  @template = Liquid::Template.parse(content)
+	@template.render
+end
+
 Debugger.start
