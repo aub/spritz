@@ -2,9 +2,9 @@ ActionController::Routing::Routes.draw do |map|
   # Routes for accessing the resources for use in the theme. Note that we need to include
   # 'theme' here to differentiate them from the standard files.
   map.with_options(:controller => 'theme', :conditions => {:method => :get}) do |theme|
-    theme.connect 'stylesheets/theme/:filename.:ext', :action => 'stylesheets'
-    theme.connect 'javascripts/theme/:filename.:ext', :action => 'javascripts'
-    theme.connect 'images/theme/:filename.:ext',      :action => 'images'
+    theme.connect 'theme/stylesheets/:filename.:ext', :action => 'stylesheets'
+    theme.connect 'theme/javascripts/:filename.:ext', :action => 'javascripts'
+    theme.connect 'theme/images/:filename.:ext',      :action => 'images'
   end
 
   # Routes for the admin interface.
@@ -28,6 +28,7 @@ ActionController::Routing::Routes.draw do |map|
   map.home '', :controller => 'home', :action => 'show'
 
   map.resources :links
+  map.resources :news_items
   map.resources :portfolios
   
   # A route to handle activation of users.

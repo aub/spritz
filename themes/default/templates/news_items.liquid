@@ -1,0 +1,6 @@
+<h1>NEWS_ITEMS.LIQUID!! -->{{ site.title }}<--</h1>
+<ul>
+  {% for news_item in site.news_items %}
+    <li><a href="{{ news_item.title }}">{{ news_item.text }}</a></li>
+  {% endfor %}
+</ul>
