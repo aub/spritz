@@ -11,7 +11,6 @@ module UrlFilters
     javascript << '.js' unless javascript.include? '.'
     content_tag 'script', '', :type => 'text/javascript', :src => "/theme/javascripts/#{javascript}"
   end
-    
 end
 
 Liquid::Template.register_filter UrlFilters

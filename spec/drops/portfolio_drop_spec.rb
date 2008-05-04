@@ -8,6 +8,8 @@ describe PortfolioDrop do
     end
     model Portfolio do
       stub :one, :site => all_stubs(:site), :title => 'a_title', :body => 'a_body', :lft => 1, :rgt => 2
+      stub :two, :site => all_stubs(:site), :title => 'a_title', :body => 'a_body', :lft => 3, :rgt => 4
+      stub :tre, :site => all_stubs(:site), :title => 'a_title', :body => 'a_body', :lft => 5, :rgt => 6
     end
     model AssignedAsset do
       stub :one, :asset => all_stubs(:one_asset), :portfolio => all_stubs(:one_portfolio)
@@ -37,5 +39,17 @@ describe PortfolioDrop do
   
   it "should have a method for getting the title asset" do
     @drop.title_asset.should == portfolios(:one).assigned_assets.first.to_liquid
+  end
+  
+  it "should provide access to the children" do
+    portfolios(:two).move_to_child_of(portfolios(:one))
+    portfolios(:tre).move_to_child_of(portfolios(:one))
+    @drop.children.sort_by(&:object_id).should == [portfolios(:two), portfolios(:tre)].collect(&:to_liquid).sort_by(&:object_id)
+  end
+  
+  it "should provide access to the ancestors" do
+    portfolios(:two).move_to_child_of(portfolios(:one))
+    portfolios(:tre).move_to_child_of(portfolios(:two))
+    PortfolioDrop.new(portfolios(:tre)).ancestors.should == [portfolios(:one), portfolios(:two)].collect(&:to_liquid)
   end
 end

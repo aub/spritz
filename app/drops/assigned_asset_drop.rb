@@ -7,6 +7,10 @@ class AssignedAssetDrop < BaseDrop
   def thumbnail_path
     @thumbnail_path ||= asset.public_filename(:thumb)
   end
+
+  def tiny_path
+    @tiny_path ||= asset.public_filename(:tiny)
+  end
   
   def url
     "/portfolios/#{source.portfolio.to_param}/items/#{source.to_param}"

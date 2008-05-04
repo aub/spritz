@@ -24,6 +24,10 @@ describe AssignedAssetDrop do
   it "should provide access to the display path" do
     @drop.display_path.should == assets(:one).public_filename(:display)
   end
+
+  it "should provide access to the tiny path" do
+    @drop.tiny_path.should == assets(:one).public_filename(:tiny)
+  end
   
   it "should provide access to a url" do
     @drop.url.should == "/portfolios/#{portfolios(:one).to_param}/items/#{assigned_assets(:one).to_param}"

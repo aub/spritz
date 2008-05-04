@@ -1,12 +1,36 @@
 <div class="portfolio">
   <div class="portfolio-wrapper">
-    <h2>{{ portfolio.title }}</h2>
-    <img class="portfolio-image" src="{{portfolio.title_asset.display_path}}" />
-    <p class="portfolio-text">{{ portfolio.body }}</p>
+
+    <span class="breadcrumbs">
+      {% for ancestor in portfolio.ancestors %}
+        &gt; 
+        <a href="{{ ancestor.url }}">{{ ancestor.title }}</a>
+      {% endfor %}
+      &gt; <a href="{{ portfolio.url}}">{{ portfolio.title }}</a>
+    </span>
+
+    {% if item %}
+      <img class="portfolio-image" src="{{item.display_path}}" />
+    {% else %}
+      <img class="portfolio-image" src="{{portfolio.title_asset.display_path}}" />
+    {% endif %}
+    
+    <div class="portfolio-info">
+      <p class="portfolio-text">{{ portfolio.body }}</p>
+      
+      <ul class="portfolio-children">
+        {% for child in portfolio.children %}
+          <li>
+            <a href="{{ child.url }}"><img src="{{child.title_asset.tiny_path}}" /> {{ child.title }}</a>
+          </li>
+        {% endfor %}
+      </div>
+    </div>
   </div>
+
   <div class="portfolio-images">
     {% for asset in portfolio.assets %}
       <a href="{{ asset.url }}"><img src="{{ asset.thumbnail_path }}"/></a>
     {% endfor %}
-  </div>
+  </div>  
 </div>

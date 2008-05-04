@@ -93,8 +93,17 @@ a:hover {
 	font-weight: normal;
 }
 
-.portfolio-text {
+.portfolio-info {
 	margin: 10px 0pt 0pt 0pt;
+}
+
+.portfolio-children {
+	margin-top: 20px;
+	list-style-type: none;
+}
+
+.portfolio-children li {
+    font-size: 80%;
 }
 
 .portfolio-image {
@@ -107,3 +116,6 @@ a:hover {
 	padding-top: 20px;
 }
 
+.breadcrumbs {
+	font-size: 80%;
+}
