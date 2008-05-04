@@ -1,0 +1,11 @@
+.box
+  .boxheader
+    %span.header Contacts
+  %ul.cleanlist
+    - @contacts.each do |contact|
+      %li.boxcontent
+        = contact.name
+        = distance_of_time_in_words_to_now(contact.created_at)
+        = link_to 'view', admin_contact_path(contact)
+        = link_to 'delete', admin_contact_path(contact), :method => :delete, :confirm => 'Are you sure?'
+

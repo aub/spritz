@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :contacts
+
   # Routes for accessing the resources for use in the theme. Note that we need to include
   # 'theme' here to differentiate them from the standard files.
   map.with_options(:controller => 'theme', :conditions => {:method => :get}) do |theme|
@@ -12,6 +14,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.namespace(:admin) do |admin|
     admin.resources :assets
+    admin.resources :contacts
     admin.resources :links
     admin.resources :news_items
     admin.resources :portfolios, :member => { :add_child => :get } do |portfolios|

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 14) do
+ActiveRecord::Schema.define(:version => 15) do
 
   create_table "assets", :force => true do |t|
     t.string   "content_type"
@@ -38,6 +38,16 @@ ActiveRecord::Schema.define(:version => 14) do
     t.text     "references"
     t.string   "type"
     t.string   "path"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "contacts", :force => true do |t|
+    t.integer  "site_id"
+    t.string   "name"
+    t.string   "email"
+    t.string   "phone"
+    t.text     "message"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

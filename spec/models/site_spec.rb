@@ -232,4 +232,21 @@ describe Site do
       lambda { sites(:default).destroy }.should change(Asset, :count).by(-2)
     end
   end  
+  
+  describe "relationship to contacts" do
+    define_models :site do
+      model Contact do
+        stub :one, :site => all_stubs(:site)
+        stub :two, :site => all_stubs(:site)
+      end
+    end
+    
+    it "should have a collection of contacts" do
+      sites(:default).contacts.sort_by(&:id).should == [contacts(:one), contacts(:two)].sort_by(&:id)
+    end
+    
+    it "should destroy its contacts when keeling over" do
+      lambda { sites(:default).destroy }.should change(Contact, :count).by(-2)
+    end
+  end
 end
