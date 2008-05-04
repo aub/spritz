@@ -38,6 +38,15 @@ a:hover {
 	font-size: 125%;
 }
 
+#header h1 a {
+	color: #929292;
+	border: none;
+}
+
+#header h1 a:hover {
+	color: #c0c0c0;
+}
+
 #content {
 	float: right;
 	width: 80%;
