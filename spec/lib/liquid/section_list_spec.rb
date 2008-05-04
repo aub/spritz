@@ -31,12 +31,12 @@ describe SectionList do
   it "should render the sections urls as requested" do
     content = '{% sectionlist as section %} {{ section.url }} {% endsectionlist %}'
     render_liquid(content).split(' ').collect(&:strip).sort.should == [
-      '/links', '/news_items', "/portfolios/#{portfolios(:one).to_param}", "/portfolios/#{portfolios(:two).to_param }" ].sort
+      '/contact/new', '/links', '/news_items', "/portfolios/#{portfolios(:one).to_param}", "/portfolios/#{portfolios(:two).to_param }" ].sort
   end
   
   it "should render the sections titles as requested" do
     content = '{% sectionlist as section %} {{ section.title }} {% endsectionlist %}'
     render_liquid(content).split(' ').collect(&:strip).sort.should == [
-      'Links', 'News', "#{portfolios(:one).title}", "#{portfolios(:two).title}" ].sort
+      'Contact', 'Links', 'News', "#{portfolios(:one).title}", "#{portfolios(:two).title}" ].sort
   end
 end

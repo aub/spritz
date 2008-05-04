@@ -12,7 +12,24 @@ describe Contact do
       @contact = Contact.new
     end
 
+    it "should require a name" do
+      @contact.should_not be_valid
+      @contact.should have(1).error_on(:name)
+    end
+
+    it "should require an email" do
+      @contact.should_not be_valid
+      @contact.should have(1).error_on(:email)
+    end
+
+    it "should require a reasonable format for the email" do
+      @contact.email = 'steve@'
+      @contact.should have(1).error_on(:email)
+    end
+
     it "should be valid" do
+      @contact.name = 'Freddy Kruger'
+      @contact.email = 'freddy@crazyguy.com'
       @contact.should be_valid
     end
   end

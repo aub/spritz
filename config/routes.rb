@@ -30,6 +30,7 @@ ActionController::Routing::Routes.draw do |map|
   # Routes for the display interface
   map.home '', :controller => 'home', :action => 'show'
 
+  map.resource :contact, :controller => 'contact'
   map.resources :links
   map.resources :news_items
   map.resources :portfolios do |portfolios|

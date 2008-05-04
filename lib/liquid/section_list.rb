@@ -17,7 +17,8 @@ class SectionList < Liquid::Block
   def render(context)
     result = []
     sections = [ { 'title' => 'Links', 'url' => '/links' },
-                 { 'title' => 'News', 'url' => '/news_items' } ]
+                 { 'title' => 'News', 'url' => '/news_items' },
+                 { 'title' => 'Contact', 'url' => '/contact/new' } ]
 
     context['site'].portfolios.each { |p| sections << { 'title' => p['title'], 'url' => p['url'] } }
     
