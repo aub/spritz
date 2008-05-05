@@ -9,6 +9,10 @@ class Theme
 
   alias :to_param :name
 
+  def active?
+    @site.theme_path == @name
+  end
+
   def layout
     File.join(%w(.. layouts default))
   end  

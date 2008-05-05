@@ -124,14 +124,16 @@ h1 a
     :padding-top 20px
     
 #banner
+  :font-size 75%
+  :color = !banner_font_color
+  
   a
     :color = !banner_font_color
-    :font-size 75%
     
   #right-banner
     :position absolute
     :right 15px
-    :top 8px
+    :top 7px
 
   #flash-area
     :position absolute
@@ -287,3 +289,36 @@ form .group dl, #login-form form, #login-form .submit input
 
     a
       :font-size 75%
+      
+#themes h2
+  :clear both
+  :padding-bottom 20px
+
+.theme 
+  :clear both
+
+  .preview
+    :float left
+    :width 258px
+    :margin-bottom 30px
+    :border 1px solid #ddd
+
+  .theme-data
+    :padding-top 20px
+    :margin-left 300px
+    :list-style-type none
+
+    .title
+      :font-weight bold
+      :font-size 120%
+
+  .theme-summary
+    :margin-top 20px
+
+  .theme-controls
+    :padding-top 10px
+    :margin-left 300px
+    :list-style-type none
+
+    li
+      :padding-top 10px

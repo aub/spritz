@@ -1,9 +1,8 @@
-%h1 Listing themes
+#themes
+  %h2 Current theme
 
-%table
-  - for theme in @themes
-    %tr
-      %td
-        = image_tag preview_admin_theme_path(theme)
-      %td= link_to 'Activate', activate_admin_theme_path(theme), :method => :put
-      %td= link_to 'Destroy', admin_theme_path(theme), :confirm => 'Are you sure?', :method => :delete
+  = render :partial => 'theme', :locals => { :theme => @site.theme }
+
+  %h2 Available themes
+
+  = render :partial => 'theme', :collection => @site.themes.reject(&:active?)

@@ -95,21 +95,23 @@ h1 a {
     font-size: 250%;
     padding-top: 20px; }
 
-#banner a {
-  color: #bbbbbb;
-  font-size: 75%; }
-#banner #right-banner {
-  position: absolute;
-  right: 15px;
-  top: 8px; }
-#banner #flash-area {
-  position: absolute;
-  left: 0px;
-  top: 8px;
-  width: 100%;
-  font-weight: normal;
-  text-align: center;
+#banner {
+  font-size: 75%;
   color: #bbbbbb; }
+  #banner a {
+    color: #bbbbbb; }
+  #banner #right-banner {
+    position: absolute;
+    right: 15px;
+    top: 7px; }
+  #banner #flash-area {
+    position: absolute;
+    left: 0px;
+    top: 8px;
+    width: 100%;
+    font-weight: normal;
+    text-align: center;
+    color: #bbbbbb; }
 
 #top-controls {
   background-color: rgb(223,141,74);
@@ -243,3 +245,30 @@ form .group dl, #login-form form, #login-form .submit input {
     position: relative; }
     .asset-controls li a {
       font-size: 75%; }
+
+#themes h2 {
+  clear: both;
+  padding-bottom: 20px; }
+
+.theme {
+  clear: both; }
+  .theme .preview {
+    float: left;
+    width: 258px;
+    margin-bottom: 30px;
+    border: 1px solid #ddd; }
+  .theme .theme-data {
+    padding-top: 20px;
+    margin-left: 300px;
+    list-style-type: none; }
+    .theme .theme-data .title {
+      font-weight: bold;
+      font-size: 120%; }
+  .theme .theme-summary {
+    margin-top: 20px; }
+  .theme .theme-controls {
+    padding-top: 10px;
+    margin-left: 300px;
+    list-style-type: none; }
+    .theme .theme-controls li {
+      padding-top: 10px; }

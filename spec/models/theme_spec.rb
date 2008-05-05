@@ -77,5 +77,22 @@ describe Theme do
       Theme.create_defaults_for(sites(:default))
       Theme.find_all_for(sites(:default)).should eql([Theme.new('dark', sites(:default)), Theme.new('light', sites(:default))])
     end
-  end  
+  end
+  
+  describe "active? method" do
+    define_models :theme
+
+    before(:each) do
+      Theme.create_defaults_for(sites(:default))
+      sites(:default).update_attribute(:theme_path, 'dark')
+    end
+    
+    it "should return true if it is the theme selected by its site" do
+      sites(:default).find_theme('dark').should be_active
+    end
+    
+    it "should return false for unselected themes" do
+      sites(:default).find_theme('light').should_not be_active
+    end
+  end
 end

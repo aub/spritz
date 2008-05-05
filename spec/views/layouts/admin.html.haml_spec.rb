@@ -45,4 +45,8 @@ describe "/layouts/admin.html.haml" do
   it "should contain a link to the contacts page" do
     response.should have_tag("a[href=?]", admin_contacts_path)
   end
+  
+  it "should contain a link to the themes page" do
+    response.should have_tag("a[href=?]", admin_themes_path)
+  end
 end

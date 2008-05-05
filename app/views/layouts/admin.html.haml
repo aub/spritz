@@ -17,6 +17,8 @@
         #flash-errors{ :style => "display: none;" }= flash[:error]
         #flash-notice{ :style => "display: none;" }= flash[:notice]
       #right-banner
+        = link_to 'Site', home_path, :target => '_blank'
+        |
         = link_to 'Logout', admin_session_path, :method => :delete
     #wrapper
       #content
@@ -28,7 +30,7 @@
           %li= link_to 'News', admin_news_items_path, :class => check_active_section('news_items')
           %li= link_to 'Portfolios', admin_portfolios_path, :class => check_active_section('portfolios')
           %li= link_to assets_name, admin_assets_path, :class => check_active_section('assets')
-          %li= link_to 'Design', dashboard_path, :class => check_active_section('design')
+          %li= link_to 'Design', admin_themes_path, :class => check_active_section('themes')
           %li= link_to 'Contacts', admin_contacts_path, :class => check_active_section('contacts')
           %li= link_to 'Settings', edit_admin_settings_path, :class => check_active_section('settings')
         #body
