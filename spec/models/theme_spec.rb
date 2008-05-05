@@ -22,6 +22,38 @@ describe Theme do
   it "should provide a useful equality operator" do
     Theme.new('a', sites(:default)).should eql(Theme.new('a', sites(:default)))
   end
+
+  it "should give the location of its preview image" do
+    Theme.new('a', sites(:default)).preview.should == File.join(RAILS_ROOT, THEME_PATH_ROOT, "site-#{sites(:default).id}", 'a', 'preview.png')
+  end
+  
+  describe "reading the about.yml file" do
+    define_models :theme
+
+    before(:each) do
+      Theme.create_defaults_for(sites(:default))
+    end
+    
+    it "should give access to the list of properties" do
+      YAML.should_receive(:load_file).and_return({ :a => 'a', :c => 'c' })
+      Theme.new('light', sites(:default)).properties.should == { :a => 'a', :c => 'c' }
+    end
+    
+    it "should get empty properties if the file doesn't exist" do
+      Theme.new('hack', sites(:default)).properties.should == {}
+    end
+    
+    it "should create methods to access the about fields" do
+      theme = Theme.new('light', sites(:default))
+      [:title, :version, :author, :author_email, :author_site, :summary].each do |attribute|
+        theme.send(attribute).should == theme.properties[attribute.to_s]
+      end
+    end
+    
+    it "should return nil for the value if the file doesn't exist" do
+      Theme.new('hack', sites(:default)).title.should == nil
+    end
+  end
   
   describe "create_defaults_for method" do
     define_models :theme

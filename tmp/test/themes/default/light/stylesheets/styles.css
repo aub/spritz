@@ -1,0 +1,121 @@
+/* @override http://admin.site1.it:3000/theme/stylesheets/styles.css */
+
+* {
+	margin: 0pt;
+	padding: 0pt;
+}
+
+body {
+	font: 14px/1.5em "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	background-color: #fff;
+	color: #929292;
+}
+
+a {
+	color: #637bff;
+}
+
+a:hover {
+	color: #3d4b9e;
+}
+
+a img {
+  border: 1px solid #929292;
+}
+
+#wrapper {
+	width: 900px;
+	padding: 20px 40px;
+	margin: auto;
+}
+
+#header {
+	border-bottom: 1px solid black;
+}
+
+#header h1 {
+	font-size: 170%;
+}
+
+#header h1 a {
+	text-decoration: none;
+	color: #929292;
+}
+
+#header ul {
+	margin-top: 7px;
+	list-style-type: none;
+}
+
+#header ul li {
+	display: inline;
+	margin-right: 15px;
+	font-size: 90%;
+}
+
+#header ul li a {
+	color: #992200;
+	text-decoration: none;
+}
+
+#header ul li a:hover {
+	color: #f73600;
+}
+
+#content {
+	padding: 20px;
+}
+
+#links li {
+	list-style-type: none;
+}
+
+#news dt {
+	color: #505242;
+	font-size: 120%;
+}
+
+#news dd {
+	margin: 5px 0pt 15px 20px;
+}
+
+#contact-form dt {
+	color: #505242;
+	font-size: 120%;
+}
+
+#contact-form dd {
+ 	margin: 0pt 0pt 10px 0pt;
+}
+
+#contact-form input {
+	font-size: 120%;
+	color: #929292;
+}
+
+#contact-form textarea {
+	font-size: 120%;
+	color: #929292;
+}
+
+.portfolio .portfolio-info {
+	float: left;
+	clear: both;
+	padding-top: 10px;
+	width: 200px;
+}
+
+.portfolio .portfolio-images {
+	width: 700px;
+	margin-left: 220px;
+	padding-top: 10px;
+}
+
+.portfolio .portfolio-images a {
+	padding-left: 10px;
+}
+
+.portfolio .portfolio-children {
+	list-style-type: none;	
+	padding-top: 20px;
+}

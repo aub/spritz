@@ -11,6 +11,23 @@ class Theme
     File.join(%w(.. layouts default))
   end  
   
+  def preview
+    File.join(@path, 'preview.png')
+  end
+  
+  def properties
+    about_file = File.join(@path, 'about.yml')
+    @properties ||= File.exist?(about_file) ? YAML.load_file(about_file) : {}
+  end
+  
+  [:title, :version, :author, :author_email, :author_site, :summary].each do |attribute|
+    eval <<-END
+      def #{attribute}
+        @#{attribute} ||= properties['#{attribute}']
+      end
+    END
+  end
+  
   def eql?(comparison_object)
     @site.eql?(comparison_object.site) && @path.eql?(comparison_object.path)
   end  
