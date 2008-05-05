@@ -26,5 +26,8 @@ MAIN_HOST = 'www.artistcommon.com'
 # storage.
 ASSET_PATH_ROOT = 'public/assets'
 
+# This is the directory where the themes will be stored.
+THEME_PATH_ROOT = 'themes'
+
 # Setting the domain so that cookies will work properly with subdomains.
 ActionController::Base.session_options[:session_domain] = '.artistcommon.com'

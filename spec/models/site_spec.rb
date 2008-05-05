@@ -171,6 +171,11 @@ describe Site do
     it "should setup a default theme on create" do
       Site.create.theme_path.should == 'dark'
     end
+    
+    it "should copy the themes into the appropriate directory on create" do
+      Theme.should_receive(:create_defaults).and_return(true)
+      Site.create
+    end
   end
   
   describe "liquid conversion" do

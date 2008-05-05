@@ -78,5 +78,7 @@ class Site < ActiveRecord::Base
   
   def initialize_theme
     self.theme_path = 'dark'
+    # This needs to be last because we want to return false if it fails
+    Theme.create_defaults(self)
   end
 end

@@ -5,4 +5,5 @@ coverage.data
 public/assets
 tmp/attachment_fu
 tmp/cache
-tmp/test
+tmp/test/assets
+tmp/test/caches

@@ -12,6 +12,6 @@ describe HomeController do
     sites(:default).theme_path = 'testy'
     get :show
     controller.view_paths.should == 
-      ::ActionController::Base.view_paths.dup.unshift("#{RAILS_ROOT}/tmp/themes/default/testy/templates")
+      ::ActionController::Base.view_paths.dup.unshift(File.join(RAILS_ROOT, THEME_PATH_ROOT, 'default/testy/templates'))
   end
 end
