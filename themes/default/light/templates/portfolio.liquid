@@ -1,0 +1,27 @@
+<div class="portfolio">
+  <span class="breadcrumbs">
+    {% for ancestor in portfolio.ancestors %}
+      &gt; 
+      <a href="{{ ancestor.url }}">{{ ancestor.title }}</a>
+    {% endfor %}
+    &gt; <a href="{{ portfolio.url}}">{{ portfolio.title }}</a>
+  </span>
+
+  <div class="portfolio-info">
+    <p class="portfolio-text">{{ portfolio.body }}</p>
+    <ul class="portfolio-children">
+      {% for child in portfolio.children %}
+        <li>
+          <a href="{{ child.url }}"><img src="{{child.title_asset.tiny_path}}" /> {{ child.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+    
+  <div class="portfolio-images">
+    {% for asset in portfolio.assets %}
+      <a href="{{ asset.display_path }}" rel="lightbox[0]"><img src="{{ asset.thumbnail_path }}"/></a>
+    {% endfor %}
+  </div>
+      
+</div>
