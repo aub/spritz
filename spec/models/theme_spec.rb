@@ -7,11 +7,11 @@ describe Theme do
   end
   
   it "should find the path for a given theme name" do
-    Theme.theme_path('ack').should == File.join(RAILS_ROOT, 'tmp', 'themes', 'ack')
+    Theme.theme_path('ack').should == File.join(RAILS_ROOT, 'tmp', 'themes', 'default', 'ack')
   end
   
   it "should have a find method for creating a theme with a given name" do
-    Theme.find('booya').should eql(Theme.new('booya', File.join(RAILS_ROOT, 'tmp', 'themes', 'booya')))
+    Theme.find('booya').should eql(Theme.new('booya', File.join(RAILS_ROOT, 'tmp', 'themes', 'default', 'booya')))
   end
   
   it "should provide a useful equality operator" do

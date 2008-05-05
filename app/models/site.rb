@@ -3,6 +3,8 @@ class Site < ActiveRecord::Base
   validates_presence_of :title
   validates_presence_of :theme
 
+  before_validation_on_create :initialize_theme
+
   attr_accessible :subdomain, :domain, :theme, :title
   
   has_many :memberships, :dependent => :destroy
@@ -70,5 +72,11 @@ class Site < ActiveRecord::Base
   
   def to_liquid
     SiteDrop.new(self)
+  end
+  
+  protected
+  
+  def initialize_theme
+    self.theme = 'dark'
   end
 end

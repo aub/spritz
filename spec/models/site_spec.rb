@@ -13,11 +13,6 @@ describe Site do
       @site.should have(1).error_on(:title)
     end
 
-    it "should require a theme" do
-      @site.should_not be_valid
-      @site.should have(1).error_on(:theme)
-    end
-    
     it "should be valid" do
       @site.title = 'test title'
       @site.theme = 'default'
@@ -171,6 +166,10 @@ describe Site do
     it "should provide a method for accessing the theme" do
       sites(:default).theme = 'booya'
       sites(:default).current_theme.should eql(Theme.find('booya'))
+    end
+    
+    it "should setup a default theme on create" do
+      Site.create.theme.should == 'dark'
     end
   end
   

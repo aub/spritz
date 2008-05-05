@@ -15,7 +15,7 @@ class Theme
   end
   
   def self.theme_path(name)
-    File.join(theme_root, name)
+    File.join(theme_root, 'default', name)
   end
   
   def self.theme_root
