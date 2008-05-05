@@ -3,6 +3,7 @@ db/*.sqlite3*
 coverage
 coverage.data
 public/assets
+themes/site*
 tmp/attachment_fu
 tmp/cache
 tmp/test/assets

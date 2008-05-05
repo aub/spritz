@@ -19,34 +19,31 @@ describe Theme do
     Theme.defaults_directory.should == File.join(RAILS_ROOT, THEME_PATH_ROOT, 'default')
   end
   
-  it "should find the path for a given theme name" do
-    Theme.theme_path('ack').should == File.join(RAILS_ROOT, THEME_PATH_ROOT, 'default', 'ack')
-  end
-  
-  it "should have a find method for creating a theme with a given name" do
-    Theme.find('booya').should eql(Theme.new('booya', File.join(RAILS_ROOT, THEME_PATH_ROOT, 'default', 'booya')))
-  end
-  
   it "should provide a useful equality operator" do
-    Theme.new('a', File.join(RAILS_ROOT, 'a')).should eql(Theme.new('a', File.join(RAILS_ROOT, 'a')))
+    Theme.new('a', sites(:default)).should eql(Theme.new('a', sites(:default)))
   end
   
-  it "should provide the location of the theme" do
-    Theme.find('testy').layout.should == File.join(%w(.. layouts default))
-  end
-  
-  describe "create_defaults method" do
+  describe "create_defaults_for method" do
     define_models :theme
     
     it "should create a directory for the site's themes" do
-      Theme.create_defaults(sites(:default))
+      Theme.create_defaults_for(sites(:default))
       File.exist?(File.join(RAILS_ROOT, THEME_PATH_ROOT, "site-#{sites(:default).id}")).should be_true
     end
     
     it "should copy the default themes into the site's directory" do
-      Theme.create_defaults(sites(:default))
+      Theme.create_defaults_for(sites(:default))
       File.exist?(File.join(RAILS_ROOT, THEME_PATH_ROOT, "site-#{sites(:default).id}", 'dark')).should be_true
       File.exist?(File.join(RAILS_ROOT, THEME_PATH_ROOT, "site-#{sites(:default).id}", 'light')).should be_true
+    end
+  end
+  
+  describe "find_all_for method" do
+    define_models :theme
+    
+    it "should create a list of themes for the given site" do
+      Theme.create_defaults_for(sites(:default))
+      Theme.find_all_for(sites(:default)).should eql([Theme.new('dark', sites(:default)), Theme.new('light', sites(:default))])
     end
   end
   

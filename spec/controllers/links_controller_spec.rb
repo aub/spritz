@@ -5,6 +5,7 @@ describe LinksController do
   
   before(:each) do
     activate_site(:default)
+    stub_site_themes
   end
 
   describe "handling GET /" do

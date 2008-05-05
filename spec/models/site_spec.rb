@@ -162,10 +162,16 @@ describe Site do
   
   describe "theme management" do
     define_models :site
+
+    before(:each) do
+      @theme1 = Theme.new('1', sites(:default))
+      @theme2 = Theme.new('2', sites(:default))
+      Theme.stub!(:find_all_for).and_return([@theme1, @theme2])
+    end
     
     it "should provide a method for accessing the theme" do
-      sites(:default).theme_path = 'booya'
-      sites(:default).theme.should eql(Theme.find('booya'))
+      sites(:default).theme_path = '2'
+      sites(:default).theme.should eql(@theme2)
     end
     
     it "should setup a default theme on create" do
@@ -173,8 +179,12 @@ describe Site do
     end
     
     it "should copy the themes into the appropriate directory on create" do
-      Theme.should_receive(:create_defaults).and_return(true)
+      Theme.should_receive(:create_defaults_for).and_return(true)
       Site.create
+    end
+    
+    it "should provide a list of themes available to the site" do
+      sites(:default).themes.should == [@theme1, @theme2]
     end
   end
   

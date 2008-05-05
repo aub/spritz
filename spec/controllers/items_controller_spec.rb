@@ -17,6 +17,7 @@ describe ItemsController do
   
   before(:each) do
     activate_site(:default)
+    stub_site_themes
   end
 
   describe "handling GET /portfolios/1/items/1" do

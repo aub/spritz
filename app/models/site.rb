@@ -66,8 +66,12 @@ class Site < ActiveRecord::Base
     User.find_by_remember_token(self, token)
   end
   
+  def themes
+    @themes ||= Theme.find_all_for(self)
+  end
+  
   def theme
-    @theme ||= Theme.find(theme_path)
+    themes.find { |t| t.name == theme_path }
   end
   
   def to_liquid
@@ -79,6 +83,6 @@ class Site < ActiveRecord::Base
   def initialize_theme
     self.theme_path = 'dark'
     # This needs to be last because we want to return false if it fails
-    Theme.create_defaults(self)
+    Theme.create_defaults_for(self)
   end
 end
