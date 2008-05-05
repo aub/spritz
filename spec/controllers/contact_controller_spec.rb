@@ -37,7 +37,7 @@ describe ContactController do
   
       it "should re-render the new contact page" do
         do_post
-        response.should render_template('new')
+        response.should render_template('contact')
       end
       
       it "should provide a message for the template" do
@@ -54,7 +54,7 @@ describe ContactController do
 
         it "should re-render 'new'" do
           do_post
-          response.should render_template('new')
+          response.should render_template('contact')
         end
       end
     end

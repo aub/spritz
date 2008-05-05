@@ -21,7 +21,7 @@ describe ContactForm do
   end
   
   it "should render a message if it is provided" do
-    render_liquid('{% contactform %} {% endcontactform %}', nil, @arg.merge({'message' => 'HEYA'})).should == "<p id=\"comment-message\">HEYA</p><form id=\"contact-form\" method=\"post\" action=\"/contact\"> </form>"
+    render_liquid('{% contactform %} {% endcontactform %}', nil, @arg.merge({'message' => 'HEYA'})).should == "<p id=\"contact-flash\">HEYA</p><form id=\"contact-form\" method=\"post\" action=\"/contact\"> </form>"
   end
   
   it "should render the name input" do
@@ -45,7 +45,7 @@ describe ContactForm do
 
   it "should render the message input" do
     @contact.message = 'HEYA'
-    render_liquid('{% contactform %}{{ form.message }}{% endcontactform %}', nil, @arg).should be_include("<textarea id=\"contact-message\" name=\"contact[message]\" rows=\"6\">HEYA</textarea>")
+    render_liquid('{% contactform %}{{ form.message }}{% endcontactform %}', nil, @arg).should be_include("<textarea id=\"contact-message\" name=\"contact[message]\" rows=\"6\" cols=\"40\">HEYA</textarea>")
   end
   
   it "should render a submit button" do

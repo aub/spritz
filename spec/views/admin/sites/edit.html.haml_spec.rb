@@ -7,7 +7,8 @@ describe "/admin/sites/edit.html.haml" do
     @site = mock_model(Site)
     @site.stub!(:domain).and_return("MyString")
     @site.stub!(:subdomain).and_return("MyString")
-    assigns[:site] = @site
+    @site.stub!(:title).and_return('title')
+    assigns[:template_site] = @site
   end
 
   it "should render edit form" do

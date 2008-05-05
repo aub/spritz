@@ -1,4 +1,4 @@
 = error_messages_for :template_site
 
-- form_for @template_site, :url => admin_sites_path(@template_site), :html => { :method => :put }  do |f|
+- form_for @template_site, :url => admin_site_path(@template_site), :html => { :method => :put }  do |f|
   = render :partial => 'form', :locals => { :f => f }

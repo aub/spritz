@@ -8,7 +8,8 @@ describe "/admin/sites/new.html.erb" do
     @site.stub!(:new_record?).and_return(true)
     @site.stub!(:domain).and_return("MyString")
     @site.stub!(:subdomain).and_return("MyString")
-    assigns[:site] = @site
+    @site.stub!(:title).and_return('title')
+    assigns[:template_site] = @site
   end
 
   it "should render new form" do

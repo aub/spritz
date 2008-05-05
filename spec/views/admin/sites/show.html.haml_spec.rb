@@ -8,7 +8,7 @@ describe "/admin/sites/show.html.haml" do
     @site.stub!(:domain).and_return("MyString")
     @site.stub!(:subdomain).and_return("MyString")
 
-    assigns[:site] = @site
+    assigns[:template_site] = @site
   end
 
   it "should render attributes in <p>" do

@@ -100,7 +100,7 @@ describe Admin::SitesController do
   
     it "should assign the found site for the view" do
       do_get
-      assigns[:site].should equal(@site)
+      assigns[:template_site].should equal(@site)
     end
   end
 
@@ -168,7 +168,7 @@ describe Admin::SitesController do
   
     it "should assign the new site for the view" do
       do_get
-      assigns[:site].should equal(@site)
+      assigns[:template_site].should equal(@site)
     end
   end
 
@@ -201,7 +201,7 @@ describe Admin::SitesController do
   
     it "should assign the found Site for the view" do
       do_get
-      assigns[:site].should equal(@site)
+      assigns[:template_site].should equal(@site)
     end
   end
 
@@ -272,12 +272,12 @@ describe Admin::SitesController do
 
       it "should update the found site" do
         do_put
-        assigns(:site).should equal(@site)
+        assigns(:template_site).should equal(@site)
       end
 
       it "should assign the found site for the view" do
         do_put
-        assigns(:site).should equal(@site)
+        assigns(:template_site).should equal(@site)
       end
 
       it "should redirect to the site" do
