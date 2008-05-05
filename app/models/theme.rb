@@ -22,6 +22,10 @@ class Theme
     File.join(RAILS_ROOT, ((RAILS_ENV == 'test') ? %w(tmp themes) : 'themes'))
   end
   
+  def self.copy_defaults(subdirectory)
+    
+  end
+  
   def eql?(comparison_object)
     @name.eql?(comparison_object.name) && @path.eql?(comparison_object.path)
   end

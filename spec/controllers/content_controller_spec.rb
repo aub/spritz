@@ -9,7 +9,7 @@ describe HomeController do
   end
   
   it "should add the theme's path to the view search path" do
-    sites(:default).theme = 'testy'
+    sites(:default).theme_path = 'testy'
     get :show
     controller.view_paths.should == 
       ::ActionController::Base.view_paths.dup.unshift("#{RAILS_ROOT}/tmp/themes/default/testy/templates")

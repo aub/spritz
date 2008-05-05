@@ -23,7 +23,7 @@ class ThemeController < ApplicationController
     end
     
     # Construct the full path to the file and make sure it exists.
-    resource = Pathname.new(File.join(@site.current_theme.path, self.action_name, [filename, extension] * '.'))
+    resource = Pathname.new(File.join(@site.theme.path, self.action_name, [filename, extension] * '.'))
     render_not_found and return unless resource.file?
     
     content_type = mime_for(extension)

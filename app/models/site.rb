@@ -1,11 +1,11 @@
 class Site < ActiveRecord::Base
 
   validates_presence_of :title
-  validates_presence_of :theme
+  validates_presence_of :theme_path
 
   before_validation_on_create :initialize_theme
 
-  attr_accessible :subdomain, :domain, :theme, :title
+  attr_accessible :subdomain, :domain, :theme_path, :title
   
   has_many :memberships, :dependent => :destroy
   has_many :members, :through => :memberships, :source => :user
@@ -66,8 +66,8 @@ class Site < ActiveRecord::Base
     User.find_by_remember_token(self, token)
   end
   
-  def current_theme
-    @current_theme ||= Theme.find(theme)
+  def theme
+    @theme ||= Theme.find(theme_path)
   end
   
   def to_liquid
@@ -77,6 +77,6 @@ class Site < ActiveRecord::Base
   protected
   
   def initialize_theme
-    self.theme = 'dark'
+    self.theme_path = 'dark'
   end
 end

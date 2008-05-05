@@ -8,10 +8,10 @@ class ContentController < ApplicationController
   protected
   
   def add_theme_directory_to_view_path
-    self.prepend_view_path("#{@site.current_theme.path}/templates")
+    self.prepend_view_path("#{@site.theme.path}/templates")
   end
   
   def theme_layout
-    @site.current_theme.layout
+    @site.theme.layout
   end
 end

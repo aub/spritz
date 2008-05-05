@@ -15,7 +15,7 @@ describe Site do
 
     it "should be valid" do
       @site.title = 'test title'
-      @site.theme = 'default'
+      @site.theme_path = 'default'
       @site.should be_valid
     end
   end
@@ -164,12 +164,12 @@ describe Site do
     define_models :site
     
     it "should provide a method for accessing the theme" do
-      sites(:default).theme = 'booya'
-      sites(:default).current_theme.should eql(Theme.find('booya'))
+      sites(:default).theme_path = 'booya'
+      sites(:default).theme.should eql(Theme.find('booya'))
     end
     
     it "should setup a default theme on create" do
-      Site.create.theme.should == 'dark'
+      Site.create.theme_path.should == 'dark'
     end
   end
   

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 15) do
+ActiveRecord::Schema.define(:version => 16) do
 
   create_table "assets", :force => true do |t|
     t.string   "content_type"
@@ -96,7 +96,7 @@ ActiveRecord::Schema.define(:version => 15) do
     t.string   "domain"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "theme"
+    t.string   "theme_path"
     t.string   "title"
   end
 
