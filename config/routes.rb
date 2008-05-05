@@ -1,5 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :contacts
 
   # Routes for accessing the resources for use in the theme. Note that we need to include
   # 'theme' here to differentiate them from the standard files.
@@ -24,6 +23,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resource :session
     admin.resource :settings
     admin.resources :sites
+    admin.resources :themes, :member => { :activate => :put, :preview => :get }
     admin.resources :users, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :activate => :get }
   end
 

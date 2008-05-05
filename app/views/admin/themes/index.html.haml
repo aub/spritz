@@ -1,0 +1,9 @@
+%h1 Listing themes
+
+%table
+  - for theme in @themes
+    %tr
+      %td
+        = image_tag preview_admin_theme_path(theme)
+      %td= link_to 'Activate', activate_admin_theme_path(theme), :method => :put
+      %td= link_to 'Destroy', admin_theme_path(theme), :confirm => 'Are you sure?', :method => :delete

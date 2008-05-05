@@ -77,13 +77,5 @@ describe Theme do
       Theme.create_defaults_for(sites(:default))
       Theme.find_all_for(sites(:default)).should eql([Theme.new('dark', sites(:default)), Theme.new('light', sites(:default))])
     end
-  end
-  
-  protected
-  
-  def cleanup_theme_directory
-    Dir.foreach(Theme.theme_root) do |file|
-      FileUtils.rm_rf(File.join(Theme.theme_root, file)) unless (file == 'default' || file == '.' || file == '..')
-    end
-  end
+  end  
 end

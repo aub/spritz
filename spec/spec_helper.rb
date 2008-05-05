@@ -35,6 +35,12 @@ def stub_site_themes
   sites(:other).stub!(:theme).and_return(Theme.new('theme_path', sites(:other)))
 end
 
+def cleanup_theme_directory
+  Dir.foreach(Theme.theme_root) do |file|
+    FileUtils.rm_rf(File.join(Theme.theme_root, file)) unless (file == 'default' || file == '.' || file == '..')
+  end
+end
+
 # For a given set of actions, test that a site is or is not required.
 def test_site_requirement(required, actions)
   login_as(:admin)

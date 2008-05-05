@@ -186,6 +186,10 @@ describe Site do
     it "should provide a list of themes available to the site" do
       sites(:default).themes.should == [@theme1, @theme2]
     end
+    
+    it "should have a method for finding a theme by name" do
+      sites(:default).find_theme('1').should == @theme1
+    end
   end
   
   describe "liquid conversion" do

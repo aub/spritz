@@ -7,6 +7,8 @@ class Theme
     @path = File.join(Theme.site_theme_dir(site), @name)
   end
 
+  alias :to_param :name
+
   def layout
     File.join(%w(.. layouts default))
   end  

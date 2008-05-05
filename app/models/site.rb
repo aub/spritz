@@ -71,7 +71,11 @@ class Site < ActiveRecord::Base
   end
   
   def theme
-    themes.find { |t| t.name == theme_path }
+    find_theme(theme_path)
+  end
+  
+  def find_theme(name)
+    themes.find { |t| t.name == name }
   end
   
   def to_liquid
