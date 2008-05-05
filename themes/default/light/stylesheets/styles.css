@@ -116,6 +116,17 @@ a img {
 }
 
 .portfolio .portfolio-children {
-	list-style-type: none;	
-	padding-top: 20px;
+	padding-top: 10px;
+}
+
+.portfolio .portfolio-children td {
+	padding-top: 10px;
+}
+
+.portfolio .portfolio-children img {
+	margin-right: 5px;
+}
+
+.breadcrumbs {
+  font-size: 80%;
 }
