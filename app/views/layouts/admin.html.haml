@@ -21,7 +21,7 @@
     #wrapper
       #content
         #head
-          %h1= @site.title
+          %h1= @site.title unless @site.nil?
         %ul#top-controls
           %li= link_to 'Dashboard', dashboard_path, :class => check_active_section('dashboard')
           %li= link_to 'Links', admin_links_path, :class => check_active_section('links')

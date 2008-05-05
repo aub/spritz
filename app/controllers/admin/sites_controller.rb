@@ -21,43 +21,40 @@ class Admin::SitesController < Admin::AdminController
   # GET /admin/sites/1
   # GET /admin/sites/1.xml
   def show
-    @site = Site.find(params[:id])
-
+    @template_site = Site.find(params[:id])
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @site }
+      format.xml  { render :xml => @template_site }
     end
   end
 
   # GET /admin/sites/new
   # GET /admin/sites/new.xml
   def new
-    @site = Site.new
-
+    @template_site = Site.new
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @site }
+      format.xml  { render :xml => @template_site }
     end
   end
 
   # GET /admin/sites/1/edit
   def edit
-    @site = Site.find(params[:id])
+    @template_site = Site.find(params[:id])
   end
 
   # POST /admin/sites
   # POST /admin/sites.xml
   def create
-    @site = Site.new(params[:site])
-
+    @template_site = Site.new(params[:site])
     respond_to do |format|
-      if @site.save
+      if @template_site.save
         flash[:notice] = 'Site was successfully created.'
-        format.html { redirect_to(admin_site_path(@site)) }
-        format.xml  { render :xml => @site, :status => :created, :location => @site }
+        format.html { redirect_to(admin_site_path(@template_site)) }
+        format.xml  { render :xml => @template_site, :status => :created, :location => @template_site }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @site.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => @template_site.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -65,16 +62,15 @@ class Admin::SitesController < Admin::AdminController
   # PUT /admin/sites/1
   # PUT /admin/sites/1.xml
   def update
-    @site = Site.find(params[:id])
-
+    @template_site = Site.find(params[:id])
     respond_to do |format|
-      if @site.update_attributes(params[:site])
+      if @template_site.update_attributes(params[:site])
         flash[:notice] = 'Site was successfully updated.'
-        format.html { redirect_to(admin_site_path(@site)) }
+        format.html { redirect_to(admin_site_path(@template_site)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @site.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => @template_site.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -82,9 +78,8 @@ class Admin::SitesController < Admin::AdminController
   # DELETE /admin/sites/1
   # DELETE /admin/sites/1.xml
   def destroy
-    @site = Site.find(params[:id])
-    @site.destroy
-
+    @template_site = Site.find(params[:id])
+    @template_site.destroy
     respond_to do |format|
       format.html { redirect_to(admin_sites_url) }
       format.xml  { head :ok }

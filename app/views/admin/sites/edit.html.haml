@@ -1,20 +1,4 @@
-%h1 Editing site
+= error_messages_for :template_site
 
-= error_messages_for :site
-
-- form_for @site, :url => admin_site_path(@site) do |f|
-  %p
-    %b Domain
-    %br
-    = f.text_field :domain
-
-  %p
-    %b Subdomain
-    %br
-    = f.text_field :subdomain
-
-  %p
-    = f.submit "Update"
-
-= link_to 'Show', admin_site_path(@site)
-= link_to 'Back', admin_sites_path
+- form_for @template_site, :url => admin_sites_path(@template_site), :html => { :method => :put }  do |f|
+  = render :partial => 'form', :locals => { :f => f }
