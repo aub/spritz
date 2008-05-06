@@ -25,14 +25,7 @@
         #head
           %h1= @site.title unless @site.nil?
         %ul#top-controls
-          %li= link_to 'Dashboard', dashboard_path, :class => check_active_section('dashboard')
-          %li= link_to 'Links', admin_links_path, :class => check_active_section('links')
-          %li= link_to 'News', admin_news_items_path, :class => check_active_section('news_items')
-          %li= link_to 'Portfolios', admin_portfolios_path, :class => check_active_section('portfolios')
-          %li= link_to assets_name, admin_assets_path, :class => check_active_section('assets')
-          %li= link_to 'Design', admin_themes_path, :class => check_active_section('themes')
-          %li= link_to 'Contacts', admin_contacts_path, :class => check_active_section('contacts')
-          %li= link_to 'Settings', edit_admin_settings_path, :class => check_active_section('settings')
+          = main_menu
         %ul#subcontrols
           = yield :subcontrols
         #body
