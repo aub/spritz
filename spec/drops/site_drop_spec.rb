@@ -12,6 +12,12 @@ describe SiteDrop do
     end
     model NewsItem do
       stub :one, :site => all_stubs(:site)
+      stub :two, :site => all_stubs(:site)
+      stub :tre, :site => all_stubs(:site)
+    end
+    model Asset do
+      stub :one, :site => all_stubs(:site), :filename => 'hacky'
+      stub :two, :site => all_stubs(:site), :filename => 'ouch'
     end
   end
   
@@ -32,6 +38,25 @@ describe SiteDrop do
   end
   
   it "should provide access to the news items" do
-    @drop.news_items.should == [news_items(:one)].collect(&:to_liquid)
+    @drop.news_items.should == sites(:default).news_items.collect(&:to_liquid)
   end
+  
+  it "should provide access to the home text" do
+    @drop.before_method('home_text').should == sites(:default).home_text
+  end
+  
+  it "should provide access to the home page news items" do
+    sites(:default).update_attribute(:home_news_item_count, 2)
+    @drop.home_news_items.should == sites(:default).news_items[0..1].collect(&:to_liquid)
+  end
+  
+  it "should return nil if no news items are requested" do
+    sites(:default).update_attribute(:home_news_item_count, 0)
+    @drop.home_news_items.should == nil
+  end
+  
+  it "should provide access to the home image" do
+    @drop.home_image_path.should == sites(:default).assets.first.public_filename(:display)
+  end
+  
 end

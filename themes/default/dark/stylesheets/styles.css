@@ -1,5 +1,3 @@
-/* @override http://admin.site1.it:3000/theme/stylesheets/styles.css */
-
 * {
 	margin: 0pt;
 	padding: 0pt;
@@ -145,4 +143,30 @@ a:hover {
 	font-size: 120%;
 	font-weight: bold;
 	margin-bottom: 20px;
+}
+
+.home-news {
+	float: right;
+	width: 250px;
+	border: 1px solid #4c0000;
+	padding: 15px;
+	margin: 0pt
+}
+
+.home-news dd {
+	margin: 0pt 0pt 15px 0pt;
+}
+
+.home-text {
+	float: left;
+	width: 400px;
+}
+
+.home-text p {
+  padding-top: 20px;
+}
+
+.home-image {
+	float: left;
+	width: 400px;
 }

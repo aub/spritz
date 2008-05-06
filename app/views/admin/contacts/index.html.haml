@@ -4,7 +4,7 @@
   %ul.cleanlist
     - @contacts.each do |contact|
       %li.boxcontent
-        = contact.name
+        = h contact.name
         = distance_of_time_in_words_to_now(contact.created_at)
         ago
         = link_to 'view', admin_contact_path(contact)

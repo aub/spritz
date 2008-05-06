@@ -1,4 +1,4 @@
-/* @override http://admin.site1.it:3000/theme/stylesheets/styles.css */
+styles.css */
 
 * {
 	margin: 0pt;
@@ -34,6 +34,7 @@ a img {
 }
 
 #header h1 {
+  margin: 0pt;
 	font-size: 170%;
 }
 
@@ -43,7 +44,8 @@ a img {
 }
 
 #header ul {
-	margin-top: 7px;
+	margin: 10px 0pt 0pt 0pt;
+	padding: 0pt;
 	list-style-type: none;
 }
 
@@ -129,4 +131,26 @@ a img {
 
 .breadcrumbs {
   font-size: 80%;
+}
+
+.home-news {
+	float: right;
+	width: 250px;
+	border: 1px solid #ddd;
+	padding: 15px;
+	margin: 0pt
+}
+
+.home-news dd {
+	margin: 0pt 0pt 15px 0pt;
+}
+
+.home-text {
+	float: left;
+	width: 550px;
+}
+
+.home-image {
+	float: left;
+	width: 550px;
 }

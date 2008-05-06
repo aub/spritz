@@ -41,5 +41,13 @@ describe UrlFilters do
     end
   end
   
-  
+  describe "link_to_news method" do
+    it "should produce a link to the news page with the given text" do
+      link_to_news('Check it out').should == '<a href="/news_items">Check it out</a>'
+    end
+    
+    it "should default to News if no text is given" do
+      link_to_news().should == '<a href="/news_items">News</a>'
+    end
+  end
 end

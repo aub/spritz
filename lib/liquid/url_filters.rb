@@ -11,6 +11,10 @@ module UrlFilters
     javascript << '.js' unless javascript.include? '.'
     content_tag 'script', '', :type => 'text/javascript', :src => "/theme/javascripts/#{javascript}"
   end
+  
+  def link_to_news(text=nil)
+    content_tag 'a', text || 'News', :href => '/news_items'
+  end
 end
 
 Liquid::Template.register_filter UrlFilters

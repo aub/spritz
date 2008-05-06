@@ -1,1 +1,11 @@
-<h1>I'm Home</h1>
+<div class="home-text">
+  <img src="{{ site.home_image_path }}" width="400px"/>
+  <p>{{ site.home_text }}</p>
+</div>
+
+<dl class="home-news">
+  {% for news in site.home_news_items %}
+    <dt>{{ news.title | link_to_news }}</dt>
+    <dd>{{ news.text | limit_length: 100 }}</dd>
+  {% endfor %}
+</dl>
