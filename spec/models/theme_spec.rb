@@ -95,4 +95,21 @@ describe Theme do
       sites(:default).find_theme('light').should_not be_active
     end
   end
+  
+  describe "accessing resources" do
+    define_models :theme
+
+    before(:each) do
+      Theme.create_defaults_for(sites(:default))
+      sites(:default).update_attribute(:theme_path, 'dark')
+    end
+    
+    it "should return a list of all available resources" do
+      sites(:default).theme.resources.size.should == 10
+    end
+    
+    it "should find a given resource by name" do
+      sites(:default).theme.resource('home-liquid').name.should == 'home-liquid'
+    end
+  end
 end

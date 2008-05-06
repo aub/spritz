@@ -38,6 +38,14 @@ class Theme
     @site.eql?(comparison_object.site) && @path.eql?(comparison_object.path)
   end  
   
+  def resources
+    @resources ||= Pathname.glob(File.join(@path, '*/*')).collect { |path| path.file? ? Resource.new(self, path) : nil }.compact  
+  end
+  
+  def resource(name)
+    resources.detect { |r| r.name == name }
+  end
+  
   class << self
     def theme_root
       File.join(RAILS_ROOT, THEME_PATH_ROOT)

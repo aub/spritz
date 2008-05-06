@@ -3,6 +3,10 @@ class Admin::HomeController < Admin::AdminController
   # GET /admin/home/edit
   def edit
   end
+
+  # GET /admin/home/choose_image
+  def choose_image
+  end
   
   # PUT /links/1
   # PUT /links/1.xml

@@ -175,24 +175,27 @@ h1 a {
   white-space: nowrap;
   color: #383838; }
 
-form .group dl {
+.group dl {
   font-weight: normal;
   margin-left: 8px;
   background-color: #d9d9d9;
   margin: 0pt;
   padding: 20px; }
-  form .group dl dt {
+  .group dl dt {
     font-weight: bold; }
-  form .group dl input, form .group dl textarea, form .group dl select {
+  .group dl input, .group dl textarea, .group dl select {
     font-family: "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif;
     margin: 0pt 0pt 20px 0pt; }
-  form .group dl select {
+  .group dl select {
     min-width: 100px; }
-  form .group dl textarea {
+  .group dl textarea {
     font-size: 125%;
     width: 100%; }
+  .group dl .template-editor {
+    font-family: "Courier New", Courier, mono;
+    font-size: 12px; }
 
-form .group dl, #login-form form, #login-form .submit input {
+.group dl, #login-form form, #login-form .submit input {
   -moz-border-radius-bottomleft: 5px;
   -moz-border-radius-bottomright: 5px;
   -moz-border-radius-topleft: 5px;
@@ -296,3 +299,14 @@ form .group dl, #login-form form, #login-form .submit input {
     list-style-type: none; }
     .theme .theme-controls li {
       padding-top: 10px; }
+
+#resource-list {
+  padding: 10px 0px 0px 10px; }
+  #resource-list h3 {
+    font-size: 110%;
+    border-bottom: 1px solid grey; }
+  #resource-list ul {
+    list-style-type: none;
+    margin-bottom: 20px; }
+    #resource-list ul li {
+      padding: 10px 0px 0px 20px; }

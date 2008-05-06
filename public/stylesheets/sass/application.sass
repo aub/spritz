@@ -213,7 +213,7 @@ h1 a
   :white-space nowrap
   :color = !dark_grey
   
-form .group 
+.group 
   dl
     :font-weight normal
     :margin-left 8px
@@ -235,7 +235,12 @@ form .group
       :font-size 125%
       :width 100%
 
-form .group dl, #login-form form, #login-form .submit input
+    .template-editor
+      :font-family "Courier New", Courier, mono
+      :font-size 12px
+      
+
+.group dl, #login-form form, #login-form .submit input
   :-moz-border-radius-bottomleft 5px
   :-moz-border-radius-bottomright 5px
   :-moz-border-radius-topleft 5px
@@ -350,3 +355,18 @@ form .group dl, #login-form form, #login-form .submit input
 
     li
       :padding-top 10px
+
+#resource-list
+  :padding 10px 0px 0px 10px
+
+  h3
+    :font-size 110%
+    :border-bottom 1px solid grey
+
+  ul
+    :list-style-type none
+    :margin-bottom 20px
+
+    li
+      :padding 10px 0px 0px 20px
+      

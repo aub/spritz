@@ -14,17 +14,20 @@ ActionController::Routing::Routes.draw do |map|
   map.namespace(:admin) do |admin|
     admin.resources :assets
     admin.resources :contacts
-    admin.resource :home, :controller => 'home'
+    admin.resource :home, :controller => 'home', :collection => { :choose_image => :get }
     admin.resources :links
     admin.resources :news_items
     admin.resources :portfolios, :member => { :add_child => :get } do |portfolios|
       portfolios.resources :assigned_assets
     end
+    admin.resources :resources
     admin.resources :sections
     admin.resource :session
     admin.resource :settings
     admin.resources :sites
-    admin.resources :themes, :member => { :activate => :put, :preview => :get }
+    admin.resources :themes, :member => { :activate => :put, :preview => :get } do |themes|
+      themes.resources :resources
+    end
     admin.resources :users, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :activate => :get }
   end
 
