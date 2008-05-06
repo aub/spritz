@@ -3,7 +3,7 @@ class Asset < ActiveRecord::Base
   belongs_to :site
 
   has_attachment :storage => :file_system, 
-                 :thumbnails => { :display => '600x400>', :thumb => '70x70!', :tiny => '35x35!' }, 
+                 :thumbnails => { :display => '600x400>', :medium => '400x300>', :thumb => '70x70!', :tiny => '35x35!' }, 
                  :max_size => 30.megabytes, 
                  :processor => (Object.const_defined?(:ASSET_IMAGE_PROCESSOR) ? ASSET_IMAGE_PROCESSOR : nil)
 

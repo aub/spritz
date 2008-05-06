@@ -109,8 +109,12 @@ a:hover {
 	list-style-type: none;
 }
 
-.portfolio-children li {
+.portfolio-children tr {
     font-size: 80%;
+}
+
+.portfolio-children td {
+  padding: 10px 8px 0pt 0pt;
 }
 
 .portfolio-image {

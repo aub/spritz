@@ -8,3 +8,6 @@
         = portfolio.title
         = link_to 'edit', edit_admin_portfolio_path(portfolio)
         = link_to 'delete', admin_portfolio_path(portfolio), :confirm => 'Are you sure?', :method => :delete
+    - if @portfolios.empty?
+      %li.boxcontent None
+      

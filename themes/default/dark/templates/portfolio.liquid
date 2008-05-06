@@ -18,13 +18,13 @@
     <div class="portfolio-info">
       <p class="portfolio-text">{{ portfolio.body }}</p>
       
-      <ul class="portfolio-children">
+      <table class="portfolio-children">
         {% for child in portfolio.children %}
-          <li>
-            <a href="{{ child.url }}"><img src="{{child.title_asset.tiny_path}}" /> {{ child.title }}</a>
-          </li>
+          <tr>
+            <td><img src="{{child.title_asset.tiny_path}}" /></td><td><a href="{{ child.url }}">{{ child.title }}</a></td>
+          </tr>
         {% endfor %}
-      </ul>
+      </table>
     </div>
   </div>
 
