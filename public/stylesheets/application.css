@@ -118,7 +118,7 @@ h1 a {
   border-bottom-color: #C6D9E9;
   border-bottom-style: solid;
   border-bottom-width: 1px;
-  padding-left: 11px; }
+  padding-left: 13px; }
   #top-controls li a {
     font-size: 125%;
     line-height: 30px;
@@ -135,6 +135,28 @@ h1 a {
     color: rgb(223,141,74);
     -moz-border-radius-topleft: 4px;
     -moz-border-radius-topright: 4px; }
+
+#subcontrols {
+  background-color: #fff;
+  border-right: 3px solid #B9B9B9;
+  float: left;
+  min-height: 1em;
+  position: relative;
+  width: 62%;
+  padding-top: 7px; }
+  #subcontrols li {
+    display: inline;
+    padding: 5px 0px 5px 20px; }
+    #subcontrols li a {
+      font-size: 110%;
+      line-height: 30px;
+      text-decoration: none;
+      text-align: center;
+      white-space: nowrap;
+      color: #383838;
+      border: none; }
+    #subcontrols li a.current {
+      color: rgb(223,141,74); }
 
 #top-controls, #top-controls a, #available-sections li, #active-sections li, .cleanlist, .asset-controls {
   list-style-image: none;
@@ -209,7 +231,7 @@ form .group dl, #login-form form, #login-form .submit input {
   border-bottom-color: #b9b9b9; }
 
 #main-content {
-  padding: 20px 20px 20px 20px; }
+  padding: 10px 20px 20px 20px; }
 
 #sidebar {
   position: relative;

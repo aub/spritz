@@ -33,6 +33,8 @@
           %li= link_to 'Design', admin_themes_path, :class => check_active_section('themes')
           %li= link_to 'Contacts', admin_contacts_path, :class => check_active_section('contacts')
           %li= link_to 'Settings', edit_admin_settings_path, :class => check_active_section('settings')
+        %ul#subcontrols
+          = yield :subcontrols
         #body
           #main
             #main-content
