@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 16) do
+ActiveRecord::Schema.define(:version => 17) do
 
   create_table "assets", :force => true do |t|
     t.string   "content_type"
@@ -98,6 +98,8 @@ ActiveRecord::Schema.define(:version => 16) do
     t.datetime "updated_at"
     t.string   "theme_path"
     t.string   "title"
+    t.text     "home_text"
+    t.integer  "home_news_item_count"
   end
 
   add_index "sites", ["domain", "subdomain"], :name => "index_sites_on_domain_and_subdomain"

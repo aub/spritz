@@ -183,9 +183,11 @@ form .group dl {
   padding: 20px; }
   form .group dl dt {
     font-weight: bold; }
-  form .group dl input, form .group dl textarea {
+  form .group dl input, form .group dl textarea, form .group dl select {
     font-family: "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif;
     margin: 0pt 0pt 20px 0pt; }
+  form .group dl select {
+    min-width: 100px; }
   form .group dl textarea {
     font-size: 125%;
     width: 100%; }

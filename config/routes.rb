@@ -14,6 +14,7 @@ ActionController::Routing::Routes.draw do |map|
   map.namespace(:admin) do |admin|
     admin.resources :assets
     admin.resources :contacts
+    admin.resource :home, :controller => 'home'
     admin.resources :links
     admin.resources :news_items
     admin.resources :portfolios, :member => { :add_child => :get } do |portfolios|

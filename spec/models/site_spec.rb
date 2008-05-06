@@ -13,6 +13,12 @@ describe Site do
       @site.should have(1).error_on(:title)
     end
 
+    it "should limit the number of home news items" do
+      @site.home_news_item_count = 11
+      @site.should_not be_valid
+      @site.should have(1).error_on(:home_news_item_count)
+    end
+
     it "should be valid" do
       @site.title = 'test title'
       @site.theme_path = 'default'

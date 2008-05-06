@@ -8,3 +8,4 @@ tmp/attachment_fu
 tmp/cache
 tmp/test/assets
 tmp/test/caches
+tmp/test/themes/site*

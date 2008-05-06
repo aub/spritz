@@ -1,0 +1,12 @@
+- form_for :site, :url => admin_home_path, :html => { :method => :put } do |f|
+  .group
+    %dl
+      %dt
+        %label{ :for => 'home_news_item_count' } Number of news items to display on the home page
+      %dd= select('site', 'home_news_item_count', 0..10)
+      %dt= f.label_for :home_text
+      %dd
+        ~ f.text_area :home_text, :class => 'large', :rows => '8'
+      %dt
+        = f.submit 'Save'
+

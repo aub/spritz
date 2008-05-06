@@ -5,8 +5,8 @@ ModelStubbing.define_models do
   time 2007, 6, 15
   
   model Site do
-    stub :domain => 'www.test.com', :subdomain => 'testo', :theme_path => 'default', :title => 'Hack Site'
-    stub :other, :domain => 'www.other.com', :subdomain => 'oth', :theme_path => 'nicer', :title => 'Something Else'
+    stub :domain => 'www.test.com', :subdomain => 'testo', :theme_path => 'default', :title => 'Hack Site', :home_text => 'ht', :home_news_item_count => 2
+    stub :other, :domain => 'www.other.com', :subdomain => 'oth', :theme_path => 'nicer', :title => 'Something Else', :home_text => 'ht', :home_news_item_count => 2
   end
   
   model User do
