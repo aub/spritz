@@ -6,7 +6,7 @@
       %dd= select('site', 'home_news_item_count', 0..10)
       %dt= f.label_for :home_text
       %dd
-        ~ f.text_area :home_text, :class => 'large', :rows => '8'
+        ~ f.text_area :home_text, :class => 'large fat', :rows => '8'
       %dt
         = f.submit 'Save'
 

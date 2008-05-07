@@ -8,6 +8,7 @@ module ApplicationHelper
   def main_menu
     ctrlr = request.parameters['controller']
     dashboard_class = (ctrlr == 'admin/dashboard' ? 'current' : '')
+    home_class = (ctrlr == 'admin/home' ? 'current' : '')
     links_class = (ctrlr == 'admin/links' ? 'current' : '')
     news_class = (ctrlr == 'admin/news_items' ? 'current' : '')
     portfolios_class = (ctrlr == 'admin/portfolios' ? 'current' : '')
@@ -17,6 +18,7 @@ module ApplicationHelper
     settings_class = (ctrlr == 'admin/settings' ? 'current' : '')
     
     result =  content_tag('li', link_to('Dashboard', dashboard_path, :class => dashboard_class))
+    result << content_tag('li', link_to('Home', edit_admin_home_path, :class => home_class))
     result << content_tag('li', link_to('Links', admin_links_path, :class => links_class))
     result << content_tag('li', link_to('News', admin_news_items_path, :class => news_class))
     result << content_tag('li', link_to('Portfolios', admin_portfolios_path, :class => portfolios_class))
