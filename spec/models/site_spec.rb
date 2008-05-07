@@ -29,16 +29,44 @@ describe Site do
   describe "accessing the site for a domain and subdomain" do
     define_models :site
     
-    it "should return the correct site for a given domain" do
-      Site.for(sites(:default).domain, []).should == sites(:default)
+    describe "with multi_site enabled" do
+      define_models :site
+      
+      before(:all) do
+        Site.multi_sites_enabled = true
+      end
+      
+      after(:all) do
+        Site.multi_sites_enabled = false
+      end
+
+      it "should return the correct site for a given domain" do
+        Site.for(sites(:default).domain, []).should == sites(:default)
+      end
+
+      it "should return the correct site for a given subdomain" do
+        Site.for('blah', [sites(:default).subdomain]).should == sites(:default)
+      end
+
+      it "should return nil for no match" do
+        Site.for('blah', []).should be_nil
+      end      
     end
     
-    it "should return the correct site for a given subdomain" do
-      Site.for('blah', [sites(:default).subdomain]).should == sites(:default)
-    end
-    
-    it "should return nil for no match" do
-      Site.for('blah', []).should be_nil
+    describe "with multi_sites disabled" do
+      define_models :site
+      
+      before(:all) do
+        Site.multi_sites_enabled = false
+      end
+      
+      after(:all) do
+        Site.multi_sites_enabled = true
+      end
+      
+      it "should return the first site always" do
+        Site.for('acid', []).should == Site.find(:first)
+      end
     end
   end
   

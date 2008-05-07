@@ -33,3 +33,6 @@ ASSET_PATH_ROOT = 'public/assets'
 
 # This is the directory where the themes will be stored.
 THEME_PATH_ROOT = 'themes'
+
+# Enable if you want to host multiple sites on this app
+# Site.multi_sites_enabled = true

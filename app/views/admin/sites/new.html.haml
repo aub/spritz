@@ -1,4 +1,27 @@
 = error_messages_for :template_site
+= error_messages_for :user
 
-- form_for @template_site, :url => admin_sites_path do |f|
-  = render :partial => 'form', :locals => { :f => f }
+- form_for @user, :url => admin_sites_path do |f|
+  .group
+    %dl
+      %dt
+        %label{ :for => 'site[title]' } Site Title
+      %dd= text_field_tag 'site[title]', @template_site.title, :class => 'large', :size => '30'
+      
+      - if Site.multi_sites_enabled
+        %dt
+          %label{ :for => 'site[domain]' } Site Domain
+        %dd= text_field_tag 'site[domain]', @template_site.domain, :class => 'large', :size => '30'
+        %dt
+          %label{ :for => 'site[subdomain]' } Site Subdomain
+        %dd= text_field_tag 'site[subdomain]', @template_site.subdomain, :class => 'large', :size => '30'
+      
+      %dt= f.label_for :login, :text => 'User Name'
+      %dd= f.text_field :login, :class => 'large'
+      %dt= f.label_for :email
+      %dd= f.text_field :email, :class => 'large'
+      %dt= f.label_for :password
+      %dd= f.password_field :password, :class => 'large'
+      %dt= f.label_for :password_confirmation
+      %dd= f.password_field :password_confirmation, :class => 'large'
+      %dt= f.submit 'Create Site'

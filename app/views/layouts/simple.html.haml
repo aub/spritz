@@ -4,11 +4,11 @@
   %head
     %meta{ 'http-equiv' => "Content-type", :content => "text/html; charset=utf-8" }
     = stylesheet_link_tag 'application'
-    %title Log in DAMMIT!
+    %title Spritz... relax
   %body
     #banner
       #right-banner
-        = link_to 'Visit your site', home_path
+        = link_to('Visit your site', home_path) unless @site.nil?
       #left-banner  
   
     = yield

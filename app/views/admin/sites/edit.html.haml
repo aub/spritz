@@ -1,4 +1,15 @@
 = error_messages_for :template_site
 
 - form_for @template_site, :url => admin_site_path(@template_site), :html => { :method => :put }  do |f|
-  = render :partial => 'form', :locals => { :f => f }
+  .group
+    %dl
+      %dt= f.label_for :domain
+      %dd= f.text_field :domain, :class => 'large'
+      %dt= f.label_for :subdomain
+      %dd= f.text_field :subdomain, :class => 'large'
+      %dt= f.label_for :title
+      %dd= f.text_field :title, :class => 'large'
+      %dt
+        = f.submit 'Save Site'
+        or
+        = link_to "Cancel", admin_sites_path

@@ -140,6 +140,8 @@ describe Admin::SitesController do
     before(:each) do
       @site = mock_model(Site)
       Site.stub!(:new).and_return(@site)
+      @user = mock_model(User)
+      User.stub!(:new).and_return(@user)
     end
   
     def do_get
@@ -169,6 +171,11 @@ describe Admin::SitesController do
     it "should assign the new site for the view" do
       do_get
       assigns[:template_site].should equal(@site)
+    end
+    
+    it "should assign a new user for the view" do
+      do_get
+      assigns[:user].should equal(@user)
     end
   end
 

@@ -1,0 +1,19 @@
+==== Spritz... relax ====
+
+Spritz is a content management system specifically designed to help artists create a gallery site to display their work, post news updates, and receive feedback from people interested in their work.
+
+
+== Installation ==
+
+1) Check out a copy of the application
+  ?????
+  
+2) Create a log folder:
+  mkdir log
+  
+3) Create a database.yml file using the examples in database.example.yml. These files are located in the config directory.
+
+4) Create the database tables:
+  rake db:migrate
+  
+5) 

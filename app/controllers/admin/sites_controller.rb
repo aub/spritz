@@ -6,6 +6,8 @@ class Admin::SitesController < Admin::AdminController
   
   skip_before_filter :site_required, :only => [:new, :create]
   skip_before_filter :login_required, :only => [:new, :create]
+
+  layout 'simple', :only => 'new'
   
   # GET /admin/sites
   # GET /admin/sites.xml
@@ -32,6 +34,7 @@ class Admin::SitesController < Admin::AdminController
   # GET /admin/sites/new.xml
   def new
     @template_site = Site.new
+    @user = User.new
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @template_site }

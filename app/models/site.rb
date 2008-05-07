@@ -1,5 +1,8 @@
 class Site < ActiveRecord::Base
 
+  @@multi_sites_enables = false
+  cattr_accessor :multi_sites_enabled
+
   validates_presence_of :title
   validates_presence_of :theme_path
   validates_numericality_of :home_news_item_count, :only_integer => true, :less_than_or_equal_to => 10, :allow_nil => true
@@ -42,8 +45,12 @@ class Site < ActiveRecord::Base
   # A method for finding a site given a domain or subdomains from a request.
   # Will be called with every request in order to display the correct data.
   def self.for(domain, subdomains)
-    condition = subdomains.blank? ? ['domain = ?', domain] : ['domain = ? OR subdomain = ?', domain, subdomains.first]
-    find(:first, :conditions => condition)
+    if multi_sites_enabled
+      condition = subdomains.blank? ? ['domain = ?', domain] : ['domain = ? OR subdomain = ?', domain, subdomains.first]
+      find(:first, :conditions => condition)
+    else
+      find(:first)
+    end
   end
 
   # A query method for the root of the action cache directory to use for this site. Preface the
