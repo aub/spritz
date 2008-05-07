@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 17) do
+ActiveRecord::Schema.define(:version => 18) do
 
   create_table "assets", :force => true do |t|
     t.string   "content_type"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(:version => 17) do
     t.integer  "thumbnails_count"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "fields"
   end
 
   create_table "assigned_assets", :force => true do |t|

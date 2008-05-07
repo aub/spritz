@@ -1,5 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
+num_thumbnails = 4
+
 describe Asset do
   define_models :asset do
     model Asset do
@@ -54,7 +56,7 @@ describe Asset do
     end
     
     it "should create thumbnails" do
-      assets(:one).thumbnails.size.should == 3
+      assets(:one).thumbnails.size.should == num_thumbnails
     end
   end
 

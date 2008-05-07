@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe Admin::AssetsController do
   define_models :assets_controller
   
-  num_thumbnails = 3
+  num_thumbnails = 4
   
   before(:each) do
     activate_site :default
