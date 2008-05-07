@@ -34,34 +34,6 @@ describe Admin::HomeController do
     end  
   end
 
-  describe "handling GET /home/choose_image" do
-    define_models :home_controller
-
-    before(:each) do
-      login_as(:admin)
-    end
-    
-    def do_get
-      get :choose_image
-    end
-
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-  
-    it "should assign the site for the view" do
-      do_get
-      assigns[:site].should == sites(:default)
-    end
-  
-    it "should render choose_image template" do
-      do_get
-      response.should render_template('choose_image')
-    end  
-  end
-
-
   describe "handling PUT /home" do
     define_models :home_controller
 
@@ -123,14 +95,12 @@ describe Admin::HomeController do
     it "should require a site" do
       test_site_requirement(true, [
         lambda { get :edit },
-        lambda { get :choose_image },
         lambda { put :update, :site => {} }])
     end
     
     it "should require normal login" do
       test_login_requirement(true, false, [
         lambda { get :edit },
-        lambda { get :choose_image },
         lambda { put :update, :site => {} }])
     end
   end  
