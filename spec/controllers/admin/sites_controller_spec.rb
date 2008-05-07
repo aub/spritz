@@ -224,6 +224,7 @@ describe Admin::SitesController do
       User.stub!(:new).and_return(@user)
       @user.stub!(:valid?).and_return(true)
       @user.stub!(:admin=)
+      @user.stub!(:register!)
       @user.stub!(:activate!)
     end
     

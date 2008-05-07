@@ -53,6 +53,7 @@ class Admin::SitesController < Admin::AdminController
     @user = User.new(params[:user])
     if @user.valid?
       @user.admin = true
+      @user.register!
       @user.activate!
     end
     respond_to do |format|
