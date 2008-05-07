@@ -8,4 +8,6 @@
         = news_item.title
         = link_to 'edit', edit_admin_news_item_path(news_item)
         = link_to 'delete', admin_news_item_path(news_item), :method => :delete
+    - if @news_items.empty?
+      %li.boxcontent None
 

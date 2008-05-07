@@ -1,1 +1,37 @@
-Booya!
+#dashboard
+  .dashboard-section
+    %h2 Portfolios
+    %p
+      There are
+      = @site.portfolios.size
+    %p= link_to 'Create a new one', new_admin_portfolio_path
+
+  .dashboard-section
+    %h2= assets_name
+    %p
+      There are
+      = @site.assets.size
+    %p= link_to 'Create a new one', new_admin_asset_path
+    
+  .dashboard-section
+    %h2 Links
+    %p
+      There are
+      = @site.links.size
+    %p= link_to 'Create a new one', new_admin_link_path
+      
+  .dashboard-section
+    %h2 News Items
+    %p
+      There are
+      = @site.news_items.size
+    %p= link_to 'Create a new one', new_admin_news_item_path
+
+  .dashboard-section
+    %h2 Contacts
+    %p
+      You have received
+      = @site.contacts.size
+    %p= link_to 'View the list', admin_contacts_path
+    
+    

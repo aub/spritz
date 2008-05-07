@@ -20,19 +20,13 @@
 body
   :background-color = !background_color
   :color = !dark_grey
-  :line-height normal
   :border-top
     :style solid
     :width 30px
     :color = !dark_grey
-  :font
-    :family "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif
-    :size 14px
-    :size-adjust none
-    :stretch normal
-    :style normal
-    :variant normal
-    :weight normal
+  :font-size-adjust none
+  :font-stretch normal
+  :font 14px/1.5em "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif
 
 *
   :margin 0pt
@@ -120,8 +114,8 @@ h1 a
   
   h1
     :padding 0 0 0 80px
-    :font-size 250%
-    :padding-top 20px
+    :font-size 200%
+    :padding-top 30px
     
 #banner
   :font-size 75%
@@ -371,3 +365,13 @@ h1 a
     li
       :padding 10px 0px 0px 20px
       
+.dashboard-section
+  :padding 10px
+
+.dashboard-section h2
+  :font-size 130%
+  :border-bottom 1px dotted #aaa
+  :margin-bottom 10px
+
+.dashboard-section p
+  :margin-left 20px

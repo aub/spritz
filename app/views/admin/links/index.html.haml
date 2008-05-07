@@ -8,4 +8,5 @@
         = link.title
         = link_to 'edit', edit_admin_link_path(link)
         = link_to 'delete', admin_link_path(link), :method => :delete
-
+    - if @links.empty?
+      %li.boxcontent None
