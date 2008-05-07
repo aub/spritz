@@ -8,12 +8,14 @@ ActionController::Routing::Routes.draw do |map|
     theme.connect 'theme/images/:filename.:ext',      :action => 'images'
   end
 
-  # Routes for the admin interface.
-  map.dashboard 'admin', :controller => 'admin/dashboard', :action => 'show'
+  # The default admin route... to show the dashboard.
+  map.admin 'admin', :controller => 'admin/dashboard', :action => 'show'
 
+  # Routes for the admin interface.
   map.namespace(:admin) do |admin|
     admin.resources :assets
     admin.resources :contacts
+    admin.resource :dashboard, :controller => 'dashboard'
     admin.resource :home, :controller => 'home'
     admin.resources :links
     admin.resources :news_items

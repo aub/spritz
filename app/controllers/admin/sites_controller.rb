@@ -60,7 +60,7 @@ class Admin::SitesController < Admin::AdminController
       if @template_site.save && @user.save
         @template_site.members << @user
         flash[:notice] = 'Site was successfully created.'
-        format.html { redirect_to(dashboard_path) }
+        format.html { redirect_to(admin_dashboard_path) }
         format.xml  { render :xml => @template_site, :status => :created, :location => @template_site }
       else
         format.html { render :action => "new" }

@@ -18,7 +18,7 @@ module ApplicationHelper
     settings_class = (ctrlr == 'settings' ? 'current' : '')
     content_class = ((ctrlr == 'home' || ctrlr == 'links' || ctrlr == 'news_items' || ctrlr == 'portfolios') ? 'current' : '')
     
-    result =  content_tag('li', link_to('Dashboard', dashboard_path, :class => dashboard_class))
+    result =  content_tag('li', link_to('Dashboard', admin_dashboard_path, :class => dashboard_class))
     result << content_tag('li', link_to('Content', edit_admin_home_path, :class => content_class))
     result << content_tag('li', link_to(assets_name, admin_assets_path, :class => assets_class))
     result << content_tag('li', link_to('Design', admin_themes_path, :class => design_class))

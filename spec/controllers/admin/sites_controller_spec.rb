@@ -244,7 +244,7 @@ describe Admin::SitesController do
 
       it "should redirect to the new site" do
         do_post
-        response.should redirect_to(dashboard_path)
+        response.should redirect_to(admin_dashboard_path)
       end
       
       it "should create a new user" do
