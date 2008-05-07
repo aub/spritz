@@ -4,10 +4,9 @@ class Site < ActiveRecord::Base
   cattr_accessor :multi_sites_enabled
 
   validates_presence_of :title
-  validates_presence_of :theme_path
   validates_numericality_of :home_news_item_count, :only_integer => true, :less_than_or_equal_to => 10, :allow_nil => true
 
-  before_validation_on_create :initialize_theme
+  after_create :initialize_theme
 
   attr_accessible :subdomain, :domain, :theme_path, :title, :home_news_item_count, :home_text
   
