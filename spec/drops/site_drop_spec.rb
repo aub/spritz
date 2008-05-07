@@ -50,13 +50,30 @@ describe SiteDrop do
     @drop.home_news_items.should == sites(:default).news_items[0..1].collect(&:to_liquid)
   end
   
-  it "should return nil if no news items are requested" do
+  it "should return an empty array if no news items are requested" do
     sites(:default).update_attribute(:home_news_item_count, 0)
-    @drop.home_news_items.should == nil
+    @drop.home_news_items.should == []
+  end
+  
+  it "should return an empty array if the count is nil" do
+    sites(:default).update_attribute(:home_news_item_count, nil)
+    @drop.home_news_items.should == []
+  end
+  
+  it "should return nil if there are no news items" do
+    sites(:default).news_items.each(&:destroy)
+    sites(:default).news_items.reload.should == []
+    @drop.home_news_items.should == []
   end
   
   it "should provide access to the home image" do
     @drop.home_image_path.should == sites(:default).assets.first.public_filename(:display)
+  end
+  
+  it "should return an empty string if the site has no assets" do
+    sites(:default).assets.each(&:destroy)
+    sites(:default).assets.reload.should == []
+    @drop.home_image_path.should == ''
   end
   
 end

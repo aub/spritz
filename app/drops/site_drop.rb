@@ -15,10 +15,11 @@ class SiteDrop < BaseDrop
   end
   
   def home_news_items
-    news_items[0..source.home_news_item_count-1] unless source.home_news_item_count <= 0
+    # This is funky, but it says that if the home news count is nil or less than 0 to return an empty array.
+    ((source.home_news_item_count || 0) > 0) ? news_items[0..source.home_news_item_count-1] : []
   end
   
   def home_image_path
-    @home_image_path ||= source.assets.first.public_filename(:display)
+    @home_image_path ||= (source.assets.size > 0) ? source.assets.first.public_filename(:display) : ''
   end
 end
