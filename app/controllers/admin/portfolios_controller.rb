@@ -84,10 +84,10 @@ class Admin::PortfoliosController < Admin::AdminController
     respond_to do |format|
       if @portfolio.update_attributes(params[:portfolio])
         flash[:notice] = 'Portfolio was successfully updated.'
-        format.html { redirect_to admin_portfolios_path }
+        format.html { render :action => 'edit' }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :action => 'edit' }
         format.xml  { render :xml => @portfolio.errors, :status => :unprocessable_entity }
       end
     end

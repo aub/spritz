@@ -268,9 +268,9 @@ describe Admin::PortfoliosController do
         assigns(:portfolio).should == portfolios(:one)
       end
 
-      it "should redirect to the portfolio list" do
+      it "should re-render the edit page" do
         do_put
-        response.should redirect_to(admin_portfolios_path)
+        response.should render_template('edit')
       end
     end
     
