@@ -1,5 +1,8 @@
 class Asset < ActiveRecord::Base
   
+  @@field_names = [ :title, :medium, :dimensions, :date, :price, :description ]
+  cattr_accessor :field_names
+  
   belongs_to :site
 
   has_attachment :storage => :file_system, 
@@ -13,9 +16,22 @@ class Asset < ActiveRecord::Base
   
   has_many :assigned_assets, :dependent => :destroy
   
-  attr_accessible :uploaded_data
+  attr_accessible :uploaded_data, *@@field_names
     
   validates_as_attachment
   validates_presence_of :site_id
-        
+
+  serialize :fields, Hash
+    
+  @@field_names.each do |f|
+    eval <<-END
+      def #{f}
+        (self.fields ||= {})[#{f.inspect}]
+      end
+      
+      def #{f}=(value)
+        (self.fields ||= {})[#{f.inspect}] = value
+      end
+    END
+  end
 end

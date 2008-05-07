@@ -20,7 +20,8 @@
     
   <div class="portfolio-images">
     {% for asset in portfolio.assets %}
-      <a href="{{ asset.display_path }}" rel="lightbox[0]"><img src="{{ asset.thumbnail_path }}"/></a>
+      <a href="{{ asset.display_path }}" rel="lightbox[0]" title="{% for fld in asset.fields %}{{ fld.name }}: {{ fld.value }}<br/>{% endfor %}<br/>">
+        <img src="{{ asset.thumbnail_path }}"/></a>
     {% endfor %}
   </div>
       

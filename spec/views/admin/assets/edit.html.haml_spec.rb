@@ -5,15 +5,13 @@ describe "/admin/assets/edit.html.haml" do
   
   before do
     @asset = mock_model(Asset)
-    @asset.stub!(:content_type).and_return("MyString")
-    @asset.stub!(:filename).and_return("MyString")
-    @asset.stub!(:size).and_return("1")
-    @asset.stub!(:parent_id).and_return("1")
-    @asset.stub!(:thumbnail).and_return("MyString")
-    @asset.stub!(:width).and_return("1")
-    @asset.stub!(:height).and_return("1")
-    @asset.stub!(:site_id).and_return("1")
-    @asset.stub!(:thumbnails_count).and_return("1")
+    @asset.stub!(:title).and_return("MyString")
+    @asset.stub!(:medium).and_return("MyString")
+    @asset.stub!(:dimensions).and_return("1")
+    @asset.stub!(:price).and_return("1")
+    @asset.stub!(:date).and_return("MyString")
+    @asset.stub!(:description).and_return("1")
+    @asset.stub!(:public_filename).and_return("1")
     assigns[:asset] = @asset
   end
 

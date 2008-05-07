@@ -5,7 +5,7 @@ num_thumbnails = 4
 describe Asset do
   define_models :asset do
     model Asset do
-      stub :one, :site => all_stubs(:site), :filename => 'fake1'
+      stub :one, :site => all_stubs(:site), :filename => 'fake1', :content_type => 'a_type', :size => 12
     end
     model Portfolio do
       stub :one, :site => all_stubs(:site)
@@ -69,6 +69,29 @@ describe Asset do
     
     it "should destroy the assigned assets when it is destroyed" do
       lambda { assets(:one).destroy }.should change(AssignedAsset, :count).by(-2)
+    end
+  end
+  
+  describe "field management" do
+    define_models :asset
+    
+    before(:each) do
+      @field_names = [ :title, :medium, :dimensions, :date, :price, :description ]
+    end
+    
+    it "should have a list of field names" do
+      Asset.field_names.should == @field_names
+    end
+    
+    it "should create accessor methods for each of the fields" do
+      a = Asset.new
+      @field_names.each { |fn| a.send("#{fn}=", 'happy') }
+      @field_names.each { |fn| a.send("#{fn}").should == 'happy' }
+    end
+    
+    it "should set fields with update_attributes" do
+      assets(:one).update_attributes({ :title => 'a_title', :medium => 'a_medium' })
+      assets(:one).reload.title.should == 'a_title'
     end
   end
   

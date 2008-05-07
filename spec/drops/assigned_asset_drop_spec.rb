@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe AssignedAssetDrop do
   define_models :assigned_asset_drop do
     model Asset do
-      stub :one, :site => all_stubs(:site), :filename => 'fake1'
+      stub :one, :site => all_stubs(:site), :filename => 'fake1', :fields => { :title => 'way cool', :dimensions => '1x2' }
     end
     model Portfolio do
       stub :one, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 2
@@ -25,6 +25,10 @@ describe AssignedAssetDrop do
     @drop.display_path.should == assets(:one).public_filename(:display)
   end
 
+  it "should provide access to the medium path" do
+    @drop.medium_path.should == assets(:one).public_filename(:medium)
+  end
+
   it "should provide access to the tiny path" do
     @drop.tiny_path.should == assets(:one).public_filename(:tiny)
   end
@@ -35,5 +39,13 @@ describe AssignedAssetDrop do
   
   it "should provide access to the portfolio" do
     @drop.portfolio.should == portfolios(:one).to_liquid
+  end
+  
+  it "should give the list of fields for the asset" do
+    @drop.fields.should == [{"name"=>"title", "value"=>"way cool"}, {"name"=>"dimensions", "value"=>"1x2"}]
+  end
+  
+  it "should not include the fields that have no value" do
+    @drop.fields.find { |fld| fld['name'] == 'description' }.should be_nil
   end
 end

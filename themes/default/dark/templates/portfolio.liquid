@@ -11,8 +11,10 @@
 
     {% if item %}
       <img class="portfolio-image" src="{{item.display_path}}" />
+      {% for fld in item.fields %}{{ fld.name }}: {{ fld.value }}{% endfor %}
     {% else %}
       <img class="portfolio-image" src="{{portfolio.title_asset.display_path}}" />
+      {% for fld in portfolio.title_asset.fields %}{{ fld.name }}: {{ fld.value }}{% endfor %}
     {% endif %}
     
     <div class="portfolio-info">

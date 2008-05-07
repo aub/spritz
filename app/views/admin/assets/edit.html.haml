@@ -1,4 +1,16 @@
-%h1 BLANK FOR NOW
+- form_for @asset, :url => admin_asset_path(@asset), :html => { :method => :put } do |f|
+  .group
+    %dl
+      - Asset.field_names.each do |field|
+        %dt= f.label_for field
+        - if field == :description
+          %dd= f.text_area field, :class => 'large', :rows => '4'
+        - else
+          %dd= f.text_field field, :class => 'large'
+      %dt
+        = f.submit 'Save Asset'
+        or
+        = link_to "Cancel", admin_assets_path
 
-= link_to 'Show', admin_asset_path(@asset)
-= link_to 'Back', admin_assets_path
+- content_for :sidebar do
+  = asset_image_tag(@asset, :medium)

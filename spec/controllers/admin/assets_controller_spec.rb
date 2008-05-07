@@ -111,6 +111,12 @@ describe Admin::AssetsController do
     
     describe "with successful save" do
       define_models :assets_controller
+
+      before(:each) do
+        @asset = mock_model(Asset)
+        @asset.stub!(:save).and_return(true)
+        sites(:default).assets.stub!(:build).and_return(@asset)
+      end
       
       def do_post
         post :create, :asset => {}
@@ -120,10 +126,26 @@ describe Admin::AssetsController do
         sites(:default).assets.should_receive(:build).with({}).and_return(assets(:two))
         do_post
       end
+      
+      it "should render the edit page for the asset" do
+        do_post
+        response.should render_template('edit')
+      end
+      
+      it "should assign the asset for the view" do
+        do_post
+        assigns[:asset].should == @asset
+      end
     end
     
     describe "with failed save" do
       define_models :assets_controller
+
+      before(:each) do
+        @asset = mock_model(Asset)
+        @asset.stub!(:save).and_return(false)
+        sites(:default).assets.stub!(:build).and_return(@asset)
+      end
       
       def do_post
         post :create, :asset => {}
@@ -132,8 +154,7 @@ describe Admin::AssetsController do
       it "should re-render 'new'" do
         do_post
         response.should render_template('new')
-      end
-      
+      end      
     end
   end
 
@@ -163,9 +184,9 @@ describe Admin::AssetsController do
         assigns(:asset).should equal(@asset)
       end
 
-      it "should redirect to the asset" do
+      it "should redirect to the asset list" do
         do_put
-        response.should redirect_to(admin_asset_url("1"))
+        response.should redirect_to(admin_assets_path)
       end
 
     end
