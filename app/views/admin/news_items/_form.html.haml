@@ -1,10 +1,10 @@
 .group
   %dl
     %dt= f.label_for :title
-    %dd= f.text_field :title, :class => 'large'
+    %dd= f.text_field :title, :class => 'large fat'
     %dt= f.label_for :text
     %dd
-      ~ f.text_area :text, :class => 'large', :rows => '8'
+      ~ f.text_area :text, :class => 'large fat', :rows => '8'
     %dt
       = f.submit 'Save'
       or

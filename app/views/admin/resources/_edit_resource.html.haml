@@ -5,7 +5,7 @@
         Editing
         = @resource.filename
     %dd
-      ~ text_area_tag 'data', (@resource.nil? ? nil : @resource.read), :rows => '25', :class => 'template-editor'
+      ~ text_area_tag 'data', (@resource.nil? ? nil : @resource.read), :rows => '25', :class => 'template-editor fat'
     %dt
       = submit_tag 'Save File'
       or

@@ -69,6 +69,9 @@ h1 a {
 .clear {
   display: block; }
 
+.fat {
+  width: 100%; }
+
 .header {
   font-size: 135%;
   font-weight: bold; }
@@ -185,8 +188,7 @@ h1 a {
   .group dl select {
     min-width: 100px; }
   .group dl textarea {
-    font-size: 125%;
-    width: 100%; }
+    font-size: 125%; }
   .group dl .template-editor {
     font-family: "Courier New", Courier, mono;
     font-size: 12px; }
@@ -252,29 +254,23 @@ h1 a {
 .image-list div {
   display: inline; }
 
-.asset-list {
-  height: 230px; }
-  .asset-list span {
-    padding-left: 20px;
-    padding-bottom: 15px;
-    float: left; }
-
-.asset-list img {
+.asset-list span {
+  padding-left: 18px;
+  padding-bottom: 15px;
+  float: left; }
+.asset-list a {
+  border-bottom: none; }
+.asset-list a img {
   padding: 5px;
   border: 1px solid #ccc; }
 
-.asset-controls {
-  margin: 0pt 0pt 5px;
-  text-align: center;
-  width: 70px; }
-  .asset-controls li {
-    display: inline;
-    position: relative; }
-    .asset-controls li a {
-      font-size: 75%; }
-
 .asset-preview {
   text-align: center; }
+  .asset-preview .delete-link {
+    padding: 20px; }
+    .asset-preview .delete-link a {
+      padding: 10px;
+      border: 1px solid #777777; }
 
 #themes h2 {
   clear: both;
@@ -324,3 +320,30 @@ h1 a {
 
 .dashboard-section p {
   margin-left: 20px; }
+
+.pagination {
+  clear: both;
+  padding: 3px;
+  margin: 3px;
+  text-align: center;
+  font-size: 80%; }
+  .pagination a {
+    padding: 2px 5px 2px 5px;
+    margin: 2px;
+    border: 1px solid #B9B9B9;
+    text-decoration: none;
+    color: #383838; }
+  .pagination a:hover, .pagination a:active {
+    border: 1px solid #777;
+    color: #000; }
+  .pagination span.current {
+    padding: 2px 5px 2px 5px;
+    margin: 2px;
+    border: 1px solid #B9B9B9;
+    font-weight: bold;
+    background-color: #B9B9B9; }
+  .pagination span.disabled {
+    padding: 2px 5px 2px 5px;
+    margin: 2px;
+    border: 1px solid #eee;
+    color: #bbb; }

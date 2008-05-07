@@ -5,4 +5,5 @@
   .asset-list.boxcontent
     - @assets.each do |asset|
       %span
-        = render :partial => 'asset', :object => asset
+        = link_to asset_image_tag(asset, :thumb), edit_admin_asset_path(asset)
+  = will_paginate @assets

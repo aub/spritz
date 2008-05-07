@@ -104,6 +104,11 @@ describe Admin::AssetsController do
       do_get
       assigns[:asset].should == assets(:one)
     end
+    
+    it "should also assign the other assets to the view" do
+      do_get
+      assigns[:assets].sort_by(&:id).should == sites(:default).assets.sort_by(&:id)
+    end
   end
 
   describe "handling POST /admin/assets" do

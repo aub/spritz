@@ -7,7 +7,7 @@ class Admin::AssetsController < Admin::AdminController
   # GET /admin/assets
   # GET /admin/assets.xml
   def index
-    @assets = @site.assets
+    @assets = @site.assets.paginate :page => params[:page], :per_page => 18
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @assets }
