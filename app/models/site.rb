@@ -92,7 +92,7 @@ class Site < ActiveRecord::Base
   protected
   
   def initialize_theme
-    self.theme_path = 'dark'
+    self.update_attribute(:theme_path, 'dark')
     # This needs to be last because we want to return false if it fails
     Theme.create_defaults_for(self)
   end

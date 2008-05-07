@@ -217,6 +217,12 @@ describe Site do
       Site.create({ :title => 'junk' })
     end
     
+    it "should set the theme path to a default on create" do
+      Theme.stub!(:create_defaults_for).and_return(true)
+      s = Site.create({ :title => 'junk' })
+      s.reload.theme_path.should == 'dark'
+    end
+    
     it "should provide a list of themes available to the site" do
       sites(:default).themes.should == [@theme1, @theme2]
     end
