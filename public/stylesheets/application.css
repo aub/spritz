@@ -255,9 +255,13 @@ h1 a {
 .asset-list {
   height: 230px; }
   .asset-list span {
-    padding-left: 7px;
-    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-bottom: 15px;
     float: left; }
+
+.asset-list img {
+  padding: 5px;
+  border: 1px solid #ccc; }
 
 .asset-controls {
   margin: 0pt 0pt 5px;
@@ -268,6 +272,9 @@ h1 a {
     position: relative; }
     .asset-controls li a {
       font-size: 75%; }
+
+.asset-preview {
+  text-align: center; }
 
 #themes h2 {
   clear: both;

@@ -13,4 +13,5 @@
         = link_to "Cancel", admin_assets_path
 
 - content_for :sidebar do
-  = asset_image_tag(@asset, :medium)
+  .asset-preview
+    = asset_image_tag(@asset, :medium)
