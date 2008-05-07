@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 # Doing this so that we can make requests to it.
-describe Admin::SessionsController do
+describe Admin::SessionController do
   define_models :application_controller
   
   describe "admin? helper" do

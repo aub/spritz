@@ -1,13 +1,13 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
 
-describe "/admin/sessions/new.html.haml" do
-  include Admin::SessionsHelper
+describe "/admin/session/new.html.haml" do
+  include Admin::SessionHelper
   
   define_models
   
   before(:each) do
     assigns[:site] = sites(:default)
-    render "/admin/sessions/new.html.haml"
+    render "/admin/session/new.html.haml"
   end
 
   it "should have an input for the login name" do

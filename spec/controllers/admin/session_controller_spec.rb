@@ -1,8 +1,8 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe Admin::SessionsController do
+describe Admin::SessionController do
 
-  define_models :sessions_controller
+  define_models :session_controller
 
   before(:each) do
     activate_site(:default)
@@ -66,7 +66,7 @@ describe Admin::SessionsController do
   end
 
   describe "site, login, and admin requirements" do
-    define_models :sessions_controller
+    define_models :session_controller
     
     it "should require a site" do
       test_site_requirement(true, [

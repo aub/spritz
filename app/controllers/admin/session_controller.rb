@@ -1,5 +1,5 @@
 # This controller handles the login/logout function of the site.  
-class Admin::SessionsController < Admin::AdminController
+class Admin::SessionController < Admin::AdminController
   
   skip_before_filter :login_required
   
