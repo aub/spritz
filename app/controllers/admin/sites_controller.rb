@@ -50,10 +50,16 @@ class Admin::SitesController < Admin::AdminController
   # POST /admin/sites.xml
   def create
     @template_site = Site.new(params[:site])
+    @user = User.new(params[:user])
+    if @user.valid?
+      @user.admin = true
+      @user.activate!
+    end
     respond_to do |format|
-      if @template_site.save
+      if @template_site.save && @user.save
+        @template_site.members << @user
         flash[:notice] = 'Site was successfully created.'
-        format.html { redirect_to(admin_site_path(@template_site)) }
+        format.html { redirect_to(dashboard_path) }
         format.xml  { render :xml => @template_site, :status => :created, :location => @template_site }
       else
         format.html { render :action => "new" }

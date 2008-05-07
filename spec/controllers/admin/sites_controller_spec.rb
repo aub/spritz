@@ -217,7 +217,14 @@ describe Admin::SitesController do
     
     before(:each) do
       @site = mock_model(Site, :to_param => "1")
+      @site.stub!(:members).and_return([])
       Site.stub!(:new).and_return(@site)
+
+      @user = mock_model(User)
+      User.stub!(:new).and_return(@user)
+      @user.stub!(:valid?).and_return(true)
+      @user.stub!(:admin=)
+      @user.stub!(:activate!)
     end
     
     describe "with successful save" do
@@ -225,7 +232,8 @@ describe Admin::SitesController do
       
       def do_post
         @site.should_receive(:save).and_return(true)
-        post :create, :site => {}
+        @user.should_receive(:save).and_return(true)
+        post :create, :site => {}, :user => {}
       end
   
       it "should create a new site" do
@@ -235,9 +243,13 @@ describe Admin::SitesController do
 
       it "should redirect to the new site" do
         do_post
-        response.should redirect_to(admin_site_url("1"))
+        response.should redirect_to(dashboard_path)
       end
       
+      it "should create a new user" do
+        User.should_receive(:new).with({}).and_return(@user)
+        do_post
+      end      
     end
     
     describe "with failed save" do
