@@ -2,7 +2,7 @@ class PortfolioDrop < BaseDrop
   liquid_attributes << :title << :body
   
   def assets
-    @assets ||= source.assigned_assets.collect(&:to_liquid)
+    @assets ||= source.assigned_assets.collect { |aa| PortfolioItemDrop.new(aa) }
   end
   
   def title_asset

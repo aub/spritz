@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe AssignedAssetDrop do
-  define_models :assigned_asset_drop do
+describe PortfolioItemDrop do
+  define_models :portfolio_item_drop do
     model Asset do
       stub :one, :site => all_stubs(:site), :filename => 'fake1', :fields => { :title => 'way cool', :dimensions => '1x2' }
     end
@@ -9,12 +9,12 @@ describe AssignedAssetDrop do
       stub :one, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 2
     end
     model AssignedAsset do
-      stub :one, :asset => all_stubs(:one_asset), :portfolio => all_stubs(:one_portfolio)
+      stub :one, :asset => all_stubs(:one_asset), :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio'
     end
   end
     
   before(:each) do
-    @drop = AssignedAssetDrop.new(assigned_assets(:one))
+    @drop = PortfolioItemDrop.new(assigned_assets(:one))
   end
   
   it "should provide access to the thumbnail path" do

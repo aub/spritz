@@ -1,4 +1,4 @@
-class AssignedAssetDrop < BaseDrop
+class PortfolioItemDrop < BaseDrop
   
   def display_path
     @display_path ||= asset.public_filename(:display)
@@ -23,19 +23,14 @@ class AssignedAssetDrop < BaseDrop
       value = asset.send(fn)
       value.nil? ? list : list << { 'name' => fn.to_s, 'value' => value }
     end
-    
-    # @fields ||= Asset.field_names.inject({}) do |list,fn|
-    #   value = asset.send(fn)
-    #   value.nil? ? list : list.merge({ fn => asset.send(fn) })
-    # end
   end
   
   def url
-    "/portfolios/#{source.portfolio.to_param}/items/#{source.to_param}"
+    "/portfolios/#{source.asset_holder.to_param}/items/#{source.to_param}"
   end
   
   def portfolio
-    @portfolio ||= source.portfolio.to_liquid
+    @portfolio ||= source.asset_holder.to_liquid
   end
   
   protected

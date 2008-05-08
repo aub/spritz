@@ -12,8 +12,8 @@ describe PortfolioDrop do
       stub :tre, :site => all_stubs(:site), :title => 'a_title', :body => 'a_body', :lft => 5, :rgt => 6
     end
     model AssignedAsset do
-      stub :one, :asset => all_stubs(:one_asset), :portfolio => all_stubs(:one_portfolio)
-      stub :two, :asset => all_stubs(:two_asset), :portfolio => all_stubs(:one_portfolio)
+      stub :one, :asset => all_stubs(:one_asset), :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :marker => 'display'
+      stub :two, :asset => all_stubs(:two_asset), :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :marker => 'display'
     end
   end
   
@@ -30,7 +30,7 @@ describe PortfolioDrop do
   end
   
   it "should provide access to the assets" do
-    @drop.assets.should == portfolios(:one).assigned_assets.collect(&:to_liquid)
+    @drop.assets.should == portfolios(:one).assigned_assets.collect { |aa| PortfolioItemDrop.new(aa) }
   end
   
   it "should have a method for getting the url of the portfolio" do
@@ -38,7 +38,7 @@ describe PortfolioDrop do
   end
   
   it "should have a method for getting the title asset" do
-    @drop.title_asset.should == portfolios(:one).assigned_assets.first.to_liquid
+    @drop.title_asset.should == PortfolioItemDrop.new(portfolios(:one).assigned_assets.first)
   end
   
   it "should provide access to the children" do

@@ -10,8 +10,8 @@ describe ItemsController do
       stub :two, :site => all_stubs(:site)
     end
     model AssignedAsset do
-      stub :one, :portfolio => all_stubs(:one_portfolio), :asset => all_stubs(:one_asset), :marker => 'display'
-      stub :two, :portfolio => all_stubs(:one_portfolio), :asset => all_stubs(:two_asset), :marker => 'display'
+      stub :one, :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :asset => all_stubs(:one_asset), :marker => 'display'
+      stub :two, :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :asset => all_stubs(:two_asset), :marker => 'display'
     end
   end
   

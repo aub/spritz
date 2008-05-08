@@ -11,9 +11,9 @@ describe Portfolio do
       stub :two, :site => all_stubs(:site), :filename => 'fake2'
     end
     model AssignedAsset do
-      stub :one, :asset => all_stubs(:one_asset), :portfolio => all_stubs(:one_portfolio), :marker => 'display'
-      stub :two, :asset => all_stubs(:two_asset), :portfolio => all_stubs(:one_portfolio), :marker => 'display'
-      stub :tre, :asset => all_stubs(:two_asset), :portfolio => all_stubs(:one_portfolio), :marker => 'something_else'
+      stub :one, :asset => all_stubs(:one_asset), :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :marker => 'display'
+      stub :two, :asset => all_stubs(:two_asset), :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :marker => 'display'
+      stub :tre, :asset => all_stubs(:two_asset), :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :marker => 'something_else'
     end
   end
   
