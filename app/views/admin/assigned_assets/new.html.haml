@@ -32,7 +32,7 @@
             = link_to asset_image_tag(asset, :thumb), deselect_admin_portfolio_assigned_assets_path(@portfolio, :asset_id => asset.id, :page => (params[:page] || 1)), :method => :delete
         %p
           - unless @selected_assets.empty?
-            = submit_tag "Add #{assets_name}"
+            = submit_tag "Add to Portfolio"
           - else
             None
           = "</form>"

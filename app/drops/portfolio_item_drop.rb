@@ -21,7 +21,7 @@ class PortfolioItemDrop < BaseDrop
   def fields
     @fields ||= Asset.field_names.inject([]) do |list,fn|
       value = asset.send(fn)
-      value.nil? ? list : list << { 'name' => fn.to_s, 'value' => value }
+      value.blank? ? list : list << { 'name' => fn.to_s, 'value' => value }
     end
   end
   

@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe PortfolioItemDrop do
   define_models :portfolio_item_drop do
     model Asset do
-      stub :one, :site => all_stubs(:site), :filename => 'fake1', :fields => { :title => 'way cool', :dimensions => '1x2' }
+      stub :one, :site => all_stubs(:site), :filename => 'fake1', :fields => { :title => 'way cool', :dimensions => '1x2', :price => '' }
     end
     model Portfolio do
       stub :one, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 2
@@ -45,7 +45,11 @@ describe PortfolioItemDrop do
     @drop.fields.should == [{"name"=>"title", "value"=>"way cool"}, {"name"=>"dimensions", "value"=>"1x2"}]
   end
   
-  it "should not include the fields that have no value" do
+  it "should not include the fields that are nil" do
     @drop.fields.find { |fld| fld['name'] == 'description' }.should be_nil
+  end
+  
+  it "should not include the fields that are empty" do
+    @drop.fields.find { |fld| fld['name'] == 'price' }.should be_nil
   end
 end

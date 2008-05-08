@@ -16,7 +16,9 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :assets
     admin.resources :contacts
     admin.resource :dashboard, :controller => 'dashboard'
-    admin.resource :home, :controller => 'home'
+    admin.resource :home, :controller => 'home' do |home|
+      home.resource :home_image, :controller => 'home_image'
+    end
     admin.resources :links
     admin.resources :news_items
     admin.resources :portfolios, :member => { :add_child => :get } do |portfolios|

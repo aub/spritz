@@ -1,0 +1,9 @@
+.box
+  .boxheader
+    %span.header= assets_name
+    (click to select)
+  .asset-list.boxcontent
+    - @assets.each do |asset|
+      %span
+        = link_to asset_image_tag(asset, :thumb), admin_home_home_image_path(:asset_id => asset.id), :method => :put
+  = will_paginate @assets

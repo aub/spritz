@@ -24,6 +24,8 @@ class Site < ActiveRecord::Base
   has_many :contacts, :dependent => :destroy
 
   has_many :portfolios do
+    # A helper method for creating portfolios as children of another one. This does
+    # the wranging of acts_as_nested_set for us.
     def create_with_parent_id(params, parent_id)
       returning proxy_owner.portfolios.create(params) do |portfolio|
         if portfolio.valid?
@@ -40,6 +42,13 @@ class Site < ActiveRecord::Base
   # and because and because we only want to destroy the top ones when the site is being destroyed,
   # since the plugin will handle deletion of the children.
   has_many :root_portfolios, :class_name => 'Portfolio', :conditions => 'parent_id is NULL', :dependent => :destroy
+
+  has_one :assigned_home_image, :class_name => 'AssignedAsset', :as => :asset_holder, :dependent => :destroy
+
+  # This will have to do until we have has_one :through
+  def home_image
+    assigned_home_image.asset unless assigned_home_image.nil?
+  end
 
   # A method for finding a site given a domain or subdomains from a request.
   # Will be called with every request in order to display the correct data.

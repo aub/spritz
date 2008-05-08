@@ -10,3 +10,10 @@
       %dt
         = f.submit 'Save'
 
+- content_for :sidebar do
+  .asset-preview
+    - unless @site.home_image.nil?
+      = asset_image_tag(@site.home_image, :medium)
+      .delete-link= link_to "Update", edit_admin_home_home_image_path
+    - else
+      .delete-link= link_to "Select Image", edit_admin_home_home_image_path

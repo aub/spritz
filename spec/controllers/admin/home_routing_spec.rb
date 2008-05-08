@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe Admin::HomeController do
   describe "route generation" do
 
-    it "should map { :controller => 'admin/home', :action => 'edit' } to /admin/home" do
+    it "should map { :controller => 'admin/home', :action => 'edit' } to /admin/home/edit" do
       route_for(:controller => "admin/home", :action => "edit").should == "/admin/home/edit"
     end
   

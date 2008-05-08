@@ -367,3 +367,21 @@ h1 a {
     margin: 2px;
     border: 1px solid #eee;
     color: #bbb; }
+
+.icon {
+  background: url(/images/mephisto/icons/bg_rounded.gif); }
+
+.green {
+  background-color: #9c0; }
+
+.yellow {
+  background-color: #fc3; }
+
+.black {
+  background-color: #000; }
+
+.orange {
+  background-color: #f63; }
+
+.red {
+  background-color: #f33; }

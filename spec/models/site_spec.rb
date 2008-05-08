@@ -1,7 +1,13 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Site do
-  define_models :site
+  define_models :site do
+    model Asset do
+      stub :one, :site => all_stubs(:site), :thumbnail => nil, :parent_id => nil, :filename => 'back', :thumbnails_count => 1
+      stub :two, :site => all_stubs(:site), :thumbnail => nil, :parent_id => nil, :filename => 'wack'
+      stub :tre, :site => all_stubs(:site), :thumbnail => 'display', :parent_id => nil, :filename => 'smack'
+    end
+  end
 
   describe "validations" do
     before(:each) do
@@ -266,13 +272,7 @@ describe Site do
   end
     
   describe "relationship to assets" do
-    define_models :site do
-      model Asset do
-        stub :one, :site => all_stubs(:site), :thumbnail => nil, :parent_id => nil, :filename => 'back', :thumbnails_count => 1
-        stub :two, :site => all_stubs(:site), :thumbnail => nil, :parent_id => nil, :filename => 'wack'
-        stub :tre, :site => all_stubs(:site), :thumbnail => 'display', :parent_id => nil, :filename => 'smack'
-      end
-    end
+    define_models :site
     
     before(:each) do
       assets(:tre).update_attribute(:parent_id, assets(:one).id)
@@ -305,6 +305,33 @@ describe Site do
     
     it "should destroy its contacts when keeling over" do
       lambda { sites(:default).destroy }.should change(Contact, :count).by(-2)
+    end
+  end
+  
+  describe "home image" do
+    define_models :site do
+      model AssignedAsset do
+        stub :one, :asset => all_stubs(:one_asset), :asset_holder => all_stubs(:site), :asset_holder_type => 'Site'
+      end
+    end
+    
+    it "should have an assigned home image" do
+      sites(:default).assigned_home_image.should == assigned_assets(:one)
+    end
+    
+    it "should destroy the assigned home image when being destroyed" do
+      lambda { sites(:default).destroy }.should change(AssignedAsset, :count).by(-1)
+    end
+    
+    it "should destroy the assigned home image when we give it another one" do
+      new_aa = AssignedAsset.new({:asset_id => assets(:two).id})
+      sites(:default).assigned_home_image = new_aa
+      one_id = assigned_assets(:one).id
+      AssignedAsset.find_by_id(one_id).should be_nil
+    end
+    
+    it "should have a home image through the assignment" do
+      sites(:default).home_image.should == assets(:one)
     end
   end
 end

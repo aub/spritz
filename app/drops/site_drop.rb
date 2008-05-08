@@ -19,7 +19,11 @@ class SiteDrop < BaseDrop
     ((source.home_news_item_count || 0) > 0) ? news_items[0..source.home_news_item_count-1] : []
   end
   
-  def home_image_path
-    @home_image_path ||= (source.assets.size > 0) ? source.assets.first.public_filename(:display) : ''
+  def home_image_display_path
+    @home_image_display_path ||= source.home_image.nil? ? '' : source.home_image.public_filename(:display)
+  end
+  
+  def home_image_medium_path
+    @home_image_medium_path ||= source.home_image.nil? ? '' : source.home_image.public_filename(:medium)
   end
 end

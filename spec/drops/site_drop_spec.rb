@@ -19,6 +19,9 @@ describe SiteDrop do
       stub :one, :site => all_stubs(:site), :filename => 'hacky'
       stub :two, :site => all_stubs(:site), :filename => 'ouch'
     end
+    model AssignedAsset do
+      stub :one, :asset => all_stubs(:one_asset), :asset_holder => all_stubs(:site), :asset_holder_type => 'Site'
+    end
   end
   
   before(:each) do
@@ -66,14 +69,18 @@ describe SiteDrop do
     @drop.home_news_items.should == []
   end
   
-  it "should provide access to the home image" do
-    @drop.home_image_path.should == sites(:default).assets.first.public_filename(:display)
+  it "should provide access to the display-size home image" do
+    @drop.home_image_display_path.should == assets(:one).public_filename(:display)
+  end
+
+  it "should provide access to the medium-size home image" do
+    @drop.home_image_medium_path.should == assets(:one).public_filename(:medium)
   end
   
   it "should return an empty string if the site has no assets" do
-    sites(:default).assets.each(&:destroy)
-    sites(:default).assets.reload.should == []
-    @drop.home_image_path.should == ''
+    sites(:default).home_image.destroy
+    sites(:default).reload.home_image.should == nil
+    @drop.home_image_display_path.should == ''
   end
   
 end

@@ -1,5 +1,0 @@
-%ul
-  - form_for @site, :url => admin_home_path, :html => { :method => :put } do |f|
-    - @site.assets.each do |asset|
-      = check_box_tag('site[home_image_id]', asset.id)
-  

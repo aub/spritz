@@ -4,8 +4,8 @@ class Admin::HomeController < Admin::AdminController
   def edit
   end
 
-  # PUT /links/1
-  # PUT /links/1.xml
+  # PUT /admin/home/1
+  # PUT /admin/home/1.xml
   def update
     respond_to do |format|
       if @site.update_attributes(params[:site])
