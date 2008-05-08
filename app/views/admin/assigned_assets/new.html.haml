@@ -1,6 +1,38 @@
-%ul
-  - @site.assets.each do |asset|
-    %li
-      - form_for @assigned_asset, :url => admin_portfolio_assigned_assets_path(@portfolio) do |f|
-        = f.hidden_field :asset_id, :value => asset.id
-        = image_submit_tag asset.public_filename(:thumb)
+#portfolio-ancestors
+  = ancestor_breadcrumbs(@portfolio)
+
+.box
+  .boxheader
+    %span.header= assets_name
+    (click to select)
+  .asset-list.boxcontent
+    - @assets.each do |asset|
+      %span
+        = link_to asset_image_tag(asset, :thumb), select_admin_portfolio_assigned_assets_path(@portfolio, :asset_id => asset.id, :page => (params[:page] || 1)), :method => :post
+  = will_paginate @assets
+
+/ There's a mess of wierdness going on here. For some reason, if I use to form_tag do format
+/ for this, it will render the whole page again in the sidebar. Going with a HACK for now of
+/ using the non-do form and manually closing it.
+- content_for :sidebar do
+  .box
+    .boxheader
+      %span.header
+        Selected
+        = assets_name
+      (click to deselect) or
+      = link_to 'Clear', clear_admin_portfolio_assigned_assets_path(@portfolio, :page => (params[:page] || 1)), :method => :delete
+      
+    %ul.cleanlist.image-list
+      %li.boxcontent
+        = form_tag admin_portfolio_assigned_assets_path(@portfolio), :method => :post
+        - @selected_assets.each do |asset|
+          = hidden_field_tag 'assets[]', asset.id
+          %span
+            = link_to asset_image_tag(asset, :thumb), deselect_admin_portfolio_assigned_assets_path(@portfolio, :asset_id => asset.id, :page => (params[:page] || 1)), :method => :delete
+        %p
+          - unless @selected_assets.empty?
+            = submit_tag "Add #{assets_name}"
+          - else
+            None
+          = "</form>"

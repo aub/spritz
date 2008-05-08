@@ -255,6 +255,14 @@ h1 a {
   display: inline; }
 .image-list div {
   display: inline; }
+.image-list a {
+  border-bottom: none; }
+.image-list a img {
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid #aaa; }
+.image-list p input {
+  margin: 10px 0px 0px 0px; }
 
 .asset-list span {
   padding-left: 18px;
@@ -265,6 +273,16 @@ h1 a {
 .asset-list a img {
   padding: 5px;
   border: 1px solid #ccc; }
+
+.selasset-list span {
+  padding-left: 6px;
+  padding-bottom: 6px;
+  float: left; }
+.selasset-list a {
+  border-bottom: none; }
+.selasset-list a img {
+  padding: 5px;
+  border: 1px solid #aaa; }
 
 .asset-preview {
   text-align: center; }

@@ -20,7 +20,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :links
     admin.resources :news_items
     admin.resources :portfolios, :member => { :add_child => :get } do |portfolios|
-      portfolios.resources :assigned_assets
+      portfolios.resources :assigned_assets, :collection => { :select => :post, :deselect => :delete, :clear => :delete }
     end
     admin.resources :resources
     admin.resources :sections

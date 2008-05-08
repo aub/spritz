@@ -40,16 +40,119 @@ describe Admin::AssignedAssetsController do
       response.should render_template('new')
     end
   
-    it "should not save the new assigned_asset" do
+    it "should assign the site's assets for the view" do
       do_get
-      assigns[:assigned_asset].should be_new_record
+      assigns[:assets].should == sites(:default).assets.paginate(:page => nil, :per_page => 18)
     end
-  
-    it "should assign the new assigned asset for the view" do
+    
+    it "should assign the selected assets from the session" do
+      session[:selected_assets] = [assets(:one).id.to_s, assets(:two).id.to_s]
       do_get
-      assigns[:assigned_asset].should be_an_instance_of(AssignedAsset)
+      assigns[:selected_assets].should == [assets(:one), assets(:two)]
+    end
+    
+    it "should assign an empty array if there are no selected assets" do
+      session[:selected_assets] = nil
+      do_get
+      assigns[:selected_assets].should == []
     end
   end  
+
+  describe "handling POST /portfolios/1/assigned_assets/select" do
+    define_models :assigned_assets_controller
+
+    before(:each) do
+      login_as(:admin)
+    end
+    
+    def do_post
+      post :select, :portfolio_id => portfolios(:one).id, :asset_id => assets(:one).id
+    end
+
+    it "should redirect to the new action" do
+      do_post
+      response.should redirect_to(new_admin_portfolio_assigned_asset_path(portfolios(:one), :page => 1))
+    end
+    
+    it "should redirect to the new action with a page if given" do
+      post :select, :portfolio_id => portfolios(:one).id, :asset_id => assets(:one).id, :page => 2
+      response.should redirect_to(new_admin_portfolio_assigned_asset_path(portfolios(:one), :page => 2))
+    end    
+    
+    it "should add the given asset to the session" do
+      do_post
+      session[:selected_assets].should == [assets(:one).id.to_s]
+    end
+    
+    it "should not add duplicate ids to the session" do
+      do_post
+      session[:selected_assets].should == [assets(:one).id.to_s]
+      do_post
+      session[:selected_assets].should == [assets(:one).id.to_s]
+    end
+  end
+
+  describe "handling DELETE /portfolios/1/assigned_assets/deselect" do
+    define_models :assigned_assets_controller
+
+    before(:each) do
+      login_as(:admin)
+    end
+    
+    def do_delete
+      delete :deselect, :portfolio_id => portfolios(:one).id, :asset_id => assets(:one).id
+    end
+
+    it "should redirect to the new action" do
+      do_delete
+      response.should redirect_to(new_admin_portfolio_assigned_asset_path(portfolios(:one), :page => 1))
+    end
+    
+    it "should redirect to the new action with a page if given" do
+      delete :deselect, :portfolio_id => portfolios(:one).id, :asset_id => assets(:one).id, :page => 2
+      response.should redirect_to(new_admin_portfolio_assigned_asset_path(portfolios(:one), :page => 2))
+    end
+    
+    it "should remove the given asset from the session" do
+      session[:selected_assets] = [assets(:one).id.to_s]
+      do_delete
+      session[:selected_assets].should == []
+    end
+    
+    it "should not freak out if an asset is removed that isn't in the list" do
+      session[:selected_assets] = []
+      do_delete
+      session[:selected_assets].should == []
+    end
+  end
+
+  describe "handling DELETE /portfolios/1/assigned_assets/clear" do
+    define_models :assigned_assets_controller
+
+    before(:each) do
+      login_as(:admin)
+    end
+    
+    def do_delete
+      delete :clear, :portfolio_id => portfolios(:one).id
+    end
+
+    it "should redirect to the new action" do
+      do_delete
+      response.should redirect_to(new_admin_portfolio_assigned_asset_path(portfolios(:one), :page => 1))
+    end
+    
+    it "should redirect to the new action with a page if given" do
+      delete :clear, :portfolio_id => portfolios(:one).id, :page => 2
+      response.should redirect_to(new_admin_portfolio_assigned_asset_path(portfolios(:one), :page => 2))
+    end
+    
+    it "should remove all assets from the session" do
+      session[:selected_assets] = [assets(:one).id.to_s, assets(:two).id.to_s]
+      do_delete
+      session[:selected_assets].should == []
+    end
+  end
   
   describe "handling POST /portfolios/1/assigned_assets" do
     define_models :assigned_assets_controller
@@ -62,10 +165,11 @@ describe Admin::AssignedAssetsController do
       define_models :assigned_assets_controller
     
       def do_post
-        post :create, :portfolio_id => portfolios(:one).id, :assigned_asset => { :asset_id => assets(:two).id }
+        post :create, :portfolio_id => portfolios(:one).id, :assets => [assets(:one).id, assets(:two).id]
       end
 
-      it "should create a new assigned_asset" do
+      it "should create new assigned_assets" do
+        # Note, this is not 2 because there is already one for portfolio one and asset one
         lambda { do_post }.should change(AssignedAsset, :count).by(1)
       end
       
@@ -76,15 +180,15 @@ describe Admin::AssignedAssetsController do
       it "should redirect to the portfolio" do
         do_post
         response.should redirect_to(edit_admin_portfolio_path(portfolios(:one)))
-      end 
+      end      
     end
     
     describe "with failed save" do
       define_models :assigned_assets_controller
 
       def do_post
-        post :create, :portfolio_id => portfolios(:one).id, :asset_id => nil
-      end
+        post :create, :portfolio_id => portfolios(:one).id, :assets => [assets(:one).id]
+      end 
       
       it "should redirect to the portfolio path" do
         do_post
@@ -128,6 +232,9 @@ describe Admin::AssignedAssetsController do
     it "should require a site" do
       test_site_requirement(true, [
         lambda { get :new, :portfolio_id => portfolios(:one).id },
+        lambda { post :select, :portfolio_id => portfolios(:one).id },
+        lambda { delete :deselect, :portfolio_id => portfolios(:one).id, :asset_id => assets(:one).id },
+        lambda { delete :clear, :portfolio_id => portfolios(:one).id },
         lambda { post :create, :portfolio_id => portfolios(:one).id, :asset_id => assets(:two).id },
         lambda { delete :destroy, :portfolio_id => portfolios(:one).id, :id => assigned_assets(:one).id }])
     end
@@ -135,6 +242,9 @@ describe Admin::AssignedAssetsController do
     it "should require regular login" do
       test_login_requirement(true, false, [
         lambda { get :new, :portfolio_id => portfolios(:one).id },
+        lambda { post :select, :portfolio_id => portfolios(:one).id },
+        lambda { delete :deselect, :portfolio_id => portfolios(:one).id, :asset_id => assets(:one).id },
+        lambda { delete :clear, :portfolio_id => portfolios(:one).id },
         lambda { post :create, :portfolio_id => portfolios(:one).id, :asset_id => assets(:two).id },
         lambda { delete :destroy, :portfolio_id => portfolios(:one).id, :id => assigned_assets(:one).id }])
     end
