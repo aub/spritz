@@ -16,7 +16,7 @@ module ApplicationHelper
     design_class = ((ctrlr == 'themes' || ctrlr == 'resources') ? 'current' : '')
     contacts_class = (ctrlr == 'contacts' ? 'current' : '')
     settings_class = (ctrlr == 'settings' ? 'current' : '')
-    content_class = ((ctrlr == 'home' || ctrlr == 'links' || ctrlr == 'news_items' || ctrlr == 'portfolios') ? 'current' : '')
+    content_class = ((ctrlr == 'home' || ctrlr == 'links' || ctrlr == 'news_items' || ctrlr == 'portfolios' || ctrlr == 'assigned_assets') ? 'current' : '')
     
     result =  content_tag('li', link_to('Dashboard', admin_dashboard_path, :class => dashboard_class))
     result << content_tag('li', link_to('Content', edit_admin_home_path, :class => content_class))
@@ -32,11 +32,11 @@ module ApplicationHelper
   
   def content_submenu
     ctrlr = request.parameters['controller'].split('/').last
-    if (ctrlr == 'home' || ctrlr == 'links' || ctrlr == 'news_items' || ctrlr == 'portfolios')
+    if (ctrlr == 'home' || ctrlr == 'links' || ctrlr == 'news_items' || ctrlr == 'portfolios' || ctrlr == 'assigned_assets')
       home_class = (ctrlr == 'home' ? 'current' : '')
       links_class = (ctrlr == 'links' ? 'current' : '')
       news_class = (ctrlr == 'news_items' ? 'current' : '')
-      portfolios_class = (ctrlr == 'portfolios' ? 'current' : '')
+      portfolios_class = ((ctrlr == 'portfolios' || ctrlr == 'assigned_assets') ? 'current' : '')
     
       content_for :subcontrols do
         result = content_tag('li', link_to('Home', edit_admin_home_path, :class => home_class))
