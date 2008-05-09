@@ -1,7 +1,7 @@
 .box
   .boxheader
     %span.header Links
-    = link_to 'Add New', new_admin_link_path
+    = link_to add_icon, new_admin_link_path
   %ol#linklist.draglist
     - @links.each do |link|
       %li{ :id => "#{dom_id(link)}" }

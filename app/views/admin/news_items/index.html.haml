@@ -1,7 +1,7 @@
 .box
   .boxheader
     %span.header News Items
-    = link_to 'Add New', new_admin_news_item_path
+    = link_to add_icon, new_admin_news_item_path
   %ol#newslist.draglist
     - @news_items.each do |news_item|
       %li{ :id => "#{dom_id(news_item)}" }

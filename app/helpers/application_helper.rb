@@ -5,6 +5,10 @@ module ApplicationHelper
     image_tag(asset.public_filename(thumbnail), options)
   end
 
+  def add_icon
+    image_tag('/images/icons/add.gif', :class => 'icon-square grey')
+  end
+
   #
   # This is an unholy mess.
   #

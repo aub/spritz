@@ -140,7 +140,7 @@ h1 a
     :width 100%
     :font-weight normal
     :text-align center
-    :color = !banner_font_color
+    :color = !banner_font_color    
     
 #top-controls
   :background-color = !cute_orange
@@ -150,10 +150,12 @@ h1 a
   :padding-left 13px
   
   li
+    :display inline
+    
     a
       :font-size 125%
       :line-height 30px
-      :padding 5px 7px
+      :padding 5px 12px
       :text-decoration none
       :text-align center
       :white-space nowrap
@@ -201,16 +203,6 @@ h1 a
     :type none
     :margin 0
     :padding 0
-
-#top-controls li
-  :display inline
-
-#top-controls li a
-  :padding 5px 7px
-  :text-decoration none
-  :text-align center
-  :white-space nowrap
-  :color = !dark_grey
   
 .group 
   dl
@@ -261,6 +253,12 @@ h1 a
 .boxheader
   :background = !paler_grey
   :padding 5px
+  
+  a
+    :border-bottom none
+  
+  .icon, .icon-square
+    :margin 0px 0px 4px 5px
   
 .boxcontent
   :padding 10px
@@ -473,6 +471,9 @@ h1 a
   :background url(/images/icons/bg_rounded.gif)
   :border 0pt none
   :vertical-align middle
+
+.icon-square
+  :vertical-align middle
   
 .green
   :background-color #9c0
@@ -490,4 +491,4 @@ h1 a
   :background-color #f33
 
 .grey
-  :background-color #b9b9b9
+  :background-color = !light_grey
