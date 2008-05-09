@@ -18,6 +18,9 @@ config.action_view.cache_template_loading            = true
 # Disable delivery errors, bad email addresses will be ignored
 # config.action_mailer.raise_delivery_errors = false
 
+# I have to turn this off because it breaks our ability to switch themes.
+config.action_view.cache_template_extensions         = false
+
 # This is the address where the query will get redirected to when hitting a location
 # where there is no valid site.
 MAIN_HOST = 'www.artistcommon.com'
