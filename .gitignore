@@ -2,7 +2,7 @@ config/database.yml
 coverage
 coverage.data
 db/*.sqlite3*
-log
+log/*.log
 public/assets
 themes/site*
 tmp/attachment_fu

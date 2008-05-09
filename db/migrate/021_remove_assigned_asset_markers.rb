@@ -4,6 +4,6 @@ class RemoveAssignedAssetMarkers < ActiveRecord::Migration
   end
 
   def self.down
-    ass_column :assigned_assets, :marker, :string
+    add_column :assigned_assets, :marker, :string
   end
 end
