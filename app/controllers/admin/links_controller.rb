@@ -1,4 +1,5 @@
 class Admin::LinksController < Admin::AdminController
+  
   # GET /links
   # GET /links.xml
   def index
@@ -64,6 +65,12 @@ class Admin::LinksController < Admin::AdminController
         format.xml  { render :xml => @link.errors, :status => :unprocessable_entity }
       end
     end
+  end
+
+  # PUT /links/reorder
+  def reorder
+    site.links.reorder! params[:links]
+    render :nothing => true
   end
 
   # DELETE /links/1

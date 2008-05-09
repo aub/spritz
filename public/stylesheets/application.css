@@ -15,8 +15,10 @@ body {
 a:link, a:visited {
   outline: none;
   color: #920;
-  border-bottom: 1px dotted #888;
-  text-decoration: none; }
+  text-decoration: none;
+  border-bottom: 1px dotted #aaa; }
+a img {
+  border: none; }
 
 #login-form {
   margin: 10px auto;
@@ -159,7 +161,7 @@ h1 a {
       color: rgb(223,141,74);
       border-bottom: 1px dotted #888; }
 
-#top-controls, #top-controls a, #available-sections li, #active-sections li, .cleanlist, .asset-controls {
+#top-controls, #top-controls a, #available-sections li, #active-sections li, .cleanlist, .asset-controls, .draglist {
   list-style-image: none;
   list-style-position: outside;
   list-style-type: none;
@@ -368,8 +370,33 @@ h1 a {
     border: 1px solid #eee;
     color: #bbb; }
 
+.draglist {
+  width: 100%; }
+  .draglist li {
+    border-bottom: 1px solid #8C8282;
+    margin: 0pt;
+    height: 4em; }
+  .draglist .handle {
+    width: 25px;
+    float: left;
+    clear: left;
+    padding: 15px; }
+  .draglist .title {
+    vertical-align: middle;
+    float: left; }
+  .draglist .controls {
+    float: right; }
+    .draglist .controls a {
+      border-bottom: none; }
+  .draglist .small {
+    width: 25px; }
+  .draglist .handle {
+    cursor: move; }
+
 .icon {
-  background: url(/images/mephisto/icons/bg_rounded.gif); }
+  background: url(/images/icons/bg_rounded.gif);
+  border: 0pt none;
+  vertical-align: middle; }
 
 .green {
   background-color: #9c0; }
@@ -381,7 +408,10 @@ h1 a {
   background-color: #000; }
 
 .orange {
-  background-color: #f63; }
+  background-color: rgb(223,141,74); }
 
 .red {
   background-color: #f33; }
+
+.grey {
+  background-color: #b9b9b9; }

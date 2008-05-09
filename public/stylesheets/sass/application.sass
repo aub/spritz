@@ -31,8 +31,11 @@ a
   &:link, &:visited
     :outline none
     :color #920
-    :border-bottom 1px dotted #888
     :text-decoration none
+    :border-bottom 1px dotted #aaa
+
+  img
+    :border none
 
 #login-form
   :margin 10px auto
@@ -191,7 +194,7 @@ h1 a
       :color = !cute_orange
       :border-bottom 1px dotted #888
       
-#top-controls, #top-controls a, #available-sections li, #active-sections li, .cleanlist, .asset-controls
+#top-controls, #top-controls a, #available-sections li, #active-sections li, .cleanlist, .asset-controls, .draglist
   :list-style
     :image none
     :position outside
@@ -436,9 +439,41 @@ h1 a
     :border 1px solid #eee
     :color #bbb
 
-.icon
-  :background url(/images/mephisto/icons/bg_rounded.gif)
+.draglist
+  :width 100%
 
+  li
+    :border-bottom 1px solid #8C8282
+    :margin 0pt
+    :height 4em
+
+  .handle
+    :width 25px
+    :float left
+    :clear left
+    :padding 15px
+
+  .title
+    :vertical-align middle
+    :float left
+    
+  .controls
+    :float right
+    
+    a
+      :border-bottom none
+    
+  .small
+    :width 25px
+
+  .handle
+    :cursor move
+
+.icon
+  :background url(/images/icons/bg_rounded.gif)
+  :border 0pt none
+  :vertical-align middle
+  
 .green
   :background-color #9c0
   
@@ -449,7 +484,10 @@ h1 a
   :background-color #000
 
 .orange
-  :background-color #f63
+  :background-color = !cute_orange
   
 .red
   :background-color #f33
+
+.grey
+  :background-color #b9b9b9

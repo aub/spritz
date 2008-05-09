@@ -10,6 +10,10 @@ describe Admin::NewsItemsController do
     it "should map { :controller => 'admin/news_items', :action => 'new' } to /admin/news_items/new" do
       route_for(:controller => "admin/news_items", :action => "new").should == "/admin/news_items/new"
     end
+    
+    it "should map { :controller => 'admin/news_items', :action => 'create' } to /admin/news_items" do
+      route_for(:controller => "admin/news_items", :action => "create").should == "/admin/news_items"
+    end
   
     it "should map { :controller => 'admin/news_items', :action => 'show', :id => 1 } to /admin/news_items/1" do
       route_for(:controller => "admin/news_items", :action => "show", :id => 1).should == "/admin/news_items/1"
@@ -25,6 +29,10 @@ describe Admin::NewsItemsController do
   
     it "should map { :controller => 'admin/news_items', :action => 'destroy', :id => 1} to /admin/news_items/1" do
       route_for(:controller => "admin/news_items", :action => "destroy", :id => 1).should == "/admin/news_items/1"
+    end
+    
+    it "should map { :controller => 'admin/news_items', :action => 'reorder'} to /admin/news_items/reorder" do
+      route_for(:controller => "admin/news_items", :action => "reorder").should == "/admin/news_items/reorder"
     end
   end
 
@@ -56,6 +64,10 @@ describe Admin::NewsItemsController do
   
     it "should generate params { :controller => 'admin/news_items', action => 'destroy', id => '1' } from DELETE /admin/news_items/1" do
       params_from(:delete, "/admin/news_items/1").should == {:controller => "admin/news_items", :action => "destroy", :id => "1"}
+    end
+    
+    it "should generate params { :controller => 'admin/news_items', action => 'reorder' } from PUT /admin/news_items/reorder" do
+      params_from(:put, "/admin/news_items/reorder").should == {:controller => "admin/news_items", :action => "reorder"}
     end
   end
 end

@@ -3,9 +3,10 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe Admin::NewsItemsController do
   define_models :news_items_controller do
     model NewsItem do
-      stub :one, :site => all_stubs(:site)
-      stub :two, :site => all_stubs(:site)
-      stub :tre, :site => all_stubs(:other_site)
+      stub :one, :site => all_stubs(:site), :position => 1
+      stub :two, :site => all_stubs(:site), :position => 2
+      stub :tre, :site => all_stubs(:site), :position => 3
+      stub :four, :site => all_stubs(:other_site)
     end
   end
   
@@ -36,7 +37,7 @@ describe Admin::NewsItemsController do
   
     it "should assign the found admin_news_items for the view" do
       do_get
-      assigns[:news_items].sort_by(&:id).should == [news_items(:one), news_items(:two)].sort_by(&:id)
+      assigns[:news_items].sort_by(&:id).should == [news_items(:one), news_items(:two), news_items(:tre)].sort_by(&:id)
     end
   end
 
@@ -90,7 +91,7 @@ describe Admin::NewsItemsController do
     end
     
     it "should not find news items that are in another site" do
-      get :show, :id => news_items(:tre)
+      get :show, :id => news_items(:four)
       response.should be_missing
     end
   end
@@ -177,7 +178,7 @@ describe Admin::NewsItemsController do
     end
     
     it "should not find news items that are in a different site" do
-      get :edit, :id => news_items(:tre)
+      get :edit, :id => news_items(:four)
       response.should be_missing
     end
   end
@@ -270,6 +271,29 @@ describe Admin::NewsItemsController do
     end
   end
 
+  describe "handling PUT /news_items/reorder" do
+    define_models :news_items_controller
+
+    before(:each) do
+      login_as(:admin)
+    end
+
+    def do_put
+      put :reorder, :news_items => [ news_items(:tre).id, news_items(:one).id, news_items(:two).id ]
+    end
+
+    it "should render nothing" do
+      do_put
+      response.should be_success
+      response.body.should be_blank
+    end
+
+    it "should update the news_item order" do
+      do_put
+      sites(:default).news_items.reload.should == [ news_items(:tre), news_items(:one), news_items(:two) ]
+    end
+  end
+
   describe "handling DELETE /admin/news_items/1" do
     define_models :news_items_controller
     
@@ -299,6 +323,7 @@ describe Admin::NewsItemsController do
         lambda { get :index },
         lambda { get :edit, :id => news_items(:one).id },
         lambda { put :update, :id => news_items(:one).id, :link => {} },
+        lambda { put :reorder },
         lambda { get :new },
         lambda { post :create, :news_item => {} },
         lambda { delete :destroy, :id => news_items(:one).id }])
@@ -309,6 +334,7 @@ describe Admin::NewsItemsController do
         lambda { get :index },
         lambda { get :edit, :id => news_items(:one).id },
         lambda { put :update, :id => news_items(:one).id, :link => {} },
+        lambda { put :reorder },
         lambda { get :new },
         lambda { post :create, :news_item => {} },
         lambda { delete :destroy, :id => news_items(:one).id }])

@@ -19,8 +19,8 @@ ActionController::Routing::Routes.draw do |map|
     admin.resource :home, :controller => 'home' do |home|
       home.resource :home_image, :controller => 'home_image'
     end
-    admin.resources :links
-    admin.resources :news_items
+    admin.resources :links, :collection => { :reorder => :put }
+    admin.resources :news_items, :collection => { :reorder => :put }
     admin.resources :portfolios, :member => { :add_child => :get } do |portfolios|
       portfolios.resources :assigned_assets, :collection => { :select => :post, :deselect => :delete, :clear => :delete }
     end

@@ -66,6 +66,12 @@ class Admin::NewsItemsController < Admin::AdminController
     end
   end
 
+  # PUT /news_items/reorder
+  def reorder
+    site.news_items.reorder! params[:news_items]
+    render :nothing => true
+  end
+
   # DELETE /admin/news_items/1
   # DELETE /admin/news_items/1.xml
   def destroy

@@ -2,7 +2,7 @@ Event.onReady(function() {
   ['notice', 'errors'].each(function(flashType) {
     var elem = $('flash-' + flashType);
     if (elem.innerHTML != '') Flash.show(flashType, elem.innerHTML);
-  })  
+  });
 });
 
 /*-------------------- Flash ------------------------------*/
@@ -41,3 +41,26 @@ var Flash = {
     new Effect.Fade('flash-errors', {duration: 0.3});
   }
 }
+
+var TableSorter = Class.create();
+TableSorter.prototype = {
+  initialize: function(sortableId, updateUrl, itemName) {
+    Sortable.create(sortableId, { 
+      tag: 'li', 
+      handle: 'handle',
+      onUpdate: function(list) {
+        new Ajax.Request(updateUrl, {
+          asynchronous: true, 
+          evalScripts:  true, 
+          parameters:   Sortable.serialize(list, { name: itemName }),
+          method: 'put'
+        }); 
+      }
+    });
+  } 
+}
+
+Event.addBehavior({
+  '#linklist': function() { window.linkSorter = new TableSorter('linklist', '/admin/links/reorder', 'links') },
+  '#newslist': function() { window.linkSorter = new TableSorter('newslist', '/admin/news_items/reorder', 'news_items') }
+});

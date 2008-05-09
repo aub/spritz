@@ -95,34 +95,54 @@ describe Site do
   describe "relationship to links" do
     define_models :site do
       model Link do
-        stub :google, :site => all_stubs(:site)
-        stub :yahoo, :site => all_stubs(:site)
+        stub :google, :site => all_stubs(:site), :position => 2
+        stub :yahoo, :site => all_stubs(:site), :position => 1
+        stub :boston, :site => all_stubs(:site), :position => 3
       end
     end
     
     it "should have a collection of links" do
       sites(:default).links.sort_by(&:id).should == Link.find_all_by_site_id(sites(:default).id).sort_by(&:id)
     end
+
+    it "should order the links by position" do
+      sites(:default).links.should == [links(:yahoo), links(:google), links(:boston)]
+    end
     
     it "should destroy the links when destroyed" do
-      lambda { sites(:default).destroy }.should change(Link, :count).by(-2)
+      lambda { sites(:default).destroy }.should change(Link, :count).by(-3)
+    end
+    
+    it "should allow reordering of the links" do
+      sites(:default).links.reorder!([links(:boston).id, links(:yahoo).id, links(:google).id])
+      sites(:default).links.should == [links(:boston), links(:yahoo), links(:google)]
     end
   end
 
   describe "relationship to news items" do
     define_models :site do
       model NewsItem do
-        stub :show, :site => all_stubs(:site)
-        stub :publication, :site => all_stubs(:site)
+        stub :uno, :site => all_stubs(:site), :position => 3
+        stub :due, :site => all_stubs(:site), :position => 1
+        stub :tre, :site => all_stubs(:site), :position => 2
       end
     end
     
     it "should have a collection of news items" do
-      sites(:default).news_items.sort_by(&:id).should == [news_items(:show), news_items(:publication)].sort_by(&:id)
+      sites(:default).news_items.sort_by(&:id).should == [news_items(:uno), news_items(:due), news_items(:tre)].sort_by(&:id)
+    end
+
+    it "should order the news items by position" do
+      sites(:default).news_items.should == [news_items(:due), news_items(:tre), news_items(:uno)]
+    end
+
+    it "should allow reordering of the news items" do
+      sites(:default).news_items.reorder!([news_items(:uno).id, news_items(:due).id, news_items(:tre).id])
+      sites(:default).news_items.should == [news_items(:uno), news_items(:due), news_items(:tre)]
     end
     
     it "should destroy the news items when destroyed" do
-      lambda { sites(:default).destroy }.should change(NewsItem, :count).by(-2)
+      lambda { sites(:default).destroy }.should change(NewsItem, :count).by(-3)
     end
   end
 

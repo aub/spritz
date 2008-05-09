@@ -2,12 +2,11 @@
   .boxheader
     %span.header News Items
     = link_to 'Add New', new_admin_news_item_path
-  %ul.cleanlist
+  %ol#newslist.draglist
     - @news_items.each do |news_item|
-      %li.boxcontent
-        = news_item.title
-        = link_to 'edit', edit_admin_news_item_path(news_item)
-        = link_to 'delete', admin_news_item_path(news_item), :method => :delete
+      %li{ :id => "#{dom_id(news_item)}" }
+        %span.handle= image_tag('/images/icons/up-down.gif', :class => 'icon orange')
+        %span.title= link_to news_item.title, edit_admin_news_item_path(news_item)
+        %span.controls= link_to image_tag('/images/icons/trash.gif', :class => 'icon red', :title => 'Delete this item'), admin_news_item_path(news_item), :method => :delete
     - if @news_items.empty?
-      %li.boxcontent None
-
+      %li None

@@ -30,6 +30,10 @@ describe Admin::LinksController do
     it "should map { :controller => 'admin/links', :action => 'destroy', :id => 1} to /admin/links/1" do
       route_for(:controller => "admin/links", :action => "destroy", :id => 1).should == "/admin/links/1"
     end
+    
+    it "should map { :controller => 'admin/links', :action => 'reorder'} to /admin/links/reorder" do
+      route_for(:controller => "admin/links", :action => "reorder").should == "/admin/links/reorder"
+    end
   end
 
   describe "route recognition" do
@@ -60,6 +64,10 @@ describe Admin::LinksController do
   
     it "should generate params { :controller => 'admin/links', action => 'destroy', id => '1' } from DELETE /admin/links/1" do
       params_from(:delete, "/admin/links/1").should == {:controller => "admin/links", :action => "destroy", :id => "1"}
+    end
+    
+    it "should generate params { :controller => 'admin/links', action => 'reorder' } from PUT /admin/links/reorder" do
+      params_from(:put, "/admin/links/reorder").should == {:controller => "admin/links", :action => "reorder"}
     end
   end
 end

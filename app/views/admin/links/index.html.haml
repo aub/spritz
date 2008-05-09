@@ -2,11 +2,12 @@
   .boxheader
     %span.header Links
     = link_to 'Add New', new_admin_link_path
-  %ul.cleanlist
+  %ol#linklist.draglist
     - @links.each do |link|
-      %li.boxcontent
-        = link.title
-        = link_to 'edit', edit_admin_link_path(link)
-        = link_to 'delete', admin_link_path(link), :method => :delete
+      %li{ :id => "#{dom_id(link)}" }
+        %span.handle= image_tag('/images/icons/up-down.gif', :class => 'icon orange')
+        %span.title= link_to link.title, edit_admin_link_path(link)
+        %span.controls= link_to image_tag('/images/icons/trash.gif', :class => 'icon red', :title => 'Delete this link'), admin_link_path(link), :method => :delete
+    
     - if @links.empty?
-      %li.boxcontent None
+      %li None

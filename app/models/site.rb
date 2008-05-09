@@ -17,9 +17,19 @@ class Site < ActiveRecord::Base
 
   has_many :assets, :dependent => :destroy, :conditions => 'parent_id is NULL'
 
-  has_many :links, :dependent => :destroy
+  has_many :links, :dependent => :destroy, :order => :position do
+    # change the order of the links in the site by passing an ordered list of their ids
+    def reorder!(*sorted_ids)
+      proxy_owner.send(:reorder_items, Link, sorted_ids)
+    end
+  end
 
-  has_many :news_items, :dependent => :destroy
+  has_many :news_items, :dependent => :destroy, :order => :position do
+    # change the order of the links in the site by passing an ordered list of their ids
+    def reorder!(*sorted_ids)
+      proxy_owner.send(:reorder_items, NewsItem, sorted_ids)
+    end
+  end
 
   has_many :contacts, :dependent => :destroy
 
@@ -104,5 +114,14 @@ class Site < ActiveRecord::Base
     self.update_attribute(:theme_path, 'dark')
     # This needs to be last because we want to return false if it fails
     Theme.create_defaults_for(self)
+  end
+  
+  # A helper method for reordering items that belong to the site.
+  def reorder_items(clazz, *sorted_ids)
+    transaction do
+      sorted_ids.flatten.each_with_index do |thing_id, pos|
+        clazz.update_all ['position = ?', pos], ['id = ? and site_id = ?', thing_id, self.id]
+      end
+    end
   end
 end

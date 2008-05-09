@@ -4,9 +4,10 @@ describe Admin::LinksController do
   
   define_models :links_controller do
     model Link do
-      stub :one, :site => all_stubs(:site)
-      stub :two, :site => all_stubs(:site)
-      stub :tre, :site => all_stubs(:other_site)
+      stub :one, :site => all_stubs(:site), :position => 1
+      stub :two, :site => all_stubs(:site), :position => 2
+      stub :tre, :site => all_stubs(:site), :position => 3
+      stub :four, :site => all_stubs(:other_site), :position => 1
     end
   end
   
@@ -37,7 +38,7 @@ describe Admin::LinksController do
   
     it "should assign the found links for the view" do
       do_get
-      assigns[:links].sort_by(&:id).should == [links(:one), links(:two)].sort_by(&:id)
+      assigns[:links].sort_by(&:id).should == [links(:one), links(:two), links(:tre)].sort_by(&:id)
     end
   end
 
@@ -105,7 +106,7 @@ describe Admin::LinksController do
     
     it "should render not found for links not in the site" do
       @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :show, :id => links(:tre).id
+      get :show, :id => links(:four).id
       response.should be_missing
     end
   end
@@ -255,6 +256,29 @@ describe Admin::LinksController do
       end
     end
   end
+  
+  describe "handling PUT /links/reorder" do
+    define_models :links_controller
+
+    before(:each) do
+      login_as(:admin)
+    end
+
+    def do_put
+      put :reorder, :links => [ links(:tre).id, links(:one).id, links(:two).id ]
+    end
+
+    it "should render nothing" do
+      do_put
+      response.should be_success
+      response.body.should be_blank
+    end
+
+    it "should update the link order" do
+      do_put
+      sites(:default).links.reload.should == [ links(:tre), links(:one), links(:two) ]
+    end
+  end
 
   describe "handling DELETE /links/1" do
     define_models :links_controller
@@ -285,6 +309,7 @@ describe Admin::LinksController do
         lambda { get :index },
         lambda { get :edit, :id => links(:one).id },
         lambda { put :update, :id => links(:one).id, :link => {} },
+        lambda { put :reorder },
         lambda { get :new },
         lambda { post :create, :link => {} },
         lambda { delete :destroy, :id => links(:one).id }])
@@ -295,6 +320,7 @@ describe Admin::LinksController do
         lambda { get :index },
         lambda { get :edit, :id => links(:one).id },
         lambda { put :update, :id => links(:one).id, :link => {} },
+        lambda { put :reorder },
         lambda { get :new },
         lambda { post :create, :link => {} },
         lambda { delete :destroy, :id => links(:one).id }])
