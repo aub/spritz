@@ -1,6 +1,6 @@
 class Site < ActiveRecord::Base
 
-  @@multi_sites_enables = false
+  @@multi_sites_enabled = false
   cattr_accessor :multi_sites_enabled
 
   validates_presence_of :title

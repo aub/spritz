@@ -29,7 +29,7 @@ module ActsAsAsset
     # site's subdomain, and then the date.
     def full_filename(thumbnail=nil)
       date = self.created_at || Time.now
-      File.join(RAILS_ROOT, ASSET_PATH_ROOT, self.site.subdomain, 
+      File.join(RAILS_ROOT, ASSET_PATH_ROOT, (Site.multi_sites_enabled? ? self.site.subdomain : ''), 
                 date.year.to_s, date.month.to_s, date.day.to_s, 
                 thumbnail_name_for(thumbnail))    
     end
