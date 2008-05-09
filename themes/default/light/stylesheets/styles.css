@@ -104,7 +104,7 @@ a img {
 	float: left;
 	clear: both;
 	padding-top: 10px;
-	width: 200px;
+	width: 300px;
 }
 
 .portfolio .portfolio-text {
@@ -112,8 +112,8 @@ a img {
 }
 
 .portfolio .portfolio-images {
-	width: 700px;
-	margin-left: 220px;
+	width: 560px;
+	margin-left: 320px;
 	padding-top: 10px;
 }
 
@@ -139,10 +139,16 @@ a img {
 
 .home-news {
 	float: right;
-	width: 250px;
+	width: 200px;
 	border: 1px solid #ddd;
 	padding: 15px;
-	margin: 0pt
+	margin: 0pt;
+	font-size: 90%;
+}
+
+.home-news h2 {
+  text-align: center;
+  font-size: 110%;
 }
 
 .home-news dd {
@@ -151,10 +157,10 @@ a img {
 
 .home-text {
 	float: left;
-	width: 550px;
+	width: 600px;
 }
 
-.home-image {
-	float: left;
-	width: 550px;
+.home-text img {
+  display: block;
+  margin: 0px auto 0px auto;
 }

@@ -124,7 +124,27 @@ a:hover {
 
 .portfolio-images {
 	clear: both;
-	padding-top: 20px;
+	padding-top: 0px;
+}
+
+.portfolio-images a {
+  border-bottom: none; 
+}
+
+.portfolio-images a img {
+  border: none;
+  margin: 5px 10px 0pt 0pt;
+}
+
+.image-fields {
+	clear: both;
+	font-size: 80%;
+	list-style-type: none;
+}
+
+.image-fields span {
+	display: inline;
+	margin-right: 5px;
 }
 
 .breadcrumbs {
@@ -151,10 +171,17 @@ a:hover {
 
 .home-news {
 	float: right;
-	width: 250px;
+	width: 210px;
 	border: 1px solid #4c0000;
 	padding: 15px;
-	margin: 0pt
+	margin: 0pt;
+	font-size: 90%;
+}
+
+.home-news h2 {
+	text-align: center;
+	font-size: 120%;
+	font-weight: bold;
 }
 
 .home-news dd {
@@ -168,6 +195,11 @@ a:hover {
 
 .home-text p {
   padding-top: 20px;
+}
+
+.home-text img {
+	display: block;
+	margin: auto;
 }
 
 .home-image {
