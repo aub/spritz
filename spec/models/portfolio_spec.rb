@@ -11,9 +11,8 @@ describe Portfolio do
       stub :two, :site => all_stubs(:site), :filename => 'fake2'
     end
     model AssignedAsset do
-      stub :one, :asset => all_stubs(:one_asset), :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :marker => 'display'
-      stub :two, :asset => all_stubs(:two_asset), :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :marker => 'display'
-      stub :tre, :asset => all_stubs(:two_asset), :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :marker => 'something_else'
+      stub :one, :asset => all_stubs(:one_asset), :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio'
+      stub :two, :asset => all_stubs(:two_asset), :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio'
     end
   end
   
@@ -59,10 +58,6 @@ describe Portfolio do
     
     it "should destroy the assigned assets when being destroyed" do
       lambda { portfolios(:one).destroy }.should change(AssignedAsset, :count).by(-2)
-    end
-    
-    it "should not include assigned assets with the wrong marker" do
-      portfolios(:one).assigned_assets.include?(assigned_assets(:tre)).should be_false
     end
   end
   

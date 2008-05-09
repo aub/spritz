@@ -11,7 +11,7 @@ describe Admin::AssignedAssetsController do
       stub :two, :site => all_stubs(:site), :filename => 'fake2'
     end
     model AssignedAsset do
-      stub :one, :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :asset => all_stubs(:one_asset), :marker => 'display'
+      stub :one, :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :asset => all_stubs(:one_asset)
     end
   end
   
