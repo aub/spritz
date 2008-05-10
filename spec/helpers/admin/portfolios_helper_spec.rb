@@ -1,6 +1,8 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe Admin::PortfoliosHelper do
+  include ApplicationHelper
+  
   define_models :portfolios_helper do
     model Portfolio do
       stub :one, :title => 'one', :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 2
@@ -13,12 +15,12 @@ describe Admin::PortfoliosHelper do
     
     it "should link to the add child path if there is a portfolio" do
       @portfolio = portfolios(:one)
-      link_to_new_portfolio.should == "<a href=\"/admin/portfolios/#{@portfolio.id}/add_child\">Add New</a>"
+      link_to_new_portfolio.should match(/<a href="\/admin\/portfolios\/#{@portfolio.id}\/add_child">/)
     end
     
     it "should link to the normal new path if there is not" do
       @portfolio = nil
-      link_to_new_portfolio.should == "<a href=\"/admin/portfolios/new\">Add New</a>"
+      link_to_new_portfolio.should match(/<a href="\/admin\/portfolios\/new">/)
     end
   end
   

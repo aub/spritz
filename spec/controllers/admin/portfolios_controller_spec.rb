@@ -203,16 +203,16 @@ describe Admin::PortfoliosController do
       define_models :portfolios_controller
       
       def do_post
-        post :create, :portfolio => { :title => 'a_title' }
+        post :create, :portfolio => { :title => 'memorable' }
       end
   
       it "should create a new portfolio" do
         lambda { do_post }.should change(sites(:default).portfolios, :count).by(1)
       end
 
-      it "should redirect to the portfolio list" do
+      it "should redirect to the portfolio" do
         do_post
-        response.should redirect_to(admin_portfolios_path)
+        response.should redirect_to(edit_admin_portfolio_path(Portfolio.find_by_title('memorable')))
       end
     end
     
@@ -233,7 +233,7 @@ describe Admin::PortfoliosController do
       define_models :portfolios_controller
       
       def do_post
-        post :create, :portfolio => { :title => 'a_title' }, :parent_id => portfolios(:one).id
+        post :create, :portfolio => { :title => 'ouch' }, :parent_id => portfolios(:one).id
       end
       
       it "should make the new portfolio a child of the given parent" do
@@ -241,9 +241,9 @@ describe Admin::PortfoliosController do
         assigns[:portfolio].parent.should == portfolios(:one)
       end
       
-      it "should redirect to the parent portfolio's edit page" do
+      it "should redirect to the portfolio's edit page" do
         do_post
-        response.should redirect_to(edit_admin_portfolio_path(portfolios(:one)))
+        response.should redirect_to(edit_admin_portfolio_path(Portfolio.find_by_title('ouch')))
       end
     end
   end

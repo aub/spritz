@@ -53,8 +53,13 @@ describe Admin::AssetsController do
   def asset_file(options={})
     fixture_file_upload(File.join(%w(assets icon.png)), options[:content_type] || 'image/png')
   end
-  
+
   def path_root
+    t = Time.now
+    File.join(ASSET_PATH_ROOT, t.year.to_s, t.month.to_s, t.day.to_s)
+  end
+  
+  def path_root_multisite
     t = Time.now
     File.join(ASSET_PATH_ROOT, sites(:default).subdomain, t.year.to_s, t.month.to_s, t.day.to_s)
   end

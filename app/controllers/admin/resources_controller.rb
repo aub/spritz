@@ -11,6 +11,7 @@ class Admin::ResourcesController < Admin::AdminController
 
   def update
     @resource.write(params[:data])
+    flash[:notice] = 'The file has been updated.'
     redirect_to edit_admin_theme_resource_path(@theme, @resource)
   end
   

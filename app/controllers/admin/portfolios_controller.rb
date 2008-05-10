@@ -58,15 +58,7 @@ class Admin::PortfoliosController < Admin::AdminController
     respond_to do |format|
       if @portfolio.valid?
         flash[:notice] = 'Portfolio was successfully created.'
-        format.html do 
-          # Again, if a parent was provided, go to the edit page, otherwise
-          # go to the list.
-          if params[:parent_id]
-            redirect_to edit_admin_portfolio_path(params[:parent_id])
-          else
-            redirect_to admin_portfolios_path
-          end
-        end
+        format.html { redirect_to edit_admin_portfolio_path(@portfolio) }
         format.xml  { render :xml => @portfolio, :status => :created, :location => @portfolio }
       else
         # And finally, if we're going back to the 'new' template, we need to give it

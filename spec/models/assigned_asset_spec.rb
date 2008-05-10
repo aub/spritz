@@ -23,8 +23,8 @@ describe AssignedAsset do
     it "should require an asset and portfolio" do
       asset = AssignedAsset.new
       asset.should_not be_valid
-      asset.should have(1).errors_on(:asset_id)
-      asset.should have(1).errors_on(:asset_holder_id)
+      asset.should have(1).errors_on(:asset)
+      asset.should have(1).errors_on(:asset_holder)
       asset.should have(1).errors_on(:asset_holder_type)
     end
 
@@ -37,6 +37,16 @@ describe AssignedAsset do
       asset1 = AssignedAsset.create(:asset => assets(:one), :asset_holder => portfolios(:two))
       asset2 = AssignedAsset.create(:asset => assets(:one), :asset_holder => portfolios(:tre))
       asset2.should be_valid
+    end
+
+    it "should require the asset to exist" do
+      asset = AssignedAsset.create(:asset_id => 45678990, :asset_holder => portfolios(:one))
+      asset.should have(1).error_on(:asset)
+    end
+    
+    it "should require the asset holder to exist" do
+      asset = AssignedAsset.create(:asset_id => assets(:two), :asset_holder_id => 12345678)
+      asset.should have(1).error_on(:asset_holder)
     end
 
     it "should be valid" do

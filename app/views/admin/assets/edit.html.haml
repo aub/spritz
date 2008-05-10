@@ -1,3 +1,5 @@
+= error_messages_for :asset
+
 - form_for @asset, :url => admin_asset_path(@asset), :html => { :method => :put } do |f|
   .group
     %dl
@@ -8,7 +10,7 @@
         - else
           %dd= f.text_field field, :class => 'large fat'
       %dt
-        = f.submit 'Save Asset'
+        = f.submit "Save #{asset_name}"
         or
         = link_to "Cancel", admin_assets_path
 

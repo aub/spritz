@@ -1,13 +1,13 @@
 .box
   .boxheader
-    %span.header Images
-    (click to delete)
+    %span.header Items
+    (click to remove)
     = link_to add_icon, new_admin_portfolio_assigned_asset_path(@portfolio)
   %ul.cleanlist.image-list
     %li.boxcontent
       - @portfolio.assigned_assets.each do |assigned_asset|
         = link_to image_tag(assigned_asset.asset.public_filename(:thumb)), |
           admin_portfolio_assigned_asset_path(@portfolio, assigned_asset), |
-          :title => 'Delete', :confirm => 'Are you sure?', :method => :delete |
+          :title => 'Remove', :method => :delete |
       - if @portfolio.assigned_assets.empty?
         None

@@ -49,7 +49,7 @@ class Admin::AssetsController < Admin::AdminController
   def update
     respond_to do |format|
       if @asset.update_attributes(params[:asset])
-        flash[:notice] = 'Asset was successfully updated.'
+        flash[:notice] = 'The ' + asset_name.downcase + ' was successfully updated.'
         format.html { redirect_to admin_assets_path }
         format.xml  { head :ok }
       else
