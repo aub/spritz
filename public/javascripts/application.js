@@ -46,7 +46,7 @@ var TableSorter = Class.create();
 TableSorter.prototype = {
   initialize: function(sortableId, updateUrl, itemName) {
     Sortable.create(sortableId, { 
-      tag: 'li', 
+      tag: 'tr', 
       handle: 'handle',
       onUpdate: function(list) {
         new Ajax.Request(updateUrl, {
