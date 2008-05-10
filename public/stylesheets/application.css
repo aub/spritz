@@ -263,14 +263,15 @@ h1 a {
   margin: 10px 0px 0px 0px; }
 
 .asset-list span {
-  padding-left: 18px;
-  padding-bottom: 15px;
+  padding: 0px 9px 15px 9px;
   float: left; }
 .asset-list a {
   border-bottom: none; }
 .asset-list a img {
   padding: 5px;
   border: 1px solid #ccc; }
+.asset-list p {
+  clear: both; }
 
 .selasset-list span {
   padding-left: 6px;
