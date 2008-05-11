@@ -22,18 +22,26 @@ a img {
 
 #login-form {
   margin: 10px auto;
-  width: 380px; }
-  #login-form h1 a {
-    border-bottom: none; }
+  width: 28em; }
+  #login-form h1 {
+    font-size: 100%; }
+    #login-form h1 a {
+      border-bottom: none;
+      background: transparent url(../images/spritz-logo.png) no-repeat scroll 50%;
+      display: block;
+      height: 100px;
+      overflow: hidden;
+      text-indent: -9999px;
+      width: 28em; }
   #login-form form {
     font-weight: normal;
-    margin-left: 8px;
     padding: 16px 16px 40px 16px;
     background-color: rgb(223,141,74); }
     #login-form form p {
       margin-bottom: 24px; }
     #login-form form input {
-      color: #383838; }
+      color: #383838;
+      width: 100%; }
   #login-form .remember-me {
     float: left;
     font-weight: normal;
@@ -51,15 +59,6 @@ a img {
       text-decoration: none; }
     #login-form .submit input:hover {
       color: #af8439; }
-
-h1 a {
-  background: transparent url(../images/spritz-logo-medium.png) no-repeat scroll 50%;
-  display: block;
-  height: 100px;
-  overflow: hidden;
-  padding-bottom: 15px;
-  text-indent: -9999px;
-  width: 380px; }
 
 .large {
   font-size: 175%; }
