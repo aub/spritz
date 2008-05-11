@@ -178,13 +178,15 @@ h1 a {
   padding: 20px; }
   .group dl dt {
     font-weight: bold; }
-  .group dl input, .group dl textarea, .group dl select {
+  .group dl input, .group dl select {
     font-family: "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif;
     margin: 0pt 0pt 20px 0pt; }
   .group dl select {
     min-width: 100px; }
   .group dl textarea {
-    font-size: 125%; }
+    font-size: 120%;
+    font-family: "Courier New", Courier, mono;
+    margin-bottom: 20px; }
   .group dl .template-editor {
     font-family: "Courier New", Courier, mono;
     font-size: 12px; }

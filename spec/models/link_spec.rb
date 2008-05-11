@@ -36,4 +36,23 @@ describe Link do
   it "should belong to a site" do
     links(:one).site.should == sites(:default)
   end
+  
+  describe "appending http:// to the url" do
+    define_models :link
+    
+    it "should force-add http:// to the beginning of the link when saving." do
+      links(:one).update_attribute(:url, 'www.abc.com')
+      links(:one).reload.url.should == 'http://www.abc.com'
+    end
+    
+    it "should not double-add http" do
+      links(:one).update_attribute(:url, 'http://www.abc.com')
+      links(:one).reload.url.should == 'http://www.abc.com'
+    end
+    
+    it "should not add http to empty strings" do
+      links(:one).update_attribute(:url, '')
+      links(:one).reload.url.should == ''
+    end
+  end  
 end
