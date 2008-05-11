@@ -18,7 +18,9 @@ describe NewsItem do
     end
     
     it "should limit the length of the title" do
-      @news_item.title = '123456789012345678901234567890123456789012345678901'
+      test = ''
+      101.times { test += 'a' }
+      @news_item.title = test
       @news_item.should have(1).error_on(:title)
     end
 

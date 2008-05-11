@@ -229,7 +229,7 @@ describe Admin::LinksController do
 
       it "should update the found link" do
         do_put
-        links(:one).reload.url.should == 'heya'
+        links(:one).reload.url.should == 'http://heya' # Because the link will append http://
       end
 
       it "should assign the found link for the view" do

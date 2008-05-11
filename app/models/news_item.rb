@@ -3,7 +3,7 @@ class NewsItem < ActiveRecord::Base
   belongs_to :site
   
   validates_presence_of :title
-  validates_length_of :title, :maximum => 50
+  validates_length_of :title, :maximum => 100
 
   # column_to_html :text
   before_save :convert_column_to_html
