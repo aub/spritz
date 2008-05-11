@@ -5,6 +5,8 @@
     %dl
       %dt= f.label_for :title, :text => 'Site Title'
       %dd= f.text_field :title, :class => 'large fat'
+      %dt= f.label_for :google_analytics_code, :text => 'Google Analytics Code (for statistics tracking)'
+      %dd= f.text_field :google_analytics_code, :class => 'large fat'
       %dt
         = f.submit 'Save Changes'
 

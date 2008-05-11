@@ -8,7 +8,7 @@ class Site < ActiveRecord::Base
 
   after_create :initialize_theme
 
-  attr_accessible :subdomain, :domain, :theme_path, :title, :home_news_item_count, :home_text
+  attr_accessible :subdomain, :domain, :theme_path, :title, :home_news_item_count, :home_text, :google_analytics_code
   
   has_many :memberships, :dependent => :destroy
   has_many :members, :through => :memberships, :source => :user

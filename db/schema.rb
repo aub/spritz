@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 21) do
+ActiveRecord::Schema.define(:version => 22) do
 
   create_table "assets", :force => true do |t|
     t.string   "content_type"
@@ -105,6 +105,7 @@ ActiveRecord::Schema.define(:version => 21) do
     t.string   "title"
     t.text     "home_text"
     t.integer  "home_news_item_count"
+    t.string   "google_analytics_code"
   end
 
   add_index "sites", ["domain", "subdomain"], :name => "index_sites_on_domain_and_subdomain"

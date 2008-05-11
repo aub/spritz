@@ -82,5 +82,8 @@ describe SiteDrop do
     sites(:default).reload.home_image.should == nil
     @drop.home_image_display_path.should == ''
   end
-  
+
+  it "should provide access to the google analytics code" do
+    @drop.before_method('google_analytics_code').should == sites(:default).google_analytics_code
+  end
 end

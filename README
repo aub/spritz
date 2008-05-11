@@ -8,9 +8,6 @@ Spritz is a content management system specifically designed to help artists crea
 1) Check out a copy of the application
   ?????
   
-2) Create a log folder:
-  mkdir log
-  
 3) Create a database.yml file using the examples in database.example.yml. These files are located in the config directory.
 
 4) Create the database tables:

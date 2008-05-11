@@ -5,8 +5,10 @@ ModelStubbing.define_models do
   time 2007, 6, 15
   
   model Site do
-    stub :domain => 'www.test.com', :subdomain => 'testo', :theme_path => 'dark', :title => 'Hack Site', :home_text => 'ht', :home_news_item_count => 2
-    stub :other, :domain => 'www.other.com', :subdomain => 'oth', :theme_path => 'light', :title => 'Something Else', :home_text => 'ht', :home_news_item_count => 2
+    stub :domain => 'www.test.com', :subdomain => 'testo', :theme_path => 'dark', :title => 'Hack Site', 
+      :home_text => 'ht', :home_news_item_count => 2, :google_analytics_code => 'abc-123'
+    stub :other, :domain => 'www.other.com', :subdomain => 'oth', :theme_path => 'light', :title => 'Something Else', 
+      :home_text => 'ht', :home_news_item_count => 2, :google_analytics_code => 'def-456'
   end
   
   model User do
