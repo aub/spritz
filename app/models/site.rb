@@ -8,7 +8,8 @@ class Site < ActiveRecord::Base
 
   after_create :initialize_theme
 
-  column_to_html :home_text
+  # column_to_html :home_text
+  before_save :convert_column_to_html
 
   attr_accessible :subdomain, :domain, :theme_path, :title, :home_news_item_count, :home_text, :google_analytics_code
   
@@ -126,4 +127,8 @@ class Site < ActiveRecord::Base
       end
     end
   end
+  
+  def convert_column_to_html
+    self.home_text_html = BlueCloth.new(self.home_text || '').to_html
+  end  
 end

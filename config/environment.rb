@@ -59,6 +59,7 @@ end
 
 # Gem dependencies
 gem 'will_paginate', '>=2.1.0'
+gem 'BlueCloth', '>=1.0.0'
 
 require 'will_paginate'
 

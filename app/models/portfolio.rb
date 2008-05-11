@@ -4,7 +4,8 @@ class Portfolio < ActiveRecord::Base
   
   acts_as_nested_set :scope => :site_id
 
-  column_to_html :body
+  # column_to_html :body
+  before_save :convert_column_to_html
 
   validates_presence_of :title
   validates_length_of :title, :maximum => 50
@@ -17,4 +18,11 @@ class Portfolio < ActiveRecord::Base
   def to_liquid
     PortfolioDrop.new self
   end
+  
+  protected
+  
+  def convert_column_to_html
+    self.body_html = BlueCloth.new(self.body || '').to_html
+  end
+  
 end
