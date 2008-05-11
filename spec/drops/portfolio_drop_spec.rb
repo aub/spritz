@@ -7,9 +7,9 @@ describe PortfolioDrop do
       stub :two, :site => all_stubs(:site), :filename => 'fake2'
     end
     model Portfolio do
-      stub :one, :site => all_stubs(:site), :title => 'a_title', :body => 'a_body', :lft => 1, :rgt => 2
-      stub :two, :site => all_stubs(:site), :title => 'a_title', :body => 'a_body', :lft => 3, :rgt => 4
-      stub :tre, :site => all_stubs(:site), :title => 'a_title', :body => 'a_body', :lft => 5, :rgt => 6
+      stub :one, :site => all_stubs(:site), :title => 'a_title', :body => 'a_body', :body_html => 'ack', :lft => 1, :rgt => 2
+      stub :two, :site => all_stubs(:site), :title => 'a_title', :body => 'a_body', :body_html => 'ack', :lft => 3, :rgt => 4
+      stub :tre, :site => all_stubs(:site), :title => 'a_title', :body => 'a_body', :body_html => 'ack', :lft => 5, :rgt => 6
     end
     model AssignedAsset do
       stub :one, :asset => all_stubs(:one_asset), :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio'
@@ -25,8 +25,8 @@ describe PortfolioDrop do
     @drop.before_method('title').should == portfolios(:one).title
   end
   
-  it "should provide access to the body" do
-    @drop.before_method('body').should == portfolios(:one).body
+  it "should provide access to the body by returning the body_html" do
+    @drop.body.should == portfolios(:one).body_html
   end
   
   it "should provide access to the assets" do

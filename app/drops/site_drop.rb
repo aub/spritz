@@ -1,5 +1,9 @@
 class SiteDrop < BaseDrop
-  liquid_attributes << :title << :home_text << :google_analytics_code
+  liquid_attributes << :title << :google_analytics_code
+  
+  def home_text
+    source.home_text_html
+  end
   
   def links
     @links ||= source.links.collect(&:to_liquid)

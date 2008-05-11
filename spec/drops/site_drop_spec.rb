@@ -44,8 +44,8 @@ describe SiteDrop do
     @drop.news_items.should == sites(:default).news_items.collect(&:to_liquid)
   end
   
-  it "should provide access to the home text" do
-    @drop.before_method('home_text').should == sites(:default).home_text
+  it "should provide access to the home text by returning the home_text_html" do
+    @drop.home_text.should == sites(:default).home_text_html
   end
   
   it "should provide access to the home page news items" do

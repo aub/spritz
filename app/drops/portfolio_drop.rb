@@ -1,12 +1,16 @@
 class PortfolioDrop < BaseDrop
-  liquid_attributes << :title << :body
+  liquid_attributes << :title
+  
+  def body
+    source.body_html
+  end
   
   def assets
     @assets ||= source.assigned_assets.collect { |aa| PortfolioItemDrop.new(aa) }
   end
   
   def title_asset
-    assets.first
+    @title_asset ||= assets.first
   end
   
   def url
@@ -14,10 +18,10 @@ class PortfolioDrop < BaseDrop
   end
   
   def children
-    source.children.collect(&:to_liquid)
+    @children ||= source.children.collect(&:to_liquid)
   end
   
   def ancestors
-    source.ancestors.collect(&:to_liquid)
+    @ancestors ||= source.ancestors.collect(&:to_liquid)
   end
 end
