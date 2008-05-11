@@ -354,4 +354,9 @@ describe Site do
       sites(:default).home_image.should == assets(:one)
     end
   end
+  
+  it "should convert its home_text column to html on save" do
+    sites(:default).update_attribute(:home_text, 'abc')
+    sites(:default).reload.home_text_html.should == '<p>abc</p>'
+  end
 end

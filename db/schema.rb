@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 22) do
+ActiveRecord::Schema.define(:version => 23) do
 
   create_table "assets", :force => true do |t|
     t.string   "content_type"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(:version => 22) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "position",   :default => 1
+    t.text     "text_html"
   end
 
   create_table "plugin_schema_info", :id => false, :force => true do |t|
@@ -94,6 +95,7 @@ ActiveRecord::Schema.define(:version => 22) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "position",   :default => 1
+    t.text     "body_html"
   end
 
   create_table "sites", :force => true do |t|
@@ -106,6 +108,7 @@ ActiveRecord::Schema.define(:version => 22) do
     t.text     "home_text"
     t.integer  "home_news_item_count"
     t.string   "google_analytics_code"
+    t.text     "home_text_html"
   end
 
   add_index "sites", ["domain", "subdomain"], :name => "index_sites_on_domain_and_subdomain"

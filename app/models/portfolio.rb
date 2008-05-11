@@ -4,6 +4,8 @@ class Portfolio < ActiveRecord::Base
   
   acts_as_nested_set :scope => :site_id
 
+  column_to_html :body
+
   validates_presence_of :title
   validates_length_of :title, :maximum => 50
   

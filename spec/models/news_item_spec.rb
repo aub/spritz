@@ -36,6 +36,11 @@ describe NewsItem do
     end
   end
   
+  it "should convert its text column to html on save" do
+    news_items(:one).update_attribute(:text, 'abc')
+    news_items(:one).reload.text_html.should == '<p>abc</p>'
+  end
+  
   it "should be convertible to liquid" do
     NewsItem.new.to_liquid.should be_an_instance_of(NewsItemDrop)
   end

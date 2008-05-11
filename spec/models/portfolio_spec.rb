@@ -44,6 +44,11 @@ describe Portfolio do
   it "should be convertible to liquid" do
     portfolios(:one).to_liquid.should be_an_instance_of(PortfolioDrop)
   end
+
+  it "should convert its text column to html on save" do
+    portfolios(:one).update_attribute(:body, 'abc')
+    portfolios(:one).reload.body_html.should == '<p>abc</p>'
+  end
   
   describe "relationship to assets" do
     define_models :portfolio
