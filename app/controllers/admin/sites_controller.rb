@@ -53,13 +53,13 @@ class Admin::SitesController < Admin::AdminController
     @user = User.new(params[:user])
     if @user.valid?
       @user.admin = true
-      @user.register!
-      @user.activate!
     end
     respond_to do |format|
       if @template_site.save && @user.save
+        # If the site and the user both save correctly, add the user as a member of the site and log them in.
         @template_site.members << @user
-        flash[:notice] = 'Site was successfully created.'
+        self.current_user = @user
+        flash[:notice] = "#{@template_site.title} was successfully created."
         format.html { redirect_to(admin_dashboard_path) }
         format.xml  { render :xml => @template_site, :status => :created, :location => @template_site }
       else

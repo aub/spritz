@@ -17,15 +17,15 @@ describe Admin::UsersController do
   end
 
   
-  it 'signs up user in pending state' do
+  it 'signs up user in active state' do
     create_user
-    assigns(:user).should be_pending
+    assigns(:user).should be_active
   end
 
   
   it 'signs up user with activation code' do
     create_user
-    assigns(:user).activation_code.should_not be_nil
+    assigns(:user).activation_code.should be_nil
   end
 
   it 'requires login on signup' do

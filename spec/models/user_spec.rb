@@ -29,7 +29,7 @@ describe User do
   
     it 'starts in pending state' do
       @creating_user.call
-      @user.should be_pending
+      @user.should be_active
     end
   end
   
@@ -135,12 +135,9 @@ describe User do
     users(:admin).remember_token_expires_at.between?(before, after).should be_true
   end
   
-  it 'registers passive user' do
-    user = create_user(:password => nil, :password_confirmation => nil)
-    user.should be_passive
-    user.update_attributes(:password => 'new password', :password_confirmation => 'new password')
-    user.register!
-    user.should be_pending
+  it 'creates active user' do
+    user = create_user(:password => 'abcdefghij', :password_confirmation => 'abcdefghij')
+    user.should be_active
   end
   
   it 'suspends user' do

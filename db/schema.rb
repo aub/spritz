@@ -106,7 +106,7 @@ ActiveRecord::Schema.define(:version => 23) do
     t.string   "theme_path"
     t.string   "title"
     t.text     "home_text"
-    t.integer  "home_news_item_count"
+    t.integer  "home_news_item_count",  :default => 0
     t.string   "google_analytics_code"
     t.text     "home_text_html"
   end

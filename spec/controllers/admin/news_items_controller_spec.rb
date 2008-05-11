@@ -261,7 +261,9 @@ describe Admin::NewsItemsController do
       define_models :news_items_controller
       
       def do_put
-        put :update, :id => news_items(:one).id, :news_item => { :title => '123456789012345678901234567890123456789012345678901' }
+        title = ''
+        101.times { title << 'a' }
+        put :update, :id => news_items(:one).id, :news_item => { :title => title }
       end
 
       it "should re-render 'edit'" do

@@ -216,7 +216,7 @@ describe Admin::SitesController do
     define_models :sites_controller
     
     before(:each) do
-      @site = mock_model(Site, :to_param => "1")
+      @site = mock_model(Site, :to_param => '1', :title => 't')
       @site.stub!(:members).and_return([])
       Site.stub!(:new).and_return(@site)
 
@@ -250,7 +250,13 @@ describe Admin::SitesController do
       it "should create a new user" do
         User.should_receive(:new).with({}).and_return(@user)
         do_post
-      end      
+      end
+      
+      it "should log the user in" do
+        request.session[:user_id] = nil
+        do_post
+        request.session[:user_id].should == assigns[:user].id
+      end
     end
     
     describe "with failed save" do
