@@ -6,6 +6,12 @@ describe SectionList do
       stub :one, :site => all_stubs(:site), :title => 'One'
       stub :two, :site => all_stubs(:site), :title => 'Two'
     end
+    model Link do
+      stub :one, :site => all_stubs(:site)
+    end
+    model NewsItem do
+      stub :one, :site => all_stubs(:site)
+    end
   end
   
   it "should register itself as a liquid tag" do
@@ -38,5 +44,17 @@ describe SectionList do
     content = '{% sectionlist as section %} {{ section.title }} {% endsectionlist %}'
     render_liquid(content).split(' ').collect(&:strip).sort.should == [
       'Contact', 'Links', 'News', "#{portfolios(:one).title}", "#{portfolios(:two).title}" ].sort
+  end
+  
+  it "should not render the Links section if there are no links" do
+    Link.find(:all).each(&:destroy)
+    content = '{% sectionlist as section %} {{ section.title }} {% endsectionlist %}'
+    render_liquid(content).split(' ').collect(&:strip).include?('Links').should be_false
+  end
+  
+  it "should not render the News section if there is no news" do
+    NewsItem.find(:all).each(&:destroy)
+    content = '{% sectionlist as section %} {{ section.title }} {% endsectionlist %}'
+    render_liquid(content).split(' ').collect(&:strip).include?('News').should be_false
   end
 end

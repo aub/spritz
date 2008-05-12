@@ -16,11 +16,16 @@ class SectionList < Liquid::Block
   
   def render(context)
     result = []
-    sections = [ { 'title' => 'Links', 'url' => '/links' },
-                 { 'title' => 'News', 'url' => '/news_items' },
-                 { 'title' => 'Contact', 'url' => '/contact/new' } ]
+    
+    site = context['site']
+    sections = []
+    
+    sections << { 'title' => 'Links', 'url' => '/links' } if site.links.size > 0
+    sections << { 'title' => 'News', 'url' => '/news_items' } if site.news_items.size > 0
 
     context['site'].portfolios.each { |p| sections << { 'title' => p['title'], 'url' => p['url'] } }
+    
+    sections << { 'title' => 'Contact', 'url' => '/contact/new' }
     
     sections.each_with_index do |section, index|
       context.stack do
