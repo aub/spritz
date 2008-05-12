@@ -18,6 +18,14 @@
     <div class="portfolio-info">
       <p class="portfolio-text">{{ portfolio.body }}</p>
 
+      <table class="portfolio-children">
+        {% for child in portfolio.children %}
+          <tr>
+            <td><img src="{{child.title_asset.tiny_path}}" /></td><td><a href="{{ child.url }}">{{ child.title }}</a></td>
+          </tr>
+        {% endfor %}
+      </table>
+
       {% if item %}
         <ul class="image-fields">
           {% for fld in item.fields %}
@@ -30,15 +38,7 @@
             <li><span>{{ fld.name }}:</span><span>{{ fld.value }}</span></li>
           {% endfor %}
         </ul>      
-      {% endif %}
-      
-      <table class="portfolio-children">
-        {% for child in portfolio.children %}
-          <tr>
-            <td><img src="{{child.title_asset.tiny_path}}" /></td><td><a href="{{ child.url }}">{{ child.title }}</a></td>
-          </tr>
-        {% endfor %}
-      </table>
+      {% endif %}      
     </div>
   </div>
 

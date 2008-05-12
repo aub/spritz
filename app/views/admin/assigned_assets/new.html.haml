@@ -9,6 +9,7 @@
     - @assets.each do |asset|
       %span
         = link_to asset_image_tag(asset, :thumb), select_admin_portfolio_assigned_assets_path(@portfolio, :asset_id => asset.id, :page => (params[:page] || 1)), :method => :post
+    %p &nbsp;
   = will_paginate @assets
 
 / There's a mess of wierdness going on here. For some reason, if I use to form_tag do format
