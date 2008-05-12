@@ -80,7 +80,9 @@ describe Resource do
     end
     
     it "should remove itself from the theme's resources on deletion" do
-      lambda { sites(:default).theme.resources.first.destroy }.should change(sites(:default).theme.resources, :size).by(-1)
+      old_size = sites(:default).theme.resources.size
+      sites(:default).theme.resources.first.destroy
+      sites(:default).theme.resources.size.should == old_size - 1
     end
     
     it "should identify files that are templates" do

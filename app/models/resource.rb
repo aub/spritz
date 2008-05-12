@@ -1,9 +1,17 @@
 class Resource
   
-  attr_reader :path
+  attr_reader :path, :theme
   
   def initialize(theme, path)
     @theme, @path = theme, path
+  end
+  
+  def eql?(comparison_object)
+    self == (comparison_object)
+  end
+  
+  def ==(comparison_object)
+    @path == comparison_object.path && @theme == comparison_object.theme
   end
   
   def filename
@@ -28,7 +36,6 @@ class Resource
   
   def destroy
     FileUtils.rm(@path)
-    @theme.resources.delete(self)
   end
   
   def image?

@@ -39,13 +39,17 @@ class Theme
       end
     END
   end
-  
+
   def eql?(comparison_object)
-    @site.eql?(comparison_object.site) && @path.eql?(comparison_object.path)
-  end  
+    self == (comparison_object)
+  end
+  
+  def ==(comparison_object)
+    @path == comparison_object.path && @site == comparison_object.site
+  end
   
   def resources
-    @resources ||= Pathname.glob(File.join(@path, '*/*')).collect { |path| path.file? ? Resource.new(self, path) : nil }.compact  
+    Pathname.glob(File.join(@path, '*/*')).collect { |path| path.file? ? Resource.new(self, path) : nil }.compact
   end
   
   def resource(name)
