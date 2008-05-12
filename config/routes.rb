@@ -27,7 +27,6 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :resources
     admin.resources :sections
     admin.resource :session, :controller => 'session'
-    admin.resource :settings
     admin.resources :sites
     admin.resources :themes, :member => { :activate => :put, :preview => :get } do |themes|
       themes.resources :resources

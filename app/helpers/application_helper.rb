@@ -19,7 +19,7 @@ module ApplicationHelper
     assets_class = (ctrlr == 'assets' ? 'current' : '')
     design_class = ((ctrlr == 'themes' || ctrlr == 'resources') ? 'current' : '')
     contacts_class = (ctrlr == 'contacts' ? 'current' : '')
-    settings_class = (ctrlr == 'settings' ? 'current' : '')
+    settings_class = (ctrlr == 'sites' ? 'current' : '')
     content_class = ((ctrlr == 'home' || ctrlr == 'links' || ctrlr == 'news_items' || ctrlr == 'portfolios' || ctrlr == 'assigned_assets') ? 'current' : '')
     
     result =  content_tag('li', link_to('Dashboard', admin_dashboard_path, :class => dashboard_class))
@@ -27,7 +27,7 @@ module ApplicationHelper
     result << content_tag('li', link_to(assets_name, admin_assets_path, :class => assets_class))
     result << content_tag('li', link_to('Design', admin_themes_path, :class => design_class))
     result << content_tag('li', link_to('Contacts', admin_contacts_path, :class => contacts_class))
-    result << content_tag('li', link_to('Settings', edit_admin_settings_path, :class => settings_class))
+    result << content_tag('li', link_to('Settings', edit_admin_site_path(@site), :class => settings_class))
   end
   
   def submenu

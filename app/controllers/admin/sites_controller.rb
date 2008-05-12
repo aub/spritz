@@ -7,7 +7,7 @@ class Admin::SitesController < Admin::AdminController
   skip_before_filter :site_required, :only => [:new, :create]
   skip_before_filter :login_required, :only => [:new, :create]
 
-  layout 'simple', :only => 'new'
+  layout :set_layout
   
   # GET /admin/sites
   # GET /admin/sites.xml
@@ -17,16 +17,6 @@ class Admin::SitesController < Admin::AdminController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @sites }
-    end
-  end
-
-  # GET /admin/sites/1
-  # GET /admin/sites/1.xml
-  def show
-    @template_site = Site.find(params[:id])
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @template_site }
     end
   end
 
@@ -94,5 +84,11 @@ class Admin::SitesController < Admin::AdminController
       format.html { redirect_to(admin_sites_url) }
       format.xml  { head :ok }
     end
+  end
+  
+  protected
+  
+  def set_layout
+    (request.parameters['action'] == 'new') ? 'simple' : 'admin'
   end
 end

@@ -71,69 +71,6 @@ describe Admin::SitesController do
     end
   end
 
-  describe "handling GET /admin/sites/1" do
-    define_models :sites_controller
-    
-    before(:each) do
-      @site = mock_model(Site)
-      Site.stub!(:find).and_return(@site)
-    end
-  
-    def do_get
-      get :show, :id => "1"
-    end
-
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-  
-    it "should render show template" do
-      do_get
-      response.should render_template('show')
-    end
-  
-    it "should find the site requested" do
-      Site.should_receive(:find).with("1").and_return(@site)
-      do_get
-    end
-  
-    it "should assign the found site for the view" do
-      do_get
-      assigns[:template_site].should equal(@site)
-    end
-  end
-
-  describe "handling GET /admin/sites/1.xml" do
-    define_models :sites_controller
-    
-    before(:each) do
-      @site = mock_model(Site, :to_xml => "XML")
-      Site.stub!(:find).and_return(@site)
-    end
-  
-    def do_get
-      @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :show, :id => "1"
-    end
-
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-  
-    it "should find the site requested" do
-      Site.should_receive(:find).with("1").and_return(@site)
-      do_get
-    end
-  
-    it "should render the found site as xml" do
-      @site.should_receive(:to_xml).and_return("XML")
-      do_get
-      response.body.should == "XML"
-    end
-  end
-
   describe "handling GET /admin/sites/new" do
     define_models :sites_controller
     
