@@ -2,12 +2,12 @@
   .boxheader
     %span.header Portfolios
     = link_to_new_portfolio
-  %ul.cleanlist
-    - @portfolios.each do |portfolio|
-      %li.boxcontent
-        = portfolio.title
-        = link_to 'edit', edit_admin_portfolio_path(portfolio)
-        = link_to 'delete', admin_portfolio_path(portfolio), :confirm => 'Are you sure?', :method => :delete
-    - if @portfolios.empty?
-      %li.boxcontent None
-      
+  %table.draglist{ :cellpadding => 0, :cellspacing => 0 }
+    %tbody
+      - @portfolios.each do |portfolio|
+        %tr{ :id => "#{dom_id(portfolio)}" }
+          %td.title= link_to portfolio.title, edit_admin_portfolio_path(portfolio)
+          %td.controls= link_to image_tag('/images/icons/trash.gif', :class => 'icon-square red', :title => 'Delete this portfolio'), admin_portfolio_path(portfolio), :confirm => 'Are you sure you want to permanently delete this portfolio and all of its subpages?', :method => :delete
+      - if @portfolios.empty?
+        %tr
+          %td None
