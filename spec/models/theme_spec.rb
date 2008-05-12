@@ -112,4 +112,71 @@ describe Theme do
       sites(:default).theme.resource('home-liquid').name.should == 'home-liquid'
     end
   end
+  
+  describe "uploading themes" do
+    define_models :theme
+    
+    before(:each) do
+      @zip_file = fixture_file_upload(File.join(%w(themes darker.zip)), 'application/zip')
+      Theme.create_from_zip_data(@zip_file, sites(:default))
+      @base_dir = Theme.site_theme_dir(sites(:default))
+    end
+    
+    it "should create the theme file when it works correctly" do
+      File.exists?(File.join(@base_dir, 'darker')).should be_true
+    end
+    
+    it "should increment the number at the end of the theme if it is a duplicate name" do
+      Theme.create_from_zip_data(@zip_file, sites(:default))
+      File.exists?(File.join(@base_dir, 'darker_2')).should be_true
+    end
+    
+    it "should increment the number at the end of the theme if there already is one" do
+      @zip_file = fixture_file_upload(File.join(%w(themes darker_2.zip)), 'application/zip')
+      Theme.create_from_zip_data(@zip_file, sites(:default))
+      Theme.create_from_zip_data(@zip_file, sites(:default))
+      File.exists?(File.join(@base_dir, 'darker_3')).should be_true
+    end
+    
+    it "should create the files in the root directory" do
+      Theme.root_theme_files.each do |file|
+        File.exists?(File.join(@base_dir, 'darker', file)).should be_true
+      end
+    end
+    
+    it "should create the standard directories in the theme" do
+      Theme.theme_directories.each do |dir|
+        File.exists?(File.join(@base_dir, 'darker', dir)).should be_true
+      end
+    end
+    
+    it "should copy in the files from the theme directories" do
+      %w(contact.liquid home.liquid links.liquid news_items.liquid portfolio.liquid).each do |file|
+        File.exists?(File.join(@base_dir, 'darker', 'templates', file)).should be_true
+      end
+    end
+    
+    it "should not allow file of the wrong file type" do
+      File.exists?(File.join(@base_dir, 'darker', 'stylesheets', 'test.virus')).should be_false
+    end
+    
+    it "should return the theme" do
+      Theme.create_from_zip_data(@zip_file, sites(:default)).should eql(Theme.new('darker_2', sites(:default)))
+    end
+  end
+  
+  describe "destroying themes" do
+    define_models :theme
+    
+    before(:each) do
+      @zip_file = fixture_file_upload(File.join(%w(themes darker.zip)), 'application/zip')
+      @theme = Theme.create_from_zip_data(@zip_file, sites(:default))
+      @base_dir = Theme.site_theme_dir(sites(:default))
+    end
+    
+    it "should destroy the theme directory when destroying the theme" do
+      @theme.destroy
+      File.exists?(File.join(@base_dir, 'darker')).should be_false
+    end
+  end
 end

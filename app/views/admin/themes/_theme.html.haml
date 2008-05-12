@@ -11,4 +11,4 @@
   %ul.theme-controls
     - unless theme.active?
       %li= link_to 'Use this theme', activate_admin_theme_path(theme), :method => :put
-    %li= link_to 'Delete', admin_theme_path(theme), :confirm => 'Are you sure?', :method => :delete
+      %li= link_to 'Delete', admin_theme_path(theme), :confirm => 'Are you sure?', :method => :delete

@@ -39,7 +39,7 @@ describe Admin::ResourcesController do
   
     it "should assign the site's current theme for the view" do
       do_get
-      assigns[:theme].should == sites(:default).theme
+      assigns[:theme].should eql(sites(:default).theme)
     end
   end
   
@@ -66,7 +66,7 @@ describe Admin::ResourcesController do
   
     it "should assign the site's current theme for the view" do
       do_get
-      assigns[:theme].should == sites(:default).theme
+      assigns[:theme].should eql(sites(:default).theme)
     end
     
     it "should assign the resource for the view" do

@@ -31,7 +31,7 @@ describe Admin::ThemesController do
       do_get
       response.should be_success
     end
-
+  
     it "should render index template" do
       do_get
       response.should render_template('index')
@@ -39,7 +39,53 @@ describe Admin::ThemesController do
   
     it "should assign the found themes for the view" do
       do_get
-      assigns[:themes].should == sites(:default).themes
+      assigns[:themes].should eql(sites(:default).themes)
+    end
+  end
+  
+  describe "handling GET /admin/themes/new" do
+    define_models :themes_controller
+    
+    before(:each) do
+      login_as(:admin)
+    end
+    
+    def do_get
+      get :new
+    end
+  
+    it "should be successful" do
+      do_get
+      response.should be_success
+    end
+  
+    it "should render new template" do
+      do_get
+      response.should render_template('new')
+    end
+  end
+  
+  describe "handling POST /admin/themes" do
+    define_models :themes_controller
+    
+    before(:each) do
+      login_as(:admin)
+      Theme.stub!(:create_from_zip_data).and_return(true)
+    end
+    
+    def do_post
+      post :create, :zip_data => '123'
+    end
+  
+    it "should redirect to the theme list" do
+      do_post
+      response.should redirect_to(admin_themes_path)
+    end
+  
+    it "should assign the zip data to the theme" do
+      Theme.stub!(:new).and_return(@theme)
+      Theme.should_receive(:create_from_zip_data).with('123', sites(:default)).and_return(true)
+      do_post
     end
   end
   
@@ -98,6 +144,36 @@ describe Admin::ThemesController do
       sites(:default).update_attribute(:theme_path, 'light')
       do_put
       sites(:default).reload.theme_path.should == 'dark'
+    end
+  end
+  
+  describe "handling DELETE /admin/themes/1" do
+    define_models :themes_controller
+    
+    before(:each) do
+      @theme = mock_model(Theme, :name => 'test', :active? => false, :destroy => true)
+      Theme.stub!(:find_all_for).and_return([@theme])
+      login_as(:admin)
+    end
+    
+    def do_delete
+      delete :destroy, :id => 'test'
+    end
+    
+    it "should destroy the theme" do
+      @theme.should_receive(:destroy)
+      do_delete
+    end
+    
+    it "should not destroy the active theme" do
+      @theme.stub!(:active?).and_return(true)
+      @theme.should_not_receive(:destroy)
+      do_delete
+    end
+    
+    it "should redirect to the themes list" do
+      do_delete
+      response.should redirect_to(admin_themes_path)
     end
   end
 end

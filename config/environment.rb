@@ -56,11 +56,3 @@ Rails::Initializer.run do |config|
   # Make Active Record use UTC-base instead of local time
   config.active_record.default_timezone = :utc
 end
-
-# Gem dependencies
-gem 'will_paginate', '>=2.1.0'
-gem 'BlueCloth', '>=1.0.0'
-
-require 'will_paginate'
-
-

@@ -1,6 +1,6 @@
 class Admin::ThemesController < Admin::AdminController
   
-  before_filter :find_theme, :only => [:preview, :activate]
+  before_filter :find_theme, :only => [:preview, :activate, :destroy]
   
   # GET /admin/themes
   # GET /admin/themes.xml
@@ -19,26 +19,19 @@ class Admin::ThemesController < Admin::AdminController
   # GET /admin/themes/new
   # GET /admin/themes/new.xml
   def new
-    # respond_to do |format|
-    #   format.html # new.html.erb
-    # end
   end
 
   # POST /admin/themes
   # POST /admin/themes.xml
   def create
-    # @theme = Admin::Theme.new(params[:theme])
-    # 
-    # respond_to do |format|
-    #   if @theme.save
-    #     flash[:notice] = 'Admin::Theme was successfully created.'
-    #     format.html { redirect_to(@theme) }
-    #     format.xml  { render :xml => @theme, :status => :created, :location => @theme }
-    #   else
-    #     format.html { render :action => "new" }
-    #     format.xml  { render :xml => @theme.errors, :status => :unprocessable_entity }
-    #   end
-    # end
+    respond_to do |format|
+      if Theme.create_from_zip_data(params[:zip_data], @site)
+        flash[:notice] = 'Theme was successfully created.'
+        format.html { redirect_to(admin_themes_path) }
+      else
+        format.html { render :action => "new" }
+      end
+    end
   end
 
   # PUT /admin/themes/1/activate
@@ -57,13 +50,16 @@ class Admin::ThemesController < Admin::AdminController
   # DELETE /admin_themes/1
   # DELETE /admin_themes/1.xml
   def destroy
-    # @theme = Admin::Theme.find(params[:id])
-    # @theme.destroy
-    # 
-    # respond_to do |format|
-    #   format.html { redirect_to(admin_themes_url) }
-    #   format.xml  { head :ok }
-    # end
+    if @theme.active?
+      flash[:error] = 'Cannot delete the active theme.'
+    else
+      flash[:notice] = "Destroyed the theme: #{@theme.name}"
+      @theme.destroy
+    end    
+    respond_to do |format|
+      format.html { redirect_to(admin_themes_url) }
+      format.xml  { head :ok }
+    end
   end
   
   protected

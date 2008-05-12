@@ -56,11 +56,17 @@ module ApplicationHelper
   def design_submenu
     ctrlr = request.parameters['controller'].split('/').last
     if (ctrlr == 'themes' || ctrlr == 'resources')
-      theme_class = (ctrlr == 'themes' ? 'current' : '')
+      theme_class = upload_class = ''
+      if (ctrlr == 'themes')
+        action = request.parameters['action']
+        upload_class = (action == 'new' ? 'current' : '')
+        theme_class = (action == 'new' ? '' : 'current')
+      end
       editor_class = (ctrlr == 'resources' ? 'current' : '') 
       content_for :subcontrols do
         result =  content_tag('li', link_to('Themes', admin_themes_path, :class => theme_class))
         result << content_tag('li', link_to('Theme Editor', admin_resources_path, :class => editor_class))
+        result << content_tag('li', link_to('Upload Theme', new_admin_theme_path, :class => upload_class))
       end
     else
       ''

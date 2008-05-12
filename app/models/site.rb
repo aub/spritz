@@ -96,7 +96,7 @@ class Site < ActiveRecord::Base
   end
   
   def themes
-    @themes ||= Theme.find_all_for(self)
+    Theme.find_all_for(self)
   end
   
   def theme
