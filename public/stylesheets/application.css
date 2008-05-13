@@ -36,20 +36,26 @@ a img {
   #login-form form {
     font-weight: normal;
     padding: 16px 16px 40px 16px;
-    background-color: rgb(223,141,74); }
-    #login-form form p {
-      margin-bottom: 24px; }
-    #login-form form input {
-      color: #383838;
+    background-color: rgb(223,141,74);
+    height: 12em; }
+  #login-form dl {
+    font-weight: normal;
+    margin: 0pt; }
+    #login-form dl dt {
+      font-weight: bold; }
+    #login-form dl dd {
+      margin: 0pt 0pt 20px 0pt; }
+    #login-form dl input {
+      font-family: "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif;
       width: 100%; }
   #login-form .remember-me {
     float: left;
-    font-weight: normal;
-    margin-bottom: 0pt; }
+    font-weight: normal; }
   #login-form .submit {
     float: right;
-    margin-bottom: 15px;
-    width: 7em; }
+    margin-bottom: 25px;
+    width: 7em;
+    text-align: right; }
     #login-form .submit input {
       border: 1px solid;
       cursor: default;
@@ -60,6 +66,35 @@ a img {
       text-decoration: none; }
     #login-form .submit input:hover {
       color: #af8439; }
+
+/* 
+ * form
+ * :font-weight normal
+ * :padding 16px 16px 40px 16px
+ * :background-color = !cute_orange
+ * //
+ * p
+ * :margin-bottom 24px
+ * input
+ * :color = !dark_grey
+ * :width 100%
+ * //
+ * .remember-me
+ * :float left
+ * :font-weight normal
+ * :margin-bottom 0pt
+ * //
+ * input
+ * :border 1px solid
+ * :cursor default
+ * :font-family "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif
+ * :font-size 120%
+ * :margin-top -6px
+ * :padding 3px 5px
+ * :text-decoration none
+ * //
+ * input:hover
+ * :color = !dark_orange */
 
 .large {
   font-size: 175%; }
