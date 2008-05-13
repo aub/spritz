@@ -184,7 +184,19 @@ describe Admin::AssignedAssetsController do
       it "should redirect to the portfolio" do
         do_post
         response.should redirect_to(edit_admin_portfolio_path(portfolios(:one)))
-      end      
+      end
+      
+      it "should assign the positions for the assets to add them to the end of the list" do
+        do_post
+        portfolios(:one).assigned_assets.find_by_asset_id(assets(:four).id).position.should == 4
+      end
+      
+      it "should set the positions correctly when there are no assets in the list previously" do
+        portfolios(:one).assigned_assets.each(&:destroy)
+        portfolios(:one).assigned_assets.reload # Argh
+        do_post
+        portfolios(:one).assigned_assets.reload.collect(&:position).should == [1, 2]
+      end
     end
     
     describe "with failed save" do

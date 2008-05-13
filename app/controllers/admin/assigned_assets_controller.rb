@@ -47,9 +47,14 @@ class Admin::AssignedAssetsController < Admin::AdminController
   # POST /portfolios/1/assigned_assets.xml
   def create
     added_count = 0
+    # This position fun is in order to make sure that we add the assets to the end of the list.
+    last_position = @portfolio.last_asset_position
     (params[:assets] || []).each do |asset_id|
-      aa = @portfolio.assigned_assets.create({ :asset_id => asset_id })
-      added_count += 1 if aa.save
+      aa = @portfolio.assigned_assets.create({ :asset_id => asset_id, :position => last_position + 1 })
+      if aa.save
+        added_count += 1
+        last_position += 1
+      end
     end
     session[:selected_assets] = []
     respond_to do |format|

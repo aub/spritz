@@ -206,6 +206,18 @@ describe Admin::NewsItemsController do
         response.should redirect_to(admin_news_items_path)
       end
       
+      it "should set the position to be at the end of the list" do
+        prev_last = sites(:default).news_items.last
+        do_post
+        assigns[:news_item].position.should == prev_last.position + 1
+      end
+      
+      it "should set the position to be 1 if there are no items in the list" do
+        sites(:default).news_items.each(&:destroy)
+        sites(:default).news_items.reload
+        do_post
+        assigns[:news_item].position.should == 1
+      end
     end
     
     describe "with failed save" do

@@ -112,6 +112,21 @@ class Site < ActiveRecord::Base
     themes.find { |t| t.name == name }
   end
   
+  # Helper method for getting the position of the last news item in the list.
+  def last_news_item_position
+    (news_items.size > 0) ? news_items.last.position : 0
+  end
+  
+  # Helper method for getting the position of the last link in the list.
+  def last_link_position
+    (links.size > 0) ? links.last.position : 0
+  end
+  
+  # See above...
+  def last_portfolio_position
+    (root_portfolios.size > 0) ? root_portfolios.last.position : 0
+  end
+  
   def to_liquid
     SiteDrop.new(self)
   end

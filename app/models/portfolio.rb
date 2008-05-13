@@ -18,7 +18,7 @@ class Portfolio < ActiveRecord::Base
   end
   has_many :assets, :through => :assigned_assets, :order => 'assigned_assets.position'
   
-  attr_accessible :title, :body
+  attr_accessible :title, :body, :position
 
   # Reorder the children according to the list of ids given.
   def reorder_children!(*sorted_ids)
@@ -34,6 +34,11 @@ class Portfolio < ActiveRecord::Base
       end
       last_moved = child
     end
+  end
+  
+  # Helper for getting the position of the last asset so we can add new ones after it.
+  def last_asset_position
+    (assigned_assets.size > 0) ? assigned_assets.last.position : 0
   end
   
   def to_liquid

@@ -277,8 +277,18 @@ describe Site do
   
   describe "action cache directory" do
     define_models :site
+
+    after(:each) do
+      Site.multi_sites_enabled = false
+    end
+
+    it "should be empty without multi_site enabled" do
+      Site.multi_sites_enabled = false
+      sites(:default).action_cache_root.should == ''
+    end
     
-    it "should be the site's subdomain" do
+    it "should be the site's subdomain with multi_site enabled" do
+      Site.multi_sites_enabled = true
       sites(:default).action_cache_root.should == sites(:default).subdomain
     end
   end

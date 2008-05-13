@@ -198,6 +198,19 @@ describe Admin::LinksController do
         response.should redirect_to(admin_links_url)
       end
 
+      it "should set the position of the link" do
+        prev_last = sites(:default).links.last
+        do_post
+        assigns[:link].position.should == prev_last.position + 1
+      end
+      
+      it "should put the link at the beginning of the list if there are none" do
+        sites(:default).links.each(&:destroy)
+        sites(:default).links.reload
+        do_post
+        assigns[:link].position.should == 1
+      end
+
       describe "with failed save" do
         define_models :links_controller
 

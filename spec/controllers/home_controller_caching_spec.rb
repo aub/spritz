@@ -15,13 +15,13 @@ describe HomeController do
   
   it "should create a cache object that makes sense" do
     get :show
-    CacheItem.find_by_site_id_and_path(sites(:default).id, File.join(sites(:default).subdomain, 'index')).should_not be_nil
+    CacheItem.find_by_site_id_and_path(sites(:default).id, File.join(sites(:default).action_cache_root, 'index')).should_not be_nil
   end
 
   it "should set references properly on the cache" do
     controller.stub!(:cached_references).and_return([sites(:default), users(:admin)])
     get :show
-    cache = CacheItem.find_by_site_id_and_path(sites(:default).id, File.join(sites(:default).subdomain, 'index'))
+    cache = CacheItem.find_by_site_id_and_path(sites(:default).id, File.join(sites(:default).action_cache_root, 'index'))
     cache.references.should == "[#{sites(:default).id}:#{sites(:default).class.name}][#{users(:admin).id}:#{users(:admin).class.name}]"
   end
   

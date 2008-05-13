@@ -51,6 +51,10 @@ class Admin::PortfoliosController < Admin::AdminController
   # POST /admin/portfolios
   # POST /admin/portfolios.xml
   def create
+    # Force the new portfolio to be after the last existing one. In the case where we're adding
+    # a sub-page, the position won't matter because acts_as_nested_set will take care of the ordering.
+    params[:portfolio].reverse_merge!({ :position => @site.last_portfolio_position + 1 })
+    
     # This is complicated because we may or may not have been given a parent id.
     # If a parent id is provided, we need to add the child that we're creating
     # to that parent. Call this helper method in the site to handle that.

@@ -5,7 +5,7 @@ class Link < ActiveRecord::Base
   validates_presence_of :url
   validates_length_of :url, :minimum => 3
   
-  attr_accessible :url, :title
+  attr_accessible :url, :title, :position
   
   before_save :append_http_to_url
   

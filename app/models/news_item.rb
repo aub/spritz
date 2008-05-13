@@ -8,6 +8,8 @@ class NewsItem < ActiveRecord::Base
   # column_to_html :text
   before_save :convert_column_to_html
 
+  attr_accessible :text, :title, :position
+  
   def to_liquid
     NewsItemDrop.new self
   end
