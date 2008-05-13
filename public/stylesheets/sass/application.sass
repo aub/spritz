@@ -196,7 +196,7 @@ a
       :color = !cute_orange
       :border-bottom 1px dotted #888
       
-#top-controls, #top-controls a, #available-sections li, #active-sections li, .cleanlist, .asset-controls
+#top-controls, #top-controls a, #available-sections li, #active-sections li, .cleanlist, .asset-controls, .asset-sorter
   :list-style
     :image none
     :position outside
@@ -266,6 +266,20 @@ a
   :padding 10px
   :border-top 1px solid
   :border-top-color = !light_grey
+  
+.sort-some-assets
+  :border 1px solid
+  :border-color = !light_grey
+  :width 15em
+  
+  .asset-sorter
+    :padding 10px
+    :text-align center
+    
+    li img
+      :border 1px solid #ccc
+      :padding 5px
+      :cursor move
   
 #main
   :position relative

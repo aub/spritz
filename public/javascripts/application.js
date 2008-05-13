@@ -44,9 +44,9 @@ var Flash = {
 
 var TableSorter = Class.create();
 TableSorter.prototype = {
-  initialize: function(sortableId, updateUrl, itemName) {
+  initialize: function(sortableId, updateUrl, itemName, tag) {
     Sortable.create(sortableId, { 
-      tag: 'tr', 
+      tag: tag, 
       handle: 'handle',
       onUpdate: function(list) {
         new Ajax.Request(updateUrl, {
@@ -61,6 +61,12 @@ TableSorter.prototype = {
 }
 
 Event.addBehavior({
-  '#linklist': function() { window.linkSorter = new TableSorter('linklist', '/admin/links/reorder', 'links') },
-  '#newslist': function() { window.linkSorter = new TableSorter('newslist', '/admin/news_items/reorder', 'news_items') }
+  '#linklist': function() { window.linkSorter = new TableSorter('linklist', '/admin/links/reorder', 'links', 'tr') },
+  '#newslist': function() { window.newsSorter = new TableSorter('newslist', '/admin/news_items/reorder', 'news_items', 'tr') },
+  
+  '.asset-sorter': function() {
+    var list_id = $$('.asset-sorter')[0].id;
+    portfolio_id = list_id.gsub('portfolio_', '');
+    window.assetSorter = new TableSorter(list_id, '/admin/portfolios/' + portfolio_id + '/assigned_assets/update_order', 'assigned_assets', 'li')
+  }
 });

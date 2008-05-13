@@ -3,7 +3,7 @@ class Admin::AssignedAssetsController < Admin::AdminController
   
   before_filter :find_portfolio
   before_filter :find_assets, :only => [:new]
-  before_filter :make_default_selected_list
+  before_filter :make_default_selected_list, :only => [:new, :select, :deselect, :clear, :create]
 
   # GET /portfolios/1/assigned_assets/new
   # GET /portfolios/1/assigned_assets/new.xml
@@ -74,6 +74,15 @@ class Admin::AssignedAssetsController < Admin::AdminController
       format.html { redirect_to edit_admin_portfolio_path(@portfolio) }
       format.xml  { head :ok }
     end
+  end
+  
+  def reorder
+    @assigned_assets = @portfolio.assigned_assets
+  end
+  
+  def update_order
+    @portfolio.assigned_assets.reorder! params[:assigned_assets]
+    render :nothing => true
   end
   
   protected

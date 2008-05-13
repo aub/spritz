@@ -162,7 +162,7 @@ a img {
       color: rgb(223,141,74);
       border-bottom: 1px dotted #888; }
 
-#top-controls, #top-controls a, #available-sections li, #active-sections li, .cleanlist, .asset-controls {
+#top-controls, #top-controls a, #available-sections li, #active-sections li, .cleanlist, .asset-controls, .asset-sorter {
   list-style-image: none;
   list-style-position: outside;
   list-style-type: none;
@@ -222,6 +222,18 @@ a img {
   padding: 10px;
   border-top: 1px solid;
   border-top-color: #8c8282; }
+
+.sort-some-assets {
+  border: 1px solid;
+  border-color: #8c8282;
+  width: 15em; }
+  .sort-some-assets .asset-sorter {
+    padding: 10px;
+    text-align: center; }
+    .sort-some-assets .asset-sorter li img {
+      border: 1px solid #ccc;
+      padding: 5px;
+      cursor: move; }
 
 #main {
   position: relative;

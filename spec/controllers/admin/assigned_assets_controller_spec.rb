@@ -9,9 +9,13 @@ describe Admin::AssignedAssetsController do
     model Asset do
       stub :one, :site => all_stubs(:site), :filename => 'fake1'
       stub :two, :site => all_stubs(:site), :filename => 'fake2'
+      stub :tre, :site => all_stubs(:site), :filename => 'fake3'
+      stub :four, :site => all_stubs(:site), :filename => 'fake4'
     end
     model AssignedAsset do
-      stub :one, :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :asset => all_stubs(:one_asset)
+      stub :one, :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :asset => all_stubs(:one_asset), :position => 1
+      stub :two, :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :asset => all_stubs(:two_asset), :position => 2
+      stub :tre, :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :asset => all_stubs(:tre_asset), :position => 3
     end
   end
   
@@ -165,7 +169,7 @@ describe Admin::AssignedAssetsController do
       define_models :assigned_assets_controller
     
       def do_post
-        post :create, :portfolio_id => portfolios(:one).id, :assets => [assets(:one).id, assets(:two).id]
+        post :create, :portfolio_id => portfolios(:one).id, :assets => [assets(:one).id, assets(:four).id]
       end
 
       it "should create new assigned_assets" do
@@ -226,6 +230,57 @@ describe Admin::AssignedAssetsController do
     end
   end
   
+  describe "handling GET /portfolios/1/assigned_assets/reorder" do
+    define_models :assigned_assets_controller
+
+    before(:each) do
+      login_as(:admin)
+    end
+    
+    def do_get
+      get :reorder, :portfolio_id => portfolios(:one).id
+    end
+
+    it "should be successful" do
+      do_get
+      response.should be_success
+    end
+  
+    it "should render new template" do
+      do_get
+      response.should render_template('reorder')
+    end
+  
+    it "should assign the portfolio's assets for the view" do
+      do_get
+      assigns[:assigned_assets].should == [assigned_assets(:one), assigned_assets(:two), assigned_assets(:tre)]
+    end    
+  end  
+
+  describe "handling PUT /portfolios/1/assigned_assets/update_order" do
+    define_models :assigned_assets_controller
+
+    before(:each) do
+      login_as(:admin)
+    end
+    
+    def do_put
+      put :update_order, :portfolio_id => portfolios(:one).id, 
+                         :assigned_assets => [ assigned_assets(:tre).id, assigned_assets(:one).id, assigned_assets(:two).id ]
+    end
+
+    it "should render nothing" do
+      do_put
+      response.should be_success
+      response.body.should be_blank
+    end
+  
+    it "should update the assigned asset positions" do
+      do_put
+      portfolios(:one).assigned_assets.reload.should == [assigned_assets(:tre), assigned_assets(:one), assigned_assets(:two)]
+    end    
+  end  
+  
   describe "site, login, and admin requirements" do
     define_models :assigned_assets_controller
     
@@ -236,6 +291,8 @@ describe Admin::AssignedAssetsController do
         lambda { delete :deselect, :portfolio_id => portfolios(:one).id, :asset_id => assets(:one).id },
         lambda { delete :clear, :portfolio_id => portfolios(:one).id },
         lambda { post :create, :portfolio_id => portfolios(:one).id, :asset_id => assets(:two).id },
+        lambda { get :reorder, :portfolio_id => portfolios(:one).id },
+        lambda { put :update_order, :portfolio_id => portfolios(:one).id },
         lambda { delete :destroy, :portfolio_id => portfolios(:one).id, :id => assigned_assets(:one).id }])
     end
     
@@ -246,6 +303,8 @@ describe Admin::AssignedAssetsController do
         lambda { delete :deselect, :portfolio_id => portfolios(:one).id, :asset_id => assets(:one).id },
         lambda { delete :clear, :portfolio_id => portfolios(:one).id },
         lambda { post :create, :portfolio_id => portfolios(:one).id, :asset_id => assets(:two).id },
+        lambda { get :reorder, :portfolio_id => portfolios(:one).id },
+        lambda { put :update_order, :portfolio_id => portfolios(:one).id },
         lambda { delete :destroy, :portfolio_id => portfolios(:one).id, :id => assigned_assets(:one).id }])
     end
   end  

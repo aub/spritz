@@ -22,7 +22,8 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :links, :collection => { :reorder => :put }
     admin.resources :news_items, :collection => { :reorder => :put }
     admin.resources :portfolios, :member => { :add_child => :get } do |portfolios|
-      portfolios.resources :assigned_assets, :collection => { :select => :post, :deselect => :delete, :clear => :delete }
+      portfolios.resources :assigned_assets, :collection => { :select => :post, :deselect => :delete, :clear => :delete, 
+                                                              :reorder => :get, :update_order => :put }
     end
     admin.resources :resources
     admin.resources :sections

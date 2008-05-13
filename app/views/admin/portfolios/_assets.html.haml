@@ -1,7 +1,8 @@
 .box
   .boxheader
     %span.header Items
-    (click to remove)
+    (click to remove) or
+    = link_to 'reorder', reorder_admin_portfolio_assigned_assets_path(@portfolio)
     = link_to add_icon, new_admin_portfolio_assigned_asset_path(@portfolio)
   %ul.cleanlist.image-list
     %li.boxcontent

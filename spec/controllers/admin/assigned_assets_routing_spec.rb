@@ -26,6 +26,14 @@ describe Admin::AssignedAssetsController do
     it "should map { :controller => 'admin/assigned_assets', :action => 'clear', :portfolio_id => '1'} to /portfolios/1/assigned_assets/clear" do
       route_for(:controller => "admin/assigned_assets", :action => "clear", :portfolio_id => '1').should == "/admin/portfolios/1/assigned_assets/clear"
     end
+    
+    it "should map { :controller => 'admin/assigned_assets', :action => 'reorder', :portfolio_id => 1} to /admin/portfolios/1/assigned_assets/reorder" do
+      route_for(:controller => "admin/assigned_assets", :action => "reorder", :portfolio_id => 1).should == "/admin/portfolios/1/assigned_assets/reorder"
+    end
+    
+    it "should map { :controller => 'admin/assigned_assets', :action => 'update_order', :portfolio_id => 1} to /admin/portfolios/1/assigned_assets/update_order" do
+      route_for(:controller => "admin/assigned_assets", :action => "update_order", :portfolio_id => 1).should == "/admin/portfolios/1/assigned_assets/update_order"
+    end
   end
 
   describe "route recognition" do
@@ -52,6 +60,14 @@ describe Admin::AssignedAssetsController do
     
     it "should generate params { :controller => 'admin/assigned_assets', action => 'clear', :portfolio_id => '1' } from DELETE /portfolios/1/assigned_assets/clear" do
       params_from(:delete, "/admin/portfolios/1/assigned_assets/clear").should == {:controller => "admin/assigned_assets", :action => "clear", :portfolio_id => '1'}
+    end
+    
+    it "should generate params { :controller => 'admin/assigned_assets', action => 'reorder', :portfolio_id => '1' } from GET /admin/portfolios/1/assigned_assets/reorder" do
+      params_from(:get, "/admin/portfolios/1/assigned_assets/reorder").should == {:controller => "admin/assigned_assets", :action => "reorder", :portfolio_id => "1"}
+    end
+    
+    it "should generate params { :controller => 'admin/assigned_assets', action => 'update_order', :portfolio_id => '1' } from PUT /admin/portfolios/1/assigned_assets/update_order" do
+      params_from(:put, "/admin/portfolios/1/assigned_assets/update_order").should == {:controller => "admin/assigned_assets", :action => "update_order", :portfolio_id => "1"}
     end
   end
 end

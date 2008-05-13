@@ -9,10 +9,12 @@ describe Portfolio do
     model Asset do
       stub :one, :site => all_stubs(:site), :filename => 'fake1'
       stub :two, :site => all_stubs(:site), :filename => 'fake2'
+      stub :tre, :site => all_stubs(:site), :filename => 'fake2'
     end
     model AssignedAsset do
-      stub :one, :asset => all_stubs(:one_asset), :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio'
-      stub :two, :asset => all_stubs(:two_asset), :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio'
+      stub :one, :asset => all_stubs(:one_asset), :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :position => 1
+      stub :two, :asset => all_stubs(:two_asset), :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :position => 3
+      stub :tre, :asset => all_stubs(:tre_asset), :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :position => 2
     end
   end
   
@@ -27,12 +29,16 @@ describe Portfolio do
     end
     
     it "should limit the length of the title" do
-      @portfolio.title = '012345678901234567890123456789012345678901234567890'
+      title = ''
+      101.times { title << 'a' }
+      @portfolio.title = title
       @portfolio.should have(1).error_on(:title)
     end
     
     it "should be valid" do
-      @portfolio.title = '01234567890123456789012345678901234567890123456789'
+      title = ''
+      100.times { title << 'a' }
+      @portfolio.title = title
       @portfolio.should be_valid
     end
   end
@@ -54,15 +60,28 @@ describe Portfolio do
     define_models :portfolio
     
     it "should have a collection of assigned assets" do
-      portfolios(:one).assigned_assets.sort_by(&:id).should == [assigned_assets(:one), assigned_assets(:two)].sort_by(&:id)
+      portfolios(:one).assigned_assets.sort_by(&:id).should == [assigned_assets(:one), assigned_assets(:two), assigned_assets(:tre)].sort_by(&:id)
+    end
+
+    it "should order the assigned assets by position" do
+      portfolios(:one).assigned_assets.should == [assigned_assets(:one), assigned_assets(:tre), assigned_assets(:two)]
     end
 
     it "should have a collection of assets through the assigned assets" do
-      portfolios(:one).assets.sort_by(&:id).should == [assets(:one), assets(:two)].sort_by(&:id)
+      portfolios(:one).assets.sort_by(&:id).should == [assets(:one), assets(:two), assets(:tre)].sort_by(&:id)
+    end
+    
+    it "should order the assets by position" do
+      portfolios(:one).assets.should == [assets(:one), assets(:tre), assets(:two)]
     end
     
     it "should destroy the assigned assets when being destroyed" do
-      lambda { portfolios(:one).destroy }.should change(AssignedAsset, :count).by(-2)
+      lambda { portfolios(:one).destroy }.should change(AssignedAsset, :count).by(-3)
+    end
+    
+    it "should allow reordering of the assigned assets" do
+      portfolios(:one).assigned_assets.reorder!([assigned_assets(:one).id, assigned_assets(:two).id, assigned_assets(:tre).id])
+      portfolios(:one).assigned_assets.reload.should == [assigned_assets(:one), assigned_assets(:two), assigned_assets(:tre)]
     end
   end
   
