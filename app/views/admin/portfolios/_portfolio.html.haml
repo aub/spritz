@@ -3,7 +3,7 @@
     %span.header Subpages
     = link_to_new_portfolio
   %table.draglist{ :cellpadding => 0, :cellspacing => 0 }
-    %tbody#portfoliolist
+    %tbody#portfoliochildlist
       - portfolio.children.each do |child|
         %tr{ :id => "#{dom_id(child)}" }
           %td.title= link_to child.title, edit_admin_portfolio_path(child)
