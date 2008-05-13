@@ -47,7 +47,8 @@ a img {
       margin: 0pt 0pt 20px 0pt; }
     #login-form dl input {
       font-family: "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif;
-      width: 100%; }
+      width: 100%;
+      color: #383838; }
   #login-form .remember-me {
     float: left;
     font-weight: normal; }
@@ -63,38 +64,10 @@ a img {
       font-size: 120%;
       margin-top: -6px;
       padding: 3px 5px;
-      text-decoration: none; }
+      text-decoration: none;
+      color: #383838; }
     #login-form .submit input:hover {
       color: #af8439; }
-
-/* 
- * form
- * :font-weight normal
- * :padding 16px 16px 40px 16px
- * :background-color = !cute_orange
- * //
- * p
- * :margin-bottom 24px
- * input
- * :color = !dark_grey
- * :width 100%
- * //
- * .remember-me
- * :float left
- * :font-weight normal
- * :margin-bottom 0pt
- * //
- * input
- * :border 1px solid
- * :cursor default
- * :font-family "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif
- * :font-size 120%
- * :margin-top -6px
- * :padding 3px 5px
- * :text-decoration none
- * //
- * input:hover
- * :color = !dark_orange */
 
 .large {
   font-size: 175%; }
