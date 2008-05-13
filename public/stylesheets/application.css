@@ -48,7 +48,8 @@ a img {
     margin-bottom: 0pt; }
   #login-form .submit {
     float: right;
-    margin-bottom: 15px; }
+    margin-bottom: 15px;
+    width: 7em; }
     #login-form .submit input {
       border: 1px solid;
       cursor: default;
@@ -177,9 +178,10 @@ a img {
   padding: 20px; }
   .group dl dt {
     font-weight: bold; }
-  .group dl input, .group dl select {
-    font-family: "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif;
+  .group dl dd {
     margin: 0pt 0pt 20px 0pt; }
+  .group dl input, .group dl select {
+    font-family: "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif; }
   .group dl select {
     min-width: 100px; }
   .group dl textarea {
