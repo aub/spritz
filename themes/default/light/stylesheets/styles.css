@@ -117,8 +117,8 @@ a img {
 	padding-top: 10px;
 }
 
-.portfolio .portfolio-images a {
-	padding-left: 10px;
+.portfolio .portfolio-images a img {
+	margin: 0pt 9px 9px 0pt;
 }
 
 .portfolio .portfolio-children {

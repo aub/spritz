@@ -20,6 +20,10 @@ class SiteDrop < BaseDrop
     @news_items ||= source.news_items.collect(&:to_liquid)
   end
   
+  def home_news_item_count
+    (((source.home_news_item_count || 0) > 0) && news_items.size > 0) ? [news_items.size, source.home_news_item_count].min : 0
+  end
+  
   def home_news_items
     # This is funky, but it says that if the home news count is nil or less than 0 to return an empty array.
     ((source.home_news_item_count || 0) > 0) ? news_items[0..source.home_news_item_count-1] : []

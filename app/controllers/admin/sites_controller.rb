@@ -66,7 +66,7 @@ class Admin::SitesController < Admin::AdminController
     respond_to do |format|
       if @template_site.update_attributes(params[:site])
         flash[:notice] = 'Site was successfully updated.'
-        format.html { redirect_to(admin_site_path(@template_site)) }
+        format.html { redirect_to(admin_path) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

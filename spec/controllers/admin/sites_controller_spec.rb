@@ -243,9 +243,9 @@ describe Admin::SitesController do
         assigns(:template_site).should equal(@site)
       end
 
-      it "should redirect to the site" do
+      it "should redirect to the home page" do
         do_put
-        response.should redirect_to(admin_site_url("1"))
+        response.should redirect_to(admin_path)
       end
 
     end

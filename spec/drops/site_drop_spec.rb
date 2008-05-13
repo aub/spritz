@@ -69,6 +69,21 @@ describe SiteDrop do
     @drop.home_news_items.should == []
   end
   
+  it "should disable home news if there is no news" do
+    sites(:default).update_attribute(:home_news_item_count, nil)
+    @drop.home_news_item_count.should == 0
+  end
+  
+  it "should return the correct news item count" do
+    sites(:default).update_attribute(:home_news_item_count, 3)
+    @drop.home_news_item_count.should == 3
+  end
+  
+  it "should return the correct news item count when there are fewer items than requested" do
+    sites(:default).update_attribute(:home_news_item_count, 15)
+    @drop.home_news_item_count.should == 3
+  end
+  
   it "should provide access to the display-size home image" do
     @drop.home_image_display_path.should == assets(:one).public_filename(:display)
   end

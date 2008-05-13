@@ -3,12 +3,14 @@
   <p>{{ site.home_text }}</p>
 </div>
 
-<div class="home-news">
-  <h2>News</h2>
-  <dl>
-    {% for news in site.home_news_items %}
-      <dt>{{ news.title | link_to_news }}</dt>
-      <dd>{{ news.text | limit_length: 100 }}</dd>
-    {% endfor %}
-  </dl>
-</div>
+{% if site.home_news_item_count > 0 %}
+  <div class="home-news">
+    <h2>News</h2>
+    <dl>
+      {% for news in site.home_news_items %}
+        <dt>{{ news.title | link_to_news }}</dt>
+        <dd>{{ news.text | limit_length: 100 }}</dd>
+      {% endfor %}
+    </dl>
+  </div>
+{% endif %}

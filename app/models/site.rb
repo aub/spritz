@@ -81,9 +81,9 @@ class Site < ActiveRecord::Base
 
   # A query method for the root of the action cache directory to use for this site. Preface the
   # directory with the site's subdomain so that the caches for different sites will be in different
-  # directories. Also, put the test caches in a different folder.
+  # directories if multisite is enabled.
   def action_cache_root
-    subdomain
+    Site.multi_sites_enabled ? subdomain : ''
   end
   
   # A collection of methods to help with finding users for this site
