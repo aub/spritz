@@ -1,8 +1,10 @@
 class SiteDrop < BaseDrop
+  include WhiteListHelper
+  
   liquid_attributes << :title << :google_analytics_code
   
   def home_text
-    source.home_text_html
+    white_list(source.home_text_html)
   end
   
   def links

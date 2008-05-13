@@ -1,7 +1,9 @@
 class NewsItemDrop < BaseDrop
+  include WhiteListHelper
+  
   liquid_attributes << :title
   
   def text
-    source.text_html
+    white_list(source.text_html)
   end
 end

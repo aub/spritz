@@ -1,8 +1,10 @@
 class PortfolioDrop < BaseDrop
+  include WhiteListHelper
+  
   liquid_attributes << :title
   
   def body
-    source.body_html
+    white_list(source.body_html)
   end
   
   def assets
@@ -14,7 +16,7 @@ class PortfolioDrop < BaseDrop
   end
   
   def url
-    "/portfolios/#{source.to_param}"
+    liquidate("/portfolios/#{source.to_param}")
   end
   
   def children

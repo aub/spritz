@@ -1,4 +1,5 @@
 class PortfolioItemDrop < BaseDrop
+  include WhiteListHelper
   
   def display_path
     @display_path ||= asset.public_filename(:display)
@@ -20,7 +21,7 @@ class PortfolioItemDrop < BaseDrop
   # fields that have no value.
   def fields
     @fields ||= Asset.field_names.inject([]) do |list,fn|
-      value = asset.send(fn)
+      value = liquidate(asset.send(fn))
       value.blank? ? list : list << { 'name' => fn.to_s, 'value' => value }
     end
   end
