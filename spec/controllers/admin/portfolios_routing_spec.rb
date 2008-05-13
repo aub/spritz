@@ -34,6 +34,10 @@ describe Admin::PortfoliosController do
     it "should map { :controller => 'admin/portfolios', :action => 'add_child', :id => 1} to /admin/portfolios/1/add_child" do
       route_for(:controller => "admin/portfolios", :action => "add_child", :id => 1).should == "/admin/portfolios/1/add_child"
     end
+    
+    it "should map { :controller => 'admin/portfolios', :action => 'reorder'} to /admin/portfolios/reorder" do
+      route_for(:controller => "admin/portfolios", :action => "reorder").should == "/admin/portfolios/reorder"
+    end
   end
 
   describe "route recognition" do
@@ -68,6 +72,10 @@ describe Admin::PortfoliosController do
         
     it "should generate params { :controller => 'admin/portfolios', action => 'add_child', id => '1' } from GET /admin/portfolios/1/add_child" do
       params_from(:get, "/admin/portfolios/1/add_child").should == {:controller => "admin/portfolios", :action => "add_child", :id => "1"}
+    end
+    
+    it "should generate params { :controller => 'admin/portfolios', action => 'reorder' } from PUT /admin/portfolios/reorder" do
+      params_from(:put, "/admin/portfolios/reorder").should == {:controller => "admin/portfolios", :action => "reorder"}
     end
   end
 end

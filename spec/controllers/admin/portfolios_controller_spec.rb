@@ -4,10 +4,10 @@ describe Admin::PortfoliosController do
   
   define_models :portfolios_controller do
     model Portfolio do
-      stub :one, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 2
-      stub :two, :site => all_stubs(:site), :parent_id => nil, :lft => 3, :rgt => 4
-      stub :tre, :site => all_stubs(:other_site), :parent_id => nil, :lft => 1, :rgt => 2
-      stub :quatro, :site => all_stubs(:site), :parent_id => nil, :lft => 5, :rgt => 6
+      stub :one, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 2, :position => 1
+      stub :two, :site => all_stubs(:site), :parent_id => nil, :lft => 3, :rgt => 4, :position => 2
+      stub :tre, :site => all_stubs(:other_site), :parent_id => nil, :lft => 1, :rgt => 2, :position => 1
+      stub :quatro, :site => all_stubs(:site), :parent_id => nil, :lft => 5, :rgt => 6, :position => 3
     end
   end
   
@@ -35,7 +35,7 @@ describe Admin::PortfoliosController do
   
     it "should assign the found portfolios for the view" do
       do_get
-      assigns[:portfolios].should == sites(:default).portfolios
+      assigns[:portfolios].should == sites(:default).root_portfolios
     end
   end
 
@@ -54,7 +54,7 @@ describe Admin::PortfoliosController do
 
     it "should render the found portfolios as xml" do
       do_get
-      response.body.should == sites(:default).portfolios.to_xml
+      response.body.should == sites(:default).root_portfolios.to_xml
     end
   end
 
@@ -317,6 +317,29 @@ describe Admin::PortfoliosController do
     it "should return not found for portfolios not in the site" do
       delete :destroy, :id => portfolios(:tre).id
       response.should be_missing
+    end
+  end
+  
+  describe "handling PUT /portfolios/reorder" do
+    define_models :portfolios_controller
+
+    before(:each) do
+      login_as(:admin)
+    end
+
+    def do_put
+      put :reorder, :portfolios => [ portfolios(:quatro).id, portfolios(:one).id, portfolios(:two).id ]
+    end
+
+    it "should render nothing" do
+      do_put
+      response.should be_success
+      response.body.should be_blank
+    end
+
+    it "should update the link order" do
+      do_put
+      sites(:default).root_portfolios.reload.should == [ portfolios(:quatro), portfolios(:one), portfolios(:two) ]
     end
   end
   

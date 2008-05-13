@@ -149,10 +149,10 @@ describe Site do
   describe "relationship to portfolios" do
     define_models :site do
       model Portfolio do
-        stub :uno, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 2
-        stub :due, :site => all_stubs(:site), :parent_id => nil, :lft => 3, :rgt => 4
-        stub :tre, :site => all_stubs(:site), :parent_id => nil, :lft => 5, :rgt => 6
-        stub :quatro, :site => all_stubs(:other_site), :parent_id => nil, :lft => 7, :rgt => 8
+        stub :uno, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 2, :position => 2
+        stub :due, :site => all_stubs(:site), :parent_id => nil, :lft => 3, :rgt => 4, :position => 1
+        stub :tre, :site => all_stubs(:site), :parent_id => nil, :lft => 5, :rgt => 6, :position => 3
+        stub :quatro, :site => all_stubs(:other_site), :parent_id => nil, :lft => 7, :rgt => 8, :position => 1
       end
     end
     
@@ -174,6 +174,15 @@ describe Site do
 
     it "should provide a method for only accessing the top-level portfolios" do
       sites(:default).root_portfolios.sort_by(&:id).should == [portfolios(:uno), portfolios(:due)].sort_by(&:id)
+    end
+    
+    it "should order the top-level portfolios by position" do
+      sites(:default).root_portfolios.should == [portfolios(:due), portfolios(:uno)]
+    end
+    
+    it "should allow reordering of the top-level portfolios" do
+      sites(:default).root_portfolios.reorder!([portfolios(:uno).id, portfolios(:due).id])
+      sites(:default).root_portfolios.reload.should == [portfolios(:uno), portfolios(:due)]
     end
     
     describe "creation of child portfolios with a parent" do

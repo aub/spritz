@@ -97,6 +97,12 @@ class Admin::PortfoliosController < Admin::AdminController
       format.xml  { head :ok }
     end
   end
+
+  # PUT /portfolios/reorder
+  def reorder
+    site.root_portfolios.reorder! params[:portfolios]
+    render :nothing => true
+  end
   
   protected
   

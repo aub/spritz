@@ -54,7 +54,12 @@ class Site < ActiveRecord::Base
   # This is necessary both because it's nice to get access to only the root level portfolios
   # and because and because we only want to destroy the top ones when the site is being destroyed,
   # since the plugin will handle deletion of the children.
-  has_many :root_portfolios, :class_name => 'Portfolio', :conditions => 'parent_id is NULL', :dependent => :destroy
+  has_many :root_portfolios, :class_name => 'Portfolio', :conditions => 'parent_id is NULL', :order => :position, :dependent => :destroy do
+    # change the order of the links in the site by passing an ordered list of their ids
+    def reorder!(*sorted_ids)
+      proxy_owner.send(:reorder_items, Portfolio, sorted_ids)
+    end    
+  end
 
   has_one :assigned_home_image, :class_name => 'AssignedAsset', :as => :asset_holder, :dependent => :destroy
 
