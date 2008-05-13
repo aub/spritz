@@ -102,4 +102,38 @@ describe Portfolio do
       lambda { @a.destroy }.should change(Portfolio, :count).by(-2)
     end
   end
+  
+  describe "reordering" do
+    define_models :portfolio
+
+    before(:each) do
+      @a = Portfolio.create(:title => 'a')
+      @b = Portfolio.create(:title => 'b')
+      @c = Portfolio.create(:title => 'c')
+      @d = Portfolio.create(:title => 'd')
+      @b.move_to_child_of(@a)
+      @c.move_to_child_of(@a)
+      @d.move_to_child_of(@a)
+    end
+
+    it "should have the correct initial order" do
+      @a.children.should == [@b, @c, @d]
+    end
+    
+    it "should reorder by id" do
+      @a.reorder_children!([@d.id, @b.id, @c.id])
+      @a.children.should == [@d, @b, @c]
+    end
+    
+    it "should skip bad data" do
+      @e = Portfolio.create(:title => 'e')
+      @a.reorder_children!([@d.id, @b.id, @e.id, @c.id])
+      @a.children.should == [@d, @b, @c]
+    end
+    
+    it "should work properly when the order is the same" do
+      @a.reorder_children!([@b.id, @c.id, @d.id])
+      @a.children.should == [@b, @c, @d]
+    end
+  end
 end

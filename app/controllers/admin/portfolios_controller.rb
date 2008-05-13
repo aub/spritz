@@ -1,6 +1,6 @@
 class Admin::PortfoliosController < Admin::AdminController
   
-  before_filter :find_portfolio, :only => [:show, :edit, :update, :destroy]
+  before_filter :find_portfolio, :only => [:show, :edit, :update, :destroy, :reorder_children]
   
   # GET /admin/portfolios
   # GET /admin/portfolios.xml
@@ -101,6 +101,12 @@ class Admin::PortfoliosController < Admin::AdminController
   # PUT /portfolios/reorder
   def reorder
     site.root_portfolios.reorder! params[:portfolios]
+    render :nothing => true
+  end
+
+  # PUT /portfolios/1/reorder_children
+  def reorder_children
+    @portfolio.reorder_children! params[:portfolios]
     render :nothing => true
   end
   

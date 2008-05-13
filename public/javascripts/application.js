@@ -68,5 +68,10 @@ Event.addBehavior({
     var list_id = $$('.asset-sorter')[0].id;
     portfolio_id = list_id.gsub('portfolio_', '');
     window.assetSorter = new TableSorter(list_id, '/admin/portfolios/' + portfolio_id + '/assigned_assets/update_order', 'assigned_assets', 'li')
-  }
+  },
+  '.portfolio-child-sorter': function() {
+    var table_id = $$('.portfolio-child-sorter')[0].id;
+    portfolio_id = table_id.gsub('portfolio_', '');
+    window.portfolioChildSorter = new TableSorter(table_id, '/admin/portfolios/' + portfolio_id + '/reorder_children', 'portfolios', 'tr')
+  }  
 });

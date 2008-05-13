@@ -19,6 +19,22 @@ class Portfolio < ActiveRecord::Base
   has_many :assets, :through => :assigned_assets, :order => 'assigned_assets.position'
   
   attr_accessible :title, :body
+
+  # Reorder the children according to the list of ids given.
+  def reorder_children!(*sorted_ids)
+    return if children.empty?
+    last_moved = nil
+    sorted_ids.flatten.each do |child_id|
+      child = children.find { |item| item.id.to_s == child_id.to_s }
+      next if child.nil?
+      if last_moved.nil?
+        child.move_to_left_of(children[0]) unless child == children[0]
+      else
+        child.move_to_right_of(last_moved)
+      end
+      last_moved = child
+    end
+  end
   
   def to_liquid
     PortfolioDrop.new self
