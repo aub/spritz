@@ -3,15 +3,11 @@
 - form_for @user, :url => admin_user_path(@user), :html => { :method => :put } do |f|
   .group
     %dl
-      %dt= f.label_for :login
-      %dd= f.password_field :login, :class => 'large fat'
-      %dt= f.label_for :email
-      %dd= f.password_field :email, :class => 'large fat'    
       %dt= f.label_for :password
       %dd= f.password_field :password, :class => 'large fat'
       %dt= f.label_for :password_confirmation
       %dd= f.password_field :password_confirmation, :class => 'large fat'
       %dt
-        = f.submit 'Save User'
+        = f.submit 'Update Password'
         or
         = link_to "Cancel", admin_path

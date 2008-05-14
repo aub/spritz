@@ -122,12 +122,86 @@ describe Admin::UsersController do
     end
   end
   
+  describe "handling GET /admin/users/1/edit" do
+    define_models :users_controller
+    
+    before(:each) do
+      login_as(:admin)
+    end
+    
+    def do_get
+      get :edit, :id => users(:admin).id
+    end
+    
+    it "should assign the user for the view" do
+      do_get
+      assigns[:user].should == users(:admin)
+    end
+    
+    it "should be successful" do
+      do_get
+      response.should be_success
+    end
+    
+    it "should render the edit template" do
+      do_get
+      response.should render_template('edit')
+    end
+  end
+  
+  describe "handling PUT admin/users/1" do
+    define_models :users_controller
+
+    before(:each) do
+      login_as(:admin)
+    end
+
+    describe "with successful update" do
+      define_models :users_controller
+      
+      def do_put
+        put :update, :id => users(:admin).id, :user => { :password => 'booya', :password_confirmation => 'booya' }
+      end
+
+      it "should update the found user" do
+        do_put
+        users(:admin).reload
+        User.authenticate_for(sites(:default), 'admin', 'booya').should == users(:admin)
+      end
+
+      it "should assign the found user for the view" do
+        do_put
+        assigns(:user).should == users(:admin)
+      end
+
+      it "should redirect to the dashboard" do
+        do_put
+        response.should redirect_to(admin_path)
+      end
+    end
+    
+    describe "with failed update" do
+      define_models :users_controller
+      
+      def do_put
+        put :update, :id => users(:admin).id, :user => { :password => 'abcdefg', :password_confirmation => 'hijklmnop' }
+      end
+
+      it "should re-render 'edit'" do
+        do_put
+        response.should render_template('edit')
+      end
+    end
+  end
+  
+  
   describe "site, login, and admin requirements" do
     define_models :users_controller
     
     it "should require a site" do
       test_site_requirement(true, [
         lambda { get :new },
+        lambda { get :edit, :id => users(:nonadmin).id },
         lambda { get :activate, :id => users(:nonadmin).id },
         lambda { put :suspend, :id => users(:nonadmin).id },
         lambda { put :unsuspend, :id => users(:nonadmin).id },
@@ -143,12 +217,42 @@ describe Admin::UsersController do
         lambda { delete :purge, :id => users(:nonadmin).id },
         lambda { delete :destroy, :id => users(:nonadmin).id }])
     end
+
+    it "should require normal login" do
+      test_login_requirement(true, false, [
+        lambda { get :edit, :id => users(:nonadmin).id },
+        lambda { put :update, :id => users(:nonadmin).id }])
+    end
     
     it "should not require login" do
       test_login_requirement(false, false, [
         lambda { get :new },
         lambda { post :create },
         lambda { get :activate, :id => users(:nonadmin).id }])
+    end
+    
+    it "should not allow editing of some other user" do
+      login_as(:nonadmin)
+      get :edit, :id => users(:admin).id
+      response.should redirect_to(new_admin_session_path)
+    end
+    
+    it "should not allow updating of some other user" do
+      login_as(:nonadmin)
+      put :update, :id => users(:admin).id, :user => { :password => 'abcdef', :password_confirmation => 'abcdef' }
+      response.should redirect_to(new_admin_session_path)
+    end
+    
+    it "should allow admin to edit other users" do
+      login_as(:admin)
+      get :edit, :id => users(:nonadmin).id
+      response.should be_success
+    end
+    
+    it "should allow admin to update other users" do
+      login_as(:admin)
+      put :update, :id => users(:nonadmin).id, :user => { :password => 'abcdef', :password_confirmation => 'abcdef' }
+      response.should_not redirect_to(new_admin_session_path)
     end
   end
   

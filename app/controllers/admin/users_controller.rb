@@ -2,11 +2,30 @@ class Admin::UsersController < Admin::AdminController
 
   # Protect these actions behind an admin login
   before_filter :admin_required, :only => [:suspend, :unsuspend, :destroy, :purge]
-  before_filter :find_user, :only => [:suspend, :unsuspend, :destroy, :purge]
+  before_filter :find_user, :only => [:suspend, :unsuspend, :destroy, :purge, :edit, :update]
 
   skip_before_filter :login_required, :only => [:new, :create, :activate]
 
+  def edit
+  end
+
+  # PUT /users/1
+  # PUT /users/1.xml
+  def update
+    respond_to do |format|
+      if @user.update_attributes(params[:user])
+        flash[:notice] = 'Your password was successfully updated.'
+        format.html { redirect_to admin_path }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
   def new
+    @user = User.new
   end
 
   def create
@@ -59,5 +78,11 @@ class Admin::UsersController < Admin::AdminController
 
   def find_user
     @user = User.find(params[:id])
+  end
+  
+  def authorized?
+    return false unless logged_in?
+    return false if ((params[:action] == 'edit' || params[:action] == 'update') && (!current_user.admin && current_user.id != params[:id]))
+    true
   end
 end
