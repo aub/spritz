@@ -4,7 +4,9 @@ class Admin::UsersController < Admin::AdminController
   before_filter :admin_required, :only => [:suspend, :unsuspend, :destroy, :purge]
   before_filter :find_user, :only => [:suspend, :unsuspend, :destroy, :purge, :edit, :update]
 
-  skip_before_filter :login_required, :only => [:new, :create, :activate, :forgot_password, :reset_password]
+  before_filter :set_mailer_host, :only => [:reset_password]
+
+  skip_before_filter :login_required, :only => [:new, :create, :activate, :forgot_password, :reset_password, :login_from_token]
 
   layout :set_layout
 
@@ -82,12 +84,23 @@ class Admin::UsersController < Admin::AdminController
   def reset_password
     if @user = @site.user_by_email(params[:email])
       flash[:notice] = "A temporary login email has been sent to '#{CGI.escapeHTML @user.email}'"
-      # @user.reset_token!
-      # UserMailer.deliver_forgot_password(@user)
+      @user.remember_me
+      UserMailer.deliver_forgot_password(@user)
       redirect_to new_admin_session_path
     else
-      flash[:error] = "I could not find an account with the email address '#{CGI.escapeHTML params[:email]}'. Did you type it correctly?"
+      flash[:error] = "There is no account with the email address '#{CGI.escapeHTML params[:email]}'. Did you type it correctly?"
       render :action => 'forgot_password'
+    end
+  end
+
+  def login_from_token
+    self.current_user = User.find_by_remember_token(@site, params[:id])
+    if logged_in?
+      current_user.forget_me # This is just to cause the token to change so this login won't be valid any longer.
+      redirect_to edit_admin_user_path(current_user)
+    else
+      flash[:error] = "This login is invalid. Try resending your forgotten password request."
+      redirect_to new_admin_session_path
     end
   end
 
@@ -106,5 +119,9 @@ class Admin::UsersController < Admin::AdminController
   def set_layout
     return 'simple' if params[:action] == 'forgot_password' || params[:action] == 'reset_password'
     'admin'
+  end
+  
+  def set_mailer_host
+    UserMailer.default_url_options[:host] = request.host_with_port
   end
 end

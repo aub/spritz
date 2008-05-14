@@ -216,6 +216,103 @@ describe Admin::UsersController do
     end
   end
   
+  describe "handling PUT /admin/users/reset_password" do
+    define_models :users_controller
+    
+    before(:each) do
+      login_as(nil)
+      @emails = ActionMailer::Base.deliveries 
+      @emails.clear
+    end
+    
+    describe "with correct email" do
+      define_models :users_controller
+      
+      def do_put
+        put :reset_password, :email => users(:admin).email
+      end
+
+      it "should redirect to the login page" do
+        do_put
+        response.should redirect_to(new_admin_session_path)
+      end
+
+      it "should reset the remember token on the user" do
+        users(:admin).remember_token = nil
+        users(:admin).remember_token_expires_at = nil
+        users(:admin).save
+        do_put
+        users(:admin).reload.remember_token_expires_at.should == 2.weeks.from_now.utc
+        users(:admin).remember_token.should_not be_nil
+      end
+      
+      it "should send a mail with the usermailer" do
+        do_put
+        @emails.first.to.first.should == users(:admin).email
+      end      
+    end
+    
+    describe "with incorrect email" do
+      define_models :users_controller
+      
+      def do_put
+        put :reset_password, :email => 'fake'
+      end
+
+      it "should render the forgot_password template again" do
+        do_put
+        response.should render_template('forgot_password')
+      end
+    end
+  end
+
+  describe "handling GET /admin/users/1/login_from_token" do
+    define_models :users_controller
+    
+    before(:each) do      
+      login_as(nil)
+      users(:admin).remember_me
+    end
+    
+    describe "with correct token" do
+      define_models :users_controller
+      
+      def do_get
+        get :login_from_token, :id => users(:admin).remember_token
+      end
+
+      it "should redirect to the edit user page" do
+        do_get
+        response.should redirect_to(edit_admin_user_path(users(:admin)))
+      end
+      
+      it "should reset the remember token on the user" do
+        do_get
+        users(:admin).reload.remember_token_expires_at.should be_nil
+        users(:admin).remember_token.should be_nil
+      end
+      
+      it "should log the user in" do
+        session[:user_id] = nil
+        do_get
+        session[:user_id].should == users(:admin).id
+      end      
+    end
+    
+    describe "with incorrect token" do
+      define_models :users_controller
+      
+      def do_get
+        get :login_from_token, :id => 'blat'
+      end
+
+      it "should redirect to the login page" do
+        do_get
+        response.should redirect_to(new_admin_session_path)
+      end
+    end
+  end
+  
   describe "site, login, and admin requirements" do
     define_models :users_controller
     
@@ -229,6 +326,7 @@ describe Admin::UsersController do
         lambda { post :create },
         lambda { delete :purge, :id => users(:nonadmin).id },
         lambda { delete :destroy, :id => users(:nonadmin).id },
+        lambda { get :login_from_token, :id => 'abc' },
         lambda { get :forgot_password },
         lambda { put :reset_password }])
     end
@@ -252,6 +350,7 @@ describe Admin::UsersController do
         lambda { get :new },
         lambda { post :create },
         lambda { get :activate, :id => users(:nonadmin).id },
+        lambda { get :login_from_token, :id => users(:admin).remember_token },
         lambda { get :forgot_password },
         lambda { put :reset_password }])
     end
