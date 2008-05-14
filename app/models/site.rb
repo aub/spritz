@@ -99,6 +99,10 @@ class Site < ActiveRecord::Base
   def user_by_remember_token(token)
     User.find_by_remember_token(self, token)
   end
+
+  def user_by_email(email)
+    User.find_by_email(self, email)
+  end
   
   def themes
     Theme.find_all_for(self)

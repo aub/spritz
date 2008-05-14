@@ -4,6 +4,9 @@ describe "/admin/users/new.html.haml" do
   include Admin::UsersHelper
   
   before(:each) do
+    @user = mock_model(User, :login => 'l', :email => 'e', :password => 'p', :password_confirmation => 'pc')
+    assigns[:user] = @user
+    
     render "/admin/users/new.html.haml"
   end
 

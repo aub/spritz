@@ -32,7 +32,8 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :themes, :member => { :activate => :put, :preview => :get } do |themes|
       themes.resources :resources
     end
-    admin.resources :users, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :activate => :get }
+    admin.resources :users, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :activate => :get },
+                            :collection => { :forgot_password => :get, :reset_password => :put }
   end
 
   # Routes for the display interface

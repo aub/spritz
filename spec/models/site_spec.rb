@@ -227,6 +227,10 @@ describe Site do
     it "should find a user by remember token" do
       sites(:default).user_by_remember_token(users(:nonadmin).remember_token).should == users(:nonadmin)
     end
+    
+    it "should find a user by email" do
+      sites(:default).user_by_email(users(:nonadmin).email).should == users(:nonadmin)
+    end
   end
   
   describe "theme management" do

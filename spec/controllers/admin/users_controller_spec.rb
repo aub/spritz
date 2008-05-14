@@ -194,6 +194,27 @@ describe Admin::UsersController do
     end
   end
   
+  describe "handling GET /admin/users/forgot_password" do
+    define_models :users_controller
+    
+    before(:each) do
+      login_as(:admin)
+    end
+    
+    def do_get
+      get :forgot_password
+    end
+    
+    it "should be successful" do
+      do_get
+      response.should be_success
+    end
+    
+    it "should render the forgot_password template" do
+      do_get
+      response.should render_template('forgot_password')
+    end
+  end
   
   describe "site, login, and admin requirements" do
     define_models :users_controller
@@ -207,7 +228,9 @@ describe Admin::UsersController do
         lambda { put :unsuspend, :id => users(:nonadmin).id },
         lambda { post :create },
         lambda { delete :purge, :id => users(:nonadmin).id },
-        lambda { delete :destroy, :id => users(:nonadmin).id }])
+        lambda { delete :destroy, :id => users(:nonadmin).id },
+        lambda { get :forgot_password },
+        lambda { put :reset_password }])
     end
     
     it "should require admin login" do
@@ -228,7 +251,9 @@ describe Admin::UsersController do
       test_login_requirement(false, false, [
         lambda { get :new },
         lambda { post :create },
-        lambda { get :activate, :id => users(:nonadmin).id }])
+        lambda { get :activate, :id => users(:nonadmin).id },
+        lambda { get :forgot_password },
+        lambda { put :reset_password }])
     end
     
     it "should not allow editing of some other user" do

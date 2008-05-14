@@ -37,7 +37,7 @@ a
   img
     :border none
 
-#login-form
+#login-form, #forgot-password-form
   :margin 10px auto
   :width 28em
   
@@ -96,6 +96,18 @@ a
       
     input:hover
       :color = !dark_orange
+
+  .reset-password
+    :font-size 70%
+    :margin -20px 0pt 10px 0pt
+
+#forgot-password-form 
+  form
+    :height 8em
+  
+  dl dt
+    :margin-bottom 15px
+
 
 .large
   :font-size 175%
@@ -248,7 +260,7 @@ a
       :font-size 12px
       
 
-.group dl, #login-form form, #login-form .submit input
+.group dl, #login-form form, #login-form .submit input, #forgot-password-form form
   :-moz-border-radius-bottomleft 5px
   :-moz-border-radius-bottomright 5px
   :-moz-border-radius-topleft 5px

@@ -77,6 +77,14 @@ describe Admin::UsersController do
       route_for(:controller => "admin/users", :action => "purge", :id => 1).should == "/admin/users/1/purge"
     end
 
+    it "should map { :controller => 'admin/users', :action => 'forgot_password'} to /admin/users/forgot_password" do
+      route_for(:controller => "admin/users", :action => "forgot_password").should == "/admin/users/forgot_password"
+    end
+
+    it "should map { :controller => 'admin/users', :action => 'reset_password'} to /admin/users/reset_password" do
+      route_for(:controller => "admin/users", :action => "reset_password").should == "/admin/users/reset_password"
+    end
+
 
     it "should generate params { :controller => 'admin/users', action => 'suspend', id => '1' } from PUT /admin/users/1/suspend" do
       params_from(:put, "/admin/users/1/suspend").should == {:controller => "admin/users", :action => "suspend", :id => "1"}
@@ -88,6 +96,14 @@ describe Admin::UsersController do
     
     it "should generate params { :controller => 'admin/users', action => 'purge', id => '1' } from DELETE /admin/users/1/purge" do
       params_from(:delete, "/admin/users/1/purge").should == {:controller => "admin/users", :action => "purge", :id => "1"}
+    end
+
+    it "should generate params { :controller => 'admin/users', action => 'forgot_password' } from PUT /admin/users/forgot_password" do
+      params_from(:get, "/admin/users/forgot_password").should == {:controller => "admin/users", :action => "forgot_password"}
+    end     
+    
+    it "should generate params { :controller => 'admin/users', action => 'reset_password' } from PUT /admin/users/reset_password" do
+      params_from(:put, "/admin/users/reset_password").should == {:controller => "admin/users", :action => "reset_password"}
     end     
   end
   

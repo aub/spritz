@@ -79,6 +79,12 @@ class User < ActiveRecord::Base
       :conditions => ['remember_token = ? and remember_token_expires_at > ? and (memberships.site_id = ? or users.admin = ?)', token, Time.now.utc, site.id, true]))
   end
 
+  # Overriden to make sure the user is a member of the given site.
+  def self.find_by_email(site, email)
+    find(:first, @@membership_options.merge(
+      :conditions => ['email = ? and (memberships.site_id = ? or users.admin = ?)', email, site.id, true]))
+  end
+
   # Encrypts some data with the salt.
   def self.encrypt(password, salt)
     Digest::SHA1.hexdigest("--#{salt}--#{password}--")

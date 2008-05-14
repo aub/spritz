@@ -216,7 +216,7 @@ describe Admin::PortfoliosController do
       end
       
       it "should set the position of the portfolio to be after the last existing one" do
-        prev_last = sites(:default).portfolios.last
+        prev_last = sites(:default).root_portfolios.last
         do_post
         assigns[:portfolio].position.should == prev_last.position + 1
       end

@@ -228,6 +228,18 @@ describe User do
     it "should find the admin user for all sites by remember token" do
       User.find_by_remember_token(sites(:other), users(:admin).remember_token).should == users(:admin)
     end
+    
+    it "should find a user by email" do
+      User.find_by_email(sites(:default), users(:nonadmin).email).should == users(:nonadmin)
+    end
+    
+    it "should fail to find by email for a mismatch" do
+      User.find_by_email(sites(:other), users(:nonadmin).email).should be_nil
+    end
+    
+    it "should find the admin user for all sites by email" do
+      User.find_by_email(sites(:other), users(:admin).email).should == users(:admin)
+    end
   end
 
 protected
