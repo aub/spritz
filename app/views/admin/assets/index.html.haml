@@ -8,4 +8,6 @@
     / This is a hack to clear both so that the list will cover the images correctly when the pagination
     / is present.
     %p &nbsp;
+    - if @assets.empty?
+      None
   = will_paginate @assets

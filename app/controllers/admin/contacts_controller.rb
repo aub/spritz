@@ -14,7 +14,6 @@ class Admin::ContactsController < Admin::AdminController
   def show
     @contact = @site.contacts.find(params[:id])
     respond_to do |format|
-      format.html # show.html.erb
       format.xml  { render :xml => @contact }
     end
   end

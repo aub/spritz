@@ -63,38 +63,6 @@ describe Admin::ContactsController do
     end
   end
 
-  describe "handling GET /admin/contacts/1" do
-    define_models :contacts_controller
-    
-    before(:each) do
-      login_as(:admin)
-    end
-    
-    def do_get
-      get :show, :id => contacts(:one).id
-    end
-
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-  
-    it "should render show template" do
-      do_get
-      response.should render_template('show')
-    end
-  
-    it "should assign the found contact for the view" do
-      do_get
-      assigns[:contact].should == contacts(:one)
-    end
-    
-    it "should not get contacts that are in another site" do
-      get :show, :id => contacts(:tre).id
-      response.should be_missing
-    end
-  end
-
   describe "handling GET /admin_contacts/1.xml" do
     define_models :contacts_controller
     
