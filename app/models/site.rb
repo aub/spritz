@@ -34,6 +34,13 @@ class Site < ActiveRecord::Base
     end
   end
 
+  has_many :resume_sections, :dependent => :destroy, :order => :position do
+    # change the order of the links in the site by passing an ordered list of their ids
+    def reorder!(*sorted_ids)
+      proxy_owner.send(:reorder_items, ResumeSection, sorted_ids)
+    end
+  end
+
   has_many :contacts, :dependent => :destroy
 
   has_many :portfolios do
@@ -129,6 +136,11 @@ class Site < ActiveRecord::Base
   # See above...
   def last_portfolio_position
     (root_portfolios.size > 0) ? root_portfolios.last.position : 0
+  end
+  
+  # See above...
+  def last_resume_section_position
+    (resume_sections.size > 0) ? resume_sections.last.position : 0
   end
   
   def to_liquid

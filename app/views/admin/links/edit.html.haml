@@ -1,4 +1,4 @@
 = error_messages_for :link
 
-- form_for :link, :url => admin_link_path(@link), :html => { :method => :put } do |f|
+- form_for @link, :url => admin_link_path(@link), :html => { :method => :put } do |f|
   = render :partial => 'form', :locals => { :f => f }

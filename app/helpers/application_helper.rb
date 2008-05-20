@@ -20,7 +20,7 @@ module ApplicationHelper
     design_class = ((ctrlr == 'themes' || ctrlr == 'resources') ? 'current' : '')
     contacts_class = (ctrlr == 'contacts' ? 'current' : '')
     settings_class = (ctrlr == 'sites' ? 'current' : '')
-    content_class = ((ctrlr == 'home' || ctrlr == 'links' || ctrlr == 'news_items' || ctrlr == 'portfolios' || ctrlr == 'assigned_assets') ? 'current' : '')
+    content_class = ((ctrlr == 'home' || ctrlr == 'links' || ctrlr == 'news_items' || ctrlr == 'portfolios' || ctrlr == 'assigned_assets' || ctrlr == 'resume_sections') ? 'current' : '')
     
     result =  content_tag('li', link_to('Dashboard', admin_dashboard_path, :class => dashboard_class))
     result << content_tag('li', link_to('Content', edit_admin_home_path, :class => content_class))
@@ -36,10 +36,11 @@ module ApplicationHelper
   
   def content_submenu
     ctrlr = request.parameters['controller'].split('/').last
-    if (ctrlr == 'home' || ctrlr == 'links' || ctrlr == 'news_items' || ctrlr == 'portfolios' || ctrlr == 'assigned_assets')
+    if (ctrlr == 'home' || ctrlr == 'links' || ctrlr == 'news_items' || ctrlr == 'portfolios' || ctrlr == 'assigned_assets' || ctrlr == 'resume_sections')
       home_class = (ctrlr == 'home' ? 'current' : '')
       links_class = (ctrlr == 'links' ? 'current' : '')
       news_class = (ctrlr == 'news_items' ? 'current' : '')
+      resume_class = (ctrlr == 'resume_sections' ? 'current' : '')
       portfolios_class = ((ctrlr == 'portfolios' || ctrlr == 'assigned_assets') ? 'current' : '')
     
       content_for :subcontrols do
@@ -47,6 +48,7 @@ module ApplicationHelper
         result << content_tag('li', link_to('Links', admin_links_path, :class => links_class))
         result << content_tag('li', link_to('News', admin_news_items_path, :class => news_class))
         result << content_tag('li', link_to('Portfolios', admin_portfolios_path, :class => portfolios_class))
+        result << content_tag('li', link_to('Resume', admin_resume_sections_path, :class => resume_class))
       end
     else
       ''

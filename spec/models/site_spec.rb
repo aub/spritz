@@ -351,6 +351,33 @@ describe Site do
     end
   end
   
+  describe "relationship to resume sections" do
+    define_models :site do
+      model ResumeSection do
+        stub :one, :site => all_stubs(:site), :position => 3
+        stub :two, :site => all_stubs(:site), :position => 1
+        stub :tre, :site => all_stubs(:site), :position => 2
+      end
+    end
+    
+    it "should have a collection of resume sections" do
+      sites(:default).resume_sections.sort_by(&:id).should == [resume_sections(:one), resume_sections(:two), resume_sections(:tre)].sort_by(&:id)
+    end
+    
+    it "should destroy its resume sections when keeling over" do
+      lambda { sites(:default).destroy }.should change(ResumeSection, :count).by(-3)
+    end
+    
+    it "should order them by position" do
+      sites(:default).resume_sections.should == [resume_sections(:one), resume_sections(:two), resume_sections(:tre)].sort_by(&:position)
+    end
+    
+    it "should allow reordering of the resume sections" do
+      sites(:default).resume_sections.reorder!([resume_sections(:one).id, resume_sections(:two).id, resume_sections(:tre).id])
+      sites(:default).resume_sections.should == [resume_sections(:one), resume_sections(:two), resume_sections(:tre)]
+    end
+  end
+  
   describe "home image" do
     define_models :site do
       model AssignedAsset do

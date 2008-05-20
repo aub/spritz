@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-
+  
   # Routes for accessing the resources for use in the theme. Note that we need to include
   # 'theme' here to differentiate them from the standard files.
   map.with_options(:controller => 'theme', :conditions => {:method => :get}) do |theme|
@@ -25,6 +25,7 @@ ActionController::Routing::Routes.draw do |map|
       portfolios.resources :assigned_assets, :collection => { :select => :post, :deselect => :delete, :clear => :delete, 
                                                               :reorder => :get, :update_order => :put }
     end
+    admin.resources :resume_sections, :collection => { :reorder => :put }
     admin.resources :resources
     admin.resources :sections
     admin.resource :session, :controller => 'session'

@@ -63,6 +63,7 @@ TableSorter.prototype = {
 Event.addBehavior({
   '#linklist': function() { window.linkSorter = new TableSorter('linklist', '/admin/links/reorder', 'links', 'tr') },
   '#newslist': function() { window.newsSorter = new TableSorter('newslist', '/admin/news_items/reorder', 'news_items', 'tr') },
+  '#resumelist': function() { window.resumeSorter = new TableSorter('resumelist', '/admin/resume_sections/reorder', 'resume_sections', 'tr') },
   '#portfoliolist': function() { window.newsSorter = new TableSorter('portfoliolist', '/admin/portfolios/reorder', 'portfolios', 'tr') },
   '.asset-sorter': function() {
     var list_id = $$('.asset-sorter')[0].id;
