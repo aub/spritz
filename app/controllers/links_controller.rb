@@ -1,6 +1,6 @@
 class LinksController < ContentController
   
-  def index
+  def show
     render :template => 'links'
   end
 end

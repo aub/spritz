@@ -12,6 +12,9 @@ describe SectionList do
     model NewsItem do
       stub :one, :site => all_stubs(:site)
     end
+    model ResumeSection do
+      stub :one, :site => all_stubs(:site)
+    end
   end
   
   it "should register itself as a liquid tag" do
@@ -37,13 +40,13 @@ describe SectionList do
   it "should render the sections urls as requested" do
     content = '{% sectionlist as section %} {{ section.url }} {% endsectionlist %}'
     render_liquid(content).split(' ').collect(&:strip).sort.should == [
-      '/contact/new', '/links', '/news_items', "/portfolios/#{portfolios(:one).to_param}", "/portfolios/#{portfolios(:two).to_param }" ].sort
+      '/contact/new', '/links', '/news', "/resume", "/portfolios/#{portfolios(:one).to_param}", "/portfolios/#{portfolios(:two).to_param }" ].sort
   end
   
   it "should render the sections titles as requested" do
     content = '{% sectionlist as section %} {{ section.title }} {% endsectionlist %}'
     render_liquid(content).split(' ').collect(&:strip).sort.should == [
-      'Contact', 'Links', 'News', "#{portfolios(:one).title}", "#{portfolios(:two).title}" ].sort
+      'Contact', 'Links', 'News', "Resume", "#{portfolios(:one).title}", "#{portfolios(:two).title}" ].sort
   end
   
   it "should not render the Links section if there are no links" do
@@ -56,5 +59,11 @@ describe SectionList do
     NewsItem.find(:all).each(&:destroy)
     content = '{% sectionlist as section %} {{ section.title }} {% endsectionlist %}'
     render_liquid(content).split(' ').collect(&:strip).include?('News').should be_false
+  end
+  
+  it "should not render the Resume section if there is no resume stuff" do
+    ResumeSection.find(:all).each(&:destroy)
+    content = '{% sectionlist as section %} {{ section.title }} {% endsectionlist %}'
+    render_liquid(content).split(' ').collect(&:strip).include?('Resume').should be_false
   end
 end

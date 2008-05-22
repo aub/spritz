@@ -60,4 +60,8 @@ describe ResumeSection do
       resume_sections(:one).resume_items.should == [resume_items(:one), resume_items(:two), resume_items(:tre)]
     end
   end  
+  
+  it "should be convertible to liquid" do
+    resume_sections(:one).to_liquid.should be_an_instance_of(ResumeSectionDrop)
+  end
 end

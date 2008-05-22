@@ -11,6 +11,10 @@ class ResumeSection < ActiveRecord::Base
   
   validates_presence_of :title
 
+  def to_liquid
+    ResumeSectionDrop.new self
+  end
+
   protected
   
   # A helper method for reordering the assigned assets.

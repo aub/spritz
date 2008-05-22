@@ -43,11 +43,12 @@ ActionController::Routing::Routes.draw do |map|
   map.home '', :controller => 'home', :action => 'show'
 
   map.resource :contact, :controller => 'contact'
-  map.resources :links
-  map.resources :news_items
+  map.resource :links, :controller => 'links'
+  map.resource :news, :controller => 'news'
   map.resources :portfolios do |portfolios|
     portfolios.resources :items
   end
+  map.resource :resume, :controller => 'resume'
   
   # A route to handle activation of users.
   map.activate 'activate/:activation_code', :controller => 'admin/users', :action => 'activate'

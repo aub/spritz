@@ -15,6 +15,11 @@ describe SiteDrop do
       stub :two, :site => all_stubs(:site)
       stub :tre, :site => all_stubs(:site)
     end
+    model ResumeSection do
+      stub :one, :site => all_stubs(:site), :position => 1
+      stub :two, :site => all_stubs(:site), :position => 2
+      stub :tre, :site => all_stubs(:site), :position => 3
+    end
     model Asset do
       stub :one, :site => all_stubs(:site), :filename => 'hacky'
       stub :two, :site => all_stubs(:site), :filename => 'ouch'
@@ -42,6 +47,10 @@ describe SiteDrop do
   
   it "should provide access to the news items" do
     @drop.news_items.should == sites(:default).news_items.collect(&:to_liquid)
+  end
+
+  it "should provide access to the resume sections" do
+    @drop.resume_sections.should == [resume_sections(:one), resume_sections(:two), resume_sections(:tre)].collect(&:to_liquid)
   end
   
   it "should provide access to the home text by returning the home_text_html" do

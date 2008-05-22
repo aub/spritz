@@ -19,6 +19,10 @@ class SiteDrop < BaseDrop
   def news_items
     @news_items ||= source.news_items.collect(&:to_liquid)
   end
+
+  def resume_sections
+    @resume_sections ||= source.resume_sections.collect(&:to_liquid)
+  end
   
   def home_news_item_count
     (((source.home_news_item_count || 0) > 0) && news_items.size > 0) ? [news_items.size, source.home_news_item_count].min : 0

@@ -21,7 +21,8 @@ class SectionList < Liquid::Block
     sections = []
     
     sections << { 'title' => 'Links', 'url' => '/links' } if site.links.size > 0
-    sections << { 'title' => 'News', 'url' => '/news_items' } if site.news_items.size > 0
+    sections << { 'title' => 'News', 'url' => '/news' } if site.news_items.size > 0
+    sections << { 'title' => 'Resume', 'url' => '/resume' } if site.resume_sections.size > 0
 
     context['site'].portfolios.each { |p| sections << { 'title' => p['title'], 'url' => p['url'] } }
     
