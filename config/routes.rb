@@ -25,7 +25,9 @@ ActionController::Routing::Routes.draw do |map|
       portfolios.resources :assigned_assets, :collection => { :select => :post, :deselect => :delete, :clear => :delete, 
                                                               :reorder => :get, :update_order => :put }
     end
-    admin.resources :resume_sections, :collection => { :reorder => :put }
+    admin.resources :resume_sections, :collection => { :reorder => :put } do |resume_sections|
+      resume_sections.resources :resume_items, :collection => { :reorder => :put }
+    end
     admin.resources :resources
     admin.resources :sections
     admin.resource :session, :controller => 'session'

@@ -2,3 +2,21 @@
 
 - form_for @resume_section, :url => admin_resume_section_path(@resume_section), :html => { :method => :put } do |f|
   = render :partial => 'form', :locals => { :f => f }
+
+- content_for :sidebar do
+  .box
+    .boxheader
+      %span.header Items
+      = link_to add_icon, new_admin_resume_section_resume_item_path(@resume_section)
+    %table.draglist{ :cellpadding => 0, :cellspacing => 0 }
+      %tbody.resume-item-sorter{ :id => "#{dom_id(@resume_section)}" }
+        - @resume_section.resume_items.each do |item|
+          %tr{ :id => "#{dom_id(item)}" }
+            %td.small 
+              = image_tag('/images/icons/up-down.gif', :class => 'icon-square orange handle')
+            %td.title= link_to item.text, edit_admin_resume_section_resume_item_path(@resume_section, item)
+            %td.controls= link_to image_tag('/images/icons/trash.gif', :class => 'icon-square red', :title => 'Delete this item.'), admin_resume_section_resume_item_path(@resume_section, item), :confirm => 'Are you sure you want to permanently delete this item?', :method => :delete
+        - if @resume_section.resume_items.empty?
+          %tr
+            %td None
+

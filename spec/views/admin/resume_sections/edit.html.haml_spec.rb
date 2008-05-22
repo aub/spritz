@@ -7,6 +7,7 @@ describe "/admin/resume_sections/edit.html.haml" do
     @resume_section = mock_model(ResumeSection)
     @resume_section.stub!(:title).and_return("MyString")
     @resume_section.stub!(:site_id).and_return("1")
+    @resume_section.stub!(:resume_items).and_return([])
     assigns[:resume_section] = @resume_section
   end
 

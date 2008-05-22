@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 24) do
+ActiveRecord::Schema.define(:version => 25) do
 
   create_table "assets", :force => true do |t|
     t.string   "content_type"
@@ -96,6 +96,15 @@ ActiveRecord::Schema.define(:version => 24) do
     t.datetime "updated_at"
     t.integer  "position",   :default => 1
     t.text     "body_html"
+  end
+
+  create_table "resume_items", :force => true do |t|
+    t.integer  "resume_section_id"
+    t.text     "text"
+    t.text     "text_html"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "resume_sections", :force => true do |t|

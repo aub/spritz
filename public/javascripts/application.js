@@ -74,5 +74,10 @@ Event.addBehavior({
     var table_id = $$('.portfolio-child-sorter')[0].id;
     portfolio_id = table_id.gsub('portfolio_', '');
     window.portfolioChildSorter = new TableSorter(table_id, '/admin/portfolios/' + portfolio_id + '/reorder_children', 'portfolios', 'tr')
+  },
+  '.resume-item-sorter': function() {
+    var table_id = $$('.resume-item-sorter')[0].id;
+    resume_section_id = table_id.gsub('resume_section_', '');
+    window.resumeItemSorter = new TableSorter(table_id, '/admin/resume_sections/' + resume_section_id + '/resume_items/reorder', 'resume_items', 'tr')
   }  
 });
