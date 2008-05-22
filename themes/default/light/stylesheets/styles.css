@@ -164,3 +164,22 @@ a img {
   display: block;
   margin: 0px auto 0px auto;
 }
+
+#resume dt {
+	color: #505242;
+	font-size: 120%;
+}
+
+#resume dd ul {
+  margin: 0pt;
+  padding: 0pt;
+}
+
+#resume dd ul li {
+  font-size: 90%;
+  line-height: 1.2em;
+}
+
+#resume dd {
+  margin-bottom: 1.5em;
+}

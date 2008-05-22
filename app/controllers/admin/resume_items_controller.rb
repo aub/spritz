@@ -39,7 +39,7 @@ class Admin::ResumeItemsController < Admin::AdminController
     @resume_item = @resume_section.resume_items.create(params[:resume_item])
     respond_to do |format|
       if @resume_item.save
-        flash[:notice] = 'ResumeItem was successfully created.'
+        flash[:notice] = 'The item was successfully created.'
         format.html { redirect_to edit_admin_resume_section_path(@resume_section) }
         format.xml  { render :xml => @resume_item, :status => :created, :location => @resume_item }
       else
@@ -55,7 +55,7 @@ class Admin::ResumeItemsController < Admin::AdminController
     @resume_item = @resume_section.resume_items.find(params[:id])
     respond_to do |format|
       if @resume_item.update_attributes(params[:resume_item])
-        flash[:notice] = 'ResumeItem was successfully updated.'
+        flash[:notice] = 'The item was successfully updated.'
         format.html { redirect_to edit_admin_resume_section_path(@resume_section) }
         format.xml  { head :ok }
       else

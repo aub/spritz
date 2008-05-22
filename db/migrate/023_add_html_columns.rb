@@ -10,19 +10,19 @@ class AddHtmlColumns < ActiveRecord::Migration
     
     Portfolio.transaction do
       Portfolio.find(:all).each do |portfolio|
-        portfolio.update_attribute(:body_html, BlueCloth.new(portfolio.body || '').to_html)
+        portfolio.update_attribute(:body_html, RedCloth.new(portfolio.body || '').to_html)
       end
     end
 
     NewsItem.transaction do
       NewsItem.find(:all).each do |news_item|
-        news_item.update_attribute(:text_html, BlueCloth.new(news_item.text || '').to_html)
+        news_item.update_attribute(:text_html, RedCloth.new(news_item.text || '').to_html)
       end
     end
 
     Site.transaction do
       Site.find(:all).each do |site|
-        site.update_attribute(:home_text_html, BlueCloth.new(site.home_text || '').to_html)
+        site.update_attribute(:home_text_html, RedCloth.new(site.home_text || '').to_html)
       end
     end
   end

@@ -17,6 +17,6 @@ class NewsItem < ActiveRecord::Base
   protected
   
   def convert_column_to_html
-    self.text_html = BlueCloth.new(self.text || '').to_html
+    self.text_html = RedCloth.new(self.text || '').to_html
   end
 end

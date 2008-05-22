@@ -165,6 +165,6 @@ class Site < ActiveRecord::Base
   end
   
   def convert_column_to_html
-    self.home_text_html = BlueCloth.new(self.home_text || '').to_html
+    self.home_text_html = RedCloth.new(self.home_text || '').to_html
   end  
 end

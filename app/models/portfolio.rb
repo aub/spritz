@@ -48,7 +48,7 @@ class Portfolio < ActiveRecord::Base
   protected
   
   def convert_column_to_html
-    self.body_html = BlueCloth.new(self.body || '').to_html
+    self.body_html = RedCloth.new(self.body || '').to_html
   end
 
   # A helper method for reordering the assigned assets.

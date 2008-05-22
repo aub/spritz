@@ -14,7 +14,7 @@
           %tr{ :id => "#{dom_id(item)}" }
             %td.small 
               = image_tag('/images/icons/up-down.gif', :class => 'icon-square orange handle')
-            %td.title= link_to item.text, edit_admin_resume_section_resume_item_path(@resume_section, item)
+            %td.title= link_to item.text_html, edit_admin_resume_section_resume_item_path(@resume_section, item)
             %td.controls= link_to image_tag('/images/icons/trash.gif', :class => 'icon-square red', :title => 'Delete this item.'), admin_resume_section_resume_item_path(@resume_section, item), :confirm => 'Are you sure you want to permanently delete this item?', :method => :delete
         - if @resume_section.resume_items.empty?
           %tr

@@ -13,7 +13,7 @@ module ColumnToHtml
   module InstanceMethods
     def convert_column_to_html
       read_column = self.class.read_inheritable_attribute(:source_column_name)
-      self[read_column + '_html'] = BlueCloth.new(self[read_column] || '').to_html
+      self[read_column + '_html'] = RedCloth.new(self[read_column] || '').to_html
     end
   end
 end

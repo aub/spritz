@@ -25,7 +25,20 @@ describe ResumeItem do
     end
   end
   
+  describe "conversion of the text to html" do
+    define_models :resume_item
+    
+    it "should convert the text to html on save" do
+      resume_items(:one).update_attribute(:text, 'heya')
+      resume_items(:one).reload.text_html.should == '<p>heya</p>'
+    end
+  end
+  
   it "should belong to a resume section" do
     resume_items(:one).resume_section.should == resume_sections(:one)
+  end
+  
+  it "should be convertible to liquid" do
+    resume_items(:one).to_liquid.should be_an_instance_of(ResumeItemDrop)
   end
 end

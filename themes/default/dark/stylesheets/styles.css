@@ -54,7 +54,7 @@ a:hover {
 #sidebar {
 	width: 15%;
 	float: left;
-	margin: 10px 0pt;
+	margin: 0pt 0pt 20px 0pt;
 	font-size: 120%;
 }
 
@@ -84,7 +84,7 @@ a:hover {
 }
 
 #links li {
-	margin: 0.8em 0pt 0pt 2em;
+	margin: 0em 0pt 0.8em 2em;
 }
 
 #news dt {
@@ -95,6 +95,16 @@ a:hover {
 #news dd {
 	margin: 1em 0pt 2em 2em;
 }
+
+#resume dt {
+	margin-bottom: 1em;
+	text-decoration: underline;
+}
+
+#resume dd {
+	margin: 1em 0pt 2em 2em;
+}
+
 
 .portfolio-wrapper h2 {
 	font-size: 120%;

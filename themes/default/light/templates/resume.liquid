@@ -1,0 +1,12 @@
+<dl id="resume">
+  {% for section in site.resume_sections %}
+    <dt>{{ section.title }}
+    <dd>
+      <ul>
+        {% for item in section.items %}
+          <li>{{ item.text }}
+        {% endfor %}
+      </ul>
+    </dd>
+  {% endfor %}
+</dl>
