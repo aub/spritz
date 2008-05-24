@@ -37,11 +37,13 @@ ActionController::Routing::Routes.draw do |map|
     end
     admin.resources :users, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :activate => :get, :login_from_token => :get },
                             :collection => { :forgot_password => :get, :reset_password => :put }
+    admin.with_options :controller => 'help', :action => 'show' do |m|
+      m.help 'help/:page', :page => /textile/
+    end
   end
 
   # Routes for the display interface
   map.home '', :controller => 'home', :action => 'show'
-
   map.resource :contact, :controller => 'contact'
   map.resource :links, :controller => 'links'
   map.resource :news, :controller => 'news'

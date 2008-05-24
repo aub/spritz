@@ -2,7 +2,7 @@
   %dl
     %dt= f.label_for :title
     %dd= f.text_field :title, :class => 'large fat'
-    %dt= f.label_for :text
+    %dt= f.label_for :text, :text => "Text #{link_to image_tag('/images/icons/comment.gif', :class => 'icon-box orange'), admin_help_path('textile'), :target => '_blank'}"    
     %dd
       ~ f.text_area :text, :class => 'large fat', :rows => '8'
     %dt

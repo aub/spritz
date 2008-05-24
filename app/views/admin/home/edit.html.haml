@@ -4,7 +4,7 @@
       %dt
         %label{ :for => 'home_news_item_count' } Number of news items to display on the home page
       %dd= select('site', 'home_news_item_count', 0..10)
-      %dt= f.label_for :home_text
+      %dt= f.label_for :home_text, :text => "Text #{link_to image_tag('/images/icons/comment.gif', :class => 'icon-box orange'), admin_help_path('textile'), :target => '_blank'}"
       %dd
         ~ f.text_area :home_text, :class => 'large fat', :rows => '8'
       %dt
