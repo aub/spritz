@@ -12,7 +12,7 @@ module CachingMethods
   end
   
   module ClassMethods
-    def caches_action_with_references(*actions)
+    def caches_with_references(*actions)
       # Add a sane cache path to the options if there isn't one there already
       options = actions.extract_options!
       actions << options.reverse_merge({ :cache_path => :create_action_cache_path.to_proc })
