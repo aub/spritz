@@ -32,7 +32,7 @@ class Admin::ResumeSectionsController < Admin::AdminController
     respond_to do |format|
       if @resume_section.save
         flash[:notice] = "#{@resume_section.title} was successfully created."
-        format.html { redirect_to admin_resume_sections_path }
+        format.html { redirect_to edit_admin_resume_section_path(@resume_section) }
         format.xml  { render :xml => @resume_section, :status => :created, :location => @resume_section }
       else
         format.html { render :action => "new" }

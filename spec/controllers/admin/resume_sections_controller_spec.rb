@@ -147,9 +147,9 @@ describe Admin::ResumeSectionsController do
         lambda { do_post }.should change(sites(:default).resume_sections, :count).by(1)
       end
 
-      it "should redirect to index" do
+      it "should redirect to the newly created section" do
         do_post
-        response.should redirect_to(admin_resume_sections_path)
+        response.should redirect_to(edit_admin_resume_section_path(ResumeSection.find_by_title('education')))
       end
       
       it "should set the position of the new section to be at the end of the list" do
