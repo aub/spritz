@@ -51,7 +51,7 @@ class Admin::AssignedAssetsController < Admin::AdminController
     last_position = @portfolio.last_asset_position
     (params[:assets] || []).each do |asset_id|
       aa = @portfolio.assigned_assets.create({ :asset_id => asset_id, :position => last_position + 1 })
-      if aa.save
+      if aa.valid?
         added_count += 1
         last_position += 1
       end

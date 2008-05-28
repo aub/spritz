@@ -93,7 +93,7 @@ describe CacheItem do
     end
     
     it "should support finding for a list of objects" do
-      CacheItem.find_for_records(*[sites(:default), users(:admin)]).size.should == 3
+      CacheItem.find_for_records([sites(:default), users(:admin)]).size.should == 3
     end
     
     it "should support finding for a single record" do

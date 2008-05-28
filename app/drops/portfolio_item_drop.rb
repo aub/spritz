@@ -1,5 +1,4 @@
 class PortfolioItemDrop < BaseDrop
-  include WhiteListHelper
   
   def display_path
     @display_path ||= asset.public_filename(:display)

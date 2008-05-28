@@ -22,12 +22,15 @@ class CacheItem < ActiveRecord::Base
     # an active record model, and this can be used to find all of the pages
     # that should be expired when the model changes.
     #
-    #   CachedPage.find_for_record  Foo.find(15)
-    #   CachedPage.find_for_rerords *Foo.find(15,16,17)
-    def find_for_records(*records)
-      find_by_reference_keys *records.collect { |r| reference_key_for(r) }
+    #   CacheItem.find_for_record  Foo.find(15)
+    #   CacheItem.find_for_records Foo.find(15,16,17)
+    def find_for_records(records)
+      find_by_reference_keys records.collect { |r| reference_key_for(r) }
     end
-    alias find_for_record find_for_records
+
+    def find_for_record(record)
+      find_for_records [record]
+    end
   
     # Create a cache for the given site, path, and set of references. First, clean up
     # the referenced objects and then create the cache.
@@ -48,7 +51,7 @@ class CacheItem < ActiveRecord::Base
   
     # Finds all items that the given record keys refer to. Use reference_key_for
     # to get the properly formatted keys.
-    def find_by_reference_keys(*array_of_keys)
+    def find_by_reference_keys(array_of_keys)
       col_name = connection.quote_column_name('references')    
       find :all, :conditions => ["#{array_of_keys.collect { |r| "#{col_name} LIKE ?" } * ' OR '}", *array_of_keys.collect { |r| "%#{r}%" }]
     end

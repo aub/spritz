@@ -38,7 +38,7 @@ class Admin::ResumeItemsController < Admin::AdminController
   def create
     @resume_item = @resume_section.resume_items.create(params[:resume_item])
     respond_to do |format|
-      if @resume_item.save
+      if @resume_item.valid?
         flash[:notice] = 'The item was successfully created.'
         format.html { redirect_to edit_admin_resume_section_path(@resume_section) }
         format.xml  { render :xml => @resume_item, :status => :created, :location => @resume_item }

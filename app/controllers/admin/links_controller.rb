@@ -40,7 +40,7 @@ class Admin::LinksController < Admin::AdminController
   def create
     @link = @site.links.create(params[:link].reverse_merge({ :position => @site.last_link_position + 1 }))
     respond_to do |format|
-      if @link.save
+      if @link.valid?
         flash[:notice] = 'Link was successfully created.'
         format.html { redirect_to admin_links_url }
         format.xml  { render :xml => @link, :status => :created, :location => @link }

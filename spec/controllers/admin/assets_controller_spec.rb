@@ -3,8 +3,8 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe Admin::AssetsController do
   define_models :assets_controller do
     model Asset do
-      stub :one, :site => all_stubs(:site), :filename => 'booya'
-      stub :two, :site => all_stubs(:site), :filename => 'hooya'
+      stub :one, :site => all_stubs(:site), :filename => 'booya', :size => 1, :content_type => 'c'
+      stub :two, :site => all_stubs(:site), :filename => 'hooya', :size => 1, :content_type => 'c'
     end
     model Portfolio do
       stub :one, :site => all_stubs(:site)
@@ -16,7 +16,6 @@ describe Admin::AssetsController do
   
   before(:each) do
     activate_site :default
-    login_as :admin
     
     # Create a few cache items.
     @a = CacheItem.for(sites(:default), 'a', [assigned_assets(:one)])
@@ -25,6 +24,10 @@ describe Admin::AssetsController do
   
   describe "handling GET /admin/assets" do
     define_models :assets_controller
+  
+    before(:each) do
+      login_as :admin
+    end
     
     def do_get
       get :index
@@ -34,7 +37,7 @@ describe Admin::AssetsController do
       do_get
       response.should be_success
     end
-
+  
     it "should render index template" do
       do_get
       response.should render_template('index')
@@ -45,9 +48,13 @@ describe Admin::AssetsController do
       assigns[:assets].sort_by(&:id).should == sites(:default).assets.sort_by(&:id)
     end
   end
-
+  
   describe "handling GET /admin/assets.xml" do
     define_models :assets_controller
+  
+    before(:each) do
+      authorize_as :admin
+    end
       
     def do_get
       @request.env["HTTP_ACCEPT"] = "application/xml"
@@ -58,20 +65,24 @@ describe Admin::AssetsController do
       do_get
       response.should be_success
     end
-
+  
     it "should render the found admin/assets as xml" do
       do_get
       response.body.should == sites(:default).assets.to_xml
     end
   end
-
+  
   describe "handling GET /admin/assets/new" do
     define_models :assets_controller
+  
+    before(:each) do
+      login_as :admin
+    end
     
     def do_get
       get :new
     end
-
+  
     it "should be successful" do
       do_get
       response.should be_success
@@ -92,14 +103,18 @@ describe Admin::AssetsController do
       assigns[:asset].should be_new_record
     end
   end
-
+  
   describe "handling GET /admin/assets/1/edit" do
     define_models :assets_controller
+  
+    before(:each) do
+      login_as :admin
+    end
     
     def do_get
       get :edit, :id => assets(:one).id
     end
-
+  
     it "should be successful" do
       do_get
       response.should be_success
@@ -115,17 +130,17 @@ describe Admin::AssetsController do
       assigns[:asset].should == assets(:one)
     end
   end
-
+  
   describe "handling POST /admin/assets" do
     define_models :assets_controller
     
     describe "with successful save" do
       define_models :assets_controller
-
+  
       before(:each) do
-        @asset = mock_model(Asset)
-        @asset.stub!(:save).and_return(true)
-        sites(:default).assets.stub!(:build).and_return(@asset)
+        login_as :admin
+        @asset = mock_model(Asset, :valid? => true)
+        sites(:default).assets.stub!(:create).and_return(@asset)
       end
       
       def do_post
@@ -133,7 +148,7 @@ describe Admin::AssetsController do
       end
   
       it "should create a new asset" do
-        sites(:default).assets.should_receive(:build).with({}).and_return(assets(:two))
+        sites(:default).assets.should_receive(:create).with({}).and_return(assets(:two))
         do_post
       end
       
@@ -150,11 +165,11 @@ describe Admin::AssetsController do
     
     describe "with failed save" do
       define_models :assets_controller
-
+  
       before(:each) do
-        @asset = mock_model(Asset)
-        @asset.stub!(:save).and_return(false)
-        sites(:default).assets.stub!(:build).and_return(@asset)
+        login_as :admin
+        @asset = mock_model(Asset, :valid? => false)
+        sites(:default).assets.stub!(:create).and_return(@asset)
       end
       
       def do_post
@@ -167,11 +182,12 @@ describe Admin::AssetsController do
       end      
     end
   end
-
+  
   describe "handling PUT /admin/assets/1" do
     define_models :assets_controller
     
     before(:each) do
+      login_as :admin
       @asset = mock_model(Asset, :to_param => "1")
       Asset.stub!(:find).and_return(@asset)
     end
@@ -183,22 +199,21 @@ describe Admin::AssetsController do
         @asset.should_receive(:update_attributes).and_return(true)
         put :update, :id => "1"
       end
-
+  
       it "should update the found asset" do
         do_put
         assigns(:asset).should equal(@asset)
       end
-
+  
       it "should assign the found asset for the view" do
         do_put
         assigns(:asset).should equal(@asset)
       end
-
+  
       it "should redirect to the asset list" do
         do_put
         response.should redirect_to(admin_assets_path)
       end
-
     end
     
     describe "with failed update" do
@@ -208,22 +223,41 @@ describe Admin::AssetsController do
         @asset.should_receive(:update_attributes).and_return(false)
         put :update, :id => "1"
       end
-
+  
       it "should re-render 'edit'" do
         do_put
         response.should render_template('edit')
       end
+    end
+  end
 
+  describe "handling caching with PUT /admin/assets/1" do
+    define_models :assets_controller
+  
+    before(:each) do
+      login_as :admin
+    end
+    
+    def do_put
+      put :update, :id => assets(:one).id, :asset => { :title => 'oh yeah' }
+    end
+    
+    it "should expire caches related to the asset's assigned assets" do
+      lambda { do_put }.should expire([@a])
     end
   end
 
   describe "handling DELETE /admin/assets/1" do
     define_models :assets_controller
     
+    before(:each) do
+      login_as :admin
+    end
+    
     def do_delete
       delete :destroy, :id => assets(:one).id
     end
-
+  
     it "should call destroy on the found asset" do
       do_delete
       Asset.find(:all).detect { |a| a == assets(:one) }.should be_nil
@@ -260,5 +294,4 @@ describe Admin::AssetsController do
         lambda { delete :destroy, :id => 1 }])
     end
   end
-  
 end

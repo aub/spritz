@@ -38,9 +38,9 @@ class Admin::NewsItemsController < Admin::AdminController
   # POST /admin/news_items.xml
   def create
     # Make sure the item goes on the end of the list.
-    @news_item = @site.news_items.build(params[:news_item].reverse_merge({ :position => @site.last_news_item_position + 1 }))
+    @news_item = @site.news_items.create(params[:news_item].reverse_merge({ :position => @site.last_news_item_position + 1 }))
     respond_to do |format|
-      if @news_item.save
+      if @news_item.valid?
         flash[:notice] = 'NewsItem was successfully created.'
         format.html { redirect_to admin_news_items_path }
         format.xml  { render :xml => @news_item, :status => :created, :location => @news_item }

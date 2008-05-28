@@ -2,6 +2,8 @@ class Admin::AssetsController < Admin::AdminController
 
   include Admin::AdminHelper
 
+  cache_sweeper :asset_sweeper, :only => [:update]
+
   before_filter :find_asset, :only => [:edit, :update, :destroy]
 
   # GET /admin/assets
@@ -31,9 +33,9 @@ class Admin::AssetsController < Admin::AdminController
   # POST /admin/assets
   # POST /admin/assets.xml
   def create
-    @asset = @site.assets.build(params[:asset])
+    @asset = @site.assets.create(params[:asset])
     respond_to do |format|
-      if @asset.save
+      if @asset.valid?
         flash[:notice] = 'The ' + asset_name.downcase + ' was successfully created.'
         format.html { render :action => 'edit' }
         format.xml  { render :xml => @asset, :status => :created, :location => @asset }

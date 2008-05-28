@@ -5,7 +5,7 @@ describe Site do
     model Asset do
       stub :one, :site => all_stubs(:site), :thumbnail => nil, :parent_id => nil, :filename => 'back', :thumbnails_count => 1
       stub :two, :site => all_stubs(:site), :thumbnail => nil, :parent_id => nil, :filename => 'wack'
-      stub :tre, :site => all_stubs(:site), :thumbnail => 'display', :parent_id => nil, :filename => 'smack'
+      stub :tre, :site => all_stubs(:site), :thumbnail => 'display', :parent => all_stubs(:one_asset), :filename => 'smack'
     end
   end
 
@@ -316,10 +316,6 @@ describe Site do
     
   describe "relationship to assets" do
     define_models :site
-    
-    before(:each) do
-      assets(:tre).update_attribute(:parent_id, assets(:one).id)
-    end
     
     it "should have a collection of assets" do
       sites(:default).assets.sort_by(&:id).should == [assets(:one), assets(:two)].sort_by(&:id)

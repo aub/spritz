@@ -30,7 +30,7 @@ class Admin::ResumeSectionsController < Admin::AdminController
   def create
     @resume_section = @site.resume_sections.create(params[:resume_section].reverse_merge({ :position => @site.last_resume_section_position + 1 }))
     respond_to do |format|
-      if @resume_section.save
+      if @resume_section.valid?
         flash[:notice] = "#{@resume_section.title} was successfully created."
         format.html { redirect_to edit_admin_resume_section_path(@resume_section) }
         format.xml  { render :xml => @resume_section, :status => :created, :location => @resume_section }
