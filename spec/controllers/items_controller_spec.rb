@@ -34,7 +34,7 @@ describe ItemsController do
     
     it "should render the portfolio_item template" do
       do_get
-      response.should render_template('portfolio')
+      response.should render_template('portfolio_item')
     end
     
     it "should assign item" do

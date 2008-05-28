@@ -6,11 +6,21 @@ describe Admin::AssetsController do
       stub :one, :site => all_stubs(:site), :filename => 'booya'
       stub :two, :site => all_stubs(:site), :filename => 'hooya'
     end
+    model Portfolio do
+      stub :one, :site => all_stubs(:site)
+    end
+    model AssignedAsset do
+      stub :one, :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :asset => all_stubs(:one_asset)
+    end
   end
   
   before(:each) do
     activate_site :default
     login_as :admin
+    
+    # Create a few cache items.
+    @a = CacheItem.for(sites(:default), 'a', [assigned_assets(:one)])
+    @b = CacheItem.for(sites(:default), 'b', [users(:admin)])
   end
   
   describe "handling GET /admin/assets" do
