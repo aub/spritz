@@ -3,7 +3,10 @@
 # filter to create Cache objects, which are added to the database to keep track
 # of the pages that have been cached. The usefulness of this is that when an
 # object changes, these objects can be used to allow the sweepers to know what
-# to expire.
+# to expire. When multi-site is enabled, we are forced to use action caching
+# in order to apply the before_filter that sets up the appropriate site object.
+# When it is disabled, page caching will suffice because we can't use the wrong
+# cached page.
 module CachingMethods
   
   def self.included(base)
@@ -13,12 +16,16 @@ module CachingMethods
   
   module ClassMethods
     def caches_with_references(*actions)
-      # Add a sane cache path to the options if there isn't one there already
-      options = actions.extract_options!
-      actions << options.reverse_merge({ :cache_path => :create_action_cache_path.to_proc })
-
-      caches_action *actions
-      after_filter :cache_action_with_references, :only => actions
+      if Site.multi_sites_enabled
+        # Add a sane cache path to the options if there isn't one there already
+        options = actions.extract_options!
+        actions << options.reverse_merge({ :cache_path => :create_action_cache_path.to_proc })
+        caches_action *actions
+      else
+        caches_page *actions
+      end
+      
+      after_filter :cache_with_references, :only => actions
     end
   end
   
@@ -33,10 +40,14 @@ module CachingMethods
   end
   
   # Saves a CachedPage for the current request with the current references.  This is called in an 
-  # after filter if caches_action_with_references is used.
-  def cache_action_with_references
+  # after filter if caches_action_with_references is used. The path to use depends on whether
+  # multi-site is enabled of not. If it is disabled, we can just use the path from the request.
+  # When enabled, we have to cache the data for the different sites in different locations, so
+  # it is necessary to compute a path based on the data in the site.
+  def cache_with_references
     return unless perform_caching && caching_allowed && !@site.nil?
-    CacheItem.for(@site, self.action_cache_path.path, cached_references)
+    path = Site.multi_sites_enabled ? self.action_cache_path.path : request.path
+    CacheItem.for(@site, path, cached_references)
   end
   
   def create_action_cache_path

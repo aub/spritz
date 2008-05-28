@@ -105,11 +105,11 @@ describe CacheItem do
     define_models :cache_item
     
     before(:each) do
-      @controller = mock_model(ApplicationController, :expire_action => true)
+      @controller = mock_model(ApplicationController, :expire_page => true)
     end
     
     it "should call expire_action on the given controller when expiring" do
-      @controller.should_receive(:expire_action).with(cache_items(:foo).path)
+      @controller.should_receive(:expire_page).with(cache_items(:foo).path)
       cache_items(:foo).expire!(@controller)
     end
     

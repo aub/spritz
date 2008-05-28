@@ -1,12 +1,12 @@
 body {
   background-color: #d9d9d9;
-  color: #383838;
   border-top-style: solid;
   border-top-width: 30px;
   border-top-color: #383838;
   font-size-adjust: none;
   font-stretch: normal;
-  font: 14px/1.5em "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif; }
+  color: #383838;
+  font: 14px/1.5em "Helvetica Neue",Helvetica,Arial,sans-serif; }
 
 * {
   margin: 0pt;
@@ -93,8 +93,7 @@ a img {
   width: 100%; }
 
 .header {
-  font-size: 135%;
-  font-weight: bold; }
+  font-size: 135%; }
 
 #wrapper {
   min-height: 100%;
@@ -111,7 +110,8 @@ a img {
   #head h1 {
     padding: 0 0 0 80px;
     font-size: 200%;
-    padding-top: 30px; }
+    padding-top: 30px;
+    font-weight: normal; }
 
 #banner {
   font-size: 75%;
@@ -193,8 +193,6 @@ a img {
   background-color: #d9d9d9;
   margin: 0pt;
   padding: 20px; }
-  .group dl dt {
-    font-weight: bold; }
   .group dl dd {
     margin: 0pt 0pt 20px 0pt; }
   .group dl input, .group dl select {

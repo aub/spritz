@@ -5,11 +5,15 @@ class CacheItem < ActiveRecord::Base
   validates_presence_of :site_id
   validates_presence_of :path
 
-  # Expiration method. Currently assumes that this is an action cache,
-  # but should later be expanded to include page caching. The method will
-  # expire the action against the given controller and then destroy itself.
+  # Expiration method. If multi-site is enabled, then we will be doing action caching,
+  # and action caching otherwise. The method will expire the action/page against the 
+  # given controller and then destroy itself.
   def expire!(controller)
-    controller.expire_action(self.path)
+    if Site.multi_sites_enabled
+      controller.expire_action(self.path)
+    else
+      controller.expire_page(self.path)
+    end
     self.destroy
   end
   
