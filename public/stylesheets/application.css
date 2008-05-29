@@ -41,12 +41,10 @@ a img {
   #login-form dl, #forgot-password-form dl {
     font-weight: normal;
     margin: 0pt; }
-    #login-form dl dt, #forgot-password-form dl dt {
-      font-weight: bold; }
     #login-form dl dd, #forgot-password-form dl dd {
       margin: 0pt 0pt 20px 0pt; }
     #login-form dl input, #forgot-password-form dl input {
-      font-family: "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif;
+      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
       width: 100%;
       color: #383838; }
   #login-form .remember-me, #forgot-password-form .remember-me {
@@ -60,7 +58,7 @@ a img {
     #login-form .submit input, #forgot-password-form .submit input {
       border: 1px solid;
       cursor: default;
-      font-family: "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif;
+      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
       font-size: 120%;
       margin-top: -6px;
       padding: 3px 5px;
@@ -196,7 +194,7 @@ a img {
   .group dl dd {
     margin: 0pt 0pt 20px 0pt; }
   .group dl input, .group dl select {
-    font-family: "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif; }
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; }
   .group dl select {
     min-width: 100px; }
   .group dl textarea {
@@ -206,7 +204,7 @@ a img {
     font-family: "Courier New", Courier, mono;
     font-size: 12px; }
 
-.group dl, #login-form form, #login-form .submit input, #forgot-password-form form {
+.group dl, #login-form form, #forgot-password-form form {
   -moz-border-radius-bottomleft: 5px;
   -moz-border-radius-bottomright: 5px;
   -moz-border-radius-topleft: 5px;

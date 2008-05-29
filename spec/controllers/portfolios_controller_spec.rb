@@ -34,6 +34,10 @@ describe PortfoliosController do
       do_get
       assigns[:portfolio].should == portfolios(:one)
     end
+    
+    it "should create a cache object" do
+      lambda { do_get }.should change(CacheItem, :count).by(1)
+    end
   end
     
   describe "site, login, and admin requirements" do

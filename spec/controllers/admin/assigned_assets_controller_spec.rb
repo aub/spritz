@@ -21,6 +21,12 @@ describe Admin::AssignedAssetsController do
   
   before(:each) do
     activate_site(:default)
+    
+    # Create a few cache items.
+    @a = CacheItem.for(sites(:default), 'a', [assigned_assets(:one)])
+    @b = CacheItem.for(sites(:default), 'b', [portfolios(:one)])
+    @c = CacheItem.for(sites(:default), 'c', [portfolios(:one), assets(:one)])
+    @d = CacheItem.for(sites(:default), 'd', [assigned_assets(:two)])
   end
   
   describe "handling GET /portfolios/1/assigned_assets/new" do
@@ -197,6 +203,10 @@ describe Admin::AssignedAssetsController do
         do_post
         portfolios(:one).assigned_assets.reload.collect(&:position).should == [1, 2]
       end
+      
+      it "should expire caches related to the assigned asset's portfolio" do
+        lambda { do_post }.should expire([@b, @c])
+      end
     end
     
     describe "with failed save" do
@@ -239,6 +249,10 @@ describe Admin::AssignedAssetsController do
     it "should redirect to the portfolio" do
       do_delete
       response.should redirect_to(edit_admin_portfolio_path(portfolios(:one)))
+    end
+    
+    it "should expire caches related to the assigned asset's portfolio" do
+      lambda { do_delete }.should expire([@a])
     end
   end
   
@@ -290,7 +304,11 @@ describe Admin::AssignedAssetsController do
     it "should update the assigned asset positions" do
       do_put
       portfolios(:one).assigned_assets.reload.should == [assigned_assets(:tre), assigned_assets(:one), assigned_assets(:two)]
-    end    
+    end
+    
+    it "should expire caches related to the assigned assets" do
+      lambda { do_put }.should expire([@a, @d])
+    end
   end  
   
   describe "site, login, and admin requirements" do

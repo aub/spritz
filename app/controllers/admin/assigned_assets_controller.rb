@@ -1,5 +1,7 @@
 class Admin::AssignedAssetsController < Admin::AdminController
   include Admin::AdminHelper
+
+  cache_sweeper :assigned_asset_sweeper, :only => [:create, :destroy, :update_order]
   
   before_filter :find_portfolio
   before_filter :find_assets, :only => [:new]

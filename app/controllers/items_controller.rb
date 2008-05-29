@@ -1,5 +1,7 @@
 class ItemsController < ContentController
   
+  caches_with_references :show
+  
   def show
     @portfolio = @site.portfolios.find(params[:portfolio_id])
     @item = PortfolioItemDrop.new(@portfolio.assigned_assets.find(params[:id]))

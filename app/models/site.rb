@@ -23,21 +23,21 @@ class Site < ActiveRecord::Base
   has_many :links, :dependent => :destroy, :order => :position do
     # change the order of the links in the site by passing an ordered list of their ids
     def reorder!(*sorted_ids)
-      proxy_owner.send(:reorder_items, Link, sorted_ids)
+      proxy_owner.send(:reorder_items, self, sorted_ids)
     end
   end
 
   has_many :news_items, :dependent => :destroy, :order => :position do
     # change the order of the links in the site by passing an ordered list of their ids
     def reorder!(*sorted_ids)
-      proxy_owner.send(:reorder_items, NewsItem, sorted_ids)
+      proxy_owner.send(:reorder_items, self, sorted_ids)
     end
   end
 
   has_many :resume_sections, :dependent => :destroy, :order => :position do
     # change the order of the links in the site by passing an ordered list of their ids
     def reorder!(*sorted_ids)
-      proxy_owner.send(:reorder_items, ResumeSection, sorted_ids)
+      proxy_owner.send(:reorder_items, self, sorted_ids)
     end
   end
 
@@ -156,10 +156,10 @@ class Site < ActiveRecord::Base
   end
   
   # A helper method for reordering items that belong to the site.
-  def reorder_items(clazz, *sorted_ids)
+  def reorder_items(list, *sorted_ids)
     transaction do
       sorted_ids.flatten.each_with_index do |thing_id, pos|
-        clazz.update_all ['position = ?', pos], ['id = ? and site_id = ?', thing_id, self.id]
+        list.find(thing_id).update_attribute(:position, pos)
       end
     end
   end

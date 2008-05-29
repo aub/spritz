@@ -55,7 +55,7 @@ class Portfolio < ActiveRecord::Base
   def reorder_assigned_assets(*sorted_ids)
     transaction do
       sorted_ids.flatten.each_with_index do |thing_id, pos|
-        AssignedAsset.update_all ['position = ?', pos], ['id = ? and asset_holder_id = ? and asset_holder_type = ?', thing_id, self.id, 'Portfolio']
+        assigned_assets.find(thing_id).update_attribute(:position, pos)
       end
     end
   end

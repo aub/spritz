@@ -21,7 +21,7 @@ class ResumeSection < ActiveRecord::Base
   def reorder_resume_items(*sorted_ids)
     transaction do
       sorted_ids.flatten.each_with_index do |thing_id, pos|
-        ResumeItem.update_all ['position = ?', pos], ['id = ? and resume_section_id = ?', thing_id, self.id]
+        resume_items.find(thing_id).update_attribute(:position, pos)
       end
     end
   end
