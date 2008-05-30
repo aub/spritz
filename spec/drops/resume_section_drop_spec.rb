@@ -20,6 +20,6 @@ describe ResumeSectionDrop do
   end
   
   it "should provide access to the items" do
-    @drop.items.should == [resume_items(:two), resume_items(:one)].collect(&:to_liquid)
+    @drop.items.should == [resume_items(:two), resume_items(:one)]
   end
 end

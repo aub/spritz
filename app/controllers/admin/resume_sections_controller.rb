@@ -1,5 +1,7 @@
 class Admin::ResumeSectionsController < Admin::AdminController
 
+  cache_sweeper :resume_section_sweeper, :only => [:create, :update, :reorder, :destroy]
+
   # GET /admin/resume_sections
   # GET /admin/resume_sections.xml
   def index

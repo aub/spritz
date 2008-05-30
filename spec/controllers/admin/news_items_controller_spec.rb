@@ -12,6 +12,13 @@ describe Admin::NewsItemsController do
   
   before(:each) do
     activate_site(:default)
+    
+    # Create a few cache items.
+    @a = CacheItem.for(sites(:default), 'a', [news_items(:one)])
+    @b = CacheItem.for(sites(:default), 'b', [sites(:default)])
+    @c = CacheItem.for(sites(:default), 'c', [news_items(:one), sites(:default)])
+    @d = CacheItem.for(sites(:default), 'd', [sites(:default).news_items])
+    @e = CacheItem.for(sites(:default), 'e', [news_items(:two)])
   end
   
   describe "handling GET /admin/news_items" do
@@ -218,6 +225,10 @@ describe Admin::NewsItemsController do
         do_post
         assigns[:news_item].position.should == 1
       end
+      
+      it "should expire caches related to the site's list of news items" do
+        lambda { do_post }.should expire([@d])
+      end
     end
     
     describe "with failed save" do
@@ -267,6 +278,9 @@ describe Admin::NewsItemsController do
         response.should redirect_to(admin_news_items_path)
       end
 
+      it "should expire caches related to the news item" do
+        lambda { do_put }.should expire([@a, @c])
+      end
     end
     
     describe "with failed update" do
@@ -306,6 +320,10 @@ describe Admin::NewsItemsController do
       do_put
       sites(:default).news_items.reload.should == [ news_items(:tre), news_items(:one), news_items(:two) ]
     end
+    
+    it "should expire caches related to the news items" do
+      lambda { do_put }.should expire([@a, @c, @e])
+    end
   end
 
   describe "handling DELETE /admin/news_items/1" do
@@ -327,6 +345,10 @@ describe Admin::NewsItemsController do
       do_delete
       response.should redirect_to(admin_news_items_url)
     end
+    
+    it "should expire caches related to the news items and the site's list of news items" do
+      lambda { do_delete }.should expire([@a, @c, @d])
+    end
   end
   
   describe "site, login, and admin requirements" do
@@ -336,7 +358,7 @@ describe Admin::NewsItemsController do
       test_site_requirement(true, [
         lambda { get :index },
         lambda { get :edit, :id => news_items(:one).id },
-        lambda { put :update, :id => news_items(:one).id, :link => {} },
+        lambda { put :update, :id => news_items(:one).id, :news_item => {} },
         lambda { put :reorder },
         lambda { get :new },
         lambda { post :create, :news_item => {} },
@@ -347,7 +369,7 @@ describe Admin::NewsItemsController do
       test_login_requirement(true, false, [
         lambda { get :index },
         lambda { get :edit, :id => news_items(:one).id },
-        lambda { put :update, :id => news_items(:one).id, :link => {} },
+        lambda { put :update, :id => news_items(:one).id, :news_item => {} },
         lambda { put :reorder },
         lambda { get :new },
         lambda { post :create, :news_item => {} },

@@ -32,6 +32,7 @@ class Portfolio < ActiveRecord::Base
       else
         child.move_to_right_of(last_moved)
       end
+      child.save # Needed in order for the sweeper to work properly
       last_moved = child
     end
   end

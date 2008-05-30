@@ -2,6 +2,8 @@ class Admin::PortfoliosController < Admin::AdminController
   
   before_filter :find_portfolio, :only => [:show, :edit, :update, :destroy, :reorder_children]
   
+  cache_sweeper :portfolio_sweeper, :only => [:create, :update, :destroy, :reorder, :reorder_children]
+  
   # GET /admin/portfolios
   # GET /admin/portfolios.xml
   def index

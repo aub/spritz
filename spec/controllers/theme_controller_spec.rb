@@ -72,6 +72,18 @@ describe ThemeController do
         get :javascripts, :filename => 'f', :ext => 'js'
         response.headers['type'].should == 'text/javascript; charset=utf-8'        
       end
+
+      it "should cache the result for javascripts" do
+        lambda { get :javascripts, :filename => 'f', :ext => 'js' }.should change(CacheItem, :count).by(1)
+      end
+      
+      it "should cache the result for stylesheets" do
+        lambda { get :stylesheets, :filename => 'f', :ext => 'css' }.should change(CacheItem, :count).by(1)
+      end
+      
+      it "should cache the result for images" do
+        lambda { get :images, :filename => 'f', :ext => 'png' }.should change(CacheItem, :count).by(1)
+      end
       
       describe "when rendering images" do
         define_models :theme_controller

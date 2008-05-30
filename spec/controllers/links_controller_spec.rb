@@ -20,6 +20,10 @@ describe LinksController do
       get :show
       response.should render_template('links')
     end
+    
+    it "should create a cache object" do
+      lambda { get :show }.should change(CacheItem, :count).by(1)
+    end
   end
     
   describe "site, login, and admin requirements" do

@@ -2,6 +2,8 @@ class Admin::ResumeItemsController < Admin::AdminController
 
   before_filter :find_resume_section
 
+  cache_sweeper :resume_item_sweeper, :only => [:create, :update, :reorder, :destroy]
+
   # GET /admin/resume_sections/1/resume_items.xml
   def index
     @resume_items = @resume_section.resume_items

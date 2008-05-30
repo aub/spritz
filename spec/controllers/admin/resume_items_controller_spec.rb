@@ -17,6 +17,13 @@ describe Admin::ResumeItemsController do
   
   before(:each) do
     activate_site(:default)
+
+    # Create a few cache items.
+    @a = CacheItem.for(sites(:default), 'a', [resume_items(:one)])
+    @b = CacheItem.for(sites(:default), 'b', [resume_sections(:one)])
+    @c = CacheItem.for(sites(:default), 'c', [resume_items(:one), sites(:default)])
+    @d = CacheItem.for(sites(:default), 'd', [resume_sections(:one).resume_items])
+    @e = CacheItem.for(sites(:default), 'e', [resume_items(:two)])
   end
   
   describe "handling GET /admin/resume_sections/1/resume_items.xml" do
@@ -152,6 +159,10 @@ describe Admin::ResumeItemsController do
         do_post
         response.should redirect_to(edit_admin_resume_section_path(resume_sections(:one)))
       end
+      
+      it "should expire caches related to the section's list of items" do
+        lambda { do_post }.should expire([@d])
+      end
     end
     
     describe "with failed save" do
@@ -200,6 +211,10 @@ describe Admin::ResumeItemsController do
         do_put
         response.should redirect_to(edit_admin_resume_section_path(resume_sections(:one)))
       end
+      
+      it "should expire caches related to the item" do
+        lambda { do_put }.should expire([@a, @c])
+      end
     end
     
     describe "with failed update" do
@@ -236,6 +251,10 @@ describe Admin::ResumeItemsController do
       do_delete
       response.should redirect_to(edit_admin_resume_section_path(resume_sections(:one)))
     end
+    
+    it "should expire caches related to the item and the list of items" do
+      lambda { do_delete }.should expire([@a, @c, @d])
+    end
   end
   
   describe "handling PUT /resume_items/reorder" do
@@ -258,6 +277,10 @@ describe Admin::ResumeItemsController do
     it "should update the item order" do
       do_put
       resume_sections(:one).resume_items.reload.should == [ resume_items(:tre), resume_items(:one), resume_items(:two) ]
+    end
+    
+    it "should expire caches related to the item" do
+      lambda { do_put }.should expire([@a, @c, @e])
     end
   end
   

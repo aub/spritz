@@ -1,4 +1,7 @@
 class Admin::NewsItemsController < Admin::AdminController
+
+  cache_sweeper :news_item_sweeper, :only => [:create, :update, :reorder, :destroy]
+
   # GET /admin/news_items
   # GET /admin/news_items.xml
   def index

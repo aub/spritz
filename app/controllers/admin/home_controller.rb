@@ -9,6 +9,7 @@ class Admin::HomeController < Admin::AdminController
   def update
     respond_to do |format|
       if @site.update_attributes(params[:site])
+        expire_home_page
         flash[:notice] = 'Home was successfully updated.'
         format.html { redirect_to edit_admin_home_path }
         format.xml  { head :ok }

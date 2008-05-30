@@ -1,9 +1,9 @@
 class SiteSweeper < ActionController::Caching::Sweeper
   observe Site
   
-  def expire_cached_content(entry)
+  def expire_cached_content(record)
     return if controller.nil?
-    entry.cache_items.find_for_record(entry).each { |ci| ci.expire!(controller) }
+    record.cache_items.find_for_record(record).each { |ci| ci.expire!(controller) }
   end
   
   alias_method :after_save, :expire_cached_content

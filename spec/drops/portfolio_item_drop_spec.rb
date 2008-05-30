@@ -38,7 +38,7 @@ describe PortfolioItemDrop do
   end
   
   it "should provide access to the portfolio" do
-    @drop.portfolio.should == portfolios(:one).to_liquid
+    @drop.portfolio.should == portfolios(:one)
   end
   
   it "should give the list of fields for the asset" do

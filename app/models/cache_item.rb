@@ -44,9 +44,18 @@ class CacheItem < ActiveRecord::Base
   
     protected
   
-    # Create a key for one referenced object [id,class]
+    # Create a key for one referenced object [id:class]. This also handles association proxies
+    # so that for something like Site.links it will return [id:Site:links]. This allows us to expire
+    # pages correctly when the page asks for the set of links without having to expire every page
+    # that references the site itself.
     def reference_key_for(object)
-      result = "[#{object.id}:#{object.class}]" unless object.nil?
+      return nil if object.nil?
+  
+      if object.kind_of?(ActiveRecord::Base)
+        "[#{object.id}:#{object.class}]"
+      elsif object.respond_to?(:proxy_owner)
+        "[#{object.proxy_owner.id}:#{object.proxy_owner.class}:#{object.proxy_reflection.name}]"
+      end
     end
   
     # Finds all items that the given record keys refer to. Use reference_key_for

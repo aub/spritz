@@ -3,27 +3,12 @@ class SiteDrop < BaseDrop
   
   liquid_attributes << :title << :google_analytics_code
   
+  liquid_associations << :links << { :portfolios => :root_portfolios } << :news_items << :resume_sections
+  
   def home_text
     white_list(source.home_text_html)
   end
-  
-  def links
-    @links ||= source.links.collect(&:to_liquid)
-  end
-  
-  def portfolios
-    # This method should return only the root-level portfolios.
-    @portfolios ||= source.root_portfolios.collect(&:to_liquid)
-  end
-  
-  def news_items
-    @news_items ||= source.news_items.collect(&:to_liquid)
-  end
-
-  def resume_sections
-    @resume_sections ||= source.resume_sections.collect(&:to_liquid)
-  end
-  
+      
   def home_news_item_count
     (((source.home_news_item_count || 0) > 0) && news_items.size > 0) ? [news_items.size, source.home_news_item_count].min : 0
   end

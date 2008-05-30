@@ -13,6 +13,13 @@ describe Admin::ResumeSectionsController do
   
   before(:each) do
     activate_site(:default)
+    
+    # Create a few cache items.
+    @a = CacheItem.for(sites(:default), 'a', [resume_sections(:one)])
+    @b = CacheItem.for(sites(:default), 'b', [sites(:default)])
+    @c = CacheItem.for(sites(:default), 'c', [resume_sections(:one), sites(:default)])
+    @d = CacheItem.for(sites(:default), 'd', [sites(:default).resume_sections])
+    @e = CacheItem.for(sites(:default), 'e', [resume_sections(:two)])
   end
 
   describe "handling GET /admin/resume_sections" do
@@ -156,6 +163,10 @@ describe Admin::ResumeSectionsController do
         do_post
         ResumeSection.find_by_title('education').position.should == 4
       end 
+      
+      it "should expire caches related to the list of sections" do
+        lambda { do_post }.should expire([@d])
+      end
     end
     
     describe "with failed save" do
@@ -209,6 +220,10 @@ describe Admin::ResumeSectionsController do
         put :update, :id => resume_sections(:four).id
         response.should be_missing
       end
+      
+      it "should expire caches related to the section" do
+        lambda { do_put }.should expire([@a, @c])
+      end
     end
     
     describe "with failed update" do
@@ -246,8 +261,11 @@ describe Admin::ResumeSectionsController do
       do_put
       sites(:default).resume_sections.reload.should == [ resume_sections(:tre), resume_sections(:one), resume_sections(:two) ]
     end
+    
+    it "should expire caches related to the section" do
+      lambda { do_put }.should expire([@a, @c, @e])
+    end
   end
-
 
   describe "handling DELETE /admin/resume_sections/1" do
     define_models :resume_sections_controller
@@ -268,6 +286,10 @@ describe Admin::ResumeSectionsController do
     it "should redirect to the admin_resume_sections list" do
       do_delete
       response.should redirect_to(admin_resume_sections_url)
+    end
+    
+    it "should expire caches related to the section and the list of sections" do
+      lambda { do_delete }.should expire([@a, @c, @d])
     end
   end
   

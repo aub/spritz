@@ -39,6 +39,7 @@ class Admin::ThemesController < Admin::AdminController
   def activate
     respond_to do |format|
       if @theme && site.update_attribute(:theme_path, @theme.name)
+        @site.cache_items.each { |ci| ci.expire!(self) }
         flash[:notice] = "#{@theme.name} was successfully activated."
       else
         flash[:error] = "Failed to activate the given theme."

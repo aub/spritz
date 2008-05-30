@@ -3,6 +3,8 @@
 # on the request, set the appropriate headers, and return the data for the requested file.
 class ThemeController < ApplicationController
   session :off
+
+  caches_with_references :javascripts, :stylesheets, :images
   
   def stylesheets
     render_theme_item(:stylesheets, params[:filename], params[:ext], false)
@@ -49,8 +51,8 @@ class ThemeController < ApplicationController
       'image/jpeg'
     when /^png$/
       'image/png'
-    # when /^swf$/
-    #   'application/x-shockwave-flash'
+    when /^swf$/
+      'application/x-shockwave-flash'
     else
       'application/binary'
     end

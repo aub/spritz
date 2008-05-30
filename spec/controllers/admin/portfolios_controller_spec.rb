@@ -14,6 +14,13 @@ describe Admin::PortfoliosController do
   before(:each) do
     activate_site(:default)
     login_as(:admin)
+    
+    # Create a few cache items.
+    @a = CacheItem.for(sites(:default), 'a', [portfolios(:one)])
+    @b = CacheItem.for(sites(:default), 'b', [portfolios(:two)])
+    @c = CacheItem.for(sites(:default), 'c', [portfolios(:one), sites(:default)])
+    @d = CacheItem.for(sites(:default), 'd', [sites(:default).root_portfolios])
+    @e = CacheItem.for(sites(:default), 'e', [portfolios(:quatro)])
   end
     
   describe "handling GET /admin/portfolios" do
@@ -209,7 +216,7 @@ describe Admin::PortfoliosController do
       it "should create a new portfolio" do
         lambda { do_post }.should change(sites(:default).portfolios, :count).by(1)
       end
-  
+        
       it "should redirect to the portfolio" do
         do_post
         response.should redirect_to(edit_admin_portfolio_path(Portfolio.find_by_title('memorable')))
@@ -224,9 +231,14 @@ describe Admin::PortfoliosController do
       it "should set the position correctly when the list starts out empty" do
         sites(:default).portfolios.each(&:destroy)
         sites(:default).portfolios.reload
+        sites(:default).root_portfolios.reload
         do_post
         assigns[:portfolio].position.should == 1
       end
+          
+      it "should expire caches related to the site's list of root portfolios" do
+        lambda { do_post }.should expire([@d])
+      end      
     end
     
     describe "with failed save" do
@@ -235,7 +247,7 @@ describe Admin::PortfoliosController do
       def do_post
         post :create, :portfolio => {}
       end
-  
+      
       it "should re-render 'new'" do
         do_post
         response.should render_template('new')
@@ -257,6 +269,10 @@ describe Admin::PortfoliosController do
       it "should redirect to the portfolio's edit page" do
         do_post
         response.should redirect_to(edit_admin_portfolio_path(Portfolio.find_by_title('ouch')))
+      end
+      
+      it "should expire the parent if not at the root of the tree" do
+        lambda { do_post }.should expire([@a, @c, @d])
       end
     end
   end
@@ -284,6 +300,10 @@ describe Admin::PortfoliosController do
       it "should re-render the edit page" do
         do_put
         response.should render_template('edit')
+      end
+      
+      it "should expire caches related to the portfolio" do
+        lambda { do_put }.should expire([@a, @c])
       end
     end
     
@@ -331,6 +351,10 @@ describe Admin::PortfoliosController do
       delete :destroy, :id => portfolios(:tre).id
       response.should be_missing
     end
+    
+    it "should expire caches related to the portfolio" do
+      lambda { do_delete }.should expire([@a, @c, @d])
+    end
   end
   
   describe "handling PUT /portfolios/reorder" do
@@ -350,10 +374,14 @@ describe Admin::PortfoliosController do
       response.body.should be_blank
     end
   
-    it "should update the link order" do
+    it "should update the portfolio order" do
       do_put
       sites(:default).root_portfolios.reload.should == [ portfolios(:quatro), portfolios(:one), portfolios(:two) ]
     end
+    
+    it "should expire caches related to the portfolio" do
+      lambda { do_put }.should expire([@a, @b, @c, @e])
+    end    
   end
   
   describe "handling PUT /portfolios/1/reorder_children" do
@@ -361,18 +389,20 @@ describe Admin::PortfoliosController do
 
     before(:each) do
       login_as(:admin)
-      @a = Portfolio.create(:title => 'a', :lft => 1, :rgt => 2)
-      @b = Portfolio.create(:title => 'b', :lft => 3, :rgt => 4)
-      @c = Portfolio.create(:title => 'c', :lft => 5, :rgt => 6)
-      @d = Portfolio.create(:title => 'd', :lft => 7, :rgt => 8)
-      [@a, @b, @c, @d].each { |p| p.update_attribute(:site_id, sites(:default).id) }
-      @b.move_to_child_of(@a)
-      @c.move_to_child_of(@a)
-      @d.move_to_child_of(@a)
+      @one = Portfolio.create(:title => 'a', :lft => 1, :rgt => 2)
+      @two = Portfolio.create(:title => 'b', :lft => 3, :rgt => 4)
+      @three = Portfolio.create(:title => 'c', :lft => 5, :rgt => 6)
+      @four = Portfolio.create(:title => 'd', :lft => 7, :rgt => 8)
+      [@one, @two, @three, @four].each { |p| p.update_attribute(:site_id, sites(:default).id) }
+      @two.move_to_child_of(@one)
+      @three.move_to_child_of(@one)
+      @four.move_to_child_of(@one)
+      
+      @f = CacheItem.for(sites(:default), 'f', [@two])
     end
 
     def do_put
-      put :reorder_children, :portfolios => [ @b.id, @d.id, @c.id ], :id => @a.id
+      put :reorder_children, :portfolios => [ @two.id, @four.id, @three.id ], :id => @one.id
     end
 
     it "should render nothing" do
@@ -380,10 +410,14 @@ describe Admin::PortfoliosController do
       response.should be_success
       response.body.should be_blank
     end
-
+    
     it "should update the child order" do
       do_put
-      @a.children.should == [ @b, @d, @c ]
+      @one.children.should == [ @two, @four, @three ]
+    end
+    
+    it "should expire caches related to the portfolio" do
+      lambda { do_put }.should expire([@f])
     end
   end
   

@@ -52,6 +52,7 @@ class Site < ActiveRecord::Base
           parent = Portfolio.find_by_id_and_site_id(parent_id, proxy_owner.id)
           unless parent.nil?
             portfolio.move_to_child_of(parent)
+            portfolio.save # This is necessary in order to get the sweeper to be called.
           end
         end
       end

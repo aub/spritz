@@ -10,6 +10,10 @@ describe Admin::ThemesController do
   
   before(:each) do
     activate_site(:default)
+
+    # Create a few cache items.
+    @a = CacheItem.for(sites(:default), 'a', [sites(:default)])
+    @b = CacheItem.for(sites(:default), 'b', [sites(:default).news_items])
   end
   
   after(:all) do
@@ -144,6 +148,10 @@ describe Admin::ThemesController do
       sites(:default).update_attribute(:theme_path, 'light')
       do_put
       sites(:default).reload.theme_path.should == 'dark'
+    end
+    
+    it "should expire all of the cache items" do
+      lambda { do_put }.should expire(CacheItem.find(:all))
     end
   end
   

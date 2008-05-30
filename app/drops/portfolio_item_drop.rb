@@ -30,7 +30,7 @@ class PortfolioItemDrop < BaseDrop
   end
   
   def portfolio
-    @portfolio ||= source.asset_holder.to_liquid
+    @portfolio ||= source.asset_holder
   end
   
   protected

@@ -65,6 +65,11 @@ describe CacheItem do
         @cache = CacheItem.for(sites(:default), 'fake/path', [nil, sites(:default), nil, sites(:default), nil])
         @cache.references.should == "[#{sites(:default).id}:#{sites(:default).class.name}]"        
       end
+      
+      it "should create references correctly for association proxies" do
+        @cache = CacheItem.for(sites(:default), 'fake/path', [sites(:default), sites(:default).links])
+        @cache.references.should == "[#{sites(:default).id}:#{sites(:default).class.name}][#{sites(:default).id}:#{sites(:default).class.name}:links]"
+      end
     end
     
     describe "model creation" do

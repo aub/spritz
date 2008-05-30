@@ -1,5 +1,7 @@
 class Admin::LinksController < Admin::AdminController
-  
+
+  cache_sweeper :link_sweeper, :only => [:create, :update, :reorder, :destroy]
+
   # GET /links
   # GET /links.xml
   def index

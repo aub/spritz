@@ -13,6 +13,13 @@ describe Admin::LinksController do
   
   before(:each) do
     activate_site(:default)
+    
+    # Create a few cache items.
+    @a = CacheItem.for(sites(:default), 'a', [links(:one)])
+    @b = CacheItem.for(sites(:default), 'b', [sites(:default)])
+    @c = CacheItem.for(sites(:default), 'c', [links(:one), sites(:default)])
+    @d = CacheItem.for(sites(:default), 'd', [sites(:default).links])
+    @e = CacheItem.for(sites(:default), 'e', [links(:two)])
   end
   
   describe "handling GET /links" do
@@ -210,18 +217,22 @@ describe Admin::LinksController do
         do_post
         assigns[:link].position.should == 1
       end
+      
+      it "should expire caches related to the site's list of links" do
+        lambda { do_post }.should expire([@d])
+      end
+    end
 
-      describe "with failed save" do
-        define_models :links_controller
+    describe "with failed save" do
+      define_models :links_controller
 
-        def do_post
-          post :create, :link => {}
-        end
+      def do_post
+        post :create, :link => {}
+      end
 
-        it "should re-render 'new'" do
-          do_post
-          response.should render_template('new')
-        end
+      it "should re-render 'new'" do
+        do_post
+        response.should render_template('new')
       end
     end
   end
@@ -253,6 +264,10 @@ describe Admin::LinksController do
       it "should redirect to the links list" do
         do_put
         response.should redirect_to(admin_links_url)
+      end
+      
+      it "should expire caches related to the link" do
+        lambda { do_put }.should expire([@a, @c])
       end
     end
     
@@ -291,6 +306,10 @@ describe Admin::LinksController do
       do_put
       sites(:default).links.reload.should == [ links(:tre), links(:one), links(:two) ]
     end
+    
+    it "should expire caches related to the links" do
+      lambda { do_put }.should expire([@a, @c, @e])
+    end
   end
 
   describe "handling DELETE /links/1" do
@@ -311,6 +330,10 @@ describe Admin::LinksController do
     it "should redirect to the links list" do
       do_delete
       response.should redirect_to(admin_links_url)
+    end
+    
+    it "should expire caches related to the link and the site's list of links" do
+      lambda { do_delete }.should expire([@a, @c, @d])
     end
   end
   

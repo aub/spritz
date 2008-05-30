@@ -5,6 +5,10 @@ describe Admin::HomeController do
   
   before(:each) do
     activate_site(:default)
+    
+    # Create a few cache items.
+    @a = CacheItem.for(sites(:default), '/', [sites(:default)])
+    @b = CacheItem.for(sites(:default), 'a/b', [sites(:default)])
   end  
 
   describe "handling GET /home/edit" do
@@ -66,6 +70,10 @@ describe Admin::HomeController do
       it "should redirect to the edit page" do
         do_put
         response.should redirect_to(edit_admin_home_path)
+      end
+      
+      it "should expire the home page" do
+        lambda { do_put }.should expire([@a])
       end
     end
     

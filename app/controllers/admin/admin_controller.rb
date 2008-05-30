@@ -7,4 +7,11 @@ class Admin::AdminController < ApplicationController
   
   layout 'admin'
   
+  protected
+  
+  def expire_home_page
+    cache = @site.cache_items.find_by_path('/')
+    cache.expire!(self) unless cache.nil?
+  end
+  
 end

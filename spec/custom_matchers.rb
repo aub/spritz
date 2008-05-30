@@ -101,14 +101,18 @@ end
 
 
 class Expire
-  def initialize(cache_items)
-    @cache_items = cache_items
+  def initialize(expired_cache_items)
+    @expired_cache_items = expired_cache_items
   end
 
   def matches?(target)
+    prev_items = CacheItem.find(:all)
+
     response = target.call
-    all_items = CacheItem.find(:all)
-    (@cache_items.find { |ci| all_items.include?(ci) } == nil)
+    after_items = CacheItem.find(:all)
+    
+    value = !@expired_cache_items.any? { |item| after_items.include?(item) } 
+    value &&= (after_items == prev_items - @expired_cache_items)
   end
   
   def failure_message
@@ -124,6 +128,6 @@ class Expire
   end  
 end
 
-def expire(cache_items)
-  Expire.new(cache_items)
+def expire(expired_cache_items)
+  Expire.new(expired_cache_items)
 end

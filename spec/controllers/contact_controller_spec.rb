@@ -19,7 +19,11 @@ describe ContactController do
     it "should render the contact template" do
       get :new
       response.should render_template('contact')
-    end    
+    end
+    
+    it "should create a cache object" do
+      lambda { get :new }.should change(CacheItem, :count).by(1)
+    end
   end
   
   describe "handling POST /contact" do

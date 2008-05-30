@@ -1,4 +1,6 @@
 class ContactController < ContentController
+
+  caches_with_references :new
   
   # GET /contact/new
   def new

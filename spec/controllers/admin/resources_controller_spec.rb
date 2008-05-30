@@ -10,6 +10,10 @@ describe Admin::ResourcesController do
   
   before(:each) do
     activate_site(:default)
+    
+    # Create a few cache items.
+    @a = CacheItem.for(sites(:default), 'a', [sites(:default)])
+    @b = CacheItem.for(sites(:default), 'b', [sites(:default).links])
   end
   
   after(:all) do
@@ -96,6 +100,10 @@ describe Admin::ResourcesController do
       @resource.write('i know you tried')
       do_put
       @resource.read.should == 'tiger lilly'
+    end
+    
+    it "should expire all cached pages" do
+      lambda { do_put }.should expire(CacheItem.find(:all))
     end
   end  
 end

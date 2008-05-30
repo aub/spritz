@@ -38,19 +38,19 @@ describe SiteDrop do
   end
   
   it "should provide access to the links" do
-    @drop.links.should == sites(:default).links.collect(&:to_liquid)
+    @drop.links.should == sites(:default).links
   end
   
   it "should provide access to the portfolios" do
-    @drop.portfolios.should == [portfolios(:one)].collect(&:to_liquid)
+    @drop.portfolios.should == [portfolios(:one)]
   end
   
   it "should provide access to the news items" do
-    @drop.news_items.should == sites(:default).news_items.collect(&:to_liquid)
+    @drop.news_items.should == sites(:default).news_items
   end
 
   it "should provide access to the resume sections" do
-    @drop.resume_sections.should == [resume_sections(:one), resume_sections(:two), resume_sections(:tre)].collect(&:to_liquid)
+    @drop.resume_sections.should == [resume_sections(:one), resume_sections(:two), resume_sections(:tre)]
   end
   
   it "should provide access to the home text by returning the home_text_html" do
@@ -59,7 +59,7 @@ describe SiteDrop do
   
   it "should provide access to the home page news items" do
     sites(:default).update_attribute(:home_news_item_count, 2)
-    @drop.home_news_items.should == sites(:default).news_items[0..1].collect(&:to_liquid)
+    @drop.home_news_items.should == sites(:default).news_items[0..1]
   end
   
   it "should return an empty array if no news items are requested" do
