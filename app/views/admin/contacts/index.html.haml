@@ -4,4 +4,6 @@
       %blockquote= "\"#{contact.message}\""
       %span
         = "- From: #{mail_to(contact.email, contact.name)} #{contact.phone} (#{distance_of_time_in_words_to_now(contact.created_at)} ago)"
-        = link_to 'Delete', admin_contact_path(contact), :confirm => 'Are you sure you want to permanently delete this contact?', :method => :delete      
+        = link_to 'Delete', admin_contact_path(contact), :confirm => 'Are you sure you want to permanently delete this contact?', :method => :delete
+  - if @contacts.empty?
+    %h2 None
