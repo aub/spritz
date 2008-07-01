@@ -29,6 +29,11 @@ describe ContactController do
   describe "handling POST /contact" do
     define_models :contact_controller
 
+    before(:each) do
+      @emails = ActionMailer::Base.deliveries 
+      @emails.clear
+    end
+
     describe "with successful save" do
       define_models :contact_controller
     
@@ -50,6 +55,11 @@ describe ContactController do
         assigns[:message].should_not be_empty
       end
 
+      it "should send an email to the admin user about the new contact" do
+        do_post
+        @emails.size.should == 1
+      end
+
       describe "with failed save" do
         define_models :contact_controller
 
@@ -60,6 +70,11 @@ describe ContactController do
         it "should re-render 'new'" do
           do_post
           response.should render_template('contact')
+        end
+        
+        it "should not send an email to the admin user" do
+          do_post
+          @emails.size.should == 0
         end
       end
     end
