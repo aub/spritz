@@ -20,7 +20,7 @@ module ApplicationHelper
     design_class = ((ctrlr == 'themes' || ctrlr == 'resources') ? 'current' : '')
     contacts_class = (ctrlr == 'contacts' ? 'current' : '')
     settings_class = (ctrlr == 'sites' ? 'current' : '')
-    content_class = ((ctrlr == 'home' || ctrlr == 'links' || ctrlr == 'news_items' || ctrlr == 'portfolios' || ctrlr == 'assigned_assets' || ctrlr == 'resume_sections') ? 'current' : '')
+    content_class = ((ctrlr == 'home' || ctrlr == 'links' || ctrlr == 'news_items' || ctrlr == 'portfolios' || ctrlr == 'assigned_assets' || ctrlr == 'resume_sections' || ctrlr == 'galleries') ? 'current' : '')
     
     result =  content_tag('li', link_to('Dashboard', admin_dashboard_path, :class => dashboard_class))
     result << content_tag('li', link_to('Content', edit_admin_home_path, :class => content_class))
@@ -36,7 +36,7 @@ module ApplicationHelper
   
   def content_submenu
     ctrlr = request.parameters['controller'].split('/').last
-    if (ctrlr == 'home' || ctrlr == 'links' || ctrlr == 'news_items' || ctrlr == 'portfolios' || ctrlr == 'assigned_assets' || ctrlr == 'resume_sections')
+    if (ctrlr == 'home' || ctrlr == 'links' || ctrlr == 'news_items' || ctrlr == 'portfolios' || ctrlr == 'assigned_assets' || ctrlr == 'resume_sections' || ctrlr == 'galleries')
       home_class = (ctrlr == 'home' ? 'current' : '')
       links_class = (ctrlr == 'links' ? 'current' : '')
       news_class = (ctrlr == 'news_items' ? 'current' : '')
