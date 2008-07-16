@@ -15,8 +15,8 @@
 #     def cached?
 #       cache_path = ActionController::Base.fragment_cache_store.cache_path
 #       path = (request.path.empty? || request.path == "/") ? "/index" : URI.unescape(path.chomp('/'))
-#       site = Site.for(request.domain, request.subdomains)
-#       cache_file = File.join(cache_path, site.subdomain, path + '.cache')
+#       site = Site.for(request.domain)
+#       cache_file = File.join(cache_path, site.domain, path + '.cache')
 # 
 #       File.exists? cache_file
 #     end

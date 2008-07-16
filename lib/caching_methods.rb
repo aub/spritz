@@ -16,15 +16,7 @@ module CachingMethods
   
   module ClassMethods
     def caches_with_references(*actions)
-      if Site.multi_sites_enabled
-        # Add a sane cache path to the options if there isn't one there already
-        options = actions.extract_options!
-        actions << options.reverse_merge({ :cache_path => :create_action_cache_path.to_proc })
-        caches_action *actions
-      else
-        caches_page *actions
-      end
-      
+      caches_page *actions
       after_filter :cache_with_references, :only => actions
     end
   end
@@ -46,8 +38,7 @@ module CachingMethods
   # it is necessary to compute a path based on the data in the site.
   def cache_with_references
     return unless perform_caching && caching_allowed && !@site.nil?
-    path = Site.multi_sites_enabled ? self.action_cache_path.path : request.path
-    CacheItem.for(@site, path, cached_references)
+    CacheItem.for(@site, request.path, cached_references)
   end
   
   def create_action_cache_path

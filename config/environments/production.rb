@@ -34,8 +34,3 @@ THEME_PATH_ROOT = 'themes'
 
 # Enable if you want to host multiple sites on this app
 # Site.multi_sites_enabled = true
-
-# Setting the domain so that cookies will work properly with subdomains.
-if Site.multi_sites_enabled
-  ActionController::Base.session_options[:session_domain] = '.spritzrelax.com'
-end

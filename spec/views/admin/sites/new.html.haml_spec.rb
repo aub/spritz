@@ -7,7 +7,6 @@ describe "/admin/sites/new.html.erb" do
     @site = mock_model(Site)
     @site.stub!(:new_record?).and_return(true)
     @site.stub!(:domain).and_return("MyString")
-    @site.stub!(:subdomain).and_return("MyString")
     @site.stub!(:title).and_return('title')
     assigns[:template_site] = @site
     

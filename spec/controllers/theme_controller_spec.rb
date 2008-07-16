@@ -35,7 +35,7 @@ describe ThemeController do
     end
     
     it "should return not found if the file doesn't exist" do
-      p = mock_model(Pathname)
+      p = mock_model(Pathname, :+ => '')
       p.stub!(:file?).and_return(false)
       Pathname.stub!(:new).and_return(p)
       get :images, :filename => 'f', :ext => 'png'
@@ -46,7 +46,7 @@ describe ThemeController do
       define_models :theme_controller
       
       before(:each) do
-        p = mock_model(Pathname)
+        p = mock_model(Pathname, :+ => '')
         p.stub!(:file?).and_return(true)
         p.stub!(:read).and_return('abc')
         p.stub!(:basename).and_return('fake_name')

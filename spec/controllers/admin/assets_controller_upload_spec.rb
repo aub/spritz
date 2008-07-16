@@ -61,6 +61,6 @@ describe Admin::AssetsController do
   
   def path_root_multisite
     t = Time.now
-    File.join(ASSET_PATH_ROOT, sites(:default).subdomain, t.year.to_s, t.month.to_s, t.day.to_s)
+    File.join(ASSET_PATH_ROOT, sites(:default).domain, t.year.to_s, t.month.to_s, t.day.to_s)
   end
 end

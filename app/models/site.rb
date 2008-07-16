@@ -5,13 +5,14 @@ class Site < ActiveRecord::Base
 
   validates_presence_of :title
   validates_numericality_of :home_news_item_count, :only_integer => true, :less_than_or_equal_to => 10, :allow_nil => true
+  validates_uniqueness_of :domain
 
   after_create :initialize_theme
 
   # column_to_html :home_text
   before_save :convert_column_to_html
 
-  attr_accessible :subdomain, :domain, :theme_path, :title, :home_news_item_count, :home_text, :google_analytics_code
+  attr_accessible :domain, :theme_path, :title, :home_news_item_count, :home_text, :google_analytics_code
   
   has_many :memberships, :dependent => :destroy
   has_many :members, :through => :memberships, :source => :user
@@ -83,22 +84,28 @@ class Site < ActiveRecord::Base
     assigned_home_image.asset unless assigned_home_image.nil?
   end
 
-  # A method for finding a site given a domain or subdomains from a request.
+  # A method for finding a site given a domain from a request.
   # Will be called with every request in order to display the correct data.
-  def self.for(domain, subdomains)
+  def self.for(domain)
     if multi_sites_enabled
-      condition = subdomains.blank? ? ['domain = ?', domain] : ['domain = ? OR subdomain = ?', domain, subdomains.first]
-      find(:first, :conditions => condition)
+      find(:first, :conditions => ['domain = ?', domain])
     else
       find(:first)
     end
   end
 
   # A query method for the root of the action cache directory to use for this site. Preface the
-  # directory with the site's subdomain so that the caches for different sites will be in different
+  # directory with the site's domain so that the caches for different sites will be in different
   # directories if multisite is enabled.
   def action_cache_root
-    Site.multi_sites_enabled ? subdomain : ''
+    Site.multi_sites_enabled ? domain : ''
+  end
+  
+  # And similarly for page caching.
+  def page_cache_path
+    multi_sites_enabled ? 
+      (Pathname.new(RAILS_ROOT) + (RAILS_ENV == 'test' ? 'tmp' : 'public') + 'cache' + domain) :
+      (Pathname.new(RAILS_ROOT) + (RAILS_ENV == 'test' ? 'tmp/cache' : 'public'))
   end
   
   # A collection of methods to help with finding users for this site

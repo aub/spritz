@@ -10,8 +10,6 @@
       - if Site.multi_sites_enabled
         %dt= f.label_for :domain
         %dd= f.text_field :domain, :class => 'large'
-        %dt= f.label_for :subdomain
-        %dd= f.text_field :subdomain, :class => 'large'      
       %dt
         = f.submit 'Save Changes'
         or

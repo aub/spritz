@@ -33,7 +33,7 @@ describe Admin::SitesController do
     define_models :sites_controller
     
     it "should not expire any pages" do
-      lambda { post :create, :site => { :subdomain => 'test' }
+      lambda { post :create, :site => { :domain => 'test' }
        }.should_not expire([@a, @b, @c, @d])
     end
   end

@@ -12,9 +12,6 @@
         %dt
           %label{ :for => 'site[domain]' } Site Domain
         %dd= text_field_tag 'site[domain]', @template_site.domain, :class => 'large', :size => '30', :id => 'site_domain'
-        %dt
-          %label{ :for => 'site[subdomain]' } Site Subdomain
-        %dd= text_field_tag 'site[subdomain]', @template_site.subdomain, :class => 'large', :size => '30', :id => 'site_subdomain'
       
       %dt= f.label_for :login, :text => 'User Name'
       %dd= f.text_field :login, :class => 'large'

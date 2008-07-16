@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
   # Make sure that there is a valid site for the given request, or bounce it
   # to the site creation page.
   def site_required
-    @site = Site.for(request.host, request.subdomains)
+    @site = Site.for(request.host)
     unless @site
       redirect_to new_admin_site_path(:host => MAIN_HOST, :port => request.port)
     end
@@ -37,7 +37,10 @@ class ApplicationController < ActionController::Base
 
   # Setup the cache directories for the given request based on the active site.
   def setup_cache_paths
-    @action_cache_root ||= @site.action_cache_root unless @site.nil?
+    unless @site.nil?
+      @action_cache_root ||= @site.action_cache_root
+      self.class.page_cache_directory = @site.page_cache_path.to_s
+    end
   end
   
   # Helper methods for error conditions

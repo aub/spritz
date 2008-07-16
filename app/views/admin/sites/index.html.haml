@@ -3,12 +3,10 @@
 %table
   %tr
     %th Domain
-    %th Subdomain
 
 - for site in @sites
   %tr
     %td= h site.domain
-    %td= h site.subdomain
     %td= link_to 'Show', admin_site_path(site)
     %td= link_to 'Edit', edit_admin_site_path(site)
     %td= link_to 'Destroy', admin_site_path(site), :confirm => 'Are you sure?', :method => :delete

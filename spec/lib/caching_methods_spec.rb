@@ -16,7 +16,7 @@ describe Admin::SessionController do
     end
     
     it "should call caches_action for the with_references call" do
-      @hack.class.should_receive(:caches_action)
+      @hack.class.should_receive(:caches_page)
       @hack.class.send(:caches_with_references, :action1, :action2)
     end
   end
