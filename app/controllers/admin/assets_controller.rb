@@ -33,7 +33,6 @@ class Admin::AssetsController < Admin::AdminController
   # POST /admin/assets
   # POST /admin/assets.xml
   def create
-    debugger
     @asset = @site.assets.create(params[:asset])
     respond_to do |format|
       if @asset.valid?

@@ -33,4 +33,4 @@ ASSET_PATH_ROOT = 'public/assets'
 THEME_PATH_ROOT = 'themes'
 
 # Enable if you want to host multiple sites on this app
-# Site.multi_sites_enabled = true
+# Spritz.multi_sites_enabled = true

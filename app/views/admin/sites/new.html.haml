@@ -8,7 +8,7 @@
         %label{ :for => 'site[title]' } Site Title
       %dd= text_field_tag 'site[title]', @template_site.title, :class => 'large', :size => '30', :id => 'site_title'
       
-      - if Site.multi_sites_enabled
+      - if Spritz.multi_sites_enabled
         %dt
           %label{ :for => 'site[domain]' } Site Domain
         %dd= text_field_tag 'site[domain]', @template_site.domain, :class => 'large', :size => '30', :id => 'site_domain'

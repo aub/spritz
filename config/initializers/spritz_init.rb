@@ -6,4 +6,4 @@ require 'will_paginate'
 ActiveRecord::Base.send(:extend, ActsAsAsset)
 ActiveRecord::Base.send(:extend, ColumnToHtml)
 
-Dependencies.autoloaded_constants.delete "Site"
+Dependencies.autoloaded_constants.delete "Spritz"

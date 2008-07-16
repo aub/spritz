@@ -8,11 +8,11 @@ describe Admin::SessionController do
     before(:each) do
       activate_site :default
       @hack = Admin::SessionController.new
-      Site.multi_sites_enabled = true
+      Spritz.multi_sites_enabled = true
     end
 
     after(:all) do
-      Site.multi_sites_enabled = false
+      Spritz.multi_sites_enabled = false
     end
     
     it "should call caches_action for the with_references call" do
@@ -24,7 +24,7 @@ describe Admin::SessionController do
   describe "with multi-site disabled" do
     before(:each) do
       @hack = Admin::SessionController.new
-      Site.multi_sites_enabled = false
+      Spritz.multi_sites_enabled = false
     end
     
     it "should call caches_page for the with_references call" do

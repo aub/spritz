@@ -39,11 +39,11 @@ describe Site do
       define_models :site
       
       before(:all) do
-        Site.multi_sites_enabled = true
+        Spritz.multi_sites_enabled = true
       end
       
       after(:all) do
-        Site.multi_sites_enabled = false
+        Spritz.multi_sites_enabled = false
       end
 
       it "should return the correct site for a given domain" do
@@ -59,11 +59,11 @@ describe Site do
       define_models :site
       
       before(:all) do
-        Site.multi_sites_enabled = false
+        Spritz.multi_sites_enabled = false
       end
       
       after(:all) do
-        Site.multi_sites_enabled = true
+        Spritz.multi_sites_enabled = true
       end
       
       it "should return the first site always" do
@@ -279,16 +279,16 @@ describe Site do
     define_models :site
 
     after(:each) do
-      Site.multi_sites_enabled = false
+      Spritz.multi_sites_enabled = false
     end
 
     it "should be empty without multi_site enabled" do
-      Site.multi_sites_enabled = false
+      Spritz.multi_sites_enabled = false
       sites(:default).action_cache_root.should == ''
     end
     
     it "should be the site's domain with multi_site enabled" do
-      Site.multi_sites_enabled = true
+      Spritz.multi_sites_enabled = true
       sites(:default).action_cache_root.should == sites(:default).domain
     end
   end

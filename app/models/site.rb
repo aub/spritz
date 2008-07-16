@@ -1,8 +1,5 @@
 class Site < ActiveRecord::Base
 
-  @@multi_sites_enabled = false
-  cattr_accessor :multi_sites_enabled
-
   validates_presence_of :title
   validates_numericality_of :home_news_item_count, :only_integer => true, :less_than_or_equal_to => 10, :allow_nil => true
   validates_uniqueness_of :domain
@@ -87,7 +84,7 @@ class Site < ActiveRecord::Base
   # A method for finding a site given a domain from a request.
   # Will be called with every request in order to display the correct data.
   def self.for(domain)
-    if multi_sites_enabled
+    if Spritz.multi_sites_enabled
       find(:first, :conditions => ['domain = ?', domain])
     else
       find(:first)
@@ -98,12 +95,12 @@ class Site < ActiveRecord::Base
   # directory with the site's domain so that the caches for different sites will be in different
   # directories if multisite is enabled.
   def action_cache_root
-    Site.multi_sites_enabled ? domain : ''
+    Spritz.multi_sites_enabled ? domain : ''
   end
   
   # And similarly for page caching.
   def page_cache_path
-    multi_sites_enabled ? 
+    Spritz.multi_sites_enabled ? 
       (Pathname.new(RAILS_ROOT) + (RAILS_ENV == 'test' ? 'tmp' : 'public') + 'cache' + domain) :
       (Pathname.new(RAILS_ROOT) + (RAILS_ENV == 'test' ? 'tmp/cache' : 'public'))
   end

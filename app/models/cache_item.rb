@@ -9,7 +9,7 @@ class CacheItem < ActiveRecord::Base
   # and action caching otherwise. The method will expire the action/page against the 
   # given controller and then destroy itself.
   def expire!(controller)
-    if Site.multi_sites_enabled
+    if Spritz.multi_sites_enabled
       controller.expire_action(self.path)
     else
       controller.expire_page(self.path)
