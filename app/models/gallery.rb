@@ -6,6 +6,8 @@ class Gallery < ActiveRecord::Base
   
   # column_to_html :text
   before_save :convert_column_to_html
+
+  attr_accessible :name, :address, :city, :state, :zip, :country, :phone, :email, :url, :description, :position
   
   def to_liquid
     GalleryDrop.new self
