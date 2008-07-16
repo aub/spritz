@@ -26,6 +26,21 @@
       There are
       = @site.news_items.size
     %p= link_to 'Create a new one', new_admin_news_item_path
+    
+  .dashboard-section
+    %h2 Resume Sections
+    %p
+      There are
+      = @site.resume_sections.size
+    %p= link_to 'Create a new one', new_admin_resume_section_path
+
+  .dashboard-section
+    %h2 Galleries
+    %p
+      You have
+      = @site.galleries.size
+      listed.
+    %p= link_to 'Add a new one', new_admin_gallery_path
 
   .dashboard-section
     %h2 Contacts
