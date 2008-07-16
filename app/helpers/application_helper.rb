@@ -41,6 +41,7 @@ module ApplicationHelper
       links_class = (ctrlr == 'links' ? 'current' : '')
       news_class = (ctrlr == 'news_items' ? 'current' : '')
       resume_class = (ctrlr == 'resume_sections' ? 'current' : '')
+      galleries_class = (ctrlr == 'galleries' ? 'current' : '')
       portfolios_class = ((ctrlr == 'portfolios' || ctrlr == 'assigned_assets') ? 'current' : '')
     
       content_for :subcontrols do
@@ -48,6 +49,7 @@ module ApplicationHelper
         result << content_tag('li', link_to('Links', admin_links_path, :class => links_class))
         result << content_tag('li', link_to('News', admin_news_items_path, :class => news_class))
         result << content_tag('li', link_to('Portfolios', admin_portfolios_path, :class => portfolios_class))
+        result << content_tag('li', link_to('Galleries', admin_galleries_path, :class => galleries_class))
         result << content_tag('li', link_to('Resume', admin_resume_sections_path, :class => resume_class))
       end
     else

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 25) do
+ActiveRecord::Schema.define(:version => 26) do
 
   create_table "assets", :force => true do |t|
     t.string   "content_type"
@@ -54,6 +54,24 @@ ActiveRecord::Schema.define(:version => 25) do
     t.datetime "updated_at"
   end
 
+  create_table "galleries", :force => true do |t|
+    t.integer  "site_id"
+    t.string   "name"
+    t.string   "address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.string   "country"
+    t.string   "phone"
+    t.string   "email"
+    t.string   "url"
+    t.text     "description"
+    t.text     "description_html"
+    t.integer  "position",         :default => 1
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "links", :force => true do |t|
     t.integer  "site_id"
     t.string   "url"
@@ -78,11 +96,6 @@ ActiveRecord::Schema.define(:version => 25) do
     t.datetime "updated_at"
     t.integer  "position",   :default => 1
     t.text     "text_html"
-  end
-
-  create_table "plugin_schema_info", :id => false, :force => true do |t|
-    t.string  "plugin_name"
-    t.integer "version"
   end
 
   create_table "portfolios", :force => true do |t|

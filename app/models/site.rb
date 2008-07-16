@@ -20,6 +20,13 @@ class Site < ActiveRecord::Base
 
   has_many :assets, :dependent => :destroy, :conditions => 'parent_id is NULL'
 
+  has_many :galleries, :dependent => :destroy, :order => :position do
+    # change the order of the galleries in the site by passing an ordered list of their ids
+    def reorder!(*sorted_ids)
+      proxy_owner.send(:reorder_items, self, sorted_ids)
+    end
+  end
+
   has_many :links, :dependent => :destroy, :order => :position do
     # change the order of the links in the site by passing an ordered list of their ids
     def reorder!(*sorted_ids)
@@ -124,24 +131,11 @@ class Site < ActiveRecord::Base
     themes.find { |t| t.name == name }
   end
   
-  # Helper method for getting the position of the last news item in the list.
-  def last_news_item_position
-    (news_items.size > 0) ? news_items.last.position : 0
-  end
-  
-  # Helper method for getting the position of the last link in the list.
-  def last_link_position
-    (links.size > 0) ? links.last.position : 0
-  end
-  
-  # See above...
-  def last_portfolio_position
-    (root_portfolios.size > 0) ? root_portfolios.last.position : 0
-  end
-  
-  # See above...
-  def last_resume_section_position
-    (resume_sections.size > 0) ? resume_sections.last.position : 0
+  # # Create helper methods for getting the position of the last item in the list for the various associations.
+  { 'news_item' => 'news_items', 'link' => 'links', 'portfolio' => 'root_portfolios', 'resume_section' => 'resume_sections', 'gallery' => 'galleries' }.each do |title,association|
+    define_method("last_#{title}_position") do
+      (send(association).size > 0) ? send(association).last.position : 0
+    end
   end
   
   def to_liquid

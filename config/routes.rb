@@ -16,6 +16,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :assets
     admin.resources :contacts
     admin.resource :dashboard, :controller => 'dashboard'
+    admin.resources :galleries, :collection => { :reorder => :put }
     admin.resource :home, :controller => 'home' do |home|
       home.resource :home_image, :controller => 'home_image'
     end
@@ -45,6 +46,7 @@ ActionController::Routing::Routes.draw do |map|
   # Routes for the display interface
   map.home '', :controller => 'home', :action => 'show'
   map.resource :contact, :controller => 'contact'
+  map.resource :galleries, :controller => 'galleries'
   map.resource :links, :controller => 'links'
   map.resource :news, :controller => 'news'
   map.resources :portfolios do |portfolios|

@@ -6,6 +6,10 @@ describe Admin::SitesController do
   before(:each) do
     activate_site :default
     login_as :admin
+    
+    # For some reason there are cache items getting left around. Start with a blank slate.
+    CacheItem.find(:all).each(&:destroy)
+    
     # Create a few cache items.
     @a = CacheItem.for(sites(:default), 'a', [sites(:default)])
     @b = CacheItem.for(sites(:default), 'b', [users(:admin)])

@@ -23,6 +23,7 @@ class SectionList < Liquid::Block
     sections << { 'title' => 'Links', 'url' => '/links' } if site.links.size > 0
     sections << { 'title' => 'News', 'url' => '/news' } if site.news_items.size > 0
     sections << { 'title' => 'Resume', 'url' => '/resume' } if site.resume_sections.size > 0
+    sections << { 'title' => 'Galleries', 'url' => '/galleries' } if site.galleries.size > 0
 
     context['site'].portfolios.each { |p| sections << { 'title' => p.title, 'url' => "/portfolios/#{p.to_param}" } }
     

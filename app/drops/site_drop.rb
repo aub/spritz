@@ -3,7 +3,7 @@ class SiteDrop < BaseDrop
   
   liquid_attributes << :title << :google_analytics_code
   
-  liquid_associations << :links << { :portfolios => :root_portfolios } << :news_items << :resume_sections
+  liquid_associations << :links << { :portfolios => :root_portfolios } << :news_items << :resume_sections << :galleries
   
   def home_text
     white_list(source.home_text_html)

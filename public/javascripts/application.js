@@ -64,7 +64,8 @@ Event.addBehavior({
   '#linklist': function() { window.linkSorter = new TableSorter('linklist', '/admin/links/reorder', 'links', 'tr') },
   '#newslist': function() { window.newsSorter = new TableSorter('newslist', '/admin/news_items/reorder', 'news_items', 'tr') },
   '#resumelist': function() { window.resumeSorter = new TableSorter('resumelist', '/admin/resume_sections/reorder', 'resume_sections', 'tr') },
-  '#portfoliolist': function() { window.newsSorter = new TableSorter('portfoliolist', '/admin/portfolios/reorder', 'portfolios', 'tr') },
+  '#portfoliolist': function() { window.portfolioSorter = new TableSorter('portfoliolist', '/admin/portfolios/reorder', 'portfolios', 'tr') },
+  '#gallerylist': function() { window.gallerySorter = new TableSorter('gallerylist', '/admin/galleries/reorder', 'galleries', 'tr') },
   '.asset-sorter': function() {
     var list_id = $$('.asset-sorter')[0].id;
     portfolio_id = list_id.gsub('portfolio_', '');

@@ -183,3 +183,17 @@ a img {
 #resume dd {
   margin-bottom: 1.5em;
 }
+
+.galleries td {
+  padding: 0 15px 30px 0;
+  width: 50%;
+  vertical-align: top;
+}
+
+.galleries ol {
+  list-style-type: none;
+}
+
+.galleries p {
+  margin: 10px 0 0 0; 
+}

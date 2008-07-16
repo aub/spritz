@@ -6,6 +6,9 @@ describe SectionList do
       stub :one, :site => all_stubs(:site), :title => 'One'
       stub :two, :site => all_stubs(:site), :title => 'Two'
     end
+    model Gallery do
+      stub :one, :site => all_stubs(:site)
+    end
     model Link do
       stub :one, :site => all_stubs(:site)
     end
@@ -40,13 +43,13 @@ describe SectionList do
   it "should render the sections urls as requested" do
     content = '{% sectionlist as section %} {{ section.url }} {% endsectionlist %}'
     render_liquid(content).split(' ').collect(&:strip).sort.should == [
-      '/contact/new', '/links', '/news', "/resume", "/portfolios/#{portfolios(:one).to_param}", "/portfolios/#{portfolios(:two).to_param }" ].sort
+      '/contact/new', '/links', '/galleries', '/news', "/resume", "/portfolios/#{portfolios(:one).to_param}", "/portfolios/#{portfolios(:two).to_param }" ].sort
   end
   
   it "should render the sections titles as requested" do
     content = '{% sectionlist as section %} {{ section.title }} {% endsectionlist %}'
     render_liquid(content).split(' ').collect(&:strip).sort.should == [
-      'Contact', 'Links', 'News', "Resume", "#{portfolios(:one).title}", "#{portfolios(:two).title}" ].sort
+      'Contact', 'Links', 'Galleries', 'News', "Resume", "#{portfolios(:one).title}", "#{portfolios(:two).title}" ].sort
   end
   
   it "should not render the Links section if there are no links" do
@@ -65,5 +68,11 @@ describe SectionList do
     ResumeSection.find(:all).each(&:destroy)
     content = '{% sectionlist as section %} {{ section.title }} {% endsectionlist %}'
     render_liquid(content).split(' ').collect(&:strip).include?('Resume').should be_false
+  end
+  
+  it "should not render the Galleries section if there are no galleries" do
+    Gallery.find(:all).each(&:destroy)
+    content = '{% sectionlist as section %} {{ section.title }} {% endsectionlist %}'
+    render_liquid(content).split(' ').collect(&:strip).include?('Galleries').should be_false
   end
 end

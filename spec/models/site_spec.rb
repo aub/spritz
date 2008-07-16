@@ -373,6 +373,34 @@ describe Site do
       sites(:default).resume_sections.should == [resume_sections(:one), resume_sections(:two), resume_sections(:tre)]
     end
   end
+
+  describe "relationship to galleries" do
+    define_models :site do
+      model Gallery do
+        stub :one, :site => all_stubs(:site), :position => 3
+        stub :two, :site => all_stubs(:site), :position => 1
+        stub :tre, :site => all_stubs(:site), :position => 2
+      end
+    end
+    
+    it "should have a collection of galleries" do
+      sites(:default).galleries.sort_by(&:id).should == [galleries(:one), galleries(:two), galleries(:tre)].sort_by(&:id)
+    end
+    
+    it "should destroy its galleries when keeling over" do
+      lambda { sites(:default).destroy }.should change(Gallery, :count).by(-3)
+    end
+    
+    it "should order them by position" do
+      sites(:default).galleries.should == [galleries(:one), galleries(:two), galleries(:tre)].sort_by(&:position)
+    end
+    
+    it "should allow reordering of the galleries" do
+      sites(:default).galleries.reorder!([galleries(:one).id, galleries(:two).id, galleries(:tre).id])
+      sites(:default).galleries.should == [galleries(:one), galleries(:two), galleries(:tre)]
+    end
+  end
+
   
   describe "home image" do
     define_models :site do

@@ -4,7 +4,7 @@ class CreateResumeItems < ActiveRecord::Migration
       t.references :resume_section
       t.text :text
       t.text :text_html
-      t.integer :position
+      t.integer :position, :default => 1
       t.timestamps
     end
   end
