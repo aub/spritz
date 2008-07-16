@@ -115,7 +115,7 @@ ActiveRecord::Schema.define(:version => 27) do
     t.integer  "resume_section_id"
     t.text     "text"
     t.text     "text_html"
-    t.integer  "position"
+    t.integer  "position",          :default => 1
     t.datetime "created_at"
     t.datetime "updated_at"
   end

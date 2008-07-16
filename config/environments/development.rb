@@ -11,7 +11,7 @@ config.whiny_nils = true
 # Show full error reports and disable caching
 config.action_controller.consider_all_requests_local = true
 config.action_view.debug_rjs                         = true
-config.action_controller.perform_caching             = true
+config.action_controller.perform_caching             = false
 config.action_view.cache_template_extensions         = false
 
 # Set the caching directories. If I use tmp/cache, rails will create a file store there
@@ -34,4 +34,4 @@ ASSET_PATH_ROOT = 'public/assets'
 THEME_PATH_ROOT = 'themes'
 
 # Enable if you want to host multiple sites on this app
-Site.multi_sites_enabled = true
+# Site.multi_sites_enabled = true
