@@ -61,5 +61,4 @@ Rails::Initializer.run do |config|
   config.active_record.default_timezone = :utc
 end
 
-# Require gems from the vendor directory.
-%w(redcloth).each { |f| require f }
+config.gem "RedCloth", :version => ">= 3.0.4", :source => "http://code.whytheluckystiff.net/"
