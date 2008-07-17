@@ -18,28 +18,28 @@ class Site < ActiveRecord::Base
 
   has_many :assets, :dependent => :destroy, :conditions => 'parent_id is NULL'
 
-  has_many :galleries, :dependent => :destroy, :order => :position do
+  has_many :galleries, :dependent => :destroy, :order => 'position' do
     # change the order of the galleries in the site by passing an ordered list of their ids
     def reorder!(*sorted_ids)
       proxy_owner.send(:reorder_items, self, sorted_ids)
     end
   end
 
-  has_many :links, :dependent => :destroy, :order => :position do
+  has_many :links, :dependent => :destroy, :order => 'position' do
     # change the order of the links in the site by passing an ordered list of their ids
     def reorder!(*sorted_ids)
       proxy_owner.send(:reorder_items, self, sorted_ids)
     end
   end
 
-  has_many :news_items, :dependent => :destroy, :order => :position do
+  has_many :news_items, :dependent => :destroy, :order => 'position' do
     # change the order of the links in the site by passing an ordered list of their ids
     def reorder!(*sorted_ids)
       proxy_owner.send(:reorder_items, self, sorted_ids)
     end
   end
 
-  has_many :resume_sections, :dependent => :destroy, :order => :position do
+  has_many :resume_sections, :dependent => :destroy, :order => 'position' do
     # change the order of the links in the site by passing an ordered list of their ids
     def reorder!(*sorted_ids)
       proxy_owner.send(:reorder_items, self, sorted_ids)
@@ -67,7 +67,7 @@ class Site < ActiveRecord::Base
   # This is necessary both because it's nice to get access to only the root level portfolios
   # and because and because we only want to destroy the top ones when the site is being destroyed,
   # since the plugin will handle deletion of the children.
-  has_many :root_portfolios, :class_name => 'Portfolio', :conditions => 'parent_id is NULL', :order => :position, :dependent => :destroy do
+  has_many :root_portfolios, :class_name => 'Portfolio', :conditions => 'parent_id is NULL', :order => 'position', :dependent => :destroy do
     # change the order of the links in the site by passing an ordered list of their ids
     def reorder!(*sorted_ids)
       proxy_owner.send(:reorder_items, Portfolio, sorted_ids)

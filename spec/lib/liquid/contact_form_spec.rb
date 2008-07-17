@@ -13,7 +13,7 @@ describe ContactForm do
   end
   
   it "should require the tag to be closed" do
-    lambda { render_liquid('{% contactform %}') }.should raise_error(SyntaxError)
+    lambda { render_liquid('{% contactform %}') }.should raise_error(Liquid::SyntaxError)
   end
   
   it "should render the base form correctly" do

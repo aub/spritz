@@ -6,14 +6,14 @@
 #   # the request. Now you can use cached? below to make sure the file was
 #   # created.
 #   def action(&request)
-#     cache_dir = ActionController::Base.fragment_cache_store.cache_path
+#     cache_dir = ActionController::Base.cache_store.cache_path
 #     FileUtils.rm_rf(cache_dir)
 #     request.call
 #   end
 #   
 #   module ResponseHelper
 #     def cached?
-#       cache_path = ActionController::Base.fragment_cache_store.cache_path
+#       cache_path = ActionController::Base.cache_store.cache_path
 #       path = (request.path.empty? || request.path == "/") ? "/index" : URI.unescape(path.chomp('/'))
 #       site = Site.for(request.domain)
 #       cache_file = File.join(cache_path, site.domain, path + '.cache')
@@ -26,7 +26,7 @@
 # end
 
 class CacheAction
-  @@cache_dir = ActionController::Base.fragment_cache_store.cache_path
+  @@cache_dir = ActionController::Base.cache_store.cache_path
   
   def initialize(controller)
     @controller = controller
@@ -64,7 +64,7 @@ end
 
 
 class ExpireAction
-  @@cache_dir = ActionController::Base.fragment_cache_store.cache_path
+  @@cache_dir = ActionController::Base.cache_store.cache_path
   
   def initialize(action, controller)
     @action = action

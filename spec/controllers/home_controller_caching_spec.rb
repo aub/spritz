@@ -6,7 +6,7 @@ describe HomeController do
   before(:each) do
     activate_site(:default)
     stub_site_themes
-    FileUtils.rm_rf(ActionController::Base.fragment_cache_store.cache_path)
+    FileUtils.rm_rf(ActionController::Base.cache_store.cache_path)
   end
   
   it "should create a cache object" do

@@ -11,7 +11,8 @@ class LiquidView
   end
   
 
-  def render(template, local_assigns)
+  def render(template)
+    local_assigns = template.locals
     @action_view.controller.headers["Content-Type"] ||= 'text/html; charset=utf-8'
     assigns = @action_view.assigns.dup
     

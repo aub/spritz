@@ -36,7 +36,7 @@ describe Admin::SessionController do
     end
   
     it "should allow the request to continue for a good site" do
-      Site.should_receive(:for).with(request.host).and_return(mock_model(Site, :action_cache_root => 'junk', :page_cache_path => 'also/junk'))
+      Site.should_receive(:for).with(request.host).at_least(1).times.and_return(mock_model(Site, :action_cache_root => 'junk', :page_cache_path => 'also/junk'))
       get :new
       response.should be_success
     end

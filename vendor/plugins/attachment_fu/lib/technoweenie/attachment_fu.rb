@@ -70,8 +70,8 @@ module Technoweenie # :nodoc:
         attachment_options[:path_prefix]   = attachment_options[:path_prefix][1..-1] if options[:path_prefix].first == '/'
 
         with_options :foreign_key => 'parent_id' do |m|
-          m.has_many   :thumbnails, :class_name => attachment_options[:thumbnail_class].to_s
-          m.belongs_to :parent, :class_name => base_class.to_s unless options[:thumbnails].empty?
+          m.has_many   :thumbnails, :class_name => "::#{attachment_options[:thumbnail_class]}"
+          m.belongs_to :parent, :class_name => "::#{base_class}" unless options[:thumbnails].empty?
         end
 
         storage_mod = Technoweenie::AttachmentFu::Backends.const_get("#{options[:storage].to_s.classify}Backend")
@@ -173,7 +173,8 @@ module Technoweenie # :nodoc:
         #
         #   class Foo < ActiveRecord::Base
         #     acts_as_attachment
-        #     before_thumbnail_saved do |record, thumbnail|
+        #     before_thumbnail_saved do |thumbnail|
+        #       record = thumbnail.parent
         #       ...
         #     end
         #   end
@@ -243,8 +244,6 @@ module Technoweenie # :nodoc:
       def create_or_update_thumbnail(temp_file, file_name_suffix, *size)
         thumbnailable? || raise(ThumbnailError.new("Can't create a thumbnail if the content type is not an image or there is no parent_id column"))
         returning find_or_initialize_thumbnail(file_name_suffix) do |thumb|
-          # NOTE: I CHANGED THIS TO REMOVE THE MASS ASSIGNMENT, WHICH I'M DISALLOWING
-          # WITH ATTR_ACCESSIBLE IN MY ASSET MODEL - AH          
           thumb.content_type = content_type
           thumb.filename = thumbnail_name_for(file_name_suffix)
           thumb.temp_path = temp_file
@@ -289,9 +288,16 @@ module Technoweenie # :nodoc:
       #
       # TODO: Allow it to work with Merb tempfiles too.
       def uploaded_data=(file_data)
-        return nil if file_data.nil? || file_data.size == 0
-        self.content_type = file_data.content_type
-        self.filename     = file_data.original_filename if respond_to?(:filename)
+        if file_data.respond_to?(:content_type)
+          return nil if file_data.size == 0
+          self.content_type = file_data.content_type
+          self.filename     = file_data.original_filename if respond_to?(:filename)
+        else
+          return nil if file_data.blank? || file_data['size'] == 0
+          self.content_type = file_data['content_type']
+          self.filename =  file_data['filename']
+          file_data = file_data['tempfile']
+        end
         if file_data.is_a?(StringIO)
           file_data.rewind
           self.temp_data = file_data.read
@@ -363,13 +369,14 @@ module Technoweenie # :nodoc:
         end
 
         def sanitize_filename(filename)
+          return unless filename
           returning filename.strip do |name|
             # NOTE: File.basename doesn't work right with Windows paths on Unix
             # get only the filename, not the whole path
             name.gsub! /^.*(\\|\/)/, ''
 
             # Finally, replace all non alphanumeric, underscore or periods with underscore
-            name.gsub! /[^\w\.\-]/, '_'
+            name.gsub! /[^A-Za-z0-9\.\-]/, '_'
           end
         end
 

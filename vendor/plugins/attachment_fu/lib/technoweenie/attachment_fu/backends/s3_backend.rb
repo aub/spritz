@@ -133,7 +133,7 @@ module Technoweenie # :nodoc:
 
           begin
             @@s3_config_path = base.attachment_options[:s3_config_path] || (RAILS_ROOT + '/config/amazon_s3.yml')
-            @@s3_config = @@s3_config = YAML.load_file(@@s3_config_path)[RAILS_ENV].symbolize_keys
+            @@s3_config = @@s3_config = YAML.load(ERB.new(File.read(@@s3_config_path)).result)[RAILS_ENV].symbolize_keys
           #rescue
           #  raise ConfigFileNotFoundError.new('File %s not found' % @@s3_config_path)
           end
@@ -236,8 +236,8 @@ module Technoweenie # :nodoc:
         #
         #   @photo.authenticated_s3_url('thumbnail', :expires_in => 5.hours, :use_ssl => true)
         def authenticated_s3_url(*args)
-          thumbnail = args.first.is_a?(String) ? args.first : nil
-          options   = args.last.is_a?(Hash)    ? args.last  : {}
+          options   = args.extract_options!
+          thumbnail = args.shift
           S3Object.url_for(full_filename(thumbnail), bucket_name, options)
         end
 

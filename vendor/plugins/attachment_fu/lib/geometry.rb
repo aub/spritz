@@ -61,7 +61,7 @@ class Geometry
         new_height   = scale_y.to_f * (orig_height.to_f / 100.0)
       when :aspect
         new_width = @width if @width > 0
-        new_height = @height if @height > 0
+        new_height = @height if @height > 0        
       when :<, :>, nil
         scale_factor =
           if new_width.zero? || new_height.zero?

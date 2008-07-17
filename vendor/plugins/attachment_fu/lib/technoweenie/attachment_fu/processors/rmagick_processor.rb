@@ -47,7 +47,7 @@ module Technoweenie # :nodoc:
               if size.ends_with? '!'
                 image.crop_resized!(cols<1 ? 1 : cols, rows<1 ? 1 : rows, ::Magick::CenterGravity)
               else
-                image.resize!(cols<1 ? 1 : cols, rows<1 ? 1 : rows) 
+                image.resize!(cols<1 ? 1 : cols, rows<1 ? 1 : rows)
               end
             }
           end

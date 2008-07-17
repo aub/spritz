@@ -2,7 +2,7 @@ class ResumeSection < ActiveRecord::Base
   
   belongs_to :site
   
-  has_many :resume_items, :order => :position, :dependent => :destroy do
+  has_many :resume_items, :order => 'position', :dependent => :destroy do
     # change the order of the assigned_assets in the portfolio by passing an ordered list of their ids
     def reorder!(*sorted_ids)
       proxy_owner.send(:reorder_resume_items, sorted_ids)

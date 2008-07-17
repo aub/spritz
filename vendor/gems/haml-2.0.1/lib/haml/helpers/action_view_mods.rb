@@ -100,7 +100,7 @@ if defined?(ActionView) and not defined?(Merb::Plugins)
         def content_tag_with_haml(name, *args, &block)
           content = content_tag_without_haml(name, *args, &block)
 
-          if is_haml? && haml_buffer.options[:preserve].include?(name.to_s)
+          if respond_to?(:is_haml?) && is_haml? && haml_buffer.options[:preserve].include?(name.to_s)
             content = Haml::Helpers.preserve content
           end
 

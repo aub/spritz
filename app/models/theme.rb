@@ -20,7 +20,7 @@ class Theme
   end
 
   def layout
-    File.join(%w(.. layouts default))
+    'default'
   end  
   
   def preview

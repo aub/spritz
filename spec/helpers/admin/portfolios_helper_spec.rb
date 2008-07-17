@@ -2,6 +2,10 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe Admin::PortfoliosHelper do
   include ApplicationHelper
+
+  before(:each) do
+    
+  end
   
   define_models :portfolios_helper do
     model Portfolio do

@@ -8,7 +8,7 @@ describe ContactMailer do
     
     before(:each) do
       @contact_properties = { :name => 'n', :email => 'e', :phone => 'p', :message => 'm' }
-      @contact = mock_model(Contact, @contact_properties)
+      @contact = mock_model(Contact, @contact_properties.dup)
       
       @response = ContactMailer.deliver_new_contact(users(:nonadmin), @contact)
     end
@@ -18,8 +18,8 @@ describe ContactMailer do
     end
     
     it "should put the contact parameters into the mail" do
-      @contact_properties.each do |key, value|
-        @response.body.should match(/#{key.to_s.capitalize}:(\s+)#{value}/)
+      @contact_properties.each do |k, v|
+        @response.body.to_s.should match(/#{k.to_s.capitalize}:(\s+)#{v}/)
       end
     end
   end

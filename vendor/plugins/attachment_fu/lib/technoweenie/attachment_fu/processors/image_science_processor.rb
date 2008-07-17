@@ -62,7 +62,7 @@ module Technoweenie # :nodoc:
                   |crop| crop.resize(new_size[0], new_size[1], &grab_dimensions )
                 }
               else
-                 img.resize(new_size[0], new_size[1], &grab_dimensions)
+                img.resize(new_size[0], new_size[1], &grab_dimensions)
               end
             end
           end

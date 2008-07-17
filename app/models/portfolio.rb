@@ -10,7 +10,7 @@ class Portfolio < ActiveRecord::Base
   validates_presence_of :title
   validates_length_of :title, :maximum => 100
   
-  has_many :assigned_assets, :as => :asset_holder, :dependent => :destroy, :order => :position do
+    has_many :assigned_assets, :as => :asset_holder, :dependent => :destroy, :order => 'position' do
     # change the order of the assigned_assets in the portfolio by passing an ordered list of their ids
     def reorder!(*sorted_ids)
       proxy_owner.send(:reorder_assigned_assets, sorted_ids)

@@ -15,7 +15,7 @@ config.action_controller.consider_all_requests_local = true
 # Cache settings
 config.action_controller.perform_caching             = true
 config.action_controller.page_cache_directory        = File.join(RAILS_ROOT, 'tmp/test/caches')
-ActionController::Base.fragment_cache_store          = :file_store, File.join(RAILS_ROOT, 'tmp/test/caches')
+ActionController::Base.cache_store                   = :file_store, File.join(RAILS_ROOT, 'tmp/test/caches')
 
 # Disable request forgery protection in test environment
 config.action_controller.allow_forgery_protection    = false
