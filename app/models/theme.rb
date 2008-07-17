@@ -66,7 +66,7 @@ class Theme
     end
 
     def defaults_directory
-      File.join(theme_root, 'default')
+      File.join(RAILS_ROOT, 'config', 'default_themes')
     end
   
     def site_theme_dir(site)

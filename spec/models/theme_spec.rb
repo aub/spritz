@@ -16,7 +16,7 @@ describe Theme do
   end
   
   it "should have a theme defaults directory" do
-    Theme.defaults_directory.should == File.join(RAILS_ROOT, THEME_PATH_ROOT, 'default')
+    Theme.defaults_directory.should == File.join(RAILS_ROOT, 'config', 'default_themes')
   end
   
   it "should provide a useful equality operator" do
@@ -111,7 +111,7 @@ describe Theme do
     end
     
     it "should return a list of all available resources" do
-      sites(:default).theme.resources.size.should == 10
+      sites(:default).theme.resources.size.should == 13
     end
     
     it "should find a given resource by name" do
