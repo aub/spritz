@@ -68,6 +68,12 @@ describe Theme do
       File.exist?(File.join(RAILS_ROOT, THEME_PATH_ROOT, "site-#{sites(:default).id}", 'dark')).should be_true
       File.exist?(File.join(RAILS_ROOT, THEME_PATH_ROOT, "site-#{sites(:default).id}", 'light')).should be_true
     end
+    
+    it "should not recopy the defaults directory into an existing directory" do
+      Theme.create_defaults_for(sites(:default))
+      Theme.create_defaults_for(sites(:default))
+      File.exist?(File.join(RAILS_ROOT, THEME_PATH_ROOT, "site-#{sites(:default).id}", 'default')).should be_false
+    end
   end
   
   describe "find_all_for method" do

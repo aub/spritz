@@ -85,6 +85,8 @@ class Theme
   
     def create_defaults_for(site)
       begin
+        # Get rid of the directory first to make sure we start from scratch.
+        FileUtils.rm_rf(site_theme_dir(site))
         FileUtils.cp_r(defaults_directory, site_theme_dir(site))
         true
       rescue
