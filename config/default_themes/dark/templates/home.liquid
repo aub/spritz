@@ -1,5 +1,7 @@
 <div class="home-text">
-  <img src="{{ site.home_image_medium_path }}"/>
+  {% if site.home_image_display_path != '' %}
+    <img src="{{ site.home_image_medium_path }}" alt="home image" />
+  {% endif %}
   <p>{{ site.home_text }}</p>
 </div>
 
