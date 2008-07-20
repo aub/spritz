@@ -9,11 +9,9 @@
       &gt; <a href="{{ portfolio.url}}">{{ portfolio.title }}</a>
     </span>
 
-    <img class="portfolio-image" src="{{portfolio.title_asset.display_path}}" />
+    <img class="portfolio-image" src="{{item.display_path}}" />
     
     <div class="portfolio-info">
-      <p class="portfolio-text">{{ portfolio.body }}</p>
-
       <table class="portfolio-children">
         {% for child in portfolio.children %}
           <tr>
@@ -21,6 +19,12 @@
           </tr>
         {% endfor %}
       </table>
+
+      <ul class="image-fields">
+        {% for fld in item.fields %}
+          <li><span>{{ fld.name }}:</span><span>{{ fld.value }}</span></li>
+        {% endfor %}
+      </ul>
     </div>
   </div>
 

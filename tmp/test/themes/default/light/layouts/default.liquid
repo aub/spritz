@@ -10,7 +10,7 @@
     {{ 'effects' | javascript }}
     {{ 'lightbox' | javascript }}
     
-    <script>
+    <script type="text/javascript">
       fileLoadingImage = "/theme/images/loading.gif";		
       fileBottomNavCloseImage = "/theme/images/closelabel.gif";
     </script>
@@ -28,5 +28,6 @@
         {{ content_for_layout }}
       </div>
     </div>
+    {% googleanalytics %}
   </body>
 </html>
