@@ -32,16 +32,12 @@ module CachingMethods
   end
   
   # Saves a CachedPage for the current request with the current references.  This is called in an 
-  # after filter if caches_action_with_references is used. The path to use depends on whether
+  # after filter if caches_with_references is used. The path to use depends on whether
   # multi-site is enabled of not. If it is disabled, we can just use the path from the request.
   # When enabled, we have to cache the data for the different sites in different locations, so
   # it is necessary to compute a path based on the data in the site.
   def cache_with_references
     return unless perform_caching && caching_allowed && !@site.nil?
     CacheItem.for(@site, request.path, cached_references)
-  end
-  
-  def create_action_cache_path
-    File.join(action_cache_root, request.path)
-  end
+  end  
 end

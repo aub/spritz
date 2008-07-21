@@ -1,11 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe Admin::PortfoliosHelper do
-  include ApplicationHelper
-
-  before(:each) do
-    
-  end
+  include Admin::PortfoliosHelper
   
   define_models :portfolios_helper do
     model Portfolio do
@@ -32,12 +28,12 @@ describe Admin::PortfoliosHelper do
     define_models :portfolios_helper
     
     it "should return only the portfolio with no ancestors" do
-      ancestor_breadcrumbs(portfolios(:one)).should == '> ' + link_to('Portfolios', admin_portfolios_path) + ' ' + '> ' + link_to(portfolios(:one).title, edit_admin_portfolio_path(portfolios(:one))) + ' '
+      helper.ancestor_breadcrumbs(portfolios(:one)).should == '> ' + link_to('Portfolios', admin_portfolios_path) + ' ' + '> ' + link_to(portfolios(:one).title, edit_admin_portfolio_path(portfolios(:one))) + ' '
     end
     
     it "should return a list of ancestors if there are some" do
       portfolios(:two).move_to_child_of(portfolios(:one))
-      ancestor_breadcrumbs(portfolios(:two)).should == '> ' + link_to('Portfolios', admin_portfolios_path) + ' ' +  '> ' + link_to(portfolios(:one).title, edit_admin_portfolio_path(portfolios(:one))) + ' ' + '> ' + link_to(portfolios(:two).title, edit_admin_portfolio_path(portfolios(:two))) + ' '
+      helper.ancestor_breadcrumbs(portfolios(:two)).should == '> ' + link_to('Portfolios', admin_portfolios_path) + ' ' +  '> ' + link_to(portfolios(:one).title, edit_admin_portfolio_path(portfolios(:one))) + ' ' + '> ' + link_to(portfolios(:two).title, edit_admin_portfolio_path(portfolios(:two))) + ' '
     end
   end
 end

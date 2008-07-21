@@ -26,10 +26,10 @@ module ActsAsAsset
 
     # Override the full_filename method from attachment_fu in order to have more control over the
     # location of the files. In this case, they are stored with a configurable root path, then the
-    # site's domain, and then the date.
+    # site's subdomain, and then the date.
     def full_filename(thumbnail=nil)
       date = self.created_at || Time.now
-      File.join(RAILS_ROOT, ASSET_PATH_ROOT, (Spritz.multi_sites_enabled ? site.domain : ''), 
+      File.join(RAILS_ROOT, ASSET_PATH_ROOT, (Spritz.multi_sites_enabled ? site.subdomain : ''), 
                 date.year.to_s, date.month.to_s, date.day.to_s, 
                 thumbnail_name_for(thumbnail))    
     end

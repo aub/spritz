@@ -1,5 +1,7 @@
 module Admin::PortfoliosHelper
 
+  include ApplicationHelper
+
   def link_to_new_portfolio
     if (@portfolio)
       link_to add_icon, add_child_admin_portfolio_path(@portfolio)

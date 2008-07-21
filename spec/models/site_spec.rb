@@ -19,6 +19,10 @@ describe Site do
       @site.should have(1).error_on(:title)
     end
 
+    it "should require a subdomain" do
+      @site.should have(1).error_on(:subdomain)
+    end
+    
     it "should limit the number of home news items" do
       @site.home_news_item_count = 11
       @site.should_not be_valid
@@ -27,6 +31,7 @@ describe Site do
 
     it "should be valid" do
       @site.title = 'test title'
+      @site.subdomain = 'ack'
       @site.theme_path = 'default'
       @site.should be_valid
     end
@@ -47,11 +52,15 @@ describe Site do
       end
 
       it "should return the correct site for a given domain" do
-        Site.for(sites(:default).domain).should == sites(:default)
+        Site.for(sites(:default).domain, nil).should == sites(:default)
+      end
+
+      it "should return the correct site for a given subdomain" do
+        Site.for(nil, [sites(:default).subdomain]).should == sites(:default)
       end
 
       it "should return nil for no match" do
-        Site.for('blah').should be_nil
+        Site.for('blah', nil).should be_nil
       end      
     end
     
@@ -67,7 +76,7 @@ describe Site do
       end
       
       it "should return the first site always" do
-        Site.for('acid').should == Site.find(:first)
+        Site.for('acid', nil).should == Site.find(:first)
       end
     end
   end
@@ -244,17 +253,17 @@ describe Site do
     end
     
     it "should setup a default theme on create" do
-      Site.create({ :title => 'junk' }).theme_path.should == 'dark'
+      Site.create({ :title => 'junk', :subdomain => 'ack' }).theme_path.should == 'dark'
     end
     
     it "should copy the themes into the appropriate directory on create" do
       Theme.should_receive(:create_defaults_for).and_return(true)
-      Site.create({ :title => 'junk' })
+      Site.create({ :title => 'junk', :subdomain => 'ack' })
     end
     
     it "should set the theme path to a default on create" do
       Theme.stub!(:create_defaults_for).and_return(true)
-      s = Site.create({ :title => 'junk' })
+      s = Site.create({ :title => 'junk', :subdomain => 'ack' })
       s.reload.theme_path.should == 'dark'
     end
     
@@ -275,21 +284,21 @@ describe Site do
     end
   end
   
-  describe "action cache directory" do
+  describe "page cache directory" do
     define_models :site
 
     after(:each) do
       Spritz.multi_sites_enabled = false
     end
 
-    it "should be empty without multi_site enabled" do
+    it "should point to a general directory without multi_site enabled" do
       Spritz.multi_sites_enabled = false
-      sites(:default).action_cache_root.should == ''
+      sites(:default).page_cache_path.should == Pathname.new(RAILS_ROOT) + 'tmp/cache'
     end
     
-    it "should be the site's domain with multi_site enabled" do
+    it "should be a specific directory for the site's subdomain with multi_site enabled" do
       Spritz.multi_sites_enabled = true
-      sites(:default).action_cache_root.should == sites(:default).domain
+      sites(:default).page_cache_path.should == Pathname.new(RAILS_ROOT) + 'tmp/cache' + sites(:default).subdomain
     end
   end
   

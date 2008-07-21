@@ -3,7 +3,6 @@ class ApplicationController < ActionController::Base
   include CachingMethods
 
   attr_reader :site
-  attr_reader :action_cache_root
 
   before_filter :site_required
   before_filter :setup_cache_paths
@@ -13,6 +12,17 @@ class ApplicationController < ActionController::Base
   # See ActionController::RequestForgeryProtection for details
   # Uncomment the :secret if you're not using the cookie session store
   # protect_from_forgery # :secret => '5ab8dc88fe7761f4e8c2286255a2666e'  
+
+  # Support custom domains by modifying each cookie to point to the given domain.
+  def set_cookie_domain(domain)
+    cookies = session.instance_eval("@dbprot" )
+    unless cookies.blank?
+      cookies.each do |cookie|
+        options = cookie.instance_eval("@cookie_options" )
+        options["domain"] = domain unless options.blank?
+      end
+    end
+  end
   
   protected
   
@@ -29,8 +39,13 @@ class ApplicationController < ActionController::Base
   # Make sure that there is a valid site for the given request, or bounce it
   # to the site creation page.
   def site_required
-    @site = Site.for(request.host)
-    unless @site
+    @site = Site.for(request.host, request.subdomains)
+    if @site
+      # Set cookies to the correct domain to support custom domains.
+      if request.host == @site.domain
+        set_cookie_domain(@site.domain)
+      end
+    else
       redirect_to new_admin_site_path(:host => MAIN_HOST, :port => request.port)
     end
   end
@@ -38,7 +53,6 @@ class ApplicationController < ActionController::Base
   # Setup the cache directories for the given request based on the active site.
   def setup_cache_paths
     unless @site.nil?
-      @action_cache_root ||= @site.action_cache_root
       self.class.page_cache_directory = @site.page_cache_path.to_s
     end
   end

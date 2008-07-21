@@ -30,19 +30,19 @@ describe Admin::SessionController do
   
   describe "site management" do
     it "should redirect to the new site path if there is no matching site" do
-      Site.should_receive(:for).with(request.host).and_return(nil)
+      Site.should_receive(:for).with(request.host, request.subdomains).and_return(nil)
       get :new
       response.should redirect_to(new_admin_site_path)
     end
   
     it "should allow the request to continue for a good site" do
-      Site.should_receive(:for).with(request.host).at_least(1).times.and_return(mock_model(Site, :action_cache_root => 'junk', :page_cache_path => 'also/junk'))
+      Site.should_receive(:for).with(request.host, request.subdomains).at_least(1).times.and_return(mock_model(Site, :domain => '', :page_cache_path => 'also/junk'))
       get :new
       response.should be_success
     end
     
     it "should have a readable attribute for the site" do
-      site = mock_model(Site, :action_cache_root => 'junk', :page_cache_path => 'also/junk')
+      site = mock_model(Site, :page_cache_path => 'also/junk', :domain => '')
       Site.stub!(:for).and_return(site)
       get :new
       controller.site.should == site
@@ -65,11 +65,6 @@ describe Admin::SessionController do
       controller.send(:cached_references).size.should == 1
       get :new
       controller.send(:cached_references).size.should == 0
-    end
-    
-    it "should set up the root action cache directory" do
-      get :new
-      controller.action_cache_root.should == sites(:default).action_cache_root
     end
   end
 end
