@@ -41,9 +41,6 @@ class Admin::SitesController < Admin::AdminController
   def create
     @template_site = Site.new(params[:site])
     @user = User.new(params[:user])
-    if @user.valid?
-      @user.admin = true
-    end
     respond_to do |format|
       if @template_site.save && @user.save
         # If the site and the user both save correctly, add the user as a member of the site and log them in.
@@ -53,7 +50,7 @@ class Admin::SitesController < Admin::AdminController
         format.html { redirect_to(admin_dashboard_path) }
         format.xml  { render :xml => @template_site, :status => :created, :location => @template_site }
       else
-        format.html { render :action => "new" }
+        format.html { render( :action => 'new', :layout => 'simple' ) }
         format.xml  { render :xml => @template_site.errors, :status => :unprocessable_entity }
       end
     end

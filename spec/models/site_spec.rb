@@ -13,6 +13,10 @@ describe Site do
     before(:each) do
       @site = Site.new
     end
+    
+    after(:each) do
+      Spritz.multi_sites_enabled = false
+    end
 
     it "should require a title" do
       @site.should_not be_valid
@@ -20,6 +24,7 @@ describe Site do
     end
 
     it "should require a subdomain" do
+      Spritz.multi_sites_enabled = true
       @site.should have(1).error_on(:subdomain)
     end
     
@@ -27,6 +32,20 @@ describe Site do
       @site.home_news_item_count = 11
       @site.should_not be_valid
       @site.should have(1).error_on(:home_news_item_count)
+    end
+
+    it "should allow multiple empty domains" do
+      site1 = Site.create(:title => 't', :subdomain => 's')
+      site1.should be_valid
+      
+      site2 = Site.create(:title => 't', :subdomain => 's2')
+      site2.should be_valid
+    end
+    
+    it "should allow empty subdomains if multi-site is disabled" do
+      Spritz.multi_sites_enabled = false
+      site = Site.create(:title => 't')
+      site.should have(0).errors_on(:subdomain)
     end
 
     it "should be valid" do

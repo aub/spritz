@@ -1,9 +1,9 @@
 class Site < ActiveRecord::Base
 
   validates_presence_of :title
-  validates_presence_of :subdomain
+  validates_presence_of :subdomain, :if => Proc.new { Spritz.multi_sites_enabled }
   validates_numericality_of :home_news_item_count, :only_integer => true, :less_than_or_equal_to => 10, :allow_nil => true
-  validates_uniqueness_of :domain
+  validates_uniqueness_of :domain, :allow_blank => true
 
   after_create :initialize_theme
 

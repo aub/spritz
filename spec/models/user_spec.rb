@@ -31,6 +31,15 @@ describe User do
       @creating_user.call
       @user.should be_active
     end
+    
+    it "should set the first user to admin automatically" do
+      User.find(:all).each(&:destroy)
+      create_user.admin.should be_true
+    end
+    
+    it "should not set subsequent users to admin" do
+      create_user.admin.should be_false
+    end
   end
   
   it 'requires login' do

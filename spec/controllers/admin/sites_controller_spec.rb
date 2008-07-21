@@ -160,7 +160,6 @@ describe Admin::SitesController do
       @user = mock_model(User)
       User.stub!(:new).and_return(@user)
       @user.stub!(:valid?).and_return(true)
-      @user.stub!(:admin=)
       @user.stub!(:register!)
       @user.stub!(:activate!)
     end
@@ -189,6 +188,11 @@ describe Admin::SitesController do
         do_post
       end
       
+      it "should leave the admin flag alone" do
+        @user.should_not_receive(:admin=)
+        do_post
+      end
+      
       it "should log the user in" do
         request.session[:user_id] = nil
         do_post
@@ -209,6 +213,10 @@ describe Admin::SitesController do
         response.should render_template('new')
       end
       
+      it "should use the simple layout" do
+        do_post
+        response.layout.should == 'layouts/simple'
+      end
     end
   end
 

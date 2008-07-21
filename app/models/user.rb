@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
   validates_length_of       :email,    :within => 3..100
   validates_uniqueness_of   :login, :email, :case_sensitive => false
   before_save :encrypt_password
+  before_save :set_first_user_to_admin
 
   has_many :memberships, :dependent => :destroy
   has_many :sites, :through => :memberships
@@ -130,6 +131,13 @@ class User < ActiveRecord::Base
       return if password.blank?
       self.salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{login}--") if new_record?
       self.crypted_password = encrypt(password)
+    end
+    
+    # The first user in should default to admin. This is run in a before_save filter
+    def set_first_user_to_admin
+      if User.count == 0
+        self.admin = true
+      end
     end
       
     def password_required?
