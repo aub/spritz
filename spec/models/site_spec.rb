@@ -48,6 +48,12 @@ describe Site do
       site.should have(0).errors_on(:subdomain)
     end
 
+    it "should require a unique subdomain" do
+      site1 = Site.create(:title => 't', :subdomain => 's')      
+      site2 = Site.create(:title => 't', :subdomain => 's')
+      site2.should have(1).error_on(:subdomain)
+    end
+
     it "should be valid" do
       @site.title = 'test title'
       @site.subdomain = 'ack'
