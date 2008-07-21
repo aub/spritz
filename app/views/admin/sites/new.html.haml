@@ -10,6 +10,9 @@
       
       - if Spritz.multi_sites_enabled
         %dt
+          %label{ :for => 'site[subdomain]' } Site Subomain
+        %dd= text_field_tag 'site[subdomain]', @template_site.subdomain, :class => 'large', :size => '30', :id => 'site_subdomain'
+        %dt
           %label{ :for => 'site[domain]' } Site Domain
         %dd= text_field_tag 'site[domain]', @template_site.domain, :class => 'large', :size => '30', :id => 'site_domain'
       
