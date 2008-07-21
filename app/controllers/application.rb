@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   include CachingMethods
+  include ExceptionNotifiable
 
   attr_reader :site
 
