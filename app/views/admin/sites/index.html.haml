@@ -1,16 +1,15 @@
-%h1 Listing sites
-
-%table
-  %tr
-    %th Domain
-
-- for site in @sites
-  %tr
-    %td= h site.domain
-    %td= link_to 'Show', admin_site_path(site)
-    %td= link_to 'Edit', edit_admin_site_path(site)
-    %td= link_to 'Destroy', admin_site_path(site), :confirm => 'Are you sure?', :method => :delete
-
-%br
-
-= link_to 'New site', new_admin_site_path
+.box
+  .boxheader
+    %span.header Sites
+    - if Spritz.multi_sites_enabled
+      = link_to add_icon, new_admin_site_path
+  %table.draglist{ :cellpadding => 0, :cellspacing => 0 }
+    %tbody
+      - @sites.each do |site|
+        %tr
+          %td= link_to site.title, edit_admin_site_path(site)
+          %td.controls= link_to image_tag('/images/icons/trash.gif', :class => 'icon red', :title => 'Delete this site'), admin_site_path(site), :confirm => 'Are you sure you want to permanently delete this site and all of the resources associated with it (Hint: you probably don\'t)?', :method => :delete
+    
+      - if @sites.empty?
+        %tr
+          %td None

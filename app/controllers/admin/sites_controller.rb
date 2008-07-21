@@ -13,7 +13,6 @@ class Admin::SitesController < Admin::AdminController
   # GET /admin/sites.xml
   def index
     @sites = Site.find(:all)
-
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @sites }
