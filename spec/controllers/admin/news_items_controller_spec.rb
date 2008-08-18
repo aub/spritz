@@ -48,29 +48,6 @@ describe Admin::NewsItemsController do
     end
   end
 
-  describe "handling GET /admin_news_items.xml" do
-    define_models :news_items_controller
-    
-    before(:each) do
-      authorize_as(:admin)
-    end
-
-    def do_get
-      @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :index
-    end
-  
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-
-    it "should render the found admin_news_items as xml" do
-      do_get
-      response.body.should == sites(:default).news_items.to_xml
-    end
-  end
-
   describe "handling GET /admin_news_items/1" do
     define_models :news_items_controller
     
@@ -100,29 +77,6 @@ describe Admin::NewsItemsController do
     it "should not find news items that are in another site" do
       get :show, :id => news_items(:four)
       response.should be_missing
-    end
-  end
-
-  describe "handling GET /admin/news_items/1.xml" do
-    define_models :news_items_controller
-    
-    before(:each) do
-      authorize_as(:admin)
-    end
-
-    def do_get
-      @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :show, :id => news_items(:one).id
-    end
-
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-  
-    it "should render the found news_item as xml" do
-      do_get
-      response.body.should == news_items(:one).to_xml
     end
   end
 

@@ -48,30 +48,7 @@ describe Admin::AssetsController do
       assigns[:assets].sort_by(&:id).should == sites(:default).assets.sort_by(&:id)
     end
   end
-  
-  describe "handling GET /admin/assets.xml" do
-    define_models :assets_controller
-  
-    before(:each) do
-      authorize_as :admin
-    end
-      
-    def do_get
-      @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :index
-    end
-  
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-  
-    it "should render the found admin/assets as xml" do
-      do_get
-      response.body.should == sites(:default).assets.to_xml
-    end
-  end
-  
+    
   describe "handling GET /admin/assets/new" do
     define_models :assets_controller
   

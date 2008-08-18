@@ -46,25 +46,6 @@ describe Admin::PortfoliosController do
     end
   end
   
-  describe "handling GET /admin/portfolios.xml" do
-    define_models :portfolios_controller
-    
-    def do_get
-      @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :index
-    end
-  
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-  
-    it "should render the found portfolios as xml" do
-      do_get
-      response.body.should == sites(:default).root_portfolios.to_xml
-    end
-  end
-  
   describe "handling GET /admin/portfolios/1" do
     define_models :portfolios_controller
     
@@ -76,31 +57,6 @@ describe Admin::PortfoliosController do
       do_get
       response.should be_missing
     end  
-  end
-  
-  describe "handling GET /admin/portfolios/1.xml" do
-    define_models :portfolios_controller
-    
-    def do_get
-      @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :show, :id => portfolios(:one).id
-    end
-  
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-  
-    it "should render the found portfolio as xml" do
-      do_get
-      response.body.should == portfolios(:one).to_xml
-    end
-    
-    it "should render not found for portfolios not in the site" do
-      @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :show, :id => portfolios(:tre).id
-      response.should be_missing
-    end
   end
   
   describe "handling GET /admin/portfolios/new" do

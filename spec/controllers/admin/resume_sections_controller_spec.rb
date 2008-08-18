@@ -49,29 +49,6 @@ describe Admin::ResumeSectionsController do
     end
   end
 
-  describe "handling GET /admin/resume_sections.xml" do
-    define_models :resume_sections_controller
-    
-    before(:each) do
-      authorize_as :admin
-    end
-  
-    def do_get
-      @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :index
-    end
-  
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-
-    it "should render the found resume_sections as xml" do
-      do_get
-      response.body.should == sites(:default).resume_sections.to_xml
-    end
-  end
-
   describe "handling GET /admin_resume_sections/new" do
     define_models :resume_sections_controller
     

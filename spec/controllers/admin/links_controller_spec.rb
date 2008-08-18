@@ -49,29 +49,6 @@ describe Admin::LinksController do
     end
   end
 
-  describe "handling GET /links.xml" do
-    define_models :links_controller
-
-    before(:each) do
-      authorize_as(:admin)
-    end
-  
-    def do_get
-      @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :index
-    end
-  
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-
-    it "should render the found links as xml" do
-      do_get
-      response.body.should == sites(:default).links.to_xml
-    end
-  end
-
   describe "handling GET /links/1" do
     define_models :links_controller
 
@@ -85,35 +62,6 @@ describe Admin::LinksController do
 
     it "should be missing" do
       do_get
-      response.should be_missing
-    end
-  end
-
-  describe "handling GET /links/1.xml" do
-    define_models :links_controller
-    
-    before(:each) do
-      authorize_as(:admin)
-    end
-    
-    def do_get
-      @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :show, :id => links(:one).id
-    end
-
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-  
-    it "should render the found link as xml" do
-      do_get
-      response.body.should == links(:one).to_xml
-    end
-    
-    it "should render not found for links not in the site" do
-      @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :show, :id => links(:four).id
       response.should be_missing
     end
   end

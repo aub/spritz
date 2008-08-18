@@ -49,29 +49,6 @@ describe Admin::GalleriesController do
     end
   end
 
-  describe "handling GET /admin/galleries.xml" do
-    define_models :galleries_controller
-    
-    before(:each) do
-      authorize_as :admin
-    end
-  
-    def do_get
-      @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :index
-    end
-  
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-
-    it "should render the found galleries as xml" do
-      do_get
-      response.body.should == sites(:default).galleries.to_xml
-    end
-  end
-
   describe "handling GET /admin/galleries/1" do
     define_models :galleries_controller
     
@@ -85,30 +62,6 @@ describe Admin::GalleriesController do
 
     it "should be missing" do
       do_get
-      response.should be_missing
-    end
-  end
-
-  describe "handling GET /admin/galleries/1.xml" do
-    define_models :galleries_controller
-    
-    before(:each) do
-      authorize_as :admin
-    end
-  
-    def do_get
-      @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :show, :id => galleries(:one).id
-    end
-
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-  
-    it "should not found galleries from another site" do
-      @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :show, :id => galleries(:four)
       response.should be_missing
     end
   end

@@ -26,57 +26,6 @@ describe Admin::ResumeItemsController do
     @e = CacheItem.for(sites(:default), 'e', [resume_items(:two)])
   end
   
-  describe "handling GET /admin/resume_sections/1/resume_items.xml" do
-    define_models :resume_items_controller
-
-    before(:each) do
-      authorize_as :admin
-    end
-  
-    def do_get
-      @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :index, :resume_section_id => resume_sections(:one).id
-    end
-  
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-
-    it "should render the found admin_resume_items as xml" do
-      do_get
-      response.body.should == [resume_items(:one), resume_items(:two), resume_items(:tre)].to_xml
-    end
-  end
-
-  describe "handling GET /admin_resume_items/1.xml" do
-    define_models :resume_items_controller
-
-    before(:each) do
-      authorize_as :admin
-    end
-  
-    def do_get
-      @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :show, :id => resume_items(:one).id, :resume_section_id => resume_sections(:one).id
-    end
-
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-  
-    it "should render the found resume_item as xml" do
-      do_get
-      response.body.should == resume_items(:one).to_xml
-    end
-    
-    it "should return missing if the item is from a different section" do
-      get :show, :id => resume_items(:four).id, :resume_section_id => resume_sections(:one).id
-      response.should be_missing
-    end
-  end
-
   describe "handling GET /admin/resume_sections/1/resume_items/new" do
     define_models :resume_items_controller
 

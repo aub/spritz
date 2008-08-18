@@ -5,34 +5,15 @@ class Admin::PortfoliosController < Admin::AdminController
   cache_sweeper :portfolio_sweeper, :only => [:create, :update, :destroy, :reorder, :reorder_children]
   
   # GET /admin/portfolios
-  # GET /admin/portfolios.xml
   def index
     # This find helper will get the portfolios that are at the root of
     # the tree (i.e. they have no parent).
     @portfolios = @site.root_portfolios
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @portfolios }
-    end
-  end
-
-  # GET /admin/portfolios/1
-  # GET /admin/portfolios/1.xml
-  def show
-    respond_to do |format|
-      format.html { render_not_found }
-      format.xml  { render :xml => @portfolio }
-    end
   end
 
   # GET /admin/portfolios/new
-  # GET /admin/portfolios/new.xml
   def new
     @portfolio = @site.portfolios.build
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @portfolio }
-    end
   end
 
   # This is the action for adding a child portfolio to an existing one.
@@ -40,10 +21,7 @@ class Admin::PortfoliosController < Admin::AdminController
   def add_child
     @portfolio = @site.portfolios.build
     @parent_id = params[:id]
-    respond_to do |format|
-      format.html { render :action => 'new' }
-      format.xml  { render :xml => @portfolio }
-    end
+    render :action => 'new'
   end
   
   # GET /admin/portfolios/1/edit
@@ -51,7 +29,6 @@ class Admin::PortfoliosController < Admin::AdminController
   end
 
   # POST /admin/portfolios
-  # POST /admin/portfolios.xml
   def create
     # Force the new portfolio to be after the last existing one. In the case where we're adding
     # a sub-page, the position won't matter because acts_as_nested_set will take care of the ordering.
@@ -61,47 +38,30 @@ class Admin::PortfoliosController < Admin::AdminController
     # If a parent id is provided, we need to add the child that we're creating
     # to that parent. Call this helper method in the site to handle that.
     @portfolio = @site.portfolios.create_with_parent_id(params[:portfolio], params[:parent_id])
-    respond_to do |format|
-      if @portfolio.valid?
-        flash[:notice] = 'Portfolio was successfully created.'
-        format.html { redirect_to edit_admin_portfolio_path(@portfolio) }
-        format.xml  { render :xml => @portfolio, :status => :created, :location => @portfolio }
-      else
-        # And finally, if we're going back to the 'new' template, we need to give it
-        # the parent id again so it can add it to the form.
-        @parent_id = params[:parent_id]
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @portfolio.errors, :status => :unprocessable_entity }
-      end
+    if @portfolio.valid?
+      flash[:notice] = 'Portfolio was successfully created.'
+      redirect_to edit_admin_portfolio_path(@portfolio)
+    else
+      # And finally, if we're going back to the 'new' template, we need to give it
+      # the parent id again so it can add it to the form.
+      @parent_id = params[:parent_id]
+      render :action => "new"
     end
   end
 
   # PUT /admin/portfolios/1
-  # PUT /admin/portfolios/1.xml
   def update
-    respond_to do |format|
-      if @portfolio.update_attributes(params[:portfolio])
-        flash[:notice] = 'Portfolio was successfully updated.'
-        format.html { render :action => 'edit' }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => 'edit' }
-        format.xml  { render :xml => @portfolio.errors, :status => :unprocessable_entity }
-      end
+    if @portfolio.update_attributes(params[:portfolio])
+      flash[:notice] = 'Portfolio was successfully updated.'
     end
+    render :action => 'edit'
   end
 
   # DELETE /admin/portfolios/1
-  # DELETE /admin/portfolios/1.xml
   def destroy
     parent = @portfolio.parent
     @portfolio.destroy
-    respond_to do |format|
-      format.html do
-        redirect_to(parent.nil? ? admin_portfolios_path : edit_admin_portfolio_path(parent))
-      end
-      format.xml  { head :ok }
-    end
+    redirect_to(parent.nil? ? admin_portfolios_path : edit_admin_portfolio_path(parent))
   end
 
   # PUT /portfolios/reorder

@@ -40,57 +40,6 @@ describe Admin::ContactsController do
     end
   end
 
-  describe "handling GET /admin/contacts.xml" do
-    define_models :contacts_controller
-
-    before(:each) do
-      authorize_as(:admin)
-    end
-      
-    def do_get
-      @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :index
-    end
-  
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-
-    it "should render the found admin_contacts as xml" do
-      do_get
-      response.body.should == sites(:default).contacts.to_xml
-    end
-  end
-
-  describe "handling GET /admin_contacts/1.xml" do
-    define_models :contacts_controller
-    
-    before(:each) do
-      authorize_as(:admin)
-    end
-    
-    def do_get
-      @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :show, :id => contacts(:one).id
-    end
-
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-  
-    it "should render the found contact as xml" do
-      do_get
-      response.body.should == contacts(:one).to_xml
-    end
-    
-    it "should not get contacts that are in another site" do
-      get :show, :id => contacts(:tre).id
-      response.should be_missing
-    end
-  end
-
   describe "handling DELETE /admin/contacts/1" do
     define_models :contacts_controller
     

@@ -41,36 +41,6 @@ describe Admin::SitesController do
     end
   end
 
-  describe "handling GET /admin/sites.xml" do
-    define_models :sites_controller
-    
-    before(:each) do
-      @site = mock_model(Site, :to_xml => "XML")
-      Site.stub!(:find).and_return(@site)
-    end
-  
-    def do_get
-      @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :index
-    end
-  
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-
-    it "should find all sites" do
-      Site.should_receive(:find).with(:all).and_return([@site])
-      do_get
-    end
-  
-    it "should render the found sites as xml" do
-      @site.should_receive(:to_xml).and_return("XML")
-      do_get
-      response.body.should == "XML"
-    end
-  end
-
   describe "handling GET /admin/sites/new" do
     define_models :sites_controller
     

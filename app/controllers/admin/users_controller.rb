@@ -19,7 +19,6 @@ class Admin::UsersController < Admin::AdminController
   end
 
   # PUT /users/1
-  # PUT /users/1.xml
   def update
     @user.update_attributes(params[:user])
     set_admin(params[:user])

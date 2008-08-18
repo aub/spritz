@@ -10,12 +10,10 @@ class ContactController < ContentController
   # POST /contact
   def create
     @contact = @site.contacts.create(params[:contact])
-    respond_to do |format|
-      if @contact.save
-        @message = 'Thank you for the message.'
-        ContactMailer.deliver_new_contact(User.find_all_by_site(@site).first, @contact)
-      end
-      format.html { render :template => 'contact' }
+    if @contact.save
+      @message = 'Thank you for the message.'
+      ContactMailer.deliver_new_contact(User.find_all_by_site(@site).first, @contact)
     end
+    render :template => 'contact'
   end
 end
