@@ -168,6 +168,9 @@ describe Admin::SitesController do
       define_models :sites_controller
       
       def do_post
+        @site.should_receive(:valid?).and_return(true)
+        @user.should_receive(:valid?).and_return(true)
+        
         @site.should_receive(:save).and_return(true)
         @user.should_receive(:save).and_return(true)
         post :create, :site => {}, :user => {}
@@ -199,12 +202,28 @@ describe Admin::SitesController do
         request.session[:user_id].should == assigns[:user].id
       end
     end
+
+    describe "with halfway successful save" do
+      define_models :sites_controller
+      
+      def do_post
+        @site.should_receive(:valid?).and_return(true)
+        @user.should_receive(:valid?).and_return(false)
+        post :create, :site => {}, :user => {}
+      end
+      
+      it "should save neither object in the case where one doesn't validate" do
+        @site.should_not_receive(:save)
+        @user.should_not_receive(:save)
+        do_post
+      end
+    end
     
     describe "with failed save" do
       define_models :sites_controller
       
       def do_post
-        @site.should_receive(:save).and_return(false)
+        @site.should_receive(:valid?).and_return(false)
         post :create, :site => {}
       end
   

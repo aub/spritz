@@ -1,0 +1,21 @@
+.group
+  %dl
+    %dt= f.label_for :login
+    %dd= f.text_field :login, :class => 'large fat'
+    %dt= f.label_for :email
+    %dd= f.text_field :email, :class => 'large fat'    
+    %dt= f.label_for :password
+    %dd= f.password_field :password, :class => 'large fat'
+    %dt= f.label_for :password_confirmation
+    %dd= f.password_field :password_confirmation, :class => 'large fat'
+    - if @user != current_user
+      - if admin?
+        %dd
+          = f.label_for :admin, :text => 'Admin: '
+          = f.check_box :admin
+    - else
+      %h3.admin-indicator You are an administrator
+    %dt
+      = f.submit 'Save User'
+      or
+      = link_to "Cancel", admin_users_path

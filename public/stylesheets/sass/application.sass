@@ -38,8 +38,9 @@ a
     :border none
 
 #login-form, #forgot-password-form
-  :margin 10px auto
-  :width 28em
+  :margin 25px auto
+  :width 450px
+  :position relative
   
   h1
     :font-size 100%
@@ -57,7 +58,6 @@ a
     :font-weight normal
     :padding 16px 16px 40px 16px
     :background-color = !cute_orange
-    :height 12em
 
   dl
     :font-weight normal
@@ -97,6 +97,11 @@ a
   .reset-password
     :font-size 70%
     :margin -20px 0pt 10px 0pt
+    
+  .session-flash
+    :color #800
+    :width 100%
+    :text-align center
 
 #forgot-password-form 
   form
@@ -529,6 +534,24 @@ a
 
 label a:link, label a:visited
   :border none
+
+.admin-indicator
+  :margin 10px 0
+
+#userlist 
+  ol
+    :list-style-type none
+  
+  li.membership-data
+    :margin-top 10px
+    
+    a
+      :margin-left 10px
+      :font-style italic
+
+ol.site-selector li
+  :list-style-type none
+  :margin 15px 0
 
 .icon
   :background url(/images/icons/bg_rounded.gif)

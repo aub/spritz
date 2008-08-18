@@ -23,7 +23,7 @@ describe "/layouts/admin.html.haml" do
   end
   
   it "should have a link to the settings page" do
-    response.should have_tag("a[href=?]", edit_admin_site_path(sites(:default)))
+    response.should have_tag("a[href=?]", edit_admin_settings_path)
   end
   
   it "should contain a link to the assets page" do

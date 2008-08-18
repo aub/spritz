@@ -21,11 +21,12 @@ a img {
   border: none; }
 
 #login-form, #forgot-password-form {
-  margin: 10px auto;
-  width: 28em; }
-  #login-form h1, #forgot-password-form h1 {
+  margin: 25px auto;
+  width: 450px;
+  position: relative; }
+  #login-form h1,   #forgot-password-form h1 {
     font-size: 100%; }
-    #login-form h1 a, #forgot-password-form h1 a {
+    #login-form h1 a,     #forgot-password-form h1 a {
       border-bottom: none;
       background: transparent url(../images/spritz-logo.png) no-repeat scroll 50%;
       display: block;
@@ -33,29 +34,28 @@ a img {
       overflow: hidden;
       text-indent: -9999px;
       width: 28em; }
-  #login-form form, #forgot-password-form form {
+  #login-form form,   #forgot-password-form form {
     font-weight: normal;
     padding: 16px 16px 40px 16px;
-    background-color: rgb(223,141,74);
-    height: 12em; }
-  #login-form dl, #forgot-password-form dl {
+    background-color: rgb(223,141,74); }
+  #login-form dl,   #forgot-password-form dl {
     font-weight: normal;
     margin: 0pt; }
-    #login-form dl dd, #forgot-password-form dl dd {
+    #login-form dl dd,     #forgot-password-form dl dd {
       margin: 0pt 0pt 20px 0pt; }
-    #login-form dl input, #forgot-password-form dl input {
+    #login-form dl input,     #forgot-password-form dl input {
       font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
       width: 100%;
       color: #383838; }
-  #login-form .remember-me, #forgot-password-form .remember-me {
+  #login-form .remember-me,   #forgot-password-form .remember-me {
     float: left;
     font-weight: normal; }
-  #login-form .submit, #forgot-password-form .submit {
+  #login-form .submit,   #forgot-password-form .submit {
     float: right;
     margin-bottom: 25px;
     width: 7em;
     text-align: right; }
-    #login-form .submit input, #forgot-password-form .submit input {
+    #login-form .submit input,     #forgot-password-form .submit input {
       border: 1px solid;
       cursor: default;
       font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -64,11 +64,15 @@ a img {
       padding: 3px 5px;
       text-decoration: none;
       color: #383838; }
-    #login-form .submit input:hover, #forgot-password-form .submit input:hover {
+    #login-form .submit input:hover,     #forgot-password-form .submit input:hover {
       color: #af8439; }
-  #login-form .reset-password, #forgot-password-form .reset-password {
+  #login-form .reset-password,   #forgot-password-form .reset-password {
     font-size: 70%;
     margin: -20px 0pt 10px 0pt; }
+  #login-form .session-flash,   #forgot-password-form .session-flash {
+    color: #800;
+    width: 100%;
+    text-align: center; }
 
 #forgot-password-form form {
   height: 8em; }
@@ -433,6 +437,21 @@ a img {
 
 label a:link, label a:visited {
   border: none; }
+
+.admin-indicator {
+  margin: 10px 0; }
+
+#userlist ol {
+  list-style-type: none; }
+#userlist li.membership-data {
+  margin-top: 10px; }
+  #userlist li.membership-data a {
+    margin-left: 10px;
+    font-style: italic; }
+
+ol.site-selector li {
+  list-style-type: none;
+  margin: 15px 0; }
 
 .icon {
   background: url(/images/icons/bg_rounded.gif);

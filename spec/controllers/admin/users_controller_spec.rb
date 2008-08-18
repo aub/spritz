@@ -122,6 +122,122 @@ describe Admin::UsersController do
     end
   end
   
+  describe "handling GET /admin/users" do
+    define_models :users_controller
+    
+    before(:each) do
+      login_as(:admin)
+    end
+    
+    def do_get
+      get :index
+    end
+    
+    it "should be successful" do
+      do_get
+      response.should be_success
+    end
+    
+    it "should render the index template" do
+      do_get
+      response.should render_template('index')
+    end
+    
+    it "should assign the list of users to the view" do
+      do_get
+      assigns[:users].should == User.find(:all, :order => 'login')
+    end
+  end
+  
+  describe "handling GET admin/users/new" do
+    define_models :users_controller
+    
+    before(:each) do
+      login_as :admin
+    end
+    
+    def do_get
+      get :new
+    end
+    
+    it "should be successful" do
+      do_get
+      response.should be_success
+    end
+    
+    it "should render the 'new' template" do
+      do_get
+      response.should render_template('new')
+    end
+    
+    it "should create a new user and assign it to the view" do
+      do_get
+      assigns[:user].should be_an_instance_of(User)
+    end
+    
+    it "should not save the new user" do
+      do_get
+      assigns[:user].should be_new_record
+    end
+    
+    it "should assign the list of sites for the view" do
+      do_get
+      assigns[:sites].should == Site.find(:all, :order => 'title')
+    end
+  end
+  
+  describe "handling POST /admin/users" do
+    define_models :users_controller
+    
+    before(:each) do
+      login_as :admin
+    end
+    
+    describe "with successful save" do
+      define_models :users_controller
+    
+      def do_post(admin=false)
+        post :create, :user => { :login => 'hack', :email => 'a@b.com', :password => 'abc123', :password_confirmation => 'abc123', :admin => admin }
+      end
+
+      it "should create a new user" do
+        lambda { do_post }.should change(User, :count).by(1)
+      end
+  
+      it "should redirect to the users list" do
+        do_post
+        response.should redirect_to(admin_users_path)
+      end
+
+      it "should set the admin field" do
+        do_post(true)
+        assigns[:user].reload.admin.should be_true
+      end
+
+      it "should not set admin if no flag is provided" do
+        do_post(nil)
+        assigns[:user].admin.should be_false
+      end      
+    end
+
+    describe "with failed save" do
+      define_models :users_controller
+
+      def do_post
+        post :create, :user => {}
+      end
+
+      it "should re-render 'new'" do
+        do_post
+        response.should render_template('new')
+      end
+      
+      it "should not create a new user" do
+        lambda { do_post }.should_not change(User, :count)
+      end
+    end
+  end
+  
   describe "handling GET /admin/users/1/edit" do
     define_models :users_controller
     
@@ -147,6 +263,11 @@ describe Admin::UsersController do
       do_get
       response.should render_template('edit')
     end
+    
+    it "should assign the list of available sites for the view" do
+      do_get
+      assigns[:sites].should == Site.find(:all, :order => 'title')
+    end
   end
   
   describe "handling PUT admin/users/1" do
@@ -159,25 +280,35 @@ describe Admin::UsersController do
     describe "with successful update" do
       define_models :users_controller
       
-      def do_put
-        put :update, :id => users(:admin).id, :user => { :password => 'booya', :password_confirmation => 'booya' }
+      def do_put(admin=false)
+        put :update, :id => users(:nonadmin).id, :user => { :password => 'booya', :password_confirmation => 'booya', :admin => admin }  
       end
 
       it "should update the found user" do
         do_put
-        users(:admin).reload
-        User.authenticate_for(sites(:default), 'admin', 'booya').should == users(:admin)
+        users(:nonadmin).reload
+        User.authenticate_for(sites(:default), 'nonadmin', 'booya').should == users(:nonadmin)
       end
 
       it "should assign the found user for the view" do
         do_put
-        assigns(:user).should == users(:admin)
+        assigns(:user).should == users(:nonadmin)
       end
 
-      it "should redirect to the dashboard" do
+      it "should redirect to the user list" do
         do_put
-        response.should redirect_to(admin_path)
+        response.should redirect_to(admin_users_path)
       end
+      
+      it "should set the admin field" do
+        do_put(true)
+        assigns[:user].reload.admin.should be_true
+      end
+
+      it "should not set admin if no flag is provided" do
+        do_put(nil)
+        assigns[:user].admin.should be_false
+      end      
     end
     
     describe "with failed update" do
@@ -319,6 +450,7 @@ describe Admin::UsersController do
     it "should require a site" do
       test_site_requirement(true, [
         lambda { get :new },
+        lambda { get :index },
         lambda { get :edit, :id => users(:nonadmin).id },
         lambda { get :activate, :id => users(:nonadmin).id },
         lambda { put :suspend, :id => users(:nonadmin).id },
@@ -333,6 +465,9 @@ describe Admin::UsersController do
     
     it "should require admin login" do
       test_login_requirement(true, true, [
+        lambda { get :index },
+        lambda { get :new },
+        lambda { post :create },
         lambda { put :suspend, :id => users(:nonadmin).id },
         lambda { put :unsuspend, :id => users(:nonadmin).id },
         lambda { delete :purge, :id => users(:nonadmin).id },
@@ -347,8 +482,6 @@ describe Admin::UsersController do
     
     it "should not require login" do
       test_login_requirement(false, false, [
-        lambda { get :new },
-        lambda { post :create },
         lambda { get :activate, :id => users(:nonadmin).id },
         lambda { get :login_from_token, :id => users(:admin).remember_token },
         lambda { get :forgot_password },

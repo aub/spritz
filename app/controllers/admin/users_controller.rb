@@ -1,49 +1,47 @@
 class Admin::UsersController < Admin::AdminController  
 
   # Protect these actions behind an admin login
-  before_filter :admin_required, :only => [:suspend, :unsuspend, :destroy, :purge]
+  before_filter :admin_required, :only => [:suspend, :unsuspend, :destroy, :purge, :index, :create, :new]
   before_filter :find_user, :only => [:suspend, :unsuspend, :destroy, :purge, :edit, :update]
 
   before_filter :set_mailer_host, :only => [:reset_password]
 
-  skip_before_filter :login_required, :only => [:new, :create, :activate, :forgot_password, :reset_password, :login_from_token]
+  skip_before_filter :login_required, :only => [:activate, :forgot_password, :reset_password, :login_from_token]
 
   layout :set_layout
 
+  def index
+    @users = User.find(:all, :order => 'login')
+  end
+
   def edit
+    @sites = Site.find(:all, :order => 'title')
   end
 
   # PUT /users/1
   # PUT /users/1.xml
   def update
-    respond_to do |format|
-      if @user.update_attributes(params[:user])
-        flash[:notice] = 'Your password was successfully updated.'
-        format.html { redirect_to admin_path }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
-      end
+    @user.update_attributes(params[:user])
+    set_admin(params[:user])
+    if @user.valid?
+      flash[:notice] = "#{@user.login} was successfully updated."
+      redirect_to admin_users_path
+    else
+      render :action => "edit"
     end
   end
 
   def new
     @user = User.new
+    @sites = Site.find(:all, :order => 'title')
   end
 
   def create
-    cookies.delete :auth_token
-    # protects against session fixation attacks, wreaks havoc with 
-    # request forgery protection.
-    # uncomment at your own risk
-    # reset_session
-    @user = User.new(params[:user])
-    @user.register! if @user.valid?
-    if @user.errors.empty?
-      self.current_user = @user
-      redirect_back_or_default('/')
-      flash[:notice] = "Thanks for signing up!"
+    @user = User.create(params[:user])
+    set_admin(params[:user])
+    if @user.valid?
+      flash[:notice] = "#{@user.login} was successfully created."
+      redirect_to admin_users_path
     else
       render :action => 'new'
     end
@@ -53,7 +51,7 @@ class Admin::UsersController < Admin::AdminController
     self.current_user = params[:activation_code].blank? ? :false : User.find_by_activation_code(params[:activation_code])
     if logged_in? && !current_user.active?
       current_user.activate!
-      flash[:notice] = "Signup complete!"
+      flash[:notice] = 'Signup complete!'
     end
     redirect_back_or_default('/')
   end
@@ -123,5 +121,9 @@ class Admin::UsersController < Admin::AdminController
   
   def set_mailer_host
     UserMailer.default_url_options[:host] = request.host_with_port
+  end
+  
+  def set_admin(user_params)
+    @user.update_attribute(:admin, user_params[:admin]) unless user_params[:admin].blank?
   end
 end

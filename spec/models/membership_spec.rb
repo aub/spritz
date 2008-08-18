@@ -1,22 +1,40 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Membership do
+  define_models :membership
   
   describe "validations" do
+    define_models :membership
+    
     it "should require a site_id" do
       m = Membership.new
       m.should_not be_valid
-      m.should have(1).error_on(:site_id)
+      m.should have(1).error_on(:site)
     end
     
     it "should require a user id" do
       m = Membership.new
       m.should_not be_valid
-      m.should have(1).error_on(:user_id)      
+      m.should have(1).error_on(:user)      
+    end
+    
+    it "should require the user to exist" do
+      m = Membership.new(:user_id => '123456789')
+      m.should have(1).error_on(:user)
+    end
+
+    it "should require the site to exist" do
+      m = Membership.new(:site_id => '12312312312')
+      m.should have(1).error_on(:site)
+    end
+    
+    it "should not allow creation of a duplicate membership" do
+      m = Membership.new(:user => users(:admin), :site => sites(:default))
+      m.should have(1).error_on(:user_id)
     end
     
     it "should be valid" do
-      m = Membership.new(:user_id => 1, :site_id => 1)
+      m = Membership.new(:user => users(:nonadmin), :site => sites(:other))
       m.should be_valid
     end
   end

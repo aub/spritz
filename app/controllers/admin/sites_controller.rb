@@ -41,7 +41,9 @@ class Admin::SitesController < Admin::AdminController
     @template_site = Site.new(params[:site])
     @user = User.new(params[:user])
     respond_to do |format|
-      if @template_site.save && @user.save
+      if @template_site.valid? && @user.valid?
+        @template_site.save
+        @user.save
         # If the site and the user both save correctly, add the user as a member of the site and log them in.
         @template_site.members << @user
         self.current_user = @user

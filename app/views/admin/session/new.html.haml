@@ -3,6 +3,7 @@
     = link_to 'http://www.spritzrelax.com', 'http://www.spritzrelax.com', :title => 'Powered by Spritz'
   - form_tag admin_session_path do
     %dl
+      %div.session-flash= flash[:session]
       %dt
         %label{ :for => "login" } Login
       %dd= text_field_tag :login, params[:login], :class => 'large'

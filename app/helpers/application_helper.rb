@@ -19,8 +19,9 @@ module ApplicationHelper
     assets_class = (ctrlr == 'assets' ? 'current' : '')
     design_class = ((ctrlr == 'themes' || ctrlr == 'resources') ? 'current' : '')
     contacts_class = (ctrlr == 'contacts' ? 'current' : '')
-    settings_class = (ctrlr == 'sites' ? 'current' : '')
+    settings_class = (ctrlr == 'settings' ? 'current' : '')
     content_class = ((ctrlr == 'home' || ctrlr == 'links' || ctrlr == 'news_items' || ctrlr == 'portfolios' || ctrlr == 'assigned_assets' || ctrlr == 'resume_sections' || ctrlr == 'galleries') ? 'current' : '')
+    admin_class = ((ctrlr == 'users' || ctrlr == 'sites' || ctrlr == 'memberships') ? 'current' : '')
     
     result =  content_tag('li', link_to('Dashboard', admin_dashboard_path, :class => dashboard_class))
     result << content_tag('li', link_to('Content', edit_admin_home_path, :class => content_class))
@@ -28,10 +29,14 @@ module ApplicationHelper
     result << content_tag('li', link_to('Design', admin_themes_path, :class => design_class))
     result << content_tag('li', link_to('Contacts', admin_contacts_path, :class => contacts_class))
     result << content_tag('li', link_to('Settings', edit_admin_settings_path, :class => settings_class))
+    if admin?
+      result << content_tag('li', link_to('Admin', admin_users_path, :class => admin_class))
+    end
+    result
   end
   
   def submenu
-    content_submenu << design_submenu
+    content_submenu << design_submenu << admin_submenu
   end
   
   def content_submenu
@@ -71,6 +76,20 @@ module ApplicationHelper
         result =  content_tag('li', link_to('Themes', admin_themes_path, :class => theme_class))
         result << content_tag('li', link_to('Theme Editor', admin_resources_path, :class => editor_class))
         result << content_tag('li', link_to('Upload Theme', new_admin_theme_path, :class => upload_class))
+      end
+    else
+      ''
+    end
+  end
+    
+  def admin_submenu
+    ctrlr = request.parameters['controller'].split('/').last
+    if (admin? && ctrlr == 'sites' || ctrlr == 'users' || ctrlr == 'memberships')
+      users_class = (ctrlr == 'users' || ctrlr == 'memberships' ? 'current' : '')
+      sites_class = (ctrlr == 'sites' ? 'current' : '')
+      content_for :subcontrols do
+        result =  content_tag('li', link_to('Users', admin_users_path, :class => users_class))
+        result << content_tag('li', link_to('Sites', admin_sites_path, :class => sites_class))
       end
     else
       ''

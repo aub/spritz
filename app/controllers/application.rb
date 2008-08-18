@@ -34,7 +34,10 @@ class ApplicationController < ActionController::Base
   end
   
   def admin_required
-    redirect_to new_admin_session_path unless admin?
+    unless admin?
+      flash[:session] = 'You must be an admin to access that page.'
+      redirect_to new_admin_session_path
+    end
   end
   
   # Make sure that there is a valid site for the given request, or bounce it

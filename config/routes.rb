@@ -38,7 +38,9 @@ ActionController::Routing::Routes.draw do |map|
       themes.resources :resources
     end
     admin.resources :users, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :activate => :get, :login_from_token => :get },
-                            :collection => { :forgot_password => :get, :reset_password => :put }
+                            :collection => { :forgot_password => :get, :reset_password => :put } do |users|
+      users.resources :memberships
+    end
     admin.with_options :controller => 'help', :action => 'show' do |m|
       m.help 'help/:page', :page => /textile/
     end

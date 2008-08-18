@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
 
   attr_accessible :login, :email, :password, :password_confirmation
   
-  # Virtual attribute for the unencrypted password
+  # Virtual attributes for the unencrypted password and the memberships
   attr_accessor :password
 
   validates_presence_of     :login, :email
@@ -20,6 +20,7 @@ class User < ActiveRecord::Base
   before_save :set_first_user_to_admin
 
   has_many :memberships, :dependent => :destroy
+  
   has_many :sites, :through => :memberships
   
   # prevents a user from submitting a crafted form that bypasses activation

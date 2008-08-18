@@ -35,7 +35,7 @@ describe Site do
     end
 
     it "should allow multiple empty domains" do
-      site1 = Site.create(:title => 't', :subdomain => 's')
+      site1 = Site.create(:title => 't', :subdomain => 's1')
       site1.should be_valid
       
       site2 = Site.create(:title => 't', :subdomain => 's2')
