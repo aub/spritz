@@ -3,6 +3,7 @@ config/deploy.rb
 coverage
 coverage.data
 db/*.sqlite3*
+doc
 log/*.log
 public/assets
 themes/site*
