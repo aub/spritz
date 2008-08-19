@@ -1,5 +1,7 @@
 class AssignedAsset < ActiveRecord::Base
 
+  acts_as_reorderable
+
   belongs_to :asset
   belongs_to :asset_holder, :polymorphic => true
 

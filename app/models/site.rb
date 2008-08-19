@@ -20,33 +20,13 @@ class Site < ActiveRecord::Base
 
   has_many :assets, :dependent => :destroy, :conditions => 'parent_id is NULL'
 
-  has_many :galleries, :dependent => :destroy, :order => 'position' do
-    # change the order of the galleries in the site by passing an ordered list of their ids
-    def reorder!(*sorted_ids)
-      proxy_owner.send(:reorder_items, self, sorted_ids)
-    end
-  end
+  has_many :galleries, :dependent => :destroy, :order => 'position'
 
-  has_many :links, :dependent => :destroy, :order => 'position' do
-    # change the order of the links in the site by passing an ordered list of their ids
-    def reorder!(*sorted_ids)
-      proxy_owner.send(:reorder_items, self, sorted_ids)
-    end
-  end
+  has_many :links, :dependent => :destroy, :order => 'position'
 
-  has_many :news_items, :dependent => :destroy, :order => 'position' do
-    # change the order of the links in the site by passing an ordered list of their ids
-    def reorder!(*sorted_ids)
-      proxy_owner.send(:reorder_items, self, sorted_ids)
-    end
-  end
+  has_many :news_items, :dependent => :destroy, :order => 'position'
 
-  has_many :resume_sections, :dependent => :destroy, :order => 'position' do
-    # change the order of the links in the site by passing an ordered list of their ids
-    def reorder!(*sorted_ids)
-      proxy_owner.send(:reorder_items, self, sorted_ids)
-    end
-  end
+  has_many :resume_sections, :dependent => :destroy, :order => 'position'
 
   has_many :contacts, :dependent => :destroy
 
@@ -68,13 +48,8 @@ class Site < ActiveRecord::Base
 
   # This is necessary both because it's nice to get access to only the root level portfolios
   # and because and because we only want to destroy the top ones when the site is being destroyed,
-  # since the plugin will handle deletion of the children.
-  has_many :root_portfolios, :class_name => 'Portfolio', :conditions => 'parent_id is NULL', :order => 'position', :dependent => :destroy do
-    # change the order of the links in the site by passing an ordered list of their ids
-    def reorder!(*sorted_ids)
-      proxy_owner.send(:reorder_items, Portfolio, sorted_ids)
-    end    
-  end
+  # since the nested set plugin will handle deletion of the children.
+  has_many :root_portfolios, :class_name => 'Portfolio', :conditions => 'parent_id is NULL', :order => 'position', :dependent => :destroy
 
   has_one :assigned_home_image, :class_name => 'AssignedAsset', :as => :asset_holder, :dependent => :destroy
 
@@ -150,15 +125,6 @@ class Site < ActiveRecord::Base
     self.update_attribute(:theme_path, 'dark')
     # This needs to be last because we want to return false if it fails
     Theme.create_defaults_for(self)
-  end
-  
-  # A helper method for reordering items that belong to the site.
-  def reorder_items(list, *sorted_ids)
-    transaction do
-      sorted_ids.flatten.each_with_index do |thing_id, pos|
-        list.find(thing_id).update_attribute(:position, pos)
-      end
-    end
   end
   
   def convert_column_to_html

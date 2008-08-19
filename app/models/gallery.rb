@@ -1,4 +1,6 @@
 class Gallery < ActiveRecord::Base
+
+  acts_as_reorderable
   
   belongs_to :site
   
