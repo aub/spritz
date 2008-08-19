@@ -6,12 +6,11 @@ class Gallery < ActiveRecord::Base
   
   validates_presence_of :name
   
-  column_to_html :text
+  column_to_html :description
 
   attr_accessible :name, :address, :city, :state, :zip, :country, :phone, :email, :url, :description, :position
   
   def to_liquid
     GalleryDrop.new self
   end
-  
 end

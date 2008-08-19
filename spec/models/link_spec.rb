@@ -29,6 +29,7 @@ describe Link do
     
     it "should be valid" do
       @link.url = 'hack'
+      @link.title = 'double hack'
       @link.should be_valid
     end
   end

@@ -13,7 +13,7 @@
         %dd
           = f.label_for :admin, :text => 'Admin: '
           = f.check_box :admin
-    - else
+    - elsif admin?
       %h3.admin-indicator You are an administrator
     %dt
       = f.submit 'Save User'

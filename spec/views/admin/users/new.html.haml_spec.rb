@@ -42,4 +42,11 @@ describe "/admin/users/new.html.haml" do
     do_render
     response.should have_tag('h3', :text => 'You are an administrator')    
   end
+  
+  it "should say nothing if it's the current user and they aren't an admin" do
+    template.stub!(:current_user).and_return(@user)
+    template.stub!(:admin?).and_return(false)
+    do_render
+    response.should_not have_tag('h3', :text => 'You are an administrator')    
+  end
 end

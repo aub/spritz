@@ -141,7 +141,7 @@ describe Admin::LinksController do
       define_models :links_controller
     
       def do_post
-        post :create, :link => { :url => 'hack' }
+        post :create, :link => { :url => 'hack', :title => 'ack' }
       end
 
       it "should create a new link" do
@@ -196,7 +196,7 @@ describe Admin::LinksController do
       define_models :links_controller
       
       def do_put
-        put :update, :id => links(:one).id, :link => { :url => 'heya' }
+        put :update, :id => links(:one).id, :link => { :url => 'heya', :title => 'bya' }
       end
 
       it "should update the found link" do
