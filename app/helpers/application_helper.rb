@@ -20,7 +20,7 @@ module ApplicationHelper
     design_class = ((ctrlr == 'themes' || ctrlr == 'resources') ? 'current' : '')
     contacts_class = (ctrlr == 'contacts' ? 'current' : '')
     settings_class = (ctrlr == 'settings' ? 'current' : '')
-    content_class = ((ctrlr == 'home' || ctrlr == 'links' || ctrlr == 'news_items' || ctrlr == 'portfolios' || ctrlr == 'assigned_assets' || ctrlr == 'resume_sections' || ctrlr == 'galleries') ? 'current' : '')
+    content_class = ((ctrlr == 'home' || ctrlr == 'links' || ctrlr == 'news_items' || ctrlr == 'portfolios' || ctrlr == 'assigned_assets' || ctrlr == 'resume_sections' || ctrlr == 'resume_items' || ctrlr == 'galleries') ? 'current' : '')
     admin_class = ((ctrlr == 'users' || ctrlr == 'sites' || ctrlr == 'memberships') ? 'current' : '')
     
     result =  content_tag('li', link_to('Dashboard', admin_dashboard_path, :class => dashboard_class))
@@ -41,11 +41,11 @@ module ApplicationHelper
   
   def content_submenu
     ctrlr = request.parameters['controller'].split('/').last
-    if (ctrlr == 'home' || ctrlr == 'links' || ctrlr == 'news_items' || ctrlr == 'portfolios' || ctrlr == 'assigned_assets' || ctrlr == 'resume_sections' || ctrlr == 'galleries')
+    if (ctrlr == 'home' || ctrlr == 'links' || ctrlr == 'news_items' || ctrlr == 'portfolios' || ctrlr == 'assigned_assets' || ctrlr == 'resume_sections' || ctrlr == 'resume_items' || ctrlr == 'galleries')
       home_class = (ctrlr == 'home' ? 'current' : '')
       links_class = (ctrlr == 'links' ? 'current' : '')
       news_class = (ctrlr == 'news_items' ? 'current' : '')
-      resume_class = (ctrlr == 'resume_sections' ? 'current' : '')
+      resume_class = (ctrlr == 'resume_sections' || ctrlr == 'resume_items' ? 'current' : '')
       galleries_class = (ctrlr == 'galleries' ? 'current' : '')
       portfolios_class = ((ctrlr == 'portfolios' || ctrlr == 'assigned_assets') ? 'current' : '')
     
