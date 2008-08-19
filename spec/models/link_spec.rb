@@ -23,6 +23,10 @@ describe Link do
       @link.should have(1).errors_on(:url)      
     end
     
+    it "should requre a title" do
+      @link.should have(1).error_on(:title)
+    end
+    
     it "should be valid" do
       @link.url = 'hack'
       @link.should be_valid

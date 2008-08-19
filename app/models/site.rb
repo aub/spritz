@@ -9,7 +9,6 @@ class Site < ActiveRecord::Base
   after_create :initialize_theme
 
   column_to_html :home_text
-  # before_save :convert_column_to_html
 
   attr_accessible :domain, :subdomain, :theme_path, :title, :home_news_item_count, :home_text, :google_analytics_code
   
@@ -126,8 +125,4 @@ class Site < ActiveRecord::Base
     # This needs to be last because we want to return false if it fails
     Theme.create_defaults_for(self)
   end
-  
-  # def convert_column_to_html
-  #   self.home_text_html = RedCloth.new(self.home_text || '').to_html
-  # end  
 end

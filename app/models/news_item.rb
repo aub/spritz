@@ -8,17 +8,10 @@ class NewsItem < ActiveRecord::Base
   validates_length_of :title, :maximum => 100
 
   column_to_html :text
-  # before_save :convert_column_to_html
 
   attr_accessible :text, :title, :position
   
   def to_liquid
     NewsItemDrop.new self
   end
-  
-  protected
-  
-  # def convert_column_to_html
-  #   self.text_html = RedCloth.new(self.text || '').to_html
-  # end
 end
