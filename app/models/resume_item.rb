@@ -6,8 +6,8 @@ class ResumeItem < ActiveRecord::Base
   
   validates_presence_of :text
   
-  # column_to_html :text
-  before_save :convert_column_to_html
+  column_to_html :text
+  # before_save :convert_column_to_html
   
   def to_liquid
     ResumeItemDrop.new self
@@ -15,7 +15,7 @@ class ResumeItem < ActiveRecord::Base
   
   protected
   
-  def convert_column_to_html
-    self.text_html = RedCloth.new(self.text || '').to_html
-  end
+  # def convert_column_to_html
+  #   self.text_html = RedCloth.new(self.text || '').to_html
+  # end
 end

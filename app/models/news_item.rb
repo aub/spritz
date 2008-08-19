@@ -7,8 +7,8 @@ class NewsItem < ActiveRecord::Base
   validates_presence_of :title
   validates_length_of :title, :maximum => 100
 
-  # column_to_html :text
-  before_save :convert_column_to_html
+  column_to_html :text
+  # before_save :convert_column_to_html
 
   attr_accessible :text, :title, :position
   
@@ -18,7 +18,7 @@ class NewsItem < ActiveRecord::Base
   
   protected
   
-  def convert_column_to_html
-    self.text_html = RedCloth.new(self.text || '').to_html
-  end
+  # def convert_column_to_html
+  #   self.text_html = RedCloth.new(self.text || '').to_html
+  # end
 end
