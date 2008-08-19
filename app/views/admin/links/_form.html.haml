@@ -1,8 +1,8 @@
 .group
   %dl
-    %dt= f.label_for :url
+    %dt= f.label_for :url, :text => 'Url*'
     %dd= f.text_field :url, :class => 'large fat'
-    %dt= f.label_for :title
+    %dt= f.label_for :title, :text => 'Title*'
     %dd
       ~ f.text_field :title, :class => 'large fat'
     %dt
