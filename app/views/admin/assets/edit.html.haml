@@ -3,7 +3,7 @@
 - form_for @asset, :url => admin_asset_path(@asset), :html => { :method => :put } do |f|
   .group
     %dl
-      - Asset.field_names.each do |field|
+      - Asset::FIELD_NAMES.each do |field|
         %dt= f.label_for field
         - if field == :description
           %dd= f.text_area field, :class => 'large fat', :rows => '4'

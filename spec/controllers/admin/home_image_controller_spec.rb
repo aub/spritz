@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe Admin::HomeImageController do
   define_models :home_image_controller do
     model Asset do
-      stub :one, :site => all_stubs(:site), :filename => 'booya', :size => 1, :content_type => 'c'
+      stub :one, :site => all_stubs(:site)
     end
   end
   

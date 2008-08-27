@@ -22,10 +22,6 @@ config.action_view.cache_template_loading            = true
 # where there is no valid site.
 MAIN_HOST = '127.0.0.1'
 
-# This is the root of the directory under which the asset files will be stored for file-system
-# storage.
-ASSET_PATH_ROOT = 'public/assets'
-
 # This is the directory where the themes will be stored.
 THEME_PATH_ROOT = 'themes'
 

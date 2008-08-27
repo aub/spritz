@@ -3,8 +3,8 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe Admin::AssetsController do
   define_models :assets_controller do
     model Asset do
-      stub :one, :site => all_stubs(:site), :filename => 'booya', :size => 1, :content_type => 'c'
-      stub :two, :site => all_stubs(:site), :filename => 'hooya', :size => 1, :content_type => 'c'
+      stub :one, :site => all_stubs(:site), :attachment_file_name => 'f', :attachment_content_type => 'c', :attachment_file_size => 1, :attachment_updated_at => Time.now
+      stub :two, :site => all_stubs(:site)
     end
     model Portfolio do
       stub :one, :site => all_stubs(:site)

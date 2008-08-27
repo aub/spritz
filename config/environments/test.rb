@@ -29,10 +29,6 @@ config.action_mailer.delivery_method = :test
 # where there is no valid site.
 MAIN_HOST = 'test.host'
 
-# This is the root of the directory under which the asset files will be stored for file-system
-# storage.
-ASSET_PATH_ROOT = 'tmp/test/assets'
-
 # This is the directory where the themes will be stored.
 THEME_PATH_ROOT = 'tmp/test/themes'
 

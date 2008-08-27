@@ -5,7 +5,8 @@ coverage.data
 db/*.sqlite3*
 doc
 log/*.log
-public/assets
+public/attachments
+public/cover_images
 themes/site*
 tmp/attachment_fu
 tmp/cache

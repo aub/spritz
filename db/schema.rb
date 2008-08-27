@@ -9,21 +9,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080721130842) do
+ActiveRecord::Schema.define(:version => 20080821004152) do
 
   create_table "assets", :force => true do |t|
-    t.string   "content_type"
-    t.string   "filename"
-    t.integer  "size"
-    t.integer  "parent_id"
-    t.string   "thumbnail"
-    t.integer  "width"
-    t.integer  "height"
     t.integer  "site_id"
-    t.integer  "thumbnails_count"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "fields"
+    t.string   "attachment_file_name"
+    t.string   "attachment_content_type"
+    t.integer  "attachment_file_size"
+    t.datetime "attachment_updated_at"
   end
 
   create_table "assigned_assets", :force => true do |t|
@@ -107,8 +103,12 @@ ActiveRecord::Schema.define(:version => 20080721130842) do
     t.text     "body"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "position",   :default => 1
+    t.integer  "position",                 :default => 1
     t.text     "body_html"
+    t.string   "cover_image_file_name"
+    t.string   "cover_image_content_type"
+    t.integer  "cover_image_file_size"
+    t.datetime "cover_image_updated_at"
   end
 
   create_table "resume_items", :force => true do |t|

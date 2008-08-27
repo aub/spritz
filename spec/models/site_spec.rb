@@ -3,9 +3,9 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe Site do
   define_models :site do
     model Asset do
-      stub :one, :site => all_stubs(:site), :thumbnail => nil, :parent_id => nil, :filename => 'back', :thumbnails_count => 1
-      stub :two, :site => all_stubs(:site), :thumbnail => nil, :parent_id => nil, :filename => 'wack'
-      stub :tre, :site => all_stubs(:site), :thumbnail => 'display', :parent => all_stubs(:one_asset), :filename => 'smack'
+      stub :one, :site => all_stubs(:site)
+      stub :two, :site => all_stubs(:site)
+      stub :tre, :site => all_stubs(:site)
     end
   end
 
@@ -348,15 +348,11 @@ describe Site do
     define_models :site
     
     it "should have a collection of assets" do
-      sites(:default).assets.sort_by(&:id).should == [assets(:one), assets(:two)].sort_by(&:id)
+      sites(:default).assets.sort_by(&:id).should == [assets(:one), assets(:two), assets(:tre)].sort_by(&:id)
     end
-    
-    it "should not include assets that are thumbnails" do
-      sites(:default).assets.include?(assets(:tre)).should be_false
-    end
-    
+
     it "should destroy its assets when keeling over" do
-      lambda { sites(:default).destroy }.should change(Asset, :count).by(-2)
+      lambda { sites(:default).destroy }.should change(Asset, :count).by(-3)
     end
   end  
   

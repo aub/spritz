@@ -5,7 +5,13 @@
     %dt= f.label_for :body, :text => "Text #{link_to image_tag('/images/icons/comment.gif', :class => 'icon-box orange'), admin_help_path('textile'), :target => '_blank'}"
     %dd
       ~ f.text_area :body, :class => 'large fat', :rows => '8'
-
+    %dt= f.label_for :cover_image
+    %dd
+      - if @portfolio.cover_image.file?
+        = image_tag @portfolio.cover_image(:thumb)
+      - else
+        = image_tag 'missing-thumb.png'
+      = f.file_field :cover_image
     %dt
       = f.submit 'Save Portfolio'
       or

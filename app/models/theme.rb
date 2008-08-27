@@ -1,10 +1,9 @@
 require 'zip/zipfilesystem'
 
 class Theme
-  @@root_theme_files   = %w(about.yml preview.png)
-  @@theme_directories  = %w(images javascripts layouts stylesheets templates)
-  @@allowed_extensions = %w(.js .css .png .gif .jpg .swf .ico .liquid)
-  cattr_reader :root_theme_files, :theme_directories, :allowed_extensions
+  ROOT_THEME_FILES   = %w(about.yml preview.png)
+  THEME_DIRECTORIES  = %w(images javascripts layouts stylesheets templates)
+  ALLOWED_EXTENSIONS = %w(.js .css .png .gif .jpg .swf .ico .liquid)
   
   attr_reader :site, :name, :path
   
@@ -86,8 +85,10 @@ class Theme
     def create_defaults_for(site)
       begin
         # Get rid of the directory first to make sure we start from scratch.
-        FileUtils.rm_rf(site_theme_dir(site))
-        FileUtils.cp_r(defaults_directory, site_theme_dir(site))
+        dir = site_theme_dir(site)
+        FileUtils.rm_rf(dir)
+        FileUtils.mkdir_p(dir)
+        FileUtils.cp_r(defaults_directory + '/.', dir)
         true
       rescue
         false
@@ -124,19 +125,19 @@ class Theme
         
         # For each of the files that are supposed to be in the root directory of the theme,
         # read them from the zip file and create files in the theme directory for them.
-        root_theme_files.each do |file|
+        ROOT_THEME_FILES.each do |file|
           z.file.open(file) { |zf| File.open(dest + file, 'wb') { |f| f << zf.read } } if z.file.exist?(file)
         end
         
         # For each of the directories that are supposed to exist in the theme, copy the files
         # into the new theme directory.
-        theme_directories.each do |dir|
+        THEME_DIRECTORIES.each do |dir|
           dir_path = Pathname.new(dest + dir)
           FileUtils.mkdir_p dir_path unless dir_path.exist?
           z.dir.entries(dir).each do |entry|
             # Make sure that the files conform to a naming comvention so that users don't upload
             # crazy things (or viruses).
-            next unless entry =~ /(\.\w+)$/ && allowed_extensions.include?($1)
+            next unless entry =~ /(\.\w+)$/ && ALLOWED_EXTENSIONS.include?($1)
             z.file.open(File.join(dir, entry)) { |zf| File.open(dir_path + entry, 'wb') { |f| f << zf.read } }
           end
         end

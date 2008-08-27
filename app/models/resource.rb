@@ -39,9 +39,7 @@ class Resource
   end
   
   def image?
-    # Because Asset is using attachment_fu, it gets a method that will
-    # help us here.
-    Asset.image?(content_type)
+    content_type && content_type.starts_with?('image/')
   end
   
   {'template?' => '.liquid', 'stylesheet?' => '.css', 'javascript?' => '.js' }.each do |key, value|

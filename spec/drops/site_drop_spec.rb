@@ -25,8 +25,8 @@ describe SiteDrop do
       stub :two, :site => all_stubs(:site), :position => 1
     end
     model Asset do
-      stub :one, :site => all_stubs(:site), :filename => 'hacky'
-      stub :two, :site => all_stubs(:site), :filename => 'ouch'
+      stub :one, :site => all_stubs(:site), :attachment_file_name => 'hack.png'
+      stub :two, :site => all_stubs(:site), :attachment_file_name => 'ack.png'
     end
     model AssignedAsset do
       stub :one, :asset => all_stubs(:one_asset), :asset_holder => all_stubs(:site), :asset_holder_type => 'Site'
@@ -102,11 +102,11 @@ describe SiteDrop do
   end
   
   it "should provide access to the display-size home image" do
-    @drop.home_image_display_path.should == assets(:one).public_filename(:display)
+    @drop.home_image_display_path.should == "/attachments/#{assets(:one).id}/display/hack.png"
   end
 
   it "should provide access to the medium-size home image" do
-    @drop.home_image_medium_path.should == assets(:one).public_filename(:medium)
+    @drop.home_image_medium_path.should == "/attachments/#{assets(:one).id}/medium/hack.png"
   end
   
   it "should return an empty string if the site has no assets" do

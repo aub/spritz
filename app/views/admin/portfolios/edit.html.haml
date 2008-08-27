@@ -3,7 +3,7 @@
 
 = error_messages_for :portfolio
 
-- form_for @portfolio, :url => admin_portfolio_path(@portfolio) do |f|
+- form_for @portfolio, :url => admin_portfolio_path(@portfolio), :html => { :multipart => true } do |f|
   = render :partial => 'form', :locals => { :f => f }
 
 - content_for :sidebar do

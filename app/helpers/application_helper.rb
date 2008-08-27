@@ -2,7 +2,7 @@
 module ApplicationHelper
   
   def asset_image_tag(asset, thumbnail = :display, options = {})
-    image_tag(asset.public_filename(thumbnail), options)
+    image_tag(asset.attachment.url(thumbnail), options)
   end
 
   def add_icon

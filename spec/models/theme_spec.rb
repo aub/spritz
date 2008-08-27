@@ -58,6 +58,13 @@ describe Theme do
   describe "create_defaults_for method" do
     define_models :theme
     
+    it "should create the themes directory if it doesn't exist" do
+      themes_path = File.join(RAILS_ROOT, THEME_PATH_ROOT)
+      FileUtils.rm_rf(themes_path)
+      Theme.create_defaults_for(sites(:default))
+      File.exist?(themes_path).should be_true
+    end
+    
     it "should create a directory for the site's themes" do
       Theme.create_defaults_for(sites(:default))
       File.exist?(File.join(RAILS_ROOT, THEME_PATH_ROOT, "site-#{sites(:default).id}")).should be_true
@@ -145,13 +152,13 @@ describe Theme do
     end
     
     it "should create the files in the root directory" do
-      Theme.root_theme_files.each do |file|
+      Theme::ROOT_THEME_FILES.each do |file|
         File.exists?(File.join(@base_dir, 'darker', file)).should be_true
       end
     end
     
     it "should create the standard directories in the theme" do
-      Theme.theme_directories.each do |dir|
+      Theme::THEME_DIRECTORIES.each do |dir|
         File.exists?(File.join(@base_dir, 'darker', dir)).should be_true
       end
     end

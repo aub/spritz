@@ -3,8 +3,8 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe PortfolioDrop do
   define_models :portfolio_drop do
     model Asset do
-      stub :one, :site => all_stubs(:site), :filename => 'fake1'
-      stub :two, :site => all_stubs(:site), :filename => 'fake2'
+      stub :one, :site => all_stubs(:site)
+      stub :two, :site => all_stubs(:site)
     end
     model Portfolio do
       stub :one, :site => all_stubs(:site), :title => 'a_title', :body => 'a_body', :body_html => 'ack', :lft => 1, :rgt => 2

@@ -5,7 +5,7 @@ num_thumbnails = 4
 describe Asset do
   define_models :asset do
     model Asset do
-      stub :one, :site => all_stubs(:site), :filename => 'fake1', :content_type => 'a_type', :size => 12
+      stub :one, :site => all_stubs(:site), :attachment_file_name => 'f', :attachment_content_type => 'c', :attachment_file_size => 1, :attachment_updated_at => Time.now
     end
     model Portfolio do
       stub :one, :site => all_stubs(:site)
@@ -28,10 +28,8 @@ describe Asset do
       @asset.should have(1).error_on(:site_id)
     end
     
-    it "should validate as an attachment" do
-      @asset.should have(2).error_on(:size)
-      @asset.should have(1).error_on(:content_type)
-      @asset.should have(1).error_on(:filename)
+    it "should validate the presence of the attachment" do
+      @asset.should have(1).error_on(:attachment)
     end
   end
   
@@ -47,16 +45,12 @@ describe Asset do
     define_models :asset
 
     before(:each) do
-      assets(:one).uploaded_data = asset_file
+      assets(:one).attachment = asset_file
       assets(:one).save.should be_true
     end
     
     it "should be creatable from data" do
       assets(:one).save.should be_true
-    end
-    
-    it "should create thumbnails" do
-      assets(:one).thumbnails.size.should == num_thumbnails
     end
   end
 
@@ -80,7 +74,7 @@ describe Asset do
     end
     
     it "should have a list of field names" do
-      Asset.field_names.should == @field_names
+      Asset::FIELD_NAMES.should == @field_names
     end
     
     it "should create accessor methods for each of the fields" do

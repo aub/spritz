@@ -4,8 +4,8 @@ describe AssignedAsset do
 
   define_models :assigned_asset do
     model Asset do
-      stub :one, :site => all_stubs(:site), :filename => 'fake1'
-      stub :two, :site => all_stubs(:site), :filename => 'fake2'
+      stub :one, :site => all_stubs(:site)
+      stub :two, :site => all_stubs(:site)
     end
     model Portfolio do
       stub :one, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 2

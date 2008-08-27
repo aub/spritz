@@ -12,8 +12,10 @@ class Portfolio < ActiveRecord::Base
   
   has_many :assigned_assets, :as => :asset_holder, :dependent => :destroy, :order => 'position'
   has_many :assets, :through => :assigned_assets, :order => 'assigned_assets.position'
+
+  has_attached_file :cover_image, :styles => { :display => '600x400>', :medium => '400x300>', :thumb => '70x70#', :tiny => '35x35#' }
   
-  attr_accessible :title, :body, :position
+  attr_accessible :title, :body, :position, :cover_image
 
   # Reorder the children according to the list of ids given.
   def reorder_children!(*sorted_ids)

@@ -6,8 +6,8 @@ describe ItemsController do
       stub :one, :site => all_stubs(:site), :lft => 1, :rgt => 2
     end
     model Asset do
-      stub :one, :site => all_stubs(:site), :filename => 'booya', :size => 1, :content_type => 'c'
-      stub :two, :site => all_stubs(:site), :filename => 'booya', :size => 1, :content_type => 'c'
+      stub :one, :site => all_stubs(:site)
+      stub :two, :site => all_stubs(:site)
     end
     model AssignedAsset do
       stub :one, :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :asset => all_stubs(:one_asset)

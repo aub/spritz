@@ -36,6 +36,7 @@ def stub_site_themes
 end
 
 def cleanup_theme_directory
+  FileUtils.mkdir(Theme.theme_root) unless File.exist?(Theme.theme_root)
   Dir.foreach(Theme.theme_root) do |file|
     FileUtils.rm_rf(File.join(Theme.theme_root, file)) unless (file == 'default' || file == '.' || file == '..')
   end

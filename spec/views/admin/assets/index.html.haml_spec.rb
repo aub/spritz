@@ -5,7 +5,7 @@ describe "/admin/assets/index.html.haml" do
 
   define_models :index do
     model Asset do
-      stub :one, :site => all_stubs(:site), :filename => 'fake'
+      stub :one, :site => all_stubs(:site)
     end
   end
   

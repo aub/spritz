@@ -3,7 +3,9 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe PortfolioItemDrop do
   define_models :portfolio_item_drop do
     model Asset do
-      stub :one, :site => all_stubs(:site), :filename => 'fake1', :fields => { :title => 'way cool', :dimensions => '1x2', :price => '' }
+      stub :one, :site => all_stubs(:site), 
+        :attachment_file_name => 'f.png', :attachment_content_type => 'c', :attachment_file_size => 1, :attachment_updated_at => Time.now,
+        :fields => { :title => 'way cool', :dimensions => '1x2', :price => '' }
     end
     model Portfolio do
       stub :one, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 2
@@ -18,19 +20,19 @@ describe PortfolioItemDrop do
   end
   
   it "should provide access to the thumbnail path" do
-    @drop.thumbnail_path.should == assets(:one).public_filename(:thumb)
+    @drop.thumbnail_path.should match(/\/attachments\/#{assets(:one).id}\/thumb\/f.png.*/)
   end
   
   it "should provide access to the display path" do
-    @drop.display_path.should == assets(:one).public_filename(:display)
+    @drop.display_path.should match(/\/attachments\/#{assets(:one).id}\/display\/f.png.*/)
   end
 
   it "should provide access to the medium path" do
-    @drop.medium_path.should == assets(:one).public_filename(:medium)
+    @drop.medium_path.should match(/\/attachments\/#{assets(:one).id}\/medium\/f.png.*/)
   end
 
   it "should provide access to the tiny path" do
-    @drop.tiny_path.should == assets(:one).public_filename(:tiny)
+    @drop.tiny_path.should match(/\/attachments\/#{assets(:one).id}\/tiny\/f.png.*/)
   end
   
   it "should provide access to a url" do

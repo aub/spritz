@@ -4,12 +4,15 @@ describe "/admin/portfolios/edit.html.haml" do
   include Admin::PortfoliosHelper
   
   before do
+    @cover_image = mock_model(Paperclip::Attachment, :file? => false)
+    
     @portfolio = mock_model(Portfolio)
     @portfolio.stub!(:title).and_return("MyString")
     @portfolio.stub!(:body).and_return("MyText")
     @portfolio.stub!(:assigned_assets).and_return([])
     @portfolio.stub!(:children).and_return([])
     @portfolio.stub!(:self_and_ancestors).and_return([])
+    @portfolio.stub!(:cover_image).and_return(@cover_image)
     assigns[:portfolio] = @portfolio
     
     @site = mock_model(Site)

@@ -4,6 +4,8 @@ describe "/admin/portfolios/new.html.haml" do
   include Admin::PortfoliosHelper
   
   before(:each) do
+    @cover_image = mock_model(Paperclip::Attachment, :file? => false)
+    
     @portfolio = mock_model(Portfolio)
     @portfolio.stub!(:new_record?).and_return(true)
     @portfolio.stub!(:site_id).and_return("1")
@@ -12,6 +14,7 @@ describe "/admin/portfolios/new.html.haml" do
     @portfolio.stub!(:rgt).and_return("1")
     @portfolio.stub!(:title).and_return("MyString")
     @portfolio.stub!(:body).and_return("MyText")
+    @portfolio.stub!(:cover_image).and_return(@cover_image)
     assigns[:portfolio] = @portfolio
   end
 

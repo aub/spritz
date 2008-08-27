@@ -12,6 +12,11 @@ describe "/admin/assets/edit.html.haml" do
     @asset.stub!(:date).and_return("MyString")
     @asset.stub!(:description).and_return("1")
     @asset.stub!(:public_filename).and_return("1")
+    
+    @attachment = mock_model(Paperclip::Attachment)
+    @attachment.stub!(:url).and_return('a')
+    @asset.stub!(:attachment).and_return(@attachment)
+    
     assigns[:asset] = @asset
   end
 

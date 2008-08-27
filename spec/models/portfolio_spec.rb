@@ -7,9 +7,9 @@ describe Portfolio do
       stub :one, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 4
     end
     model Asset do
-      stub :one, :site => all_stubs(:site), :filename => 'fake1'
-      stub :two, :site => all_stubs(:site), :filename => 'fake2'
-      stub :tre, :site => all_stubs(:site), :filename => 'fake2'
+      stub :one, :site => all_stubs(:site)
+      stub :two, :site => all_stubs(:site)
+      stub :tre, :site => all_stubs(:site)
     end
     model AssignedAsset do
       stub :one, :asset => all_stubs(:one_asset), :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :position => 1

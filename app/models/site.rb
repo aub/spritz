@@ -17,7 +17,7 @@ class Site < ActiveRecord::Base
   
   has_many :cache_items, :dependent => :destroy
 
-  has_many :assets, :dependent => :destroy, :conditions => 'parent_id is NULL'
+  has_many :assets, :dependent => :destroy
 
   has_many :galleries, :dependent => :destroy, :order => 'position'
 

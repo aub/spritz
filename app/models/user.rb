@@ -1,6 +1,6 @@
 require 'digest/sha1'
 class User < ActiveRecord::Base
-  @@membership_options = {:select => 'distinct users.*', :order => 'users.login',
+  MEMBERSHIP_OPTIONS = {:select => 'distinct users.*', :order => 'users.login',
     :joins => 'left outer join memberships on users.id = memberships.user_id'}
 
   attr_accessible :login, :email, :password, :password_confirmation
@@ -58,32 +58,32 @@ class User < ActiveRecord::Base
 
   # Authenticates a user by their site, login name and unencrypted password.  Returns the user or nil.
   def self.authenticate_for(site, login, password)
-    user = find_in_state :first, :active, @@membership_options.merge(
+    user = find_in_state :first, :active, MEMBERSHIP_OPTIONS.merge(
       :conditions => ['users.login = ? and (memberships.site_id = ? or users.admin = ?)', login, site.id, true])
     user && user.authenticated?(password) ? user : nil
   end
 
   # Added as a helper to make sure we only find users who are members of the given site.
   def self.find_by_site(site, id)
-    find(:first, @@membership_options.merge(
+    find(:first, MEMBERSHIP_OPTIONS.merge(
       :conditions => ['users.id = ? and (memberships.site_id = ? or users.admin = ?)', id, site.id, true]))
   end
 
   # And the pluralized version of above.
   def self.find_all_by_site(site, options = {})
-    find(:all, @@membership_options.merge(options.reverse_merge(
+    find(:all, MEMBERSHIP_OPTIONS.merge(options.reverse_merge(
       :conditions => ['memberships.site_id = ? or users.admin = ?', site.id, true]))).uniq
   end
   
   # Overriden to make sure the user is a member of the given site.
   def self.find_by_remember_token(site, token)
-    find(:first, @@membership_options.merge(
+    find(:first, MEMBERSHIP_OPTIONS.merge(
       :conditions => ['remember_token = ? and remember_token_expires_at > ? and (memberships.site_id = ? or users.admin = ?)', token, Time.now.utc, site.id, true]))
   end
 
   # Overriden to make sure the user is a member of the given site.
   def self.find_by_email(site, email)
-    find(:first, @@membership_options.merge(
+    find(:first, MEMBERSHIP_OPTIONS.merge(
       :conditions => ['email = ? and (memberships.site_id = ? or users.admin = ?)', email, site.id, true]))
   end
 
