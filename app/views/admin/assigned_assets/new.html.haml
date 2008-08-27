@@ -8,7 +8,7 @@
   .asset-list.boxcontent
     - @assets.each do |asset|
       %span
-        = link_to asset_image_tag(asset, :thumb), select_admin_portfolio_assigned_assets_path(@portfolio, :asset_id => asset.id, :page => (params[:page] || 1)), :method => :post
+        = link_to asset_image_tag(asset, :thumbnail), select_admin_portfolio_assigned_assets_path(@portfolio, :asset_id => asset.id, :page => (params[:page] || 1)), :method => :post
     %p &nbsp;
   = will_paginate @assets
 
@@ -30,7 +30,7 @@
         - @selected_assets.each do |asset|
           = hidden_field_tag 'assets[]', asset.id
           %span
-            = link_to asset_image_tag(asset, :thumb), deselect_admin_portfolio_assigned_assets_path(@portfolio, :asset_id => asset.id, :page => (params[:page] || 1)), :method => :delete
+            = link_to asset_image_tag(asset, :thumbnail), deselect_admin_portfolio_assigned_assets_path(@portfolio, :asset_id => asset.id, :page => (params[:page] || 1)), :method => :delete
         %p
           - unless @selected_assets.empty?
             = submit_tag "Add to Portfolio"

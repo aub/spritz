@@ -6,7 +6,7 @@
     %span.header Drag to reorder
   %ol.asset-sorter{ :id => "#{dom_id(@portfolio)}" }
     - @assigned_assets.each do |assigned_asset|
-      %li{ :id => "#{dom_id(assigned_asset)}" }= image_tag(assigned_asset.asset.public_filename(:thumb))
+      %li{ :id => "#{dom_id(assigned_asset)}" }= asset_image_tag(assigned_asset.asset, :thumbnail) 
     - if @assigned_assets.empty?
       %tr
         %td None

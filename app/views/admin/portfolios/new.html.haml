@@ -1,5 +1,5 @@
 = error_messages_for :portfolio
 
-- form_for @portfolio, :url => admin_portfolios_path do |f|
+- form_for @portfolio, :url => admin_portfolios_path, :html => { :multipart => true } do |f|
   = hidden_field_tag('parent_id', @parent_id) if @parent_id
   = render :partial => 'form', :locals => { :f => f }

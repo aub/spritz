@@ -131,3 +131,37 @@ end
 def expire(expired_cache_items)
   Expire.new(expired_cache_items)
 end
+
+
+class HaveAttachedImage
+  def initialize(attachment_name, param_name)
+    @attachment_name = attachment_name
+    @param_name = param_name
+  end
+  
+  def matches?(target)
+    result = true
+    id = target.source.id
+    file = target.source.send("#{@attachment_name}_file_name")
+    Spritz::ASSET_STYLES.keys.each do |key|
+      method_name = (@param_name.blank? ? '' : "#{@param_name}_") + "#{key}_path"
+      unless (target.respond_to?(method_name) && target.send(method_name) =~ /\/#{@attachment_name.to_s.pluralize}\/#{id}\/#{key}\/#{file}.*/)
+        (@failures ||= []) << key
+        result = false
+      end
+    end
+    result
+  end
+  
+  def failure_message
+    "failed to provide access for #{@failures * ', '}"
+  end
+
+  def description
+    "provide access to an attached image's urls"
+  end  
+end
+
+def have_attached_image(attachment_name, param_name=nil)
+  HaveAttachedImage.new(attachment_name, param_name)
+end

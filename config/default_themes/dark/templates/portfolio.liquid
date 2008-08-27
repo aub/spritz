@@ -9,7 +9,7 @@
       &gt; <a href="{{ portfolio.url}}">{{ portfolio.title }}</a>
     </span>
 
-    <img class="portfolio-image" src="{{portfolio.title_asset.display_path}}" />
+    <img class="portfolio-image" src="{{portfolio.cover_image_display_path}}" />
     
     <div class="portfolio-info">
       <p class="portfolio-text">{{ portfolio.body }}</p>
@@ -17,7 +17,7 @@
       <table class="portfolio-children">
         {% for child in portfolio.children %}
           <tr>
-            <td><img src="{{child.title_asset.tiny_path}}" /></td><td><a href="{{ child.url }}">{{ child.title }}</a></td>
+            <td><img src="{{child.cover_image_tiny_path}}" /></td><td><a href="{{ child.url }}">{{ child.title }}</a></td>
           </tr>
         {% endfor %}
       </table>

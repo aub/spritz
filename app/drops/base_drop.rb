@@ -6,7 +6,7 @@ class BaseDrop < Liquid::Drop
   write_inheritable_attribute :liquid_associations, []
   
   attr_reader :source
-  
+
   # There are two helpers being defined here. The first is liquid attributes.
   # A drop can have a declaration like:
   #
@@ -49,6 +49,23 @@ class BaseDrop < Liquid::Drop
   end
   
   protected
+  
+  # This is a helper method for adding methods to return the paths of each of the
+  # versions of an image. The attachment_name parameter should be the name of the
+  # attachment as created in the model. The param_name is the name by which it is
+  # referred to in the drop. So, if you have an attachment called 'hack' in the model
+  # and want to have methods like 'foo_tiny_path', you should pass (:hack, :foo). If
+  # the param_name is empty, methods with no prefix will be created, like tiny_path.
+  def has_attached_image(attachment_name, param_name=nil)
+    Spritz::ASSET_STYLES.keys.each do |image_name|
+      method_name = (param_name.blank? ? '' : "#{param_name}_") + "#{image_name}_path"
+      eval <<-END
+        def #{method_name}
+          @#{attachment_name}_#{image_name}_path ||= source.#{attachment_name}.file? ? source.#{attachment_name}.url(:#{image_name}) : ''
+        end
+      END
+    end
+  end
   
   def add_association_helper(a)
     if a.is_a?(Hash)

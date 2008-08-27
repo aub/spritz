@@ -12,9 +12,9 @@ describe Portfolio do
       stub :tre, :site => all_stubs(:site)
     end
     model AssignedAsset do
-      stub :one, :asset => all_stubs(:one_asset), :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :position => 1
-      stub :two, :asset => all_stubs(:two_asset), :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :position => 3
-      stub :tre, :asset => all_stubs(:tre_asset), :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :position => 2
+      stub :one, :asset => all_stubs(:one_asset), :portfolio => all_stubs(:one_portfolio), :position => 1
+      stub :two, :asset => all_stubs(:two_asset), :portfolio => all_stubs(:one_portfolio), :position => 3
+      stub :tre, :asset => all_stubs(:tre_asset), :portfolio => all_stubs(:one_portfolio), :position => 2
     end
   end
   

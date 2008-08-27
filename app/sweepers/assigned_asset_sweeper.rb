@@ -3,7 +3,7 @@ class AssignedAssetSweeper < ActionController::Caching::Sweeper
   
   def after_create(record)
     return if controller.nil?
-    site.cache_items.find_for_record(record.asset_holder).each { |ci| ci.expire!(controller) }
+    site.cache_items.find_for_record(record.portfolio).each { |ci| ci.expire!(controller) }
   end
   
   def expire_for_record(record)

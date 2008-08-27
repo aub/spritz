@@ -7,6 +7,7 @@ doc
 log/*.log
 public/attachments
 public/cover_images
+public/home_images
 themes/site*
 tmp/attachment_fu
 tmp/cache

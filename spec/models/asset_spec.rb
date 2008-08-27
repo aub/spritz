@@ -12,8 +12,8 @@ describe Asset do
       stub :two, :site => all_stubs(:site)
     end
     model AssignedAsset do
-      stub :one, :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :asset => all_stubs(:one_asset)
-      stub :two, :asset_holder => all_stubs(:two_portfolio), :asset_holder_type => 'Portfolio', :asset => all_stubs(:one_asset)
+      stub :one, :portfolio => all_stubs(:one_portfolio), :asset => all_stubs(:one_asset)
+      stub :two, :portfolio => all_stubs(:two_portfolio), :asset => all_stubs(:one_asset)
     end
   end
     

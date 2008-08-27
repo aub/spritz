@@ -8,7 +8,7 @@
     %dt= f.label_for :cover_image
     %dd
       - if @portfolio.cover_image.file?
-        = image_tag @portfolio.cover_image(:thumb)
+        = image_tag @portfolio.cover_image(:thumbnail)
       - else
         = image_tag 'missing-thumb.png'
       = f.file_field :cover_image

@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe PortfolioItemDrop do
+describe AssetDrop do
   define_models :portfolio_item_drop do
     model Asset do
       stub :one, :site => all_stubs(:site), 
@@ -11,28 +11,16 @@ describe PortfolioItemDrop do
       stub :one, :site => all_stubs(:site), :parent_id => nil, :lft => 1, :rgt => 2
     end
     model AssignedAsset do
-      stub :one, :asset => all_stubs(:one_asset), :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio'
+      stub :one, :asset => all_stubs(:one_asset), :portfolio => all_stubs(:one_portfolio)
     end
   end
     
   before(:each) do
-    @drop = PortfolioItemDrop.new(assigned_assets(:one))
-  end
-  
-  it "should provide access to the thumbnail path" do
-    @drop.thumbnail_path.should match(/\/attachments\/#{assets(:one).id}\/thumb\/f.png.*/)
-  end
-  
-  it "should provide access to the display path" do
-    @drop.display_path.should match(/\/attachments\/#{assets(:one).id}\/display\/f.png.*/)
+    @drop = AssetDrop.new(assets(:one), portfolios(:one))
   end
 
-  it "should provide access to the medium path" do
-    @drop.medium_path.should match(/\/attachments\/#{assets(:one).id}\/medium\/f.png.*/)
-  end
-
-  it "should provide access to the tiny path" do
-    @drop.tiny_path.should match(/\/attachments\/#{assets(:one).id}\/tiny\/f.png.*/)
+  it "should provide access to the attachment's urls" do
+    @drop.should have_attached_image(:attachment, '')
   end
   
   it "should provide access to a url" do

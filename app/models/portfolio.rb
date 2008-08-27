@@ -10,7 +10,7 @@ class Portfolio < ActiveRecord::Base
   validates_presence_of :title
   validates_length_of :title, :maximum => 100
   
-  has_many :assigned_assets, :as => :asset_holder, :dependent => :destroy, :order => 'position'
+  has_many :assigned_assets, :dependent => :destroy, :order => 'position'
   has_many :assets, :through => :assigned_assets, :order => 'assigned_assets.position'
 
   has_attached_file :cover_image, :styles => Spritz::ASSET_STYLES

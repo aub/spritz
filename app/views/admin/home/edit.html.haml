@@ -10,7 +10,7 @@
       %dt= f.label_for :cover_image
       %dd
         - if @site.home_image.file?
-          = image_tag @site.home_image(:thumb)
+          = image_tag @site.home_image(:thumbnail)
         - else
           = image_tag 'missing-thumb.png'
         = f.file_field :home_image

@@ -10,8 +10,8 @@ describe ItemsController do
       stub :two, :site => all_stubs(:site)
     end
     model AssignedAsset do
-      stub :one, :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :asset => all_stubs(:one_asset)
-      stub :two, :asset_holder => all_stubs(:one_portfolio), :asset_holder_type => 'Portfolio', :asset => all_stubs(:two_asset)
+      stub :one, :portfolio => all_stubs(:one_portfolio), :asset => all_stubs(:one_asset)
+      stub :two, :portfolio => all_stubs(:one_portfolio), :asset => all_stubs(:two_asset)
     end
   end
   
@@ -24,7 +24,7 @@ describe ItemsController do
     define_models :items_controller
     
     def do_get
-      get :show, :id => assigned_assets(:one).id, :portfolio_id => portfolios(:one).id
+      get :show, :id => assets(:two).id, :portfolio_id => portfolios(:one).id
     end
     
     it "should be successful" do
@@ -39,7 +39,7 @@ describe ItemsController do
     
     it "should assign item" do
       do_get
-      assigns[:item].should == assigned_assets(:one)
+      assigns[:item].should == AssetDrop.new(assets(:two), portfolios(:one))
     end
     
     it "should assign portfolio" do

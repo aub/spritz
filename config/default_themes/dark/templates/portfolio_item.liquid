@@ -15,7 +15,7 @@
       <table class="portfolio-children">
         {% for child in portfolio.children %}
           <tr>
-            <td><img src="{{child.title_asset.tiny_path}}" /></td><td><a href="{{ child.url }}">{{ child.title }}</a></td>
+            <td><img src="{{child.cover_image_tiny_path}}" /></td><td><a href="{{ child.url }}">{{ child.title }}</a></td>
           </tr>
         {% endfor %}
       </table>

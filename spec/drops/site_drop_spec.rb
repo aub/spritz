@@ -29,7 +29,7 @@ describe SiteDrop do
       stub :two, :site => all_stubs(:site), :attachment_file_name => 'ack.png'
     end
     model AssignedAsset do
-      stub :one, :asset => all_stubs(:one_asset), :asset_holder => all_stubs(:site), :asset_holder_type => 'Site'
+      stub :one, :asset => all_stubs(:one_asset), :portfolio => all_stubs(:one_portfolio)
     end
   end
   
@@ -99,6 +99,10 @@ describe SiteDrop do
   it "should return the correct news item count when there are fewer items than requested" do
     sites(:default).update_attribute(:home_news_item_count, 15)
     @drop.home_news_item_count.should == 3
+  end
+
+  it "should provide access to the home image" do
+    @drop.should have_attached_image(:home_image, :home_image)
   end
   
   it "should provide access to the display-size home image" do

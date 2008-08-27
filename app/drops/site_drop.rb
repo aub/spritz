@@ -4,6 +4,12 @@ class SiteDrop < BaseDrop
   liquid_attributes << :title << :google_analytics_code
   
   liquid_associations << :links << { :portfolios => :root_portfolios } << :news_items << :resume_sections << :galleries
+
+  def initialize(source)
+    # fill in methods for access to the various forms of the home image
+    has_attached_image(:home_image, :home_image)
+    super
+  end
   
   def home_text
     white_list(source.home_text_html)
@@ -16,13 +22,5 @@ class SiteDrop < BaseDrop
   def home_news_items
     # This is funky, but it says that if the home news count is nil or less than 0 to return an empty array.
     ((source.home_news_item_count || 0) > 0) ? news_items[0..source.home_news_item_count-1] : []
-  end
-  
-  def home_image_display_path
-    @home_image_display_path ||= source.home_image.file? ? source.home_image.url(:display) : ''
-  end
-  
-  def home_image_medium_path
-    @home_image_medium_path ||= source.home_image.file? ? source.home_image.url(:medium) : ''
   end
 end
