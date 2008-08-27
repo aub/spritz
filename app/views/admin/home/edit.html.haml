@@ -1,4 +1,4 @@
-- form_for :site, :url => admin_home_path, :html => { :method => :put } do |f|
+- form_for :site, :url => admin_home_path, :html => { :method => :put, :multipart => true } do |f|
   .group
     %dl
       %dt
@@ -7,13 +7,12 @@
       %dt= f.label_for :home_text, :text => "Text #{link_to image_tag('/images/icons/comment.gif', :class => 'icon-box orange'), admin_help_path('textile'), :target => '_blank'}"
       %dd
         ~ f.text_area :home_text, :class => 'large fat', :rows => '8'
+      %dt= f.label_for :cover_image
+      %dd
+        - if @site.home_image.file?
+          = image_tag @site.home_image(:thumb)
+        - else
+          = image_tag 'missing-thumb.png'
+        = f.file_field :home_image
       %dt
         = f.submit 'Save'
-
-- content_for :sidebar do
-  .asset-preview
-    - unless @site.home_image.nil?
-      = asset_image_tag(@site.home_image, :medium)
-      .delete-link= link_to "Update Home Image", edit_admin_home_home_image_path
-    - else
-      .delete-link= link_to "Select Home Image", edit_admin_home_home_image_path

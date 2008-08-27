@@ -102,16 +102,16 @@ describe SiteDrop do
   end
   
   it "should provide access to the display-size home image" do
-    @drop.home_image_display_path.should == "/attachments/#{assets(:one).id}/display/hack.png"
+    @drop.home_image_display_path.should match(/\/home_images\/#{sites(:default).id}\/display\/f.png.*/)
   end
 
   it "should provide access to the medium-size home image" do
-    @drop.home_image_medium_path.should == "/attachments/#{assets(:one).id}/medium/hack.png"
+    @drop.home_image_medium_path.should match(/\/home_images\/#{sites(:default).id}\/medium\/f.png.*/)
   end
   
   it "should return an empty string if the site has no assets" do
-    sites(:default).home_image.destroy
-    sites(:default).reload.home_image.should == nil
+    sites(:default).update_attribute(:home_image, nil)
+    sites(:default).reload.home_image.file?.should be_false
     @drop.home_image_display_path.should == ''
   end
 

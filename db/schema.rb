@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080821004152) do
+ActiveRecord::Schema.define(:version => 20080827010947) do
 
   create_table "assets", :force => true do |t|
     t.integer  "site_id"
@@ -135,10 +135,14 @@ ActiveRecord::Schema.define(:version => 20080821004152) do
     t.string   "theme_path"
     t.string   "title"
     t.text     "home_text"
-    t.integer  "home_news_item_count",  :default => 0
+    t.integer  "home_news_item_count",    :default => 0
     t.string   "google_analytics_code"
     t.text     "home_text_html"
     t.string   "subdomain"
+    t.string   "home_image_file_name"
+    t.string   "home_image_content_type"
+    t.integer  "home_image_file_size"
+    t.datetime "home_image_updated_at"
   end
 
   add_index "sites", ["domain", "subdomain"], :name => "index_sites_on_domain_and_subdomain"

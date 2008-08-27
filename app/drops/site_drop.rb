@@ -19,10 +19,10 @@ class SiteDrop < BaseDrop
   end
   
   def home_image_display_path
-    @home_image_display_path ||= source.home_image.nil? ? '' : source.home_image.attachment.url(:display)
+    @home_image_display_path ||= source.home_image.file? ? source.home_image.url(:display) : ''
   end
   
   def home_image_medium_path
-    @home_image_medium_path ||= source.home_image.nil? ? '' : source.home_image.attachment.url(:medium)
+    @home_image_medium_path ||= source.home_image.file? ? source.home_image.url(:medium) : ''
   end
 end

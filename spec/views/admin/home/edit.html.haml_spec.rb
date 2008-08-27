@@ -7,7 +7,10 @@ describe "/admin/home/edit.html.haml" do
     @site = mock_model(Site)
     @site.stub!(:home_text).and_return("MyString")
     @site.stub!(:home_news_item_count).and_return(3)
-    @site.stub!(:home_image).and_return(nil)
+    
+    attachment = mock_model(Paperclip::Attachment)
+    attachment.stub!(:file?).and_return(false)
+    @site.stub!(:home_image).and_return(attachment)
     assigns[:site] = @site
   end
 

@@ -17,9 +17,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :contacts
     admin.resource :dashboard, :controller => 'dashboard'
     admin.resources :galleries, :collection => { :reorder => :put }
-    admin.resource :home, :controller => 'home' do |home|
-      home.resource :home_image, :controller => 'home_image'
-    end
+    admin.resource :home, :controller => 'home'
     admin.resources :links, :collection => { :reorder => :put }
     admin.resources :news_items, :collection => { :reorder => :put }
     admin.resources :portfolios, :member => { :add_child => :get, :reorder_children => :put }, :collection => { :reorder => :put } do |portfolios|

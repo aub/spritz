@@ -5,7 +5,7 @@ class Asset < ActiveRecord::Base
   
   belongs_to :site
 
-  has_attached_file :attachment, :styles => { :display => '600x400>', :medium => '400x300>', :thumb => '70x70#', :tiny => '35x35#' }
+  has_attached_file :attachment, :styles => Spritz::ASSET_STYLES
   
   has_many :assigned_assets, :dependent => :destroy
   

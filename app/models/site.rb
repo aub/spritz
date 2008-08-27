@@ -10,7 +10,7 @@ class Site < ActiveRecord::Base
 
   column_to_html :home_text
 
-  attr_accessible :domain, :subdomain, :theme_path, :title, :home_news_item_count, :home_text, :google_analytics_code
+  attr_accessible :domain, :subdomain, :theme_path, :title, :home_news_item_count, :home_text, :home_image, :google_analytics_code
   
   has_many :memberships, :dependent => :destroy
   has_many :members, :through => :memberships, :source => :user
@@ -50,12 +50,7 @@ class Site < ActiveRecord::Base
   # since the nested set plugin will handle deletion of the children.
   has_many :root_portfolios, :class_name => 'Portfolio', :conditions => 'parent_id is NULL', :order => 'position', :dependent => :destroy
 
-  has_one :assigned_home_image, :class_name => 'AssignedAsset', :as => :asset_holder, :dependent => :destroy
-
-  # This will have to do until we have has_one :through
-  def home_image
-    assigned_home_image.asset unless assigned_home_image.nil?
-  end
+  has_attached_file :home_image, :styles => Spritz::ASSET_STYLES
 
   # A method for finding a site given a domain from a request.
   # Will be called with every request in order to display the correct data.
