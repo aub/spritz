@@ -13,4 +13,4 @@ Spritz is a content management system specifically designed to help artists crea
 4) Create the database tables:
   rake db:migrate
   
-5) 
+5) Do something
