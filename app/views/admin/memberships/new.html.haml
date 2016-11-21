@@ -1,0 +1,15 @@
+- unless @sites.empty?
+  %h3 Select the site to create a membership for
+  = form_tag(admin_user_memberships_path(@user))
+  %ol.site-selector
+    - @sites.each do |site|
+      %li
+        = radio_button_tag 'membership[site_id]', site.to_param
+        = site.title
+  = submit_tag 'Add Membership'
+  or
+  = link_to "Cancel", admin_user_memberships_path(@user)
+- else
+  %h3 The user is already a member of all available sites
+  = link_to "Back", admin_user_memberships_path(@user)
+  

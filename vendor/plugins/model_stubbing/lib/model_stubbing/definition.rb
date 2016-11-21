@@ -3,11 +3,8 @@ module ModelStubbing
   # can set the current time for your tests.  You typically create one per test case or
   # rspec example.
   class Definition
-    attr_writer :insert
-    attr_writer :current_time
-    attr_reader :models
-    attr_reader :stubs
-    attr_reader :ordered_models
+    attr_writer :insert, :current_time
+    attr_reader :models, :stubs, :ordered_models, :options
 
     # Sets the time that Time.now is mocked to (in UTC)
     def time(*args)
@@ -20,8 +17,16 @@ module ModelStubbing
     
     # Creates a new ModelStubbing::Model to hold one or more stubs.  Multiple calls will append
     # any added stubs to the same model instance.
+    #
+    # Options:
+    # * :name      - The name used of the model.  Defaults to the "Foo".underscore.pluralize
+    # * :plural    - The name of the method used to access the stubs in your test.  
+    #                Defaults to #name.
+    # * :singular  - The name of the method for the new_* stub accessors.
+    # * :validate  - set to false if you don't want to validate model data, or run callbacks
+    # * :callbacks - set to true if you want to run callbacks.
     def model(klass, options = {}, &block)
-      m = Model.new(self, klass, options)
+      m = Model.new(self, klass, @options.merge(options))
       @ordered_models <<  m unless @models.key?(m.name)
       @models[m.name] ||= m
       @models[m.name].instance_eval(&block) if block
@@ -32,12 +37,14 @@ module ModelStubbing
       @ordered_models = []
       @models         = {}
       @stubs          = {}
+      @options        = {}
       instance_eval &block if block
     end
     
     def dup
       copy = self.class.new
       copy.current_time = @current_time
+      copy.options.update @options
       models.each do |name, model|
         copy.models[name] = model.dup(copy)
       end
@@ -66,9 +73,10 @@ module ModelStubbing
     # Shortcut methods for each model are generated as well.  users(:default) accesses
     # the default user stub, and users(:admin) accesses the 'admin' user stub.
     def setup_on(base, options = {}, &block)
-      self.insert = false if options[:insert] == false
+      @options = {:validate => false, :insert => true}.update(options)
+      self.insert = false if @options[:insert] == false
       self.instance_eval(&block) if block
-      if base.ancestors.include? Test::Unit::TestCase
+      if base.ancestors.any? { |a| a.to_s == "Test::Unit::TestCase" || a.to_s == "Spec::Example::ExampleGroup" }
         unless base.ancestors.include?(ModelStubbing::Extension)
           base.send :include, ModelStubbing::Extension
         end
@@ -96,6 +104,13 @@ module ModelStubbing
       end
     end
     
+    def teardown!
+      return unless database? && insert?
+      ActiveRecord::Base.transaction do
+        ordered_models.each(&:purge)
+      end
+    end
+    
     def setup_test_run
       ModelStubbing.records.clear
       ModelStubbing.stub_current_time_with(current_time) if current_time
@@ -105,6 +120,8 @@ module ModelStubbing
     end
     
     def teardown_test_run
+      ModelStubbing.records.clear
+      # TODO: teardown Time.stubs(:now)
       return unless database?
       ActiveRecord::Base.connection.rollback_db_transaction
       ActiveRecord::Base.verify_active_connections!

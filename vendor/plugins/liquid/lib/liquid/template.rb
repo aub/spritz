@@ -83,7 +83,7 @@ module Liquid
     #    filters and tags and might be useful to integrate liquid more with its host application  
     #
     def render(*args)
-      return '' if @root.nil?
+      return '' if @root.nil?                          
 
       context = case args.first
       when Liquid::Context
@@ -107,17 +107,17 @@ module Liquid
 
         if options[:filters]
           context.add_filters(options[:filters])
-        end
+        end                         
+        
       when Module
         context.add_filters(args.pop)    
       when Array
         context.add_filters(args.pop)            
       end
-                              
-                              
-      # render the nodelist.
-      # for performance reasons we get a array back here. to_s will make a string out of it
+                                                            
       begin
+        # render the nodelist.
+        # for performance reasons we get a array back here. join will make a string out of it
         @root.render(context).join
       ensure
         @errors = context.errors
@@ -131,7 +131,8 @@ module Liquid
     private
     
     # Uses the <tt>Liquid::TemplateParser</tt> regexp to tokenize the passed source
-    def tokenize(source)      
+    def tokenize(source)
+      source = source.source if source.respond_to?(:source)      
       return [] if source.to_s.empty?
       tokens = source.split(TemplateParser)
 

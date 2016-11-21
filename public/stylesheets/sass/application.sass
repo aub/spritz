@@ -1,97 +1,133 @@
-// !cute_orange = rgb(223,141,74)
-// !dark_orange = #af8439
-// !banner_grey = #464646
-// !form_text_color = #464646
-
 !cute_orange = rgb(223,141,74)
 !dark_orange = #af8439
 !dark_grey = #383838
 !pale_grey = #d9d9d9
+!paler_grey = #b9b9b9
 !umber = #6b6350
 !black_grey = #171717
 !light_grey = #8c8282
+!banner_font_color = #bbb
 
-!background_color = #fff
+!content_background_color = #fff
+!background_color = !pale_grey
 !highlight_color = #8c8282
 
 body
   :background-color = !background_color
-  :color = !dark_grey
-  :line-height normal
   :border-top
     :style solid
     :width 30px
     :color = !dark_grey
-  :font
-    :family "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif
-    :size 12px
-    :size-adjust none
-    :stretch normal
-    :style normal
-    :variant normal
-    :weight normal
+  :font-size-adjust none
+  :font-stretch normal
+  :color = !dark_grey
+  :font 14px/1.5em "Helvetica Neue",Helvetica,Arial,sans-serif
 
 *
   :margin 0pt
   :padding 0pt
 
-#login-form
-  :margin 10px auto
-  :width 360px
+a
+  &:link, &:visited
+    :outline none
+    :color #920
+    :text-decoration none
+    :border-bottom 1px dotted #aaa
+
+  img
+    :border none
+
+#login-form, #forgot-password-form
+  :margin 25px auto
+  :width 450px
+  :position relative
   
+  h1
+    :font-size 100%
+  
+    a
+      :border-bottom none
+      :background transparent url(../images/spritz-logo.png) no-repeat scroll 50%
+      :display block
+      :height 100px
+      :overflow hidden
+      :text-indent -9999px
+      :width 28em
+      
   form
-    :-moz-border-radius-bottomleft 5px
-    :-moz-border-radius-bottomright 5px
-    :-moz-border-radius-topleft 5px
-    :-moz-border-radius-topright 5px
     :font-weight normal
-    :margin-left 8px
     :padding 16px 16px 40px 16px
     :background-color = !cute_orange
-  
-    p
-      :margin-bottom 24px
+
+  dl
+    :font-weight normal
+    :margin 0pt
+
+    dd
+      :margin 0pt 0pt 20px 0pt
+
     input
+      :font-family "Helvetica Neue",Helvetica,Arial,sans-serif
+      :width 100%
       :color = !dark_grey
-  
+
   .remember-me
     :float left
     :font-weight normal
-    :margin-bottom 0pt
+
   .submit
     :float right
-    :margin-bottom 15px
-    
+    :margin-bottom 25px
+    :width 7em
+    :text-align right
+
     input
-      :-moz-border-radius-bottomleft 3px
-      :-moz-border-radius-bottomright 3px
-      :-moz-border-radius-topleft 3px
-      :-moz-border-radius-topright 3px
       :border 1px solid
       :cursor default
-      :font-family "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana,sans-serif
-      :font-size 13px
+      :font-family "Helvetica Neue",Helvetica,Arial,sans-serif
+      :font-size 120%
       :margin-top -6px
       :padding 3px 5px
       :text-decoration none
+      :color = !dark_grey
       
     input:hover
       :color = !dark_orange
 
-h1 a
-  :background transparent url(../images/spritz-logo-medium.png) no-repeat scroll 50%
-  :display block
-  :height 100px
-  :overflow hidden
-  :padding-bottom 15px
-  :text-indent -9999px
-  :width 360px
+  .reset-password
+    :font-size 70%
+    :margin -20px 0pt 10px 0pt
     
+  .session-flash
+    :color #800
+    :width 100%
+    :text-align center
+
+#forgot-password-form 
+  form
+    :height 8em
+  
+  dl dt
+    :margin-bottom 15px
+
+
 .large
-  :font-size 25px
+  :font-size 175%
 
 .medium
-  :font-site 20px
+  :font-size 150%
+
+.small
+  :font-size 75%
+
+.clear
+  :display block
+
+.fat
+  :width 100%
+
+.header
+  :font-size 135%
 
 #wrapper
   :min-height 100%
@@ -108,84 +144,437 @@ h1 a
   
   h1
     :padding 0 0 0 80px
-    :font-size 250%
-    :padding-top 20px
+    :font-size 200%
+    :padding-top 30px
+    :font-weight normal
     
 #banner
-  a
-    :color #bbb
+  :font-size 75%
+  :color = !banner_font_color
   
+  a
+    :color = !banner_font_color
+    
   #right-banner
     :position absolute
     :right 15px
-    :top 8px
+    :top 5px
 
+  #flash-area
+    :position absolute
+    :left 0px
+    :top 5px
+    :width 100%
+    :font-weight bold
+    :font-size 130%
+    :text-align center
+    :color = !banner_font_color    
+    
 #top-controls
   :background-color = !cute_orange
   :border-bottom-color #C6D9E9
   :border-bottom-style solid
   :border-bottom-width 1px
-  :padding-left 11px
+  :padding-left 13px
   
   li
-
+    :display inline
+    
     a
-      :font-size 16px
+      :font-size 125%
       :line-height 30px
-      :padding 5px 7px
+      :padding 5px 12px
       :text-decoration none
       :text-align center
       :white-space nowrap
       :color = !dark_grey
 
     a.current
-      :background-color = !background_color
+      :background-color = !content_background_color
       :border 1px solid
-      :border-color = !highlight_color !highlight_color !background_color
+      :border-color = !highlight_color !highlight_color !content_background_color
       :border-bottom-width 2px
       :color = !cute_orange
       :-moz-border-radius-topleft 4px
       :-moz-border-radius-topright 4px
 
-#top-controls, #top-controls a, #sub-controls, #sub-controls li
+#subcontrols
+  :background-color #fff
+  :border-right 3px solid #B9B9B9
+  :float left
+  :min-height 1em
+  :position relative
+  :width 700px
+  :padding-top 7px
+
+  li
+    :display inline
+    :padding 5px 0px 5px 20px
+    
+    a
+      :font-size 110%
+      :line-height 30px
+      :text-decoration none
+      :text-align center
+      :white-space nowrap
+      :color = !dark_grey
+      :border none
+
+    a.current
+      :color = !cute_orange
+      :border-bottom 1px dotted #888
+      
+#top-controls, #top-controls a, #available-sections li, #active-sections li, .cleanlist, .asset-controls, .asset-sorter, .contact-list
   :list-style
     :image none
     :position outside
     :type none
     :margin 0
     :padding 0
-
-#top-controls li, #sub-controls li
-  :display inline
-
-#top-controls li a, #sub-controls li a
-  :padding 5px 7px
-  :text-decoration none
-  :text-align center
-  :white-space nowrap
-  :color = !dark_grey
-
-#sub-controls
-  :padding 8px 0 3px
   
-  li
-    :font-size 14px
-    :padding 0 0 8px 6px
-    :line-height 200%
-    
-    a.current
-      :color = !cute_orange
+.group 
+  dl
+    :font-weight normal
+    :margin-left 8px
+    :background-color = !pale_grey
+    :margin 0pt
+    :padding 20px
+
+    dd
+      :margin 0pt 0pt 20px 0pt
+
+    input, select
+      :font-family "Helvetica Neue",Helvetica,Arial,sans-serif
       
-#body
-  :padding 20px 20px 0px 20px
-  
-form .group dl
+    select
+      :min-width 100px
+
+    textarea
+      :font-size 120%
+      :font-family "Courier New", Courier, mono
+      
+    .template-editor
+      :font-family "Courier New", Courier, mono
+      :font-size 12px
+      
+
+.group dl, #login-form form, #forgot-password-form form
   :-moz-border-radius-bottomleft 5px
   :-moz-border-radius-bottomright 5px
   :-moz-border-radius-topleft 5px
   :-moz-border-radius-topright 5px
-  :font-weight normal
-  :margin-left 8px
+
+#available-sections
+  :float left
+  :width 300px
+  
+#active-sections
+  :float left
+  :width 500px
+  :margin-left 75px
+  
+.box
+  :border 1px solid
+  :border-color = !light_grey
+  :margin-bottom 20px
+  
+.boxheader
+  :background = !paler_grey
+  :padding 5px
+  
+  a
+    :border-bottom none
+  
+  .icon, .icon-square
+    :margin 0px 0px 4px 5px
+  
+.boxcontent
+  :padding 10px
+  :border-top 1px solid
+  :border-top-color = !light_grey
+  
+.sort-some-assets
+  :border 1px solid
+  :border-color = !light_grey
+  :width 15em
+  
+  .asset-sorter
+    :padding 10px
+    :text-align center
+    
+    li img
+      :border 1px solid #ccc
+      :padding 5px
+      :cursor move
+  
+#main
+  :position relative
+  :float left
+  :width 700px
+  :background-color #fff
+  :min-height 300px
+  :border-right 3px solid
+  :border-right-color = !paler_grey
+  :border-bottom 3px solid
+  :border-bottom-color = !paler_grey
+
+#main-content
+  :padding 10px 20px 20px 20px  
+  
+#sidebar
+  :position relative
   :background-color = !pale_grey
-  :margin 0pt
-  :padding 20px
+  :margin 0pt 0pt 0pt 720px
+  :padding 10px 10px 10px 0px
+
+#portfolio-ancestors
+  :font-size 85%
+  :padding-bottom 15px
+  
+.image-list 
+  input
+    :margin
+      :left 7px
+      :top 5px
+  form
+    :display inline
+  div
+    :display inline
+  
+  a
+    :border-bottom none
+  
+  a img
+    :margin 5px
+    :padding 5px
+    :border 1px solid #aaa
+
+  p input
+    :margin 10px 0px 0px 0px
+
+.asset-list
+
+  span
+    :padding 0px 9px 15px 9px
+    :float left
+
+  a
+    :border-bottom none
+  
+  a img
+    :padding 5px
+    :border 1px solid #ccc
+
+  p
+    :clear both
+
+.selasset-list
+
+  span
+    :padding-left 6px
+    :padding-bottom 6px
+    :float left
+  a
+    :border-bottom none
+
+  a img
+    :padding 5px
+    :border 1px solid #aaa
+
+.asset-preview
+  :text-align center
+
+  .delete-link
+    :padding 20px
+  
+    a
+      :padding 10px
+      :border 1px solid #777777
+    
+#themes h2
+  :clear both
+  :padding-bottom 20px
+
+.theme 
+  :clear both
+
+  .preview
+    :float left
+    :width 258px
+    :margin-bottom 30px
+    :border 1px solid #ddd
+
+  .theme-data
+    :padding-top 20px
+    :margin-left 300px
+    :list-style-type none
+
+    .title
+      :font-weight bold
+      :font-size 120%
+
+  .theme-summary
+    :margin-top 20px
+
+  .theme-controls
+    :padding-top 10px
+    :margin-left 300px
+    :list-style-type none
+
+    li
+      :padding-top 10px
+
+#resource-list
+  :padding 10px 0px 0px 10px
+
+  h3
+    :font-size 110%
+    :border-bottom 1px solid grey
+
+  ul
+    :list-style-type none
+    :margin-bottom 20px
+
+    li
+      :padding 10px 0px 0px 20px
+      
+.dashboard-section
+  :padding 10px
+
+.dashboard-section h2
+  :font-size 130%
+  :border-bottom 1px dotted #aaa
+  :margin-bottom 10px
+
+.dashboard-section p
+  :margin-left 20px
+
+
+.pagination
+  :clear both
+  :padding 3px
+  :margin 3px
+  :text-align center
+  :font-size 80%
+
+  a
+    :padding 2px 5px 2px 5px
+    :margin 2px
+    :border 1px solid #B9B9B9
+    :text-decoration none
+    :color #383838
+
+  a:hover, a:active
+    :border 1px solid #777
+    :color #000
+
+  span.current
+    :padding 2px 5px 2px 5px
+    :margin 2px
+    :border 1px solid #B9B9B9
+    :font-weight bold
+    :background-color #B9B9B9
+
+  span.disabled
+    :padding 2px 5px 2px 5px
+    :margin 2px
+    :border 1px solid #eee
+    :color #bbb
+
+.draglist
+  :width 100%
+
+  td
+    :border-top 1px solid #8C8282
+    :margin 0pt
+    :padding 15px 0px 15px 15px
+    
+  .handle
+
+  .title
+    :vertical-align middle
+    
+  .controls
+    :text-align right
+    :padding-right 15px
+      
+    a
+      :border-bottom none
+    
+  .small
+    :width 25px
+
+  .handle
+    :cursor move
+
+.contact-list
+
+  li
+    :padding 20px
+    :margin-bottom 15px
+    
+    blockquote
+      :font-style italic
+      :font-size 130%
+    
+    span
+      :font-size 80%
+    
+    :background-color #eee
+      
+.textile-help-table
+  :margin-top 2em
+  :border-left 1px solid #888
+  :border-top 1px solid #888
+
+  td, th
+    :border-right 1px solid #888
+    :border-bottom 1px solid #888
+    :padding 10px
+
+label a:link, label a:visited
+  :border none
+
+.admin-indicator
+  :margin 10px 0
+
+#userlist 
+  ol
+    :list-style-type none
+  
+  li.membership-data
+    :margin-top 10px
+    
+    a
+      :margin-left 10px
+      :font-style italic
+
+ol.site-selector li
+  :list-style-type none
+  :margin 15px 0
+
+.icon
+  :background url(/images/icons/bg_rounded.gif)
+  :border 0pt none
+  :vertical-align middle
+
+.icon-square
+  :vertical-align middle
+  
+.green
+  :background-color #9c0
+  
+.yellow
+  :background-color #fc3
+  
+.black
+  :background-color #000
+
+.orange
+  :background-color = !cute_orange
+  
+.red
+  :background-color #f33
+
+.grey
+  :background-color = !light_grey

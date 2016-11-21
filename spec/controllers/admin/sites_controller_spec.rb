@@ -5,7 +5,7 @@ describe Admin::SitesController do
   define_models :sites_controller
   
   before(:each) do
-    @active_site = mock_model(Site, :action_cache_root => 'tmp/cache/mock')
+    @active_site = mock_model(Site, :domain => 'www.booya.com', :page_cache_path => 'tmp/cache/mock')
     activate_site(@active_site)
     login_as(:admin)
   end
@@ -41,105 +41,14 @@ describe Admin::SitesController do
     end
   end
 
-  describe "handling GET /admin/sites.xml" do
-    define_models :sites_controller
-    
-    before(:each) do
-      @site = mock_model(Site, :to_xml => "XML")
-      Site.stub!(:find).and_return(@site)
-    end
-  
-    def do_get
-      @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :index
-    end
-  
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-
-    it "should find all sites" do
-      Site.should_receive(:find).with(:all).and_return([@site])
-      do_get
-    end
-  
-    it "should render the found sites as xml" do
-      @site.should_receive(:to_xml).and_return("XML")
-      do_get
-      response.body.should == "XML"
-    end
-  end
-
-  describe "handling GET /admin/sites/1" do
-    define_models :sites_controller
-    
-    before(:each) do
-      @site = mock_model(Site)
-      Site.stub!(:find).and_return(@site)
-    end
-  
-    def do_get
-      get :show, :id => "1"
-    end
-
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-  
-    it "should render show template" do
-      do_get
-      response.should render_template('show')
-    end
-  
-    it "should find the site requested" do
-      Site.should_receive(:find).with("1").and_return(@site)
-      do_get
-    end
-  
-    it "should assign the found site for the view" do
-      do_get
-      assigns[:site].should equal(@site)
-    end
-  end
-
-  describe "handling GET /admin/sites/1.xml" do
-    define_models :sites_controller
-    
-    before(:each) do
-      @site = mock_model(Site, :to_xml => "XML")
-      Site.stub!(:find).and_return(@site)
-    end
-  
-    def do_get
-      @request.env["HTTP_ACCEPT"] = "application/xml"
-      get :show, :id => "1"
-    end
-
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-  
-    it "should find the site requested" do
-      Site.should_receive(:find).with("1").and_return(@site)
-      do_get
-    end
-  
-    it "should render the found site as xml" do
-      @site.should_receive(:to_xml).and_return("XML")
-      do_get
-      response.body.should == "XML"
-    end
-  end
-
   describe "handling GET /admin/sites/new" do
     define_models :sites_controller
     
     before(:each) do
       @site = mock_model(Site)
       Site.stub!(:new).and_return(@site)
+      @user = mock_model(User)
+      User.stub!(:new).and_return(@user)
     end
   
     def do_get
@@ -168,7 +77,12 @@ describe Admin::SitesController do
   
     it "should assign the new site for the view" do
       do_get
-      assigns[:site].should equal(@site)
+      assigns[:template_site].should equal(@site)
+    end
+    
+    it "should assign a new user for the view" do
+      do_get
+      assigns[:user].should equal(@user)
     end
   end
 
@@ -201,7 +115,7 @@ describe Admin::SitesController do
   
     it "should assign the found Site for the view" do
       do_get
-      assigns[:site].should equal(@site)
+      assigns[:template_site].should equal(@site)
     end
   end
 
@@ -209,16 +123,27 @@ describe Admin::SitesController do
     define_models :sites_controller
     
     before(:each) do
-      @site = mock_model(Site, :to_param => "1")
+      @site = mock_model(Site, :to_param => '1', :title => 't')
+      @site.stub!(:members).and_return([])
       Site.stub!(:new).and_return(@site)
+
+      @user = mock_model(User)
+      User.stub!(:new).and_return(@user)
+      @user.stub!(:valid?).and_return(true)
+      @user.stub!(:register!)
+      @user.stub!(:activate!)
     end
     
     describe "with successful save" do
       define_models :sites_controller
       
       def do_post
+        @site.should_receive(:valid?).and_return(true)
+        @user.should_receive(:valid?).and_return(true)
+        
         @site.should_receive(:save).and_return(true)
-        post :create, :site => {}
+        @user.should_receive(:save).and_return(true)
+        post :create, :site => {}, :user => {}
       end
   
       it "should create a new site" do
@@ -228,16 +153,47 @@ describe Admin::SitesController do
 
       it "should redirect to the new site" do
         do_post
-        response.should redirect_to(admin_site_url("1"))
+        response.should redirect_to(admin_dashboard_path)
       end
       
+      it "should create a new user" do
+        User.should_receive(:new).with({}).and_return(@user)
+        do_post
+      end
+      
+      it "should leave the admin flag alone" do
+        @user.should_not_receive(:admin=)
+        do_post
+      end
+      
+      it "should log the user in" do
+        request.session[:user_id] = nil
+        do_post
+        request.session[:user_id].should == assigns[:user].id
+      end
+    end
+
+    describe "with halfway successful save" do
+      define_models :sites_controller
+      
+      def do_post
+        @site.should_receive(:valid?).and_return(true)
+        @user.should_receive(:valid?).and_return(false)
+        post :create, :site => {}, :user => {}
+      end
+      
+      it "should save neither object in the case where one doesn't validate" do
+        @site.should_not_receive(:save)
+        @user.should_not_receive(:save)
+        do_post
+      end
     end
     
     describe "with failed save" do
       define_models :sites_controller
       
       def do_post
-        @site.should_receive(:save).and_return(false)
+        @site.should_receive(:valid?).and_return(false)
         post :create, :site => {}
       end
   
@@ -246,6 +202,10 @@ describe Admin::SitesController do
         response.should render_template('new')
       end
       
+      it "should use the simple layout" do
+        do_post
+        response.layout.should == 'layouts/simple'
+      end
     end
   end
 
@@ -272,17 +232,17 @@ describe Admin::SitesController do
 
       it "should update the found site" do
         do_put
-        assigns(:site).should equal(@site)
+        assigns(:template_site).should equal(@site)
       end
 
       it "should assign the found site for the view" do
         do_put
-        assigns(:site).should equal(@site)
+        assigns(:template_site).should equal(@site)
       end
 
-      it "should redirect to the site" do
+      it "should redirect to the home page" do
         do_put
-        response.should redirect_to(admin_site_url("1"))
+        response.should redirect_to(admin_path)
       end
 
     end

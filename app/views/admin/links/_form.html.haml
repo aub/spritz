@@ -1,0 +1,12 @@
+.group
+  %dl
+    %dt= f.label_for :url, :text => 'Url*'
+    %dd= f.text_field :url, :class => 'large fat'
+    %dt= f.label_for :title, :text => 'Title*'
+    %dd
+      ~ f.text_field :title, :class => 'large fat'
+    %dt
+      = f.submit 'Save Link'
+      or
+      = link_to "Cancel", admin_links_path
+
