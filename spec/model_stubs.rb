@@ -5,7 +5,12 @@ ModelStubbing.define_models do
   time 2007, 6, 15
   
   model Site do
-    stub :domain => 'www.test.com', :subdomain => 'testo'
+    stub :domain => 'www.test.com', :subdomain => 'stubby', :theme_path => 'dark', :title => 'Hack Site', 
+      :home_text => 'ht', :home_text_html => 'hthtml', :home_news_item_count => 2, :google_analytics_code => 'abc-123',
+      :home_image_file_name => 'f.png', :home_image_content_type => 'c', :home_image_file_size => 1, :home_image_updated_at => Time.now
+    stub :other, :domain => 'www.other.com', :subdomain => 'testy', :theme_path => 'light', :title => 'Something Else', 
+      :home_text => 'ht', :home_text_html => 'hthtml', :home_news_item_count => 2, :google_analytics_code => 'def-456',
+      :home_image_file_name => 'f.png', :home_image_content_type => 'c', :home_image_file_size => 1, :home_image_updated_at => Time.now
   end
   
   model User do
@@ -27,6 +32,7 @@ ModelStubbing.define_models do
   
   model Membership do
     stub :admin_on_default, :user => all_stubs(:admin_user), :site => all_stubs(:site)
+    stub :admin_on_other, :user => all_stubs(:admin_user), :site => all_stubs(:other_site)
     stub :nonadmin_on_default, :user => all_stubs(:nonadmin_user), :site => all_stubs(:site)
     stub :unactivated_on_default, :user => all_stubs(:unactivated_user), :site => all_stubs(:site)
   end  

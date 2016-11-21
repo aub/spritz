@@ -1,0 +1,15 @@
+.box
+  .boxheader
+    %span.header= "Memberships for #{@user.login}"
+    = link_to add_icon, new_admin_user_membership_path(@user)
+  %table.draglist{ :cellpadding => 0, :cellspacing => 0 }
+    %tbody
+      - @memberships.each do |membership|
+        %tr
+          %td= membership.site.title
+              
+          %td.controls= link_to image_tag('/images/icons/trash.gif', :class => 'icon red', :title => 'Delete this membership'), admin_user_membership_path(@user, membership), :confirm => 'Are you sure you want to delete this membership?', :method => :delete
+    
+      - if @memberships.empty?
+        %tr
+          %td None

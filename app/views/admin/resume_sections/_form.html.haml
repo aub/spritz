@@ -1,0 +1,9 @@
+.group
+  %dl
+    %dt= f.label_for :title, :text => 'Title*'
+    %dd= f.text_field :title, :class => 'large fat'
+    %dt
+      = f.submit 'Save Section'
+      or
+      = link_to "Cancel", admin_resume_sections_path
+

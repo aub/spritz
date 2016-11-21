@@ -10,6 +10,10 @@ describe Admin::SitesController do
     it "should map { :controller => 'admin/sites', :action => 'new' } to /admin/sites/new" do
       route_for(:controller => "admin/sites", :action => "new").should == "/admin/sites/new"
     end
+
+    it "should map { :controller => 'admin/sites', :action => 'create' } to /admin/sites" do
+      route_for(:controller => "admin/sites", :action => "create").should == "/admin/sites"
+    end
   
     it "should map { :controller => 'admin/sites', :action => 'show', :id => 1 } to /admin/sites/1" do
       route_for(:controller => "admin/sites", :action => "show", :id => 1).should == "/admin/sites/1"
