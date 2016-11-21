@@ -1,9 +1,9 @@
 class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   include CachingMethods
+  include ExceptionNotifiable
 
   attr_reader :site
-  attr_reader :action_cache_root
 
   before_filter :site_required
   before_filter :setup_cache_paths
@@ -12,7 +12,18 @@ class ApplicationController < ActionController::Base
 
   # See ActionController::RequestForgeryProtection for details
   # Uncomment the :secret if you're not using the cookie session store
-  protect_from_forgery # :secret => '5ab8dc88fe7761f4e8c2286255a2666e'  
+  # protect_from_forgery # :secret => '5ab8dc88fe7761f4e8c2286255a2666e'  
+
+  # Support custom domains by modifying each cookie to point to the given domain.
+  def set_cookie_domain(domain)
+    cookies = session.instance_eval("@dbprot" )
+    unless cookies.blank?
+      cookies.each do |cookie|
+        options = cookie.instance_eval("@cookie_options" )
+        options["domain"] = domain unless options.blank?
+      end
+    end
+  end
   
   protected
   
@@ -23,21 +34,31 @@ class ApplicationController < ActionController::Base
   end
   
   def admin_required
-    redirect_to new_admin_session_path unless admin?
+    unless admin?
+      flash[:session] = 'You must be an admin to access that page.'
+      redirect_to new_admin_session_path
+    end
   end
   
   # Make sure that there is a valid site for the given request, or bounce it
   # to the site creation page.
   def site_required
     @site = Site.for(request.host, request.subdomains)
-    unless @site
+    if @site
+      # Set cookies to the correct domain to support custom domains.
+      if request.host == @site.domain
+        set_cookie_domain(@site.domain)
+      end
+    else
       redirect_to new_admin_site_path(:host => MAIN_HOST, :port => request.port)
     end
   end
 
   # Setup the cache directories for the given request based on the active site.
   def setup_cache_paths
-    @action_cache_root ||= @site.action_cache_root unless @site.nil?
+    unless @site.nil?
+      self.class.page_cache_directory = @site.page_cache_path.to_s
+    end
   end
   
   # Helper methods for error conditions

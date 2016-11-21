@@ -1,0 +1,40 @@
+%p
+  This text entry box supports Textile, a simple text format that is converted to HTML.
+  Textile allows you to use simple formatting in order to add links and other features
+  of web documents without learning HTML. It also allows you to type HTML directly,
+  and it will be displayed as it would with a normal browser. Below are some examples
+  of using Textile, or you can
+  %a{ :href => 'http://www.textism.com/tools/textile/' } visit their site
+  for more information.
+  
+%table.textile-help-table{ :cellspacing => '0', :cellpadding => '0' }
+  %thead
+    %th Action
+    %th How
+    %th Example Text
+    %th Result
+  %tbody
+    %tr
+      %td Italicised text
+      %td Surround it with underscores
+      %td _info_
+      %td
+        %em info        
+    %tr
+      %td Bold text
+      %td Surround it with asterisks
+      %td *info*
+      %td
+        %strong info
+    %tr
+      %td Underlined text
+      %td Surround it with plusses
+      %td +info+
+      %td
+        %ins info
+    %tr
+      %td Create a link
+      %td Place the text of the link in quotes, followed by a colon, then the URL of the link
+      %td "Google":http://google.com
+      %td
+        %a{ :href => 'http://google.com' } Google

@@ -1,0 +1,20 @@
+= error_messages_for :asset
+
+- form_for @asset, :url => admin_asset_path(@asset), :html => { :method => :put } do |f|
+  .group
+    %dl
+      - Asset::FIELD_NAMES.each do |field|
+        %dt= f.label_for field
+        - if field == :description
+          %dd= f.text_area field, :class => 'large fat', :rows => '4'
+        - else
+          %dd= f.text_field field, :class => 'large fat'
+      %dt
+        = f.submit "Save #{asset_name}"
+        or
+        = link_to "Cancel", admin_assets_path
+
+- content_for :sidebar do
+  .asset-preview
+    = asset_image_tag(@asset, :medium)
+    .delete-link= link_to "Delete This #{asset_name}", admin_asset_path(@asset), :confirm => 'Are you sure?', :method => :delete

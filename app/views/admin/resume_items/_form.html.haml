@@ -1,0 +1,9 @@
+.group
+  %dl
+    %dt= f.label_for :text, :text => "Text* #{link_to image_tag('/images/icons/comment.gif', :class => 'icon-box orange'), admin_help_path('textile'), :target => '_blank'}"
+    %dd
+      ~ f.text_area :text, :class => 'large fat', :rows => '8'
+    %dt
+      = f.submit 'Save Item'
+      or
+      = link_to "Cancel", edit_admin_resume_section_path(@resume_section)

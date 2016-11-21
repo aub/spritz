@@ -1,20 +1,18 @@
-%h1 Editing site
+= error_messages_for :template_site
 
-= error_messages_for :site
-
-- form_for @site, :url => admin_site_path(@site) do |f|
-  %p
-    %b Domain
-    %br
-    = f.text_field :domain
-
-  %p
-    %b Subdomain
-    %br
-    = f.text_field :subdomain
-
-  %p
-    = f.submit "Update"
-
-= link_to 'Show', admin_site_path(@site)
-= link_to 'Back', admin_sites_path
+- form_for @template_site, :url => admin_site_path(@template_site), :html => { :method => :put } do |f|
+  .group
+    %dl
+      %dt= f.label_for :title, :text => 'Site Title'
+      %dd= f.text_field :title, :class => 'large fat'
+      %dt= f.label_for :google_analytics_code, :text => 'Google Analytics Code (for statistics tracking)'
+      %dd= f.text_field :google_analytics_code, :class => 'large fat'
+      - if Spritz.multi_sites_enabled
+        %dt= f.label_for :subdomain
+        %dd= f.text_field :subdomain, :class => 'large'
+        %dt= f.label_for :domain
+        %dd= f.text_field :domain, :class => 'large'
+      %dt
+        = f.submit 'Save Changes'
+        or
+        = link_to "Cancel", admin_dashboard_path

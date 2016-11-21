@@ -7,17 +7,7 @@ require 'model_stubbing'
 require File.join(File.dirname(__FILE__), 'model_stubs')
 require File.join(File.dirname(__FILE__), 'custom_matchers')
 
-# YUCK, YUCK, YUCK! Because the action_cache macro used for caching in these
-# controllers is defined at load time and will do nothing if perform_caching is
-# false, we have to require them here while it is definitely still true. Later,
-# if somebody turns it off, it will stop the actual caching, but the filters will
-# still be set up.
-require 'home_controller'
-
 include AuthenticatedTestHelper
-
-ActionController::Base.perform_caching = (@enable_caching_for_these_tests == true)
-@enable_caching_for_these_tests = false
 
 Spec::Runner.configure do |config|
   # If you're not using ActiveRecord you should remove these
@@ -37,6 +27,18 @@ def activate_site(site)
     Site.stub!(:for).and_return(sites(site))
   else
     Site.stub!(:for).and_return(site)
+  end
+end
+
+def stub_site_themes
+  sites(:default).stub!(:theme).and_return(Theme.new('theme_path', sites(:default)))
+  sites(:other).stub!(:theme).and_return(Theme.new('theme_path', sites(:other)))
+end
+
+def cleanup_theme_directory
+  FileUtils.mkdir(Theme.theme_root) unless File.exist?(Theme.theme_root)
+  Dir.foreach(Theme.theme_root) do |file|
+    FileUtils.rm_rf(File.join(Theme.theme_root, file)) unless (file == 'default' || file == '.' || file == '..')
   end
 end
 
@@ -102,4 +104,24 @@ def mock_context(assigns = {}, registers = {})
     assigns.keys.each { |k| context[k].context = context }
   end
 end
+
+def disable_caching_for_this_spec
+  eval(<<-EOF
+    before(:all) do
+      ActionController::Base.perform_caching = false
+    end
+  
+    after(:all) do
+      ActionController::Base.perform_caching = true
+    end
+    EOF
+  )
+end
+
+def render_liquid(content, site=nil, params=nil)
+  @template = Liquid::Template.parse(content)
+  params ||= {}
+	@template.render(params.merge({ 'site' => (site.nil? ? sites(:default) : sites(site)) }))
+end
+
 Debugger.start

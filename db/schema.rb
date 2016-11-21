@@ -1,5 +1,5 @@
 # This file is auto-generated from the current state of the database. Instead of editing this file, 
-# please use the migrations feature of ActiveRecord to incrementally modify your database, and
+# please use the migrations feature of Active Record to incrementally modify your database, and
 # then regenerate this schema definition.
 #
 # Note that this schema.rb definition is the authoritative source for your database schema. If you need
@@ -9,7 +9,26 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 5) do
+ActiveRecord::Schema.define(:version => 20080827132443) do
+
+  create_table "assets", :force => true do |t|
+    t.integer  "site_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "fields"
+    t.string   "attachment_file_name"
+    t.string   "attachment_content_type"
+    t.integer  "attachment_file_size"
+    t.datetime "attachment_updated_at"
+  end
+
+  create_table "assigned_assets", :force => true do |t|
+    t.integer  "asset_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "position",     :default => 1
+    t.integer  "portfolio_id"
+  end
 
   create_table "cache_items", :force => true do |t|
     t.integer  "site_id"
@@ -20,6 +39,43 @@ ActiveRecord::Schema.define(:version => 5) do
     t.datetime "updated_at"
   end
 
+  create_table "contacts", :force => true do |t|
+    t.integer  "site_id"
+    t.string   "name"
+    t.string   "email"
+    t.string   "phone"
+    t.text     "message"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "galleries", :force => true do |t|
+    t.integer  "site_id"
+    t.string   "name"
+    t.string   "address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.string   "country"
+    t.string   "phone"
+    t.string   "email"
+    t.string   "url"
+    t.text     "description"
+    t.text     "description_html"
+    t.integer  "position",         :default => 1
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "links", :force => true do |t|
+    t.integer  "site_id"
+    t.string   "url"
+    t.string   "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "position",   :default => 1
+  end
+
   create_table "memberships", :force => true do |t|
     t.integer  "user_id"
     t.integer  "site_id"
@@ -27,17 +83,65 @@ ActiveRecord::Schema.define(:version => 5) do
     t.datetime "updated_at"
   end
 
-  create_table "plugin_schema_info", :id => false, :force => true do |t|
-    t.string  "plugin_name"
-    t.integer "version"
+  create_table "news_items", :force => true do |t|
+    t.integer  "site_id"
+    t.string   "title"
+    t.text     "text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "position",   :default => 1
+    t.text     "text_html"
+  end
+
+  create_table "portfolios", :force => true do |t|
+    t.integer  "site_id"
+    t.integer  "parent_id"
+    t.integer  "lft"
+    t.integer  "rgt"
+    t.string   "title"
+    t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "position",                 :default => 1
+    t.text     "body_html"
+    t.string   "cover_image_file_name"
+    t.string   "cover_image_content_type"
+    t.integer  "cover_image_file_size"
+    t.datetime "cover_image_updated_at"
+  end
+
+  create_table "resume_items", :force => true do |t|
+    t.integer  "resume_section_id"
+    t.text     "text"
+    t.text     "text_html"
+    t.integer  "position",          :default => 1
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "resume_sections", :force => true do |t|
+    t.integer  "site_id"
+    t.string   "title"
+    t.integer  "position",   :default => 1
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "sites", :force => true do |t|
-    t.string   "subdomain"
     t.string   "domain"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "settings"
+    t.string   "theme_path"
+    t.string   "title"
+    t.text     "home_text"
+    t.integer  "home_news_item_count",    :default => 0
+    t.string   "google_analytics_code"
+    t.text     "home_text_html"
+    t.string   "subdomain"
+    t.string   "home_image_file_name"
+    t.string   "home_image_content_type"
+    t.integer  "home_image_file_size"
+    t.datetime "home_image_updated_at"
   end
 
   add_index "sites", ["domain", "subdomain"], :name => "index_sites_on_domain_and_subdomain"
