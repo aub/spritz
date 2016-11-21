@@ -1,0 +1,13 @@
+.box
+  .boxheader
+    %span.header= assets_name
+    = link_to add_icon, new_admin_asset_path
+  .asset-list.boxcontent
+    - @assets.each do |asset|
+      %span= link_to asset_image_tag(asset, :thumbnail), edit_admin_asset_path(asset)
+    / This is a hack to clear both so that the list will cover the images correctly when the pagination
+    / is present.
+    %p &nbsp;
+    - if @assets.empty?
+      None
+  = will_paginate @assets

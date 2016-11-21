@@ -6,88 +6,63 @@ class Admin::SitesController < Admin::AdminController
   
   skip_before_filter :site_required, :only => [:new, :create]
   skip_before_filter :login_required, :only => [:new, :create]
+
+  layout :set_layout
   
   # GET /admin/sites
-  # GET /admin/sites.xml
   def index
     @sites = Site.find(:all)
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @sites }
-    end
-  end
-
-  # GET /admin/sites/1
-  # GET /admin/sites/1.xml
-  def show
-    @site = Site.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @site }
-    end
   end
 
   # GET /admin/sites/new
-  # GET /admin/sites/new.xml
   def new
-    @site = Site.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @site }
-    end
+    @template_site = Site.new
+    @user = User.new
   end
 
   # GET /admin/sites/1/edit
   def edit
-    @site = Site.find(params[:id])
+    @template_site = Site.find(params[:id])
   end
 
   # POST /admin/sites
-  # POST /admin/sites.xml
   def create
-    @site = Site.new(params[:site])
-
-    respond_to do |format|
-      if @site.save
-        flash[:notice] = 'Site was successfully created.'
-        format.html { redirect_to(admin_site_path(@site)) }
-        format.xml  { render :xml => @site, :status => :created, :location => @site }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @site.errors, :status => :unprocessable_entity }
-      end
+    @template_site = Site.new(params[:site])
+    @user = User.new(params[:user])
+    if @template_site.valid? && @user.valid?
+      @template_site.save
+      @user.save
+      # If the site and the user both save correctly, add the user as a member of the site and log them in.
+      @template_site.members << @user
+      self.current_user = @user
+      flash[:notice] = "#{@template_site.title} was successfully created."
+      redirect_to(admin_dashboard_path)
+    else
+      render( :action => 'new', :layout => 'simple' )
     end
   end
 
   # PUT /admin/sites/1
-  # PUT /admin/sites/1.xml
   def update
-    @site = Site.find(params[:id])
-
-    respond_to do |format|
-      if @site.update_attributes(params[:site])
-        flash[:notice] = 'Site was successfully updated.'
-        format.html { redirect_to(admin_site_path(@site)) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @site.errors, :status => :unprocessable_entity }
-      end
+    @template_site = Site.find(params[:id])
+    if @template_site.update_attributes(params[:site])
+      flash[:notice] = 'Settings were successfully updated.'
+      redirect_to(admin_path)
+    else
+      render :action => "edit"
     end
   end
 
   # DELETE /admin/sites/1
-  # DELETE /admin/sites/1.xml
   def destroy
-    @site = Site.find(params[:id])
-    @site.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(admin_sites_url) }
-      format.xml  { head :ok }
-    end
+    @template_site = Site.find(params[:id])
+    @template_site.destroy
+    redirect_to(admin_sites_url)
+  end
+  
+  protected
+  
+  def set_layout
+    (request.parameters['action'] == 'new') ? 'simple' : 'admin'
   end
 end

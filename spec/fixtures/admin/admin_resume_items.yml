@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  text: MyText
+  text_html: MyText
+  position: 1
+  resume_section_id: 1
+
+two:
+  text: MyText
+  text_html: MyText
+  position: 1
+  resume_section_id: 1

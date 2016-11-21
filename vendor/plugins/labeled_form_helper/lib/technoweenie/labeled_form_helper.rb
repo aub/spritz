@@ -33,7 +33,7 @@ module Technoweenie #:nodoc:
     #   label_for('post', 'category', 'text' => 'This Category')
     #     <label for="post_category">This Category</label>
     def label_for(object_name, method, options = {})
-      ActionView::Helpers::InstanceTag.new(object_name, method, self, nil, options.delete(:object)).to_label_tag(options)
+      ActionView::Helpers::InstanceTag.new(object_name, method, self, nil, options.delete(:object)).to_label_tag_mine(options)
     end
 
     # Creates a label tag.
@@ -45,7 +45,7 @@ module Technoweenie #:nodoc:
   end
 
   module LabeledInstanceTag #:nodoc:
-    def to_label_tag(options = {})
+    def to_label_tag_mine(options = {})
       options = options.stringify_keys
       add_default_name_and_id(options)
       options.delete('name')

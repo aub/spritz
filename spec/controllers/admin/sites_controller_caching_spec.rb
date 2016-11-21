@@ -1,17 +1,15 @@
-require File.dirname(__FILE__) + '/../../spec_helper_caching'
+require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe Admin::SitesController do
-  include CachingExampleHelper
-  
-  define_models :sites_controller do
-    model Site do
-      stub :other, :subdomain => 'hacky'
-    end
-  end
+  define_models :sites_controller
   
   before(:each) do
     activate_site :default
     login_as :admin
+    
+    # For some reason there are cache items getting left around. Start with a blank slate.
+    CacheItem.find(:all).each(&:destroy)
+    
     # Create a few cache items.
     @a = CacheItem.for(sites(:default), 'a', [sites(:default)])
     @b = CacheItem.for(sites(:default), 'b', [users(:admin)])
@@ -35,7 +33,7 @@ describe Admin::SitesController do
     define_models :sites_controller
     
     it "should not expire any pages" do
-      lambda { post :create, :site => { :subdomain => 'test' }
+      lambda { post :create, :site => { :domain => 'test' }
        }.should_not expire([@a, @b, @c, @d])
     end
   end
