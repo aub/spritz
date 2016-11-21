@@ -1,0 +1,34 @@
+.group
+  %dl
+    %dt
+      - unless @resource.nil?
+        Editing
+        = @resource.filename
+    %dd
+      ~ text_area_tag 'data', (@resource.nil? ? nil : @resource.read), :rows => '25', :class => 'template-editor fat'
+    %dt
+      = submit_tag 'Save File'
+      or
+      = link_to "Cancel", admin_resources_path
+
+- content_for :sidebar do
+  #resource-list
+    %h3 Templates
+    %ul
+      - @theme.resources.select(&:template?).each do |r|
+        %li= link_to r.filename, edit_admin_theme_resource_path(@theme, r)
+      
+    %h3 Stylesheets
+    %ul
+      - @theme.resources.select(&:stylesheet?).each do |r|
+        %li= link_to r.filename, edit_admin_theme_resource_path(@theme, r)
+      
+    %h3 Javascripts
+    %ul
+      - @theme.resources.select(&:javascript?).each do |r|
+        %li= link_to r.filename, edit_admin_theme_resource_path(@theme, r)
+      
+    %h3 Images
+    %ul
+      - @theme.resources.select(&:image?).each do |r|
+        %li= r.filename

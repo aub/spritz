@@ -4,10 +4,7 @@ module ModelStubbing
   # will return the exact same instance.  However, custom attributes
   # will create unique stub instances.
   class Stub
-    attr_reader   :model
-    attr_reader   :attributes
-    attr_reader   :global_key
-    attr_accessor :name
+    attr_reader :model, :attributes, :global_key, :name
     
     # Creates a new stub.  If it's not the default, it inherits the default 
     # stub's attributes.
@@ -50,8 +47,17 @@ module ModelStubbing
     end
     
     def insert(attributes = {})
+      @inserting = true
       object = record(attributes)
-      connection.insert_fixture(object.stubbed_attributes, model.model_class.table_name)
+      object.new_record = true
+      if model.options[:callbacks]
+        object.save!
+      elsif !model.options[:validate] || object.valid?
+        connection.insert_fixture(object.stubbed_attributes, model.model_class.table_name)
+      else
+        raise "#{model.model_class}##{@name} data is not valid: #{object.errors.full_messages.to_sentence}"
+      end
+      @inserting = false
     end
     
     def with(attributes)
@@ -90,36 +96,52 @@ module ModelStubbing
   
   private
     def instantiate(this_record_key, attributes)
-      if attributes[:id] == :new
-        is_new_record = true
-        attributes.delete(:id)
+      case attributes[:id] 
+        when :new
+          is_new_record = true
+          attributes.delete(:id)
+        when :dup
+          attributes[:id] = @model.model_class.base_class.mock_id
       end
-      
+
       stubbed_attributes = stubbed_attributes(@attributes.merge(attributes))
-      
+
       record = @model.model_class.new
       meta   = class << record
         attr_accessor :stubbed_attributes
         attr_writer   :new_record
         self
       end
-      
+
       if is_new_record
         record.new_record = true
       else
         record.new_record = false
-        record.id = ModelStubbing.record_ids[this_record_key] ||= attributes[:id] || @model.model_class.mock_id
+        record.id = ModelStubbing.record_ids[this_record_key] ||= attributes[:id] || @model.model_class.base_class.mock_id
       end
       record.stubbed_attributes = stubbed_attributes.merge(:id => record.id)
       stubbed_attributes.each do |key, value|
+        meta.send :attr_accessor, key unless record.respond_to?("#{key}=")
         if value.is_a? Stub
           # set foreign key
-          record[stubbed_attributes.column_name_for(key)] = value.record.id
+          record.send("#{stubbed_attributes.column_name_for(key)}=", value.record.id)
           # set association
-          meta.send :attr_accessor, key unless record.respond_to?("#{key}=")
-          record.send("#{key}=", value.is_a?(Stub) ? value.record : value)
+          record.send("#{key}=", value.record)
+        elsif value.is_a? Array
+          records = value.map { |v| v.is_a?(Stub) ? v.record : v }
+          records.compact!
+
+          # when assigning has_many instantiated stubs, temporarily act as new
+          # otherwise AR inserts rows
+          nr, record.new_record = record.new_record?, true
+          record.send("#{key}=", records)
+          record.new_record = nr
         else
-          record[key] = value
+          duped_value = case value
+            when TrueClass, FalseClass, Fixnum, Float, NilClass, Symbol then value
+            else value.dup
+          end
+          record.send("#{key}=", duped_value)
         end
       end
       record
@@ -135,6 +157,7 @@ module ModelStubbing
     def record_key(attributes)
       return @record_key if @record_key && attributes.empty?
       key = [model.model_class.name, @global_key, @attributes.merge(attributes).inspect] * ":"
+      key << model.model_class.base_class.mock_id.to_s if attributes[:id] == :new
       @record_key = key if attributes.empty?
       key 
     end
@@ -155,7 +178,8 @@ module ModelStubbing
         column_name = column_name_for key
         column      = column_for column_name
         value       = value.record.id if value.is_a?(Stub)
-        fixtures << @stub.connection.quote(value, column).gsub('[^\]\\n', "\n").gsub('[^\]\\r', "\r")
+        quoted      = @stub.connection ? @stub.connection.quote(value, column) : %("#{value.to_s}")
+        fixtures << quoted.gsub('[^\]\\n', "\n").gsub('[^\]\\r', "\r")
       end.join(", ")
     end
 
@@ -164,8 +188,11 @@ module ModelStubbing
         value = self[key]
         if value.is_a? Stub
           if defined?(ActiveRecord)
-            reflection = model_class.reflect_on_association(key)
-            reflection.primary_key_name
+            if reflection = model_class.reflect_on_association(key)
+              reflection.primary_key_name
+            else
+              raise "No reflection '#{key}' found for #{model_class.name} while guessing column_name"
+            end
           else
             "#{key}_id"
           end

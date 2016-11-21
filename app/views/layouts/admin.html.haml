@@ -3,33 +3,37 @@
 %html{ html_attrs }
   %head
     %meta{ 'http-equiv' => "Content-type", :content => "text/html; charset=utf-8" }
-    %title Getting somewhere
+    %title= "Spritz... relax - #{@site.title}"
 
     = stylesheet_link_tag 'application'
-    = javascript_include_tag :defaults
+    = javascript_include_tag 'prototype', 'effects', 'dragdrop', 'lowpro', 'application'
 
     = yield :head
 
   %body
     #banner
+      #left-banner
+      #flash-area
+        #flash-errors{ :style => "display: none;" }= flash[:error]
+        #flash-notice{ :style => "display: none;" }= flash[:notice]
       #right-banner
+        = link_to current_user.login, edit_admin_user_path(current_user)
+        |
+        = link_to 'Site', home_path, :target => '_blank'
+        |
         = link_to 'Logout', admin_session_path, :method => :delete
-      #left-banner  
     #wrapper
       #content
         #head
-          %h1= @site.title
+          %h1= @site.title unless @site.nil?
         %ul#top-controls
-          %li= link_to 'Dashboard', dashboard_path, :class => check_active_section('dashboard')
-          %li= link_to 'Sections', dashboard_path, :class => check_active_section('sections')
-          %li= link_to 'Assets', dashboard_path, :class => check_active_section('assets')
-          %li= link_to 'Design', dashboard_path, :class => check_active_section('design')
-          %li= link_to 'Settings', edit_admin_settings_path, :class => check_active_section('settings')
-        %ul#sub-controls
-          %li= link_to 'Home', dashboard_path
-          %li= link_to 'Links', dashboard_path, :class => 'current'
-          %li= link_to 'News', dashboard_path
-          %li= link_to 'Portfolio', dashboard_path
+          = main_menu
+        %ul#subcontrols
+          = submenu
         #body
-          = yield
+          #main
+            #main-content
+              = yield
+          #sidebar
+            = yield :sidebar
     #footer

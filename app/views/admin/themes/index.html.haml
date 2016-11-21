@@ -1,0 +1,8 @@
+#themes
+  %h2 Current theme
+
+  = render :partial => 'theme', :locals => { :theme => @site.theme }
+
+  %h2 Available themes
+
+  = render :partial => 'theme', :collection => @site.themes.reject(&:active?)

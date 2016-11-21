@@ -15,7 +15,7 @@ config.action_controller.consider_all_requests_local = true
 # Cache settings
 config.action_controller.perform_caching             = true
 config.action_controller.page_cache_directory        = File.join(RAILS_ROOT, 'tmp/test/caches')
-ActionController::Base.fragment_cache_store          = :file_store, File.join(RAILS_ROOT, 'tmp/test/caches')
+ActionController::Base.cache_store                   = :file_store, File.join(RAILS_ROOT, 'tmp/test/caches')
 
 # Disable request forgery protection in test environment
 config.action_controller.allow_forgery_protection    = false
@@ -25,4 +25,12 @@ config.action_controller.allow_forgery_protection    = false
 # ActionMailer::Base.deliveries array.
 config.action_mailer.delivery_method = :test
 
+# This is the address where the query will get redirected to when hitting a location
+# where there is no valid site.
 MAIN_HOST = 'test.host'
+
+# This is the directory where the themes will be stored.
+THEME_PATH_ROOT = 'tmp/test/themes'
+
+# Enable if you want to host multiple sites on this app
+# Spritz.multi_sites_enabled = true

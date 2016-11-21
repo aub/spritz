@@ -11,7 +11,8 @@ class LiquidView
   end
   
 
-  def render(template, local_assigns)
+  def render(template)
+    local_assigns = template.locals
     @action_view.controller.headers["Content-Type"] ||= 'text/html; charset=utf-8'
     assigns = @action_view.assigns.dup
     
@@ -22,6 +23,10 @@ class LiquidView
     
     liquid = Liquid::Template.parse(template)
     liquid.render(assigns, :filters => [@action_view.controller.master_helper_module], :registers => {:action_view => @action_view, :controller => @action_view.controller})
+  end
+
+  def compilable?
+    false
   end
 
 end

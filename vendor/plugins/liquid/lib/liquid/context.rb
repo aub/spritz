@@ -1,8 +1,5 @@
 module Liquid
   
-  class ContextError < StandardError
-  end
-  
   # Context keeps the variable stack and resolves variables, as well as keywords
   #
   #   context['variable'] = 'testing'
@@ -45,10 +42,12 @@ module Liquid
     def handle_error(e)
       errors.push(e)
       raise if @rethrow_errors
-      
+        
       case e
-      when SyntaxError then "Liquid syntax error: #{e.message}"        
-      else "Liquid error: #{e.message}"
+      when SyntaxError 
+        "Liquid syntax error: #{e.message}"        
+      else 
+        "Liquid error: #{e.message}"
       end
     end
     
@@ -63,6 +62,7 @@ module Liquid
 
     # push new local scope on the stack. use <tt>Context#stack</tt> instead
     def push
+      raise StackLevelError, "Nesting too deep" if @scopes.length > 100
       @scopes.unshift({})
     end
     
