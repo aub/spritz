@@ -18,7 +18,12 @@ config.action_view.cache_template_loading            = true
 # Disable delivery errors, bad email addresses will be ignored
 # config.action_mailer.raise_delivery_errors = false
 
-MAIN_HOST = 'www.artistcommon.com'
+# This is the address where the query will get redirected to when hitting a location
+# where there is no valid site.
+MAIN_HOST = '127.0.0.1'
 
-# Setting the domain so that cookies will work properly with subdomains.
-ActionController::Base.session_options[:session_domain] = '.artistcommon.com'
+# This is the directory where the themes will be stored.
+THEME_PATH_ROOT = 'themes'
+
+# Enable if you want to host multiple sites on this app
+# Spritz.multi_sites_enabled = true

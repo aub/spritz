@@ -1,0 +1,8 @@
+.group
+  %dl
+    %dt= f.label_for :attachment, :text => 'File to Upload'
+    %dd= f.file_field :attachment, :class => 'fat'
+    %dt
+      = f.submit 'Upload File'
+      or
+      = link_to "Cancel", admin_assets_path

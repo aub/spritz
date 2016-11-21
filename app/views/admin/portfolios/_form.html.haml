@@ -1,0 +1,18 @@
+.group
+  %dl
+    %dt= f.label_for :title, :text => 'Title*'
+    %dd= f.text_field :title, :class => 'large fat'
+    %dt= f.label_for :body, :text => "Text #{link_to image_tag('/images/icons/comment.gif', :class => 'icon-box orange'), admin_help_path('textile'), :target => '_blank'}"
+    %dd
+      ~ f.text_area :body, :class => 'large fat', :rows => '8'
+    %dt= f.label_for :cover_image
+    %dd
+      - if @portfolio.cover_image.file?
+        = image_tag @portfolio.cover_image(:thumbnail)
+      - else
+        = image_tag 'missing-thumb.png'
+      = f.file_field :cover_image
+    %dt
+      = f.submit 'Save Portfolio'
+      or
+      = link_to "Cancel", admin_portfolios_path

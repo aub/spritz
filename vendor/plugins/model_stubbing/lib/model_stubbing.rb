@@ -19,11 +19,16 @@ module ModelStubbing
   # no name is given, it defaults to the current class or :default.  Multiple
   # #define_models calls with the same name will modify the definition.
   # 
+  # By default, only validations are run before inserting records.  You can
+  # configure this with the :validate or :callbacks options.
+  #
   # Options:
-  # * :copy - set to false if you don't want this definition to be a dup of
-  #   the :default definition
-  # * :insert - set to false if you don't want to insert this definition
-  #   into the database.
+  # * :copy      - set to false if you don't want this definition to be a dup of
+  #                the :default definition
+  # * :insert    - set to false if you don't want to insert this definition
+  #                into the database.
+  # * :validate  - set to false if you don't want to validate model data, or run callbacks
+  # * :callbacks - set to true if you want to run callbacks.
   def define_models(name = nil, options = {}, &block)
     if name.is_a? Hash
       options = name
@@ -33,6 +38,7 @@ module ModelStubbing
     base_name = options[:copy] || :default
     base      = name == base_name ? nil : ModelStubbing.definitions[base_name]
     defn      = ModelStubbing.definitions[name] ||= (base && options[:copy] != false) ? base.dup : ModelStubbing::Definition.new
+    options   = base.options.merge(options) if base
     defn.setup_on self, options, &block
   end
 
@@ -61,3 +67,4 @@ protected
 end
 
 Test::Unit::TestCase.extend ModelStubbing
+Spec::Example::ExampleGroup.extend ModelStubbing if defined? Spec::Example::ExampleGroup

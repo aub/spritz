@@ -1,0 +1,2 @@
+# This is just a placeholder to help with using mod_rails (Passenger). You can
+# restart the server simply by touching this file.

@@ -1,0 +1,16 @@
+.box
+  .boxheader
+    %span.header Sections
+    = link_to add_icon, new_admin_resume_section_path
+  %table.draglist{ :cellpadding => 0, :cellspacing => 0 }
+    %tbody#resumelist
+      - @resume_sections.each do |resume_section|
+        %tr{ :id => "#{dom_id(resume_section)}" }
+          %td.small 
+            = image_tag('/images/icons/up-down.gif', :class => 'icon orange handle')
+          %td.title= link_to "#{resume_section.title} (#{pluralize(resume_section.resume_items.size, 'item')})", edit_admin_resume_section_path(resume_section)
+          %td.controls= link_to image_tag('/images/icons/trash.gif', :class => 'icon red', :title => 'Delete this section'), admin_resume_section_path(resume_section), :confirm => 'Are you sure you want to permanently delete this section?', :method => :delete
+    
+      - if @resume_sections.empty?
+        %tr
+          %td None
