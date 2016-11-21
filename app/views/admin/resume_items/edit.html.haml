@@ -1,0 +1,4 @@
+= error_messages_for :resume_item
+
+- form_for @resume_item, :url => admin_resume_section_resume_item_path(@resume_section, @resume_item), :html => { :method => :put } do |f|
+  = render :partial => 'form', :locals => { :f => f }

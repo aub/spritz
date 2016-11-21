@@ -1,0 +1,14 @@
+.box
+  .boxheader
+    %span.header Items
+    (click to remove) or
+    = link_to 'reorder', reorder_admin_portfolio_assigned_assets_path(@portfolio)
+    = link_to add_icon, new_admin_portfolio_assigned_asset_path(@portfolio)
+  %ul.cleanlist.image-list
+    %li.boxcontent
+      - @portfolio.assigned_assets.each do |assigned_asset|
+        = link_to asset_image_tag(assigned_asset.asset, :thumbnail), |
+          admin_portfolio_assigned_asset_path(@portfolio, assigned_asset), |
+          :title => 'Remove', :method => :delete |
+      - if @portfolio.assigned_assets.empty?
+        None

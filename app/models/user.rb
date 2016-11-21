@@ -1,9 +1,11 @@
 require 'digest/sha1'
 class User < ActiveRecord::Base
-  @@membership_options = {:select => 'distinct users.*', :order => 'users.login',
+  MEMBERSHIP_OPTIONS = {:select => 'distinct users.*', :order => 'users.login',
     :joins => 'left outer join memberships on users.id = memberships.user_id'}
+
+  attr_accessible :login, :email, :password, :password_confirmation
   
-  # Virtual attribute for the unencrypted password
+  # Virtual attributes for the unencrypted password and the memberships
   attr_accessor :password
 
   validates_presence_of     :login, :email
@@ -15,15 +17,17 @@ class User < ActiveRecord::Base
   validates_length_of       :email,    :within => 3..100
   validates_uniqueness_of   :login, :email, :case_sensitive => false
   before_save :encrypt_password
+  before_save :set_first_user_to_admin
 
   has_many :memberships, :dependent => :destroy
+  
   has_many :sites, :through => :memberships
   
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
   attr_accessible :login, :email, :password, :password_confirmation
 
-  acts_as_state_machine :initial => :pending
+  acts_as_state_machine :initial => :active
   state :passive
   state :pending, :enter => :make_activation_code
   state :active,  :enter => :do_activate
@@ -54,27 +58,33 @@ class User < ActiveRecord::Base
 
   # Authenticates a user by their site, login name and unencrypted password.  Returns the user or nil.
   def self.authenticate_for(site, login, password)
-    user = find_in_state :first, :active, @@membership_options.merge(
+    user = find_in_state :first, :active, MEMBERSHIP_OPTIONS.merge(
       :conditions => ['users.login = ? and (memberships.site_id = ? or users.admin = ?)', login, site.id, true])
     user && user.authenticated?(password) ? user : nil
   end
 
   # Added as a helper to make sure we only find users who are members of the given site.
   def self.find_by_site(site, id)
-    find(:first, @@membership_options.merge(
+    find(:first, MEMBERSHIP_OPTIONS.merge(
       :conditions => ['users.id = ? and (memberships.site_id = ? or users.admin = ?)', id, site.id, true]))
   end
 
   # And the pluralized version of above.
   def self.find_all_by_site(site, options = {})
-    find(:all, @@membership_options.merge(options.reverse_merge(
+    find(:all, MEMBERSHIP_OPTIONS.merge(options.reverse_merge(
       :conditions => ['memberships.site_id = ? or users.admin = ?', site.id, true]))).uniq
   end
   
   # Overriden to make sure the user is a member of the given site.
   def self.find_by_remember_token(site, token)
-    find(:first, @@membership_options.merge(
+    find(:first, MEMBERSHIP_OPTIONS.merge(
       :conditions => ['remember_token = ? and remember_token_expires_at > ? and (memberships.site_id = ? or users.admin = ?)', token, Time.now.utc, site.id, true]))
+  end
+
+  # Overriden to make sure the user is a member of the given site.
+  def self.find_by_email(site, email)
+    find(:first, MEMBERSHIP_OPTIONS.merge(
+      :conditions => ['email = ? and (memberships.site_id = ? or users.admin = ?)', email, site.id, true]))
   end
 
   # Encrypts some data with the salt.
@@ -122,6 +132,13 @@ class User < ActiveRecord::Base
       return if password.blank?
       self.salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{login}--") if new_record?
       self.crypted_password = encrypt(password)
+    end
+    
+    # The first user in should default to admin. This is run in a before_save filter
+    def set_first_user_to_admin
+      if User.count == 0
+        self.admin = true
+      end
     end
       
     def password_required?
