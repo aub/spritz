@@ -1,0 +1,6 @@
+<dl id="news">
+  {% for news_item in site.news_items %}
+    <dt>{{ news_item.title }}</dt>
+    <dd>{{ news_item.text }}</dd>
+  {% endfor %}
+</dl>

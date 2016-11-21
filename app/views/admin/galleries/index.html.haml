@@ -1,0 +1,16 @@
+.box
+  .boxheader
+    %span.header Galleries
+    = link_to add_icon, new_admin_gallery_path
+  %table.draglist{ :cellpadding => 0, :cellspacing => 0 }
+    %tbody#gallerylist
+      - @galleries.each do |gallery|
+        %tr{ :id => "#{dom_id(gallery)}" }
+          %td.small 
+            = image_tag('/images/icons/up-down.gif', :class => 'icon orange handle')
+          %td.title= link_to gallery.name, edit_admin_gallery_path(gallery)
+          %td.controls= link_to image_tag('/images/icons/trash.gif', :class => 'icon red', :title => 'Delete this gallery'), admin_gallery_path(gallery), :confirm => 'Are you sure you want to permanently delete this gallery?', :method => :delete
+    
+      - if @galleries.empty?
+        %tr
+          %td None

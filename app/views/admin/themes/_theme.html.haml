@@ -1,0 +1,14 @@
+.theme
+  = image_tag preview_admin_theme_path(theme), :class => 'preview'
+  %ul.theme-data
+    %li
+      %span.title= theme.title
+      version
+      = theme.version
+      by
+      = link_to theme.author, theme.author_site
+    %li.theme-summary= theme.summary
+  %ul.theme-controls
+    - unless theme.active?
+      %li= link_to 'Use this theme', activate_admin_theme_path(theme), :method => :put
+      %li= link_to 'Delete', admin_theme_path(theme), :confirm => 'Are you sure?', :method => :delete

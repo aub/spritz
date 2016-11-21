@@ -1,0 +1,4 @@
+= error_messages_for :news_item
+
+- form_for @news_item, :url => admin_news_items_path do |f|
+  = render :partial => 'form', :locals => { :f => f }

@@ -12,6 +12,14 @@ describe BaseDrop do
   it "should allow reading of the source object" do
     @drop.source.should == @site
   end
+  
+  it "should perform == comparisons based on the source object" do
+    BaseDrop.new(@site).should == BaseDrop.new(@site)
+  end
+  
+  it "should perform == comparisons without a drop" do
+    BaseDrop.new(@site).should == @site
+  end
 
   describe "attributes" do    
     before(:each) do

@@ -1,0 +1,4 @@
+= error_messages_for :gallery
+
+- form_for @gallery, :url => admin_galleries_path do |f|
+  = render :partial => 'form', :locals => { :f => f }
