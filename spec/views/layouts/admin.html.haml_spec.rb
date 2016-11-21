@@ -4,7 +4,6 @@ describe "/layouts/admin.html.haml" do
 
   define_models
 
-
   before(:each) do
     assigns[:site] = sites(:default)
     login_as :admin
@@ -20,10 +19,22 @@ describe "/layouts/admin.html.haml" do
   end
   
   it "should contain a link for the dashboard" do
-    response.should have_tag("a[href=?]", dashboard_path)
+    response.should have_tag("a[href=?]", admin_dashboard_path)
   end
   
   it "should have a link to the settings page" do
     response.should have_tag("a[href=?]", edit_admin_settings_path)
+  end
+  
+  it "should contain a link to the assets page" do
+    response.should have_tag("a[href=?]", admin_assets_path)
+  end
+  
+  it "should contain a link to the contacts page" do
+    response.should have_tag("a[href=?]", admin_contacts_path)
+  end
+  
+  it "should contain a link to the themes page" do
+    response.should have_tag("a[href=?]", admin_themes_path)
   end
 end

@@ -1,0 +1,15 @@
+.box
+  .boxheader
+    %span.header Subpages
+    = link_to_new_portfolio
+  %table.draglist{ :cellpadding => 0, :cellspacing => 0 }
+    %tbody.portfolio-child-sorter{ :id => "#{dom_id(portfolio)}" }
+      - portfolio.children.each do |child|
+        %tr{ :id => "#{dom_id(child)}" }
+          %td.small 
+            = image_tag('/images/icons/up-down.gif', :class => 'icon-square orange handle')
+          %td.title= link_to child.title, edit_admin_portfolio_path(child)
+          %td.controls= link_to image_tag('/images/icons/trash.gif', :class => 'icon-square red', :title => 'Delete this portfolio'), admin_portfolio_path(child), :confirm => 'Are you sure you want to permanently delete this portfolio and all of its subpages?', :method => :delete
+      - if portfolio.children.empty?
+        %tr
+          %td None

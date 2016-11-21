@@ -5,7 +5,7 @@ describe Admin::DashboardController do
   define_models :dashboard_controller
   
   before(:each) do
-    @active_site = mock_model(Site, :action_cache_root => 'tmp/cache/mock')
+    @active_site = mock_model(Site, :domain => 'www.booya.com', :page_cache_path => 'also/junk')
     activate_site(@active_site)
     login_as(:admin)
   end
