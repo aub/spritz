@@ -1,0 +1,10 @@
+- form_tag admin_themes_path, :method => :post, :multipart => true do
+  .group
+    %dl
+      %dt
+        %label{ :for => 'zip_data' } Zip File to Upload
+      %dd= file_field_tag 'zip_data', :class => 'fat'
+      %dt
+        = submit_tag 'Upload Theme'
+        or
+        = link_to "Cancel", admin_themes_path

@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe Admin::SitesController do
+describe HomeController do
   describe "route generation" do
 
     it "should map { :controller => 'home', :action => 'show' } to /" do

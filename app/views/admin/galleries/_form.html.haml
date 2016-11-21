@@ -1,0 +1,30 @@
+.group
+  %dl
+    %dt= f.label_for :name, :text => 'Name*'
+    %dd= f.text_field :name, :class => 'large fat'
+    %dt= f.label_for :address
+    %dd= f.text_field :address, :class => 'large fat'
+    %dt= f.label_for :city
+    %dd= f.text_field :city, :class => 'large fat'
+    %dt= f.label_for :state
+    %dd= f.text_field :state, :class => 'large fat'
+    %dt= f.label_for :zip
+    %dd= f.text_field :zip, :class => 'large fat'
+    %dt= f.label_for :country
+    %dd= f.text_field :country, :class => 'large fat'
+    %dt= f.label_for :phone
+    %dd= f.text_field :phone, :class => 'large fat'
+    %dt= f.label_for :email
+    %dd= f.text_field :email, :class => 'large fat'
+    %dt= f.label_for :url, :text => 'Web Site'
+    %dd= f.text_field :url, :class => 'large fat'
+    %dt= f.label_for :description, :text => "Description #{link_to image_tag('/images/icons/comment.gif', :class => 'icon-box orange'), admin_help_path('textile'), :target => '_blank'}"
+    %dd
+      ~ f.text_area :description, :class => 'large fat', :rows => '8'
+    
+    
+    %dt
+      = f.submit 'Save Gallery'
+      or
+      = link_to "Cancel", admin_galleries_path
+

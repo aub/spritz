@@ -1,38 +1,53 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Membership do
+  define_models :membership
   
   describe "validations" do
+    define_models :membership
+    
     it "should require a site_id" do
       m = Membership.new
       m.should_not be_valid
-      m.should have(1).error_on(:site_id)
+      m.should have(1).error_on(:site)
     end
     
     it "should require a user id" do
       m = Membership.new
       m.should_not be_valid
-      m.should have(1).error_on(:user_id)      
+      m.should have(1).error_on(:user)      
+    end
+    
+    it "should require the user to exist" do
+      m = Membership.new(:user_id => '123456789')
+      m.should have(1).error_on(:user)
+    end
+
+    it "should require the site to exist" do
+      m = Membership.new(:site_id => '12312312312')
+      m.should have(1).error_on(:site)
+    end
+    
+    it "should not allow creation of a duplicate membership" do
+      m = Membership.new(:user => users(:admin), :site => sites(:default))
+      m.should have(1).error_on(:user_id)
     end
     
     it "should be valid" do
-      m = Membership.new(:user_id => 1, :site_id => 1)
+      m = Membership.new(:user => users(:nonadmin), :site => sites(:other))
       m.should be_valid
     end
   end
   
   define_models :membership do
-    model Site do
-      stub :cupcake, :domain => 'cupcake.com'
-    end
-    
     model User do
-      stub :deleted, :login => "aaron",  :admin => false, :deleted_at => current_time - 5.minutes, :state => 'deleted'
+      stub :deleted, :login => 'deleted', :email => 'deleted@example.com', :remember_token => 'deletedtoken', :admin => false,
+        :salt => '7e3041ebc2fc05a40c60028e2c4901a81035d3cd', :crypted_password => '00742970dc9e6319f8019fd54864d3ea740f04b1',
+        :state => 'deleted', :created_at => Time.now.utc - 3.days, :activated_at => 3.months.ago.utc, 
+        :remember_token_expires_at => 2.weeks.from_now.utc
     end
     
     model Membership do
-      stub :admin_on_default,   :site => all_stubs(:site),         :user => all_stubs(:admin_user)
-      stub :admin_on_cupcake,   :site => all_stubs(:cupcake_site), :user => all_stubs(:admin_user)
       stub :deleted_on_default, :site => all_stubs(:site),         :user => all_stubs(:deleted_user)
     end
   end

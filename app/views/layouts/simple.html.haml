@@ -4,11 +4,15 @@
   %head
     %meta{ 'http-equiv' => "Content-type", :content => "text/html; charset=utf-8" }
     = stylesheet_link_tag 'application'
-    %title Log in DAMMIT!
+    = javascript_include_tag 'prototype', 'effects', 'dragdrop', 'lowpro', 'application'
+    %title Spritz... relax
   %body
     #banner
+      #left-banner
+      #flash-area
+        #flash-errors{ :style => "display: none;" }= flash[:error]
+        #flash-notice{ :style => "display: none;" }= flash[:notice]    
       #right-banner
-        = link_to 'Visit your site', home_path
-      #left-banner  
+        = link_to('Visit your site', home_path) unless @site.nil?
   
     = yield

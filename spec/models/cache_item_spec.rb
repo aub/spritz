@@ -65,6 +65,11 @@ describe CacheItem do
         @cache = CacheItem.for(sites(:default), 'fake/path', [nil, sites(:default), nil, sites(:default), nil])
         @cache.references.should == "[#{sites(:default).id}:#{sites(:default).class.name}]"        
       end
+      
+      it "should create references correctly for association proxies" do
+        @cache = CacheItem.for(sites(:default), 'fake/path', [sites(:default), sites(:default).links])
+        @cache.references.should == "[#{sites(:default).id}:#{sites(:default).class.name}][#{sites(:default).id}:#{sites(:default).class.name}:links]"
+      end
     end
     
     describe "model creation" do
@@ -93,7 +98,7 @@ describe CacheItem do
     end
     
     it "should support finding for a list of objects" do
-      CacheItem.find_for_records(*[sites(:default), users(:admin)]).size.should == 3
+      CacheItem.find_for_records([sites(:default), users(:admin)]).size.should == 3
     end
     
     it "should support finding for a single record" do
@@ -105,11 +110,11 @@ describe CacheItem do
     define_models :cache_item
     
     before(:each) do
-      @controller = mock_model(ApplicationController, :expire_action => true)
+      @controller = mock_model(ApplicationController, :expire_page => true)
     end
     
     it "should call expire_action on the given controller when expiring" do
-      @controller.should_receive(:expire_action).with(cache_items(:foo).path)
+      @controller.should_receive(:expire_page).with(cache_items(:foo).path)
       cache_items(:foo).expire!(@controller)
     end
     
